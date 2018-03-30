@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+	</head>
+
+	<body>
+		<div id="app" class="wrapper myorder">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="../img/back.png"/>
+					</span>
+				<span class="header-main">我的订单</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main">
+				<div class="list-group" @click="opennew('orderdetail',0)">
+					<h2>
+						<span>
+							金山福地二期604
+						</span>
+						<img src="../img/orderright.png"/>
+						<span style="text-align: right;">
+							双沟镇政府
+						</span>
+					</h2>
+				</div>
+				<div class="list-group" @click="opennew('orderdetail',0)">
+					<h2>
+						<span>
+							金山福地二期604
+						</span>
+						<img src="../img/orderright.png"/>
+						<span style="text-align: right;">
+							双沟镇政府
+						</span>
+					</h2>
+				</div>
+				<div class="list-group" @click="opennew('orderdetail',0)">
+					<h2>
+						<span>
+							金山福地二期604
+						</span>
+						<img src="../img/orderright.png"/>
+						<span style="text-align: right;">
+							双沟镇政府
+						</span>
+					</h2>
+				</div>
+				<div class="list-group" @click="opennew('orderdetail',0)">
+					<h2>
+						<span>
+							金山福地二期604
+						</span>
+						<img src="../img/orderright.png"/>
+						<span style="text-align: right;">
+							双沟镇政府
+						</span>
+					</h2>
+				</div>
+				<div class="list-group" @click="opennew('orderdetail',0)">
+					<h2>
+						<span>
+							金山福地二期604
+						</span>
+						<img src="../img/orderright.png"/>
+						<span style="text-align: right;">
+							双沟镇政府
+						</span>
+					</h2>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误'
+				},
+				methods: {
+					layuiboo: function(text) {
+						this.layuitext = text
+						this.layui = !this.layui
+					},
+					opennew: function(id, index) {
+//						localStorage.setItem('sadress', this.adress[index].adress)
+//						localStorage.setItem('sdetail', this.adress[index].detail)
+//						localStorage.setItem('sname', this.adress[index].adress)
+//						localStorage.setItem('sphone', this.adress[index].adress)
+						mui.openWindow({
+							url: '' + id + '.html',
+							id: id
+						})
+					}
+				},
+				mounted: function() {
+					
+				},
+				update: function() {
+
+				}
+			})
+		</script>
+	</body>
+
+</html>

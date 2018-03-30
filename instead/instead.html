@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+		<link rel="stylesheet" type="text/css" href="../css/date.css"/>
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="../js/date.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="app" class="wrapper instead">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="../img/back.png"/>
+					</span>
+				<span class="header-main">跑腿代购</span>
+				<span class="header-settings" @click="opennew('order')">
+						<img src="../img/order.png"/>
+					</span>
+			</header>
+			<div class="main">
+				<div class="top-nav">
+					<div class="nav-tab" :class="insteadtype==true?'active':''" @click="tab">
+						跑腿代购
+					</div>
+					<div class="nav-tab" :class="insteadtype!=true?'active':''" @click="tab">
+						取送件
+					</div>
+				</div>
+				<div class="instead-wrapper" v-show="insteadtype==true">
+					<img src="../img/instead.png" class="top-img" />
+					<div class="instead-main">
+						<textarea v-model="dtext" placeholder="输入您想买的物品" style="margin: 0;box-sizing: border-box;"></textarea>
+						<div class="input-group">
+							<input type="number" name="price" id="price" placeholder="预估商品费用(骑手代付,收货时结算!)" v-model="yprice" />
+						</div>
+						<div class="input-group" style="margin-bottom: 0;">
+							<label for="madress">
+								购物
+							</label>
+							<div class="input">
+								<div :class="adresstype==true?'inputactive':''" @click="adresstab">
+									我要指定购买地址
+								</div>
+								<div :class="adresstype!=true?'inputactive':''" @click="adresstab">
+									骑手自行购买
+								</div>
+							</div>
+						</div>
+						<div class="input-group" v-show="adresstype" style="align-items: center;">
+							<label for="madress">
+								
+							</label>
+							<input type="text" v-model="qadress" @click="opennew('map02','q')" readonly="" />
+							<img src="../img/arrright.png"/>
+						</div>
+						<div class="input-group">
+							<label for="madress">
+								收货
+							</label>
+							<div class="newinput" @click="opennew('adresslist','s')">
+								<div class="adress"/>{{sadress}}</div>
+								<div class="detail" v-show="sdetail!=''"/>{{sdetail}}</div>
+								<div class="newphone" v-show="sdetail!=''">
+									<div class="name"/>{{sname}}</div>
+									<div class="phone"/>{{sphone}}</div>
+								</div>
+							</div>
+						</div>
+						<div class="input-group instead-yes">
+							<label for="" @click="yseno">
+								<img src="../img/yes.png" v-show="insteadyes"/>
+								<img src="../img/no.png" v-show="!insteadyes"/>
+							</label>
+							<div class="input">
+								同意并接受　<span>购买服务协议</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="instead-wrapper" v-show="insteadtype!=true">
+					<img src="../img/instead.png" class="top-img" />
+					<div class="instead-main">
+						<div class="input-group">
+							<label for="">
+								取货
+							</label>
+							<div class="newinput" @click="opennew('fadresslist','q')">
+								<div class="adress"/>{{qadress}}</div>
+								<div class="detail" v-show="qdetail!=''"/>{{qdetail}}</div>
+								<div class="newphone" v-show="qdetail!=''">
+									<div class="name"/>{{qname}}</div>
+									<div class="phone"/>{{qphone}}</div>
+								</div>
+							</div>
+						</div>
+						<div class="input-group">
+							<label for="madress">
+								收货
+							</label>
+							<div class="newinput" @click="opennew('adresslist','s')">
+								<div class="adress"/>{{sadress}}</div>
+								<div class="detail" v-show="sdetail!=''"/>{{sdetail}}</div>
+								<div class="newphone" v-show="sdetail!=''">
+									<div class="name"/>{{sname}}</div>
+									<div class="phone"/>{{sphone}}</div>
+								</div>
+							</div>
+						</div>
+						<div class="input-group" style="align-items: center;">
+							<label for="madress">
+								时间
+							</label>
+							<input type="text" v-model="qstime" id="appDateTime" placeholder="点击选择取货时间"/>
+							<img src="../img/arrright.png"/>
+						</div>
+						<div class="input-group">
+							<label for="madress">
+								备注
+							</label>
+							<input type="text" v-model="qsbeizhu" placeholder="在这里输入您的备注" />
+						</div>
+						<div class="input-group instead-yes">
+							<label for="" @click="yseno">
+								<img src="../img/yes.png" v-show="insteadyes"/>
+								<img src="../img/no.png" v-show="!insteadyes"/>
+							</label>
+							<div class="input">
+								同意并接受　<span>购买服务协议</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="datePlugin"></div>
+			<div class="instead-bottom">
+				<div class="instead-price">
+					跑腿费<span>¥69.00</span>
+				</div>
+				<div class="instead-shop" @click="mysub">
+					提交订单
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误',
+					insteadtype: true,
+					dtext: '',
+					adresstype: true,
+					qadress: '',
+					sadress: '',
+					qdetail: '',
+					qphone: '',
+					qname:'',
+					insteadyes: true,
+					yprice: '',
+					sname:'',
+					sphone:'',
+					sadress:'',
+					sdetail:'',
+					qsbeizhu:'',
+					qstime:''
+				},
+				methods: {
+					layuiboo: function(text) {
+						this.layuitext = text
+						this.layui = !this.layui
+					},
+					opennew: function(id, type) {
+						localStorage.setItem('maptype',type)
+						mui.openWindow({
+							url: '' + id + '.html',
+							id: id
+						})
+					},
+					tab: function() {
+						this.insteadtype = !this.insteadtype
+					},
+					adresstab: function() {
+						this.adresstype = !this.adresstype
+					},
+					yseno: function() {
+						this.insteadyes = !this.insteadyes
+					},
+					mysub: function() {
+						if(this.insteadyes == true) {
+							if(this.dtext != '') {
+								if(this.yprice != '') {
+									if(this.sadressphone != '' && this.sadressname != '' && this.sadress != '') {
+										if((/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(this.sadressphone))) {
+
+										} else {
+											this.layuiboo('手机号格式错误')
+										}
+									} else {
+										this.layuiboo('收货人信息不完整')
+									}
+								} else {
+									this.layuiboo('您还没有告诉我购买的物品的价格呢')
+								}
+							} else {
+								this.layuiboo('您还没有填入要买的东西呢')
+							}
+						} else {
+							this.layuiboo('您还没有同意购买服务协议')
+						}
+					}
+				},
+				mounted: function() {
+					if(localStorage.getItem('qadress') == null) {
+						this.qadress = '点击选择购买地址'
+					} else {
+						this.qadress = localStorage.getItem('qadress')
+						this.qdetail = localStorage.getItem('qdetail')
+						this.qname = localStorage.getItem('qname')
+						this.qphone = localStorage.getItem('qphone')
+					}
+					if(localStorage.getItem('sadress') == null) {
+						this.sadress = '点击选择收货地址'
+					} else {
+						this.sadress = localStorage.getItem('sadress')
+						this.sdetail = localStorage.getItem('sdetail')
+						this.sname = localStorage.getItem('sname')
+						this.sphone = localStorage.getItem('sphone')
+					}
+					$(function(){
+						$('#appDateTime').date({theme:"datetime"})
+					})
+				},
+				update: function() {
+
+				}
+			})
+		</script>
+	</body>
+
+</html>

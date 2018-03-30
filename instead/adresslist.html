@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+		<link rel="stylesheet" type="text/css" href="../css/date.css"/>
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="../js/date.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="app" class="wrapper adresslist">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="../img/back.png"/>
+					</span>
+				<span class="header-main">选择收货地址</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main">
+				<div class="list-group" @click="opennew('index',0)">
+					<h2>
+						徐州市贾汪区
+					</h2>
+					<p>
+						金山福地二期26栋604
+					</p>
+					<p>
+						<span>
+							董礼
+						</span>
+						<span>
+							1732713550
+						</span>
+					</p>
+				</div>
+			</div>
+			<div class="list-bottom" @click="open('map','s')">
+				<img src="../img/add.png"/>增加地址
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误'
+				},
+				methods: {
+					layuiboo: function(text) {
+						this.layuitext = text
+						this.layui = !this.layui
+					},
+					opennew: function(id, index) {
+//						localStorage.setItem('sadress', this.adress[index].adress)
+//						localStorage.setItem('sdetail', this.adress[index].detail)
+//						localStorage.setItem('sname', this.adress[index].adress)
+//						localStorage.setItem('sphone', this.adress[index].adress)
+						mui.openWindow({
+							url: '' + id + '.html',
+							id: id
+						})
+					},
+					open:function(id,type){
+						localStorage.setItem('maptype', type)
+						mui.openWindow({
+							url: '' + id + '.html',
+							id: id
+						})
+					}
+				},
+				mounted: function() {
+					
+				},
+				update: function() {
+
+				}
+			})
+		</script>
+	</body>
+
+</html>

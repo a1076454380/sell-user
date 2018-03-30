@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+	</head>
+	<body>
+		<div id="app" class="wrapper orderdetail">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="../img/back.png"/>
+					</span>
+				<span class="header-main">订单详情</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main">
+				<div class="detail-group">
+					<div class="detail-top">
+						<div class="top-tab">
+							<img src="../img/wait.png"/>
+							<span>
+								等待接单
+							</span>
+						</div>
+						<img src="../img/next.png" class="next"/>
+						<div class="top-tab">
+							<img src="../img/peisong-no.png"/>
+							<span>
+								配送中
+							</span>
+						</div>
+						<img src="../img/next-no.png" class="next"/>
+						<div class="top-tab">
+							<img src="../img/ok-no.png"/>
+							<span>
+								已完成
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="detail-group setting">
+					<h2>
+						等待接单中,请耐心等待
+					</h2>
+					<div class="shalou">
+						<span></span><img src="../img/shalou.png"/><span></span>
+					</div>
+					<p>
+						订单预计耗时14分09秒
+					</p>
+					<div class="setting-bottom">
+						<div>
+							取消订单
+						</div>
+					</div>
+				</div>
+				<div class="detail-group">
+					<div class="detail-inner">
+						<div class="group-top">
+							订单信息
+						</div>
+						<div class="group">
+							<div class="group-name">
+								订单编号
+							</div>
+							<div class="group-text">
+								LLB588156156
+							</div>
+						</div>
+						<div class="group">
+							<div class="group-name">
+								订单时间
+							</div>
+							<div class="group-text">
+								2019.05.14
+							</div>
+						</div>
+						<div class="group">
+							<div class="group-name">
+								订单起点
+							</div>
+							<div class="group-text">
+								金山福地爱神的箭ij
+							</div>
+						</div>
+						<div class="group">
+							<div class="group-name">
+								订单终点
+							</div>
+							<div class="group-text">
+								撒旦教决赛的厚爱
+							</div>
+						</div>
+						<div class="group">
+							<div class="group-name">
+								订单内容
+							</div>
+							<div class="group-text">
+								一台华硕坠机堡垒
+							</div>
+						</div>
+						<div class="group">
+							<div class="group-name">
+								订单费用
+							</div>
+							<div class="group-text">
+								¥69.00
+							</div>
+						</div>
+						<div class="group">
+							<div class="group-name">
+								订单地图
+							</div>
+							<div class="group-text" @click="opennew('ordermap')">
+								点击查看跑腿员位置
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误'
+				},
+				methods: {
+					layuiboo: function(text) {
+						this.layuitext = text
+						this.layui = !this.layui
+					},
+					opennew: function(id, index) {
+						mui.openWindow({
+							url: '' + id + '.html',
+							id: id
+						})
+					}
+				},
+				mounted: function() {
+					
+				},
+				update: function() {
+
+				}
+			})
+		</script>
+	</body>
+
+</html>
