@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+	</head>
+
+	<body>
+		<div id="app" class="wrapper goodsdetail">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="img/back.png"/>
+					</span>
+				<span class="header-main">商品详情</span>
+				<span class="header-settings">
+						<img src="img/collect.png"/>
+					</span>
+			</header>
+			<div class="main">
+				<div class="mui-slider">
+					<div class="mui-slider-group mui-slider-loop">
+						<div class="mui-slider-item mui-slider-item-duplicate"><img src="img/index.jpg" /></div>
+						<!--第一个内容区容器-->
+						<div class="mui-slider-item">
+							<!-- 具体内容 -->
+							<img src="img/index.jpg" />
+						</div>
+						<!--第二个内容区-->
+						<div class="mui-slider-item">
+							<!-- 具体内容 -->
+							<img src="img/index02.png" />
+						</div>
+						<div class="mui-slider-item mui-slider-item-duplicate"><img src="img/index02.png" /></div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+					</div>
+				</div>
+				<div class="index-main">
+					<h4>
+						黄金鸡排帕帕泥
+					</h4>
+					<span>
+						月售:13
+					</span>
+					<p>
+						啪啪泥外面是香喷喷的面包，经高温压制，让民阿宝香味四溢，咬一口让你赞不绝口！！
+					</p>
+				</div>
+				<div class="index-top">
+					<span>
+						商品评价
+					</span>
+					<span>
+						35条评论
+					</span>
+					<img src="img/rightarr.png"/>
+				</div>
+				<div class="index-main">
+					<div class="rating-group">
+						<div class="img-box">
+							<img src="img/index02.png"/>
+						</div>
+						<div class="rating-main">
+							<div class="rating-name">
+								<span>董小礼</span>
+								<span>2018.01.15</span>
+							</div>
+							<div class="rating-text">
+								这里是非常的好吃的,超级想吃的!下次还会再来!!
+							</div>
+							<div class="rating-img">
+								<img src="img/index.jpg"/>
+								<img src="img/index02.png"/>
+								<img src="img/index.jpg"/>
+								<img src="img/index02.png"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="money">
+					<span class="discount">
+						￥78.00
+					</span>
+					<span>
+						最高门店价:118
+					</span>
+				</div>
+				<div class="go">
+					加入购物车
+				</div>
+				<div class="go">
+					立即抢购
+				</div>
+			</footer>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误'
+				},
+				methods: {
+					layuiboo: function() {
+						this.layui = !this.layui
+					}
+				},
+				mounted: function() {
+					$('.rating-img img').css('height',$('.rating-img img').width())
+				},
+				update: function() {
+					mui.init()
+					$('.rating-img img').css('height',$('.rating-img img').width())
+				}
+			})
+		</script>
+	</body>
+
+</html>

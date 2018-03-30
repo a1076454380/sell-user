@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/jquery.form.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app" class="wrapper rating">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+				<header class="header">
+					<span class="header-back mui-action-back">
+						<img src="img/back.png"/>
+					</span>
+					<span class="header-main" v-show='searchtype'>发表文章</span>
+					<span class="header-main" v-show='!searchtype'>发表评价</span>
+					<span class="header-settings" @click="mysub">
+						提交
+					</span>
+				</header>
+			<div class="main">	
+				<form action="" enctype="multipart/form-data">
+					<input type="text" name="" v-model="title" placeholder="请输入发布标题" v-show='searchtype'/>
+					<textarea name="" v-model="text" placeholder="请输入发布内容">
+						
+					</textarea>
+					<input type="hidden" name=""/>
+					<input type="hidden" name=""/>
+					<input type="hidden" name=""/>
+					<input type="hidden" name=""/>
+				</form>
+				<div class="img-box">
+					<div class="img-main">
+						<img src="img/addrating.png"/>
+					</div>
+					<div class="img-main">
+						<img src="img/addrating.png"/>
+					</div>
+					<div class="img-main">
+						<img src="img/addrating.png"/>
+					</div>
+					<div class="img-main">
+						<img src="img/addrating.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext:'错误',
+					searchtype:localStorage.getItem('ratingtype'),
+					title:'',
+					text:''
+				},
+				methods: {
+					layuiboo: function() {
+						this.layui = !this.layui
+					},
+					mysub:function(){
+						
+					}
+				},
+				mounted: function() {
+					
+				},
+				update: function() {
+					mui.init()
+				}
+			})
+		</script>
+	</body>
+
+</html>

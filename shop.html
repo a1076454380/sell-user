@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+	</head>
+	<style type="text/css">
+		.main {
+			padding: .8rem 0 0;
+		}
+		
+		body,
+		html {
+			overflow: hidden;
+		}
+		
+		.fada-enter-active,
+		.fada-leave-active {
+			transition: all .3s;
+		}
+		
+		.fada-enter,
+		.fada-leave-active {
+			opacity: 0;
+		}
+		
+		.fade-enter-active,
+		.fade-leave-active {
+			transform: translateY(0);
+			transition: all .3s;
+		}
+		
+		.fade-enter,
+		.fade-leave-active {
+			transform: translateY(100%);
+		}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper shop">
+			<transition name='fade'>
+				<div class="bottom-wrapper" v-show="!cartboo" @click="bottomtab">
+					<div class="bottom-main">
+
+						<div class="bottom-tab">
+							<div class="bottom-name">
+								黄焖鸡
+							</div>
+							<div class="bottom-price">
+								¥29.00
+							</div>
+							<div class="bottom-setting">
+								<img src="img/reduce.png" @click.stop="reduce('a1','0')" />
+								<input type="number" value="1" id='a1' />
+								<img src="img/add.png" @click.stop="reduce('a1','1')" />
+							</div>
+						</div>
+						<div class="bottom-tab">
+							<div style="flex: 1;padding-left: .1rem;">
+								总计:
+								<strong>69.00</strong>
+							</div>
+							<div class="bottom-setting" style="background: #FF6666;color: white;width: 2rem;justify-content: center;flex: inherit;padding: 0;" @click.stop="pay">
+								结算
+							</div>
+						</div>
+					</div>
+				</div>
+			</transition>
+			<div class="mycart">
+				<img src="img/mycart.png" v-show="mycartnum==0" />
+				<img src="img/mycart-active.png" v-show="mycartnum!=0" @click="bottomtab" />
+				<div class="mycartindex" v-show="mycartnum!=0">
+					{{mycartnum}}
+				</div>
+			</div>
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							取消
+						</div>
+						<div class="layui-setting" @click="layuiboo()">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="img/back.png"/>
+					</span>
+				<span class="header-main">商家</span>
+				<span class="header-settings" @click="layuiboo('','确定收藏该商品吗?')">
+						<img src="img/collect.png"/>
+					</span>
+			</header>
+			<!--<transition name="fada">-->
+				<div class="main shopdetail" v-show="headerboo" @click="headershow">
+					<img src="img/index.jpg" class="shopback" />
+					<h2>
+						老董家黄焖鸡
+					</h2>
+					<h4>
+						公告
+					</h4>
+					<p>
+						披萨还是要现做的,现做的好吃,老董家黄焖鸡一直都是现做现卖,从每一个环节下功夫,真诚为每一位顾客服务,欢迎下单!
+					</p>
+					<h4>
+						配送
+					</h4>
+					<p>
+						配送时间10.00-21.00
+					</p>
+					<p>
+						起送价:¥20,配送费 ¥3
+					</p>
+					<h4>
+						折扣
+					</h4>
+					<p>
+						<img src="img/discount.png" /> 折扣商品五折起
+					</p>
+					<p>
+						<img src="img/freight.png" /> 购物满50元免运费
+					</p>
+					<p>
+						<img src="img/reduction.png" /> 满35减5,满55减8,满88减18
+					</p>
+				</div>
+			<!--</transition>-->
+			<!--<transition name="fada">-->
+				<div class="main" v-show="!headerboo">
+					<div class="index-main">
+						<div class="shop-header" @click="headershow">
+							<img src="img/index.jpg" class="shopback" />
+							<div class="img-box">
+								<img src="img/index.jpg" />
+							</div>
+							<div class="shop-name">
+								<h4>
+								董家黄焖鸡
+							</h4>
+								<p>
+									公告:凡是新客户下单,就送鸡汤一份,并且满五十减十元!优惠多多,量大从优!!
+								</p>
+								<div class="activity">
+									<div class="a-group">
+										<img src="img/discount.png" />
+										<span>
+										折扣商品五折起
+									</span>
+									</div>
+									<div class="a-group">
+										<img src="img/freight.png" />
+										<span>
+										满38免运费
+									</span>
+									</div>
+									<div class="a-group">
+										<img src="img/reduction.png" />
+										<span>
+										满38减8
+									</span>
+									</div>
+									<img src="img/rightwhite.png" style="height: .21rem;" />
+								</div>
+							</div>
+						</div>
+						<div class="shop-main">
+							<div class="shop-nav">
+								<div class="navtab" @click="topnav(0)">
+									<span :class="tabnum==0?'active':''">商品</span>
+								</div>
+								<div class="navtab" @click="topnav(1)">
+									<span :class="tabnum==1?'active':''">评价</span>
+								</div>
+							</div>
+							<div class="shop-content" v-show="tabnum==0">
+								<div class="shop-left">
+									<div class="left-tab" v-for="(val,index) in shopdata" :class="index==num?'active':''" @click="mytab(index)">
+										{{val.groupname}}
+									</div>
+								</div>
+								<div class="shop-right" @scroll="myscroll">
+									<div class="right-group" v-for="(val,index) in shopdata">
+										<div class="right-header">
+											{{val.groupname}}
+										</div>
+										<div class="right-main">
+											<div class="rmain-group" v-for="item in val.groupdata">
+												<img :src="item.shopimg" class="img" />
+												<div class="shoptext">
+													<h4>
+													{{item.shopname}}
+												</h4>
+													<p>
+														{{item.Introduction}}
+													</p>
+													<p>
+														月售:{{item.num}}
+													</p>
+													<div class="right-setting">
+														<span class="money">
+														¥{{item.price}}
+													</span>
+														<span class="addcart" @click="addcart">
+														<img src="img/cart.png"/>
+													</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="shop-content" v-show="tabnum==1" style="flex-direction: column;">
+								<div class="rating-group">
+									<div class="img-box">
+										<img src="img/index02.png" />
+									</div>
+									<div class="rating-main">
+										<div class="rating-name">
+											<span>董小礼</span>
+											<span>2018.01.15</span>
+										</div>
+										<div class="rating-text">
+											这里是非常的好吃的,超级想吃的!下次还会再来!!
+										</div>
+										<div class="rating-img">
+											<img src="img/index.jpg" />
+											<img src="img/index02.png" />
+											<img src="img/index.jpg" />
+											<img src="img/index02.png" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<!--</transition>-->
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误',
+					num: 0,
+					heightarr: [],
+					tabnum: 0,
+					headerboo: false,
+					mycartnum: 0,
+					cartboo: true,
+					shopdata: [{
+						groupid: '12456',
+						groupname: '超值套餐',
+						groupdata: [{
+							shopimg: 'img/index02.png',
+							shopname: '黄焖鸡',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}, {
+							shopimg: 'img/index.jpg',
+							shopname: '口水鸡',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 50
+						}, {
+							shopimg: 'img/index02.png',
+							shopname: '黄焖鸡',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}]
+					}, {
+						groupid: '256',
+						groupname: '超值晚餐',
+						groupdata: [{
+							shopimg: 'img/index02.png',
+							shopname: '黄粥',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}, {
+							shopimg: 'img/index.jpg',
+							shopname: '红粥',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 50
+						}, {
+							shopimg: 'img/index02.png',
+							shopname: '白粥',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}]
+					}, {
+						groupid: '256',
+						groupname: '超值早餐餐',
+						groupdata: [{
+							shopimg: 'img/index02.png',
+							shopname: '黄饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}, {
+							shopimg: 'img/index.jpg',
+							shopname: '红饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 50
+						}]
+					}, {
+						groupid: '2568',
+						groupname: '超值中餐',
+						groupdata: [{
+							shopimg: 'img/index02.png',
+							shopname: '黄饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}, {
+							shopimg: 'img/index.jpg',
+							shopname: '红饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 50
+						}, {
+							shopimg: 'img/index02.png',
+							shopname: '黄饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}, {
+							shopimg: 'img/index.jpg',
+							shopname: '红饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 50
+						}, {
+							shopimg: 'img/index02.png',
+							shopname: '黄饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}, {
+							shopimg: 'img/index.jpg',
+							shopname: '红饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 50
+						}]
+					}, {
+						groupid: '2568',
+						groupname: '超值下午茶',
+						groupdata: [{
+							shopimg: 'img/index02.png',
+							shopname: '黄饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}, {
+							shopimg: 'img/index.jpg',
+							shopname: '红饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 50
+						}, {
+							shopimg: 'img/index02.png',
+							shopname: '黄饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}, {
+							shopimg: 'img/index.jpg',
+							shopname: '红饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 50
+						}, {
+							shopimg: 'img/index02.png',
+							shopname: '黄饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 69
+						}, {
+							shopimg: 'img/index.jpg',
+							shopname: '红饭',
+							Introduction: '阿黄焖鸡特别好吃,量足味美,下次还会来的!!',
+							num: 60,
+							price: 50
+						}]
+					}]
+				},
+				methods: {
+					addcart: function() {
+						$('.mycart').addClass('cartanimate')
+						this.mycartnum++
+							setTimeout(function() {
+								$('.mycart').removeClass('cartanimate')
+							}, 500)
+
+					},
+					layuiboo: function(type, text) {
+						this.layui = !this.layui
+						this.layuitext = text
+						if(type = 'collect') {
+
+						}
+					},
+					mytab: function(index) {
+						var that = this
+						this.num = index
+						if(index == 0) {
+							$('.shop-right').scrollTop(0)
+						} else {
+							$('.shop-right').scrollTop(this.heightarr[index - 1])
+							setTimeout(function() {
+								that.num = that.num + 1
+							}, 50)
+						}
+					},
+					myscroll: function() {
+						this.num = 0
+						for(var i = 0; i < this.heightarr.length; i++) {
+							if(this.heightarr[i] < $('.shop-right').scrollTop()) {
+								this.num = i + 1
+							}
+						}
+					},
+					topnav: function(index) {
+						this.tabnum = index
+					},
+					headershow: function() {
+						this.headerboo = !this.headerboo
+					},
+					bottomtab: function() {
+						this.cartboo = !this.cartboo
+					},
+					reduce: function(id, type) {
+						var num = $('#' + id + '').val()
+						if(type == 0) {
+							if(num > 1) {
+								$('#' + id + '').val(parseInt(num) - 1)
+							} else {
+
+							}
+						} else {
+							$('#' + id + '').val(parseInt(num) + 1)
+						}
+					},
+					pay:function(){
+						mui.openWindow({
+							url:'pay.html',
+							id:'pay'
+						})
+					}
+				},
+				mounted: function() {
+					var height = 0;
+					for(var i = 0; i < this.shopdata.length; i++) {
+						height += $('.rmain-group').height() * this.shopdata[i].groupdata.length + 50
+						this.heightarr.push(height)
+					}
+					$('.rating-img img').css('height', $('.rating-img img').css('width'))
+				},
+				update: function() {
+					$('.rating-img img').css('height', $('.rating-img img').css('width'))
+				}
+			})
+		</script>
+	</body>
+
+</html>

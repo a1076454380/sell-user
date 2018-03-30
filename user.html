@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+	</head>
+	<style type="text/css">
+		body,.mui-content {
+			background: white;
+		}
+	</style>
+	<body>
+		<div id="app" class="wrapper user">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+					<img src="img/back.png"/>
+				</span>
+				<span class="header-main">用户中心</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main">
+				<div class="index-main">
+					<img src="img/index.jpg" class="avatar" />
+					<h2 class="user-name">董小礼</h2>
+					<div class="user-group">
+						<div class="user-item" @click="opennew('mycollect')">
+							<img src="img/user-collect.png" />
+							<span>
+								收藏
+							</span>
+						</div>
+						<div class="user-item" @click="opennew('money')">
+							<img src="img/hbao.png"/>
+							<span>
+								我的红包
+							</span>
+						</div>
+						<div class="user-item" @click="opennew('myfoot')">
+							<img src="img/user-foot.png" />
+							<span>
+								足迹
+							</span>
+						</div>
+					</div>
+					<div class="user-title">
+						我的工具
+					</div>
+					<div class="user-group02">
+						<div class="user-tab" @click="layuiboo">
+							<img src="img/card.png" />
+							<span>
+								优惠券
+							</span>
+						</div>
+						<div class="user-tab">
+							<img src="img/user-order.png" style="height: .4rem;width: .5rem;"  @click="opennew('orderlist')"/>
+							<span>
+								我的订单
+							</span>
+						</div>
+						<div class="user-tab">
+							<img src="img/service.png" />
+							<span>
+								联系客服
+							</span>
+						</div>
+						<!--<div class="user-tab">
+							<img src="img/aboutus.png" />
+							<span>
+								关于我们
+							</span>
+						</div>-->
+						<div class="user-tab">
+							<img src="img/out.png" />
+							<span>
+								申请骑手
+							</span>
+						</div>
+						<div class="user-tab">
+							<img src="img/adress.png" @click="opennew('instead/adresslist')"/>
+							<span>
+								收货地址
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-group" @click="opennew('index')">
+					<img src="img/index.png" />
+					<span>
+						首页
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="img/found.png" />
+					<span>
+						同城惠
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="img/order.png" />
+					<span>
+						会员中心
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="img/user.png" />
+					<span>
+						我的
+					</span>
+				</div>
+			</footer>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '此功能正在加紧完善'
+				},
+				methods: {
+					layuiboo: function() {
+						this.layui = !this.layui
+					},
+					opennew: function(adr) {
+						mui.openWindow({
+							url: '' + adr + '.html',
+							id: '' + adr + ''
+						})
+					}
+				},
+				mounted: function() {
+
+				},
+				update: function() {
+					mui.init()
+				}
+			})
+		</script>
+	</body>
+
+</html>

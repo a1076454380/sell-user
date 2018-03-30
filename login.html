@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+	</head>
+	<style type="text/css">
+		 input::-webkit-input-placeholder{font-size: .25rem;}
+		 body{background: url(img/loginback.jpg) no-repeat;background-size:100% ;}
+		 .header{background: none;border-bottom: 1px solid white;}
+	</style>
+	<body>
+		<div id="app" class="wrapper login">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="main">
+				<img src="img/logo.png" class="logo"/>
+				<div class="main-wrap">
+					<div class="input-group" v-show='phoneboo'>
+						<input type="number" name="" placeholder="请输入手机号" v-model="phone" />
+						<img src="img/clear.png" @click="clear"/>
+					</div>
+					<div class="input-group" v-show='!phoneboo'>
+						<input type="number" name="" placeholder="验证码" v-model="pwd" />
+						<div @click="havecode" class="addcode">
+							{{time}}
+						</div>
+					</div>
+					<div class="sub" @click="mysub">
+						{{nexttext}}
+					</div>
+					<div class="login-qq">
+						<img src="img/qq.png"/>
+						<img src="img/wxin.png"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					code: '',
+					phone: '',
+					pwd: '',
+					time: '获取验证码',
+					layui:false,
+					phoneboo:true,
+					nexttext:'下一步',
+					layuitext:'错误'
+				},
+				methods: {
+					havecode: function() {
+						var that=this
+						if(this.time == '获取验证码') {
+							that.time=60
+							 var IntervalName = setInterval(function() {
+								if(that.time == 0){
+									that.time='获取验证码'
+									clearInterval(IntervalName);
+								}else{
+									that.time=that.time-1
+								}
+							}, 1000)
+						} else {
+							this.nexttext='请求过于频繁,请稍后再试!'
+							this.layui=!this.layui
+						}
+						
+					},
+					mysub: function() {
+						if(this.nexttext=='下一步'){
+							if(this.phone!=''){
+								if((/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(this.phone))){ 
+									this.nexttext='登录'
+									this.phoneboo=!this.phoneboo
+								 }else{
+								 	this.layuitext='手机号格式错误'
+									this.layuiboo()
+								 }
+							}else{
+								this.layuitext='手机号为空'
+								this.layuiboo()
+							}
+						}else{
+							if(this.pwd==this.code){
+								if(this.code==''){
+									mui.openWindow({
+										url:'index.html',
+										id:'index'
+									})
+								}else{
+									this.layuitext='请获取验证码'
+									this.layuiboo()
+								}
+							}else{
+								this.layuitext='验证码错误'
+								this.layuiboo()
+							}
+						}
+					},
+					layuiboo:function(){
+						this.layui=!this.layui
+					},
+					clear:function(){
+						this.phone=''
+					}
+				},
+				mounted: function() {
+
+				},
+				filters: {
+
+				}
+			})
+		</script>
+	</body>
+
+</html>

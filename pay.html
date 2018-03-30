@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+	</head>
+	<body>
+		<div id="app" class="wrapper pay">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+				<header class="header">
+					<span class="header-back mui-action-back">
+						<img src="img/back.png"/>
+					</span>
+					<span class="header-main">提交订单</span>
+					<span class="header-settings"></span>
+				</header>
+			<div class="main">
+				<div class="pay-inner" style="border-top-left-radius: .1rem;border-top-right-radius: .1rem;">
+					<p class="payh">
+						月星公寓
+					</p>
+					<p class="paup">
+						枫林晚酒店A51214室
+					</p>
+					<p class="paup">
+						<span>
+							董礼
+						</span>
+						<span>
+							17321713550
+						</span>
+					</p>
+				</div>
+				<div class="pay-inner">
+					<p class="payh" style="margin-bottom: .2rem;">
+						<img src="img/index.jpg"/>
+						<span>
+							老董家黄焖鸡
+						</span>
+					</p>
+					<div class="shop-group">
+						<img src="img/index.jpg"/>
+						<div class="shop-text">
+							<p class="pay-h">
+								大份黄焖鸡
+							</p>
+							<p class="pay-p">
+								 微辣
+							</p>
+							<p class="pay-p">
+								<span class="pay-price">¥16.9</span>  X1
+							</p>
+							
+						</div>
+					</div>
+					<div class="shop-group">
+						<img src="img/index.jpg"/>
+						<div class="shop-text">
+							<p class="pay-h">
+								小份黄焖鸡
+							</p>
+							<p class="pay-p">
+								 微辣
+							</p>
+							<p class="pay-p">
+								<span class="pay-price">¥35</span>  X1
+							</p>
+							
+						</div>
+					</div>
+					<p class="pay-p">
+						包装费:<span class="pay-price pay-ps">¥2</span>
+					</p>
+					<p class="pay-p">
+						配送费:<span class="pay-price pay-ps">¥2</span>
+					</p>
+				</div>
+				<div class="pay-inner">
+					<p class="pay-p">
+						卡卷满减:<span class="pay-price pay-ps">- ¥2</span>
+					</p>
+					<p class="pay-p">
+						红包满减:<span class="pay-price pay-ps">- ¥2</span>
+					</p>
+				</div>	
+				<div class="pay-inner" style="border-bottom-left-radius: .1rem;border-bottom-right-radius: .1rem;">
+					<p class="pay-p">
+						共计:
+						<span class="pay-price">
+							¥69.00
+						</span>
+					</p>
+				</div>	
+			</div>
+			<div class="paybtn">
+				去支付
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext:'错误',
+					searchtype:localStorage.getItem('searchdpeata')
+				},
+				methods: {
+					layuiboo: function() {
+						this.layui = !this.layui
+					},
+					opennew:function(){
+						mui.openWindow({
+							url:'shop.html',
+							id:'shop'
+						})
+					}
+				},
+				mounted: function() {
+					
+				},
+				update: function() {
+					
+				}
+			})
+		</script>
+	</body>
+
+</html>
