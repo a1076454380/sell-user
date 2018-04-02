@@ -13,9 +13,7 @@
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
 	<style type="text/css">
-		 input::-webkit-input-placeholder{font-size: .25rem;}
-		 body{background: url(img/loginback.jpg) no-repeat;background-size:100% ;}
-		 .header{background: none;border-bottom: 1px solid white;}
+		 input::-webkit-input-placeholder{font-size: .25rem;color: #666666;}
 	</style>
 	<body>
 		<div id="app" class="wrapper login">
@@ -34,6 +32,15 @@
 					</div>
 				</div>
 			</div>
+			<header class="header">
+					<span class="header-back">
+						
+					</span>
+					<span class="header-main">登录</span>
+					<span class="header-settings">
+						
+					</span>
+				</header>
 			<div class="main">
 				<img src="img/logo.png" class="logo"/>
 				<div class="main-wrap">
@@ -50,6 +57,9 @@
 					<div class="sub" @click="mysub">
 						{{nexttext}}
 					</div>
+					<p>
+						* 未注册过的手机将自动注册
+					</p>
 					<div class="login-qq">
 						<img src="img/qq.png"/>
 						<img src="img/wxin.png"/>

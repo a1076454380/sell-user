@@ -41,13 +41,14 @@
 }
 /*登录*/
 .login .input-group:first-of-type{align-items: center!important;}
-.login .input-group{width: 80%;margin: 0 auto;border: 1px solid white;display: flex;align-items: flex-end;margin-top: .5rem;border-radius: .1rem;}
+.login .input-group{width: 80%;margin: 0 auto;border: 1px solid #DDD8CE;display: flex;align-items: flex-end;margin-top: .5rem;border-radius: .1rem;}
 .login .input-group img{width: .2rem;height: .2rem;margin-right: .1rem;}
-.login .input-group input{border: 0;height: .8rem;flex: 1;background: none;color: white;text-indent: .1rem;}
+.login .input-group input{border: 0;height: .8rem;flex: 1;background: none;color: #666666;text-indent: .1rem;}
 .login .sub{width: 80%;height: .7rem;color: white;border-radius: .05rem;color: white;background: #DA4F49;display: flex;align-items: center;justify-content: center;margin: .5rem auto 0;}
 .login .addcode{float: right;height: .8rem;font-size:.2rem;text-align: center;color: white;line-height: .8rem;width: 1.5rem;border-left: 1px solid white;}
 .login .login-qq{display: flex;justify-content: space-around;margin: .5rem 0;}
 .login .login-qq img{width: 1rem;height: 1rem;}
+.login p{text-align: center;margin: .1rem 0;color: #666666;}
 /*主页*/
 .index .mui-slider{height: 3rem;overflow: hidden;}
 .mui-slider-indicator .mui-active.mui-indicator{background: #DA4F49;}

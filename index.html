@@ -12,6 +12,8 @@
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
+		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
 	<body>
 		<div id="app" class="wrapper index">
@@ -82,11 +84,11 @@
 				</div>
 				<div class="main-swiper">
 					<div class="nav">
-						<div class="nav-group">
+						<div class="nav-group" @click="opennew('shoplist')">
 							<img src="img/nav01.png" />
 							<span>美食</span>
 						</div>
-						<div class="nav-group">
+						<div class="nav-group" @click="opennew('shoplist')">
 							<img src="img/nav02.png" />
 							<span>外卖</span>
 						</div>
@@ -94,11 +96,11 @@
 							<img src="img/nav03.png" />
 							<span>万能代购</span>
 						</div>
-						<div class="nav-group">
+						<div class="nav-group" @click="opennew('shoplist')">
 							<img src="img/nav03.png" />
 							<span>易点超市</span>
 						</div>
-						<div class="nav-group">
+						<div class="nav-group" @click="opennew('shoplist')">
 							<img src="img/nav04.png" />
 							<span>更多</span>
 						</div>
@@ -117,58 +119,6 @@
 						</div>
 					</div>
 				</div>
-				<!--<div class="index-top">
-					<span>我的专属</span>
-					<span class="lookmore">
-						<span>
-							查看更多
-						</span>
-					<img src="img/arrright.png" />
-					</span>
-				</div>-->
-				<!--<div class="index-main">
-					<div class="index-group" @click="opendetail()">
-						<div class="img-box">
-							<img src="img/index02.png" />
-						</div>
-						<div class="index-detail">
-							<div class="index-h">
-								老董家黄焖鸡
-							</div>
-							<div class="index-x" style="align-items: flex-start;">
-								<div class="x-group">
-									<img src="img/xactive.png" />
-								</div>
-								<div class="x-group">
-									<img src="img/xactive.png" />
-								</div>
-								<div class="x-group">
-									<img src="img/xactive.png" />
-								</div>
-								<div class="x-group">
-									<img src="img/xactive.png" />
-								</div>
-								<div class="x-group">
-									<img src="img/xhalf.png" />
-								</div>
-							</div>
-							<div class="index-x">
-								<span class="shop-type">
-									小吃快餐
-								</span>
-							</div>
-							<div class="index-money">
-								<span>
-									金山福地二期
-								</span>
-								<span>
-									月销量:
-									<strong>69</strong>
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>-->
 				<div class="index-top">
 					今日推荐
 				</div>
@@ -359,11 +309,14 @@
 								center: [p.coords.longitude, p.coords.latitude]
 							});
 							AMap.service('AMap.Geocoder', function() {
+								geocoder = new AMap.Geocoder({
+									city: "" //城市，默认：“全国”
+								});
 								//		    根据经纬度查地址
 								var lnglatXY = [p.coords.longitude, p.coords.latitude]; //地图上所标点的坐标
 								geocoder.getAddress(lnglatXY, function(status, result) {
 									if(status === 'complete' && result.info === 'OK') {
-										that.city = result.regeocode.addressComponent.province
+										that.city = result.regeocode.addressComponent.city
 										localStorage.setItem('city', that.city)
 									} else {
 										//获取地址失败
