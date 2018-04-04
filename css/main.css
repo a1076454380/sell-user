@@ -45,7 +45,7 @@
 .login .input-group img{width: .2rem;height: .2rem;margin-right: .1rem;}
 .login .input-group input{border: 0;height: .8rem;flex: 1;background: none;color: #666666;text-indent: .1rem;}
 .login .sub{width: 80%;height: .7rem;color: white;border-radius: .05rem;color: white;background: #DA4F49;display: flex;align-items: center;justify-content: center;margin: .5rem auto 0;}
-.login .addcode{float: right;height: .8rem;font-size:.2rem;text-align: center;color: white;line-height: .8rem;width: 1.5rem;border-left: 1px solid white;}
+.login .addcode{float: right;height: .8rem;font-size:.2rem;text-align: center;color: #666666;line-height: .8rem;width: 1.5rem;border-left: 1px solid #DDD8CE;}
 .login .login-qq{display: flex;justify-content: space-around;margin: .5rem 0;}
 .login .login-qq img{width: 1rem;height: 1rem;}
 .login p{text-align: center;margin: .1rem 0;color: #666666;}
@@ -74,7 +74,7 @@
 .index .top-tab{flex: 1;display: flex;justify-content: center;align-items: center;}
 .index .top-tab img{width: .25rem;height: .25rem;margin-left: .1rem;}
 .index .index-x{display: flex;align-items: center;flex: 1;}
-.index .index-x img{width:.25rem;height: .25rem;}
+.index .index-x img{width:.25rem!important;height: .25rem!important;}
 .index .shop-type{color: #999999;font-size: .25rem;}
 .index .news{display: flex;background: white;margin-top: .1rem;}
 .index .news img{width: .7rem;height: .7rem;margin: .25rem;}
@@ -178,6 +178,7 @@
 .user .user-tab{display: flex;flex-direction: column;width: 25%;align-items: center;justify-content: flex-end;margin-bottom: .2rem;}
 .user .user-group02{margin:0 .4rem ;display: flex;margin-top: .2rem;flex-wrap: wrap;}
 .user .avatar{display: block;width: 1.2rem!important;height: 1.2rem!important;margin: .5rem auto .1rem!important;border-radius: 50%;}
+.user .index-group{border-bottom: 1px solid #DDD8CE;}
 /*去支付*/
 .pay .paybtn{position: fixed;width: 95%;height: .8rem;background: #DA4F49;color: white;line-height: .8rem;text-align: center;bottom: .2rem;left: 2.5%;border-radius: .05rem;box-shadow: 0 4px 20px 2px gainsboro;}
 .pay .pay-inner{margin:.2rem .1rem;background: white;padding: .2rem 0;}
@@ -307,3 +308,11 @@
 .rating .img-box{display: flex;background: white;justify-content: space-around;padding: .2rem 0;}
 .rating .img-main{display: flex;align-items: center;justify-content: center;border-radius: .1rem;border: 1px solid #666666;width: 1.5rem;height: 1.5rem;}
 .rating .img-main img{width: 50%;}
+/*个人信息*/
+.userinfo .info-group{display: flex;justify-content: space-between;align-items: center;background: white;border-bottom: 1px solid #DDD8CE;height: 1rem;}
+.userinfo .aright{width: .25rem;height: .25rem;margin: 0 .2rem;}
+.userinfo .group-name{flex: 1;text-indent: .1rem;}
+.userinfo .avatar{width: .7rem;height: .7rem;border-radius:50%;}
+.userinfo input{width: 3rem;height: .7rem;text-align: right;margin: 0;border: 0;padding: 0;}
+.userinfo input::-webkit-input-placeholder{color:#666666;}
+.userinfo form{margin-top: .15rem;}

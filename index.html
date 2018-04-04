@@ -15,6 +15,12 @@
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
+	<style type="text/css">
+		.header .header-back{
+			justify-content: flex-start;
+		}
+		.header .header-back img{margin-right:.1rem;}
+	</style>
 	<body>
 		<div id="app" class="wrapper index">
 			<div class="layui" v-show="layui">
@@ -35,9 +41,10 @@
 			<transition name="fade">
 				<header class="header" v-show="sarchboo">
 					<span class="header-back" @click="opennew('city')">
-							{{city}}
+							<img src="img/drame.png"/>
+							{{city}}  晴转多云
 						</span>
-					<span class="header-main">外卖商城</span>
+					<span class="header-main">首页</span>
 					<span class="header-settings" @click="searchboo">
 							<img src="img/search.png"/>
 					</span>
@@ -120,7 +127,53 @@
 					</div>
 				</div>
 				<div class="index-top">
-					今日推荐
+					我的专属
+				</div>
+				<div class="index-main">
+					<div class="index-group" @click="opendetail()">
+						<div class="img-box">
+							<img src="img/index02.png" />
+						</div>
+						<div class="index-detail">
+							<div class="index-h">
+								老董家黄焖鸡
+							</div>
+							<div class="index-x" style="align-items: flex-start;">
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xhalf.png" />
+								</div>
+							</div>
+							<div class="index-x">
+								<span class="shop-type">
+									小吃快餐
+								</span>
+							</div>
+							<div class="index-money">
+								<span>
+									金山福地二期
+								</span>
+								<span>
+									月销量:
+									<strong>69</strong>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="index-top">
+					小易推荐
 				</div>
 				<div class="index-top" style="margin-top: 0;">
 					<div class="top-tab">

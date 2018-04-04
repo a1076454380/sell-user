@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -13,12 +14,15 @@
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
 	<style type="text/css">
-		body,.mui-content {
+		body,
+		.mui-content {
 			background: white;
 		}
+		.header .header-settings{justify-content: flex-end;}
 	</style>
+
 	<body>
-		<div id="app" class="wrapper user">
+		<div id="app" class="wrapper user index">
 			<div class="layui" v-show="layui">
 				<div class="layui-inner">
 					<div class="layui-top">
@@ -39,12 +43,15 @@
 					<img src="img/back.png"/>
 				</span>
 				<span class="header-main">用户中心</span>
-				<span class="header-settings"></span>
+				<span class="header-settings">
+					晴转多云
+					<img src="img/drame.png"/>
+				</span>
 			</header>
 			<div class="main">
 				<div class="index-main">
-					<img src="img/index.jpg" class="avatar" />
-					<h2 class="user-name">董小礼</h2>
+					<img src="img/index.jpg" class="avatar" @click="opennew('userinfo')" />
+					<h2 class="user-name" @click="opennew('userinfo')">董小礼</h2>
 					<div class="user-group">
 						<div class="user-item" @click="opennew('mycollect')">
 							<img src="img/user-collect.png" />
@@ -53,7 +60,7 @@
 							</span>
 						</div>
 						<div class="user-item" @click="opennew('money')">
-							<img src="img/hbao.png"/>
+							<img src="img/hbao.png" />
 							<span>
 								我的红包
 							</span>
@@ -76,7 +83,7 @@
 							</span>
 						</div>
 						<div class="user-tab">
-							<img src="img/user-order.png" style="height: .4rem;width: .5rem;"  @click="opennew('orderlist')"/>
+							<img src="img/user-order.png" style="height: .4rem;width: .5rem;" @click="opennew('orderlist')" />
 							<span>
 								我的订单
 							</span>
@@ -87,12 +94,6 @@
 								联系客服
 							</span>
 						</div>
-						<!--<div class="user-tab">
-							<img src="img/aboutus.png" />
-							<span>
-								关于我们
-							</span>
-						</div>-->
 						<div class="user-tab">
 							<img src="img/out.png" />
 							<span>
@@ -100,29 +101,114 @@
 							</span>
 						</div>
 						<div class="user-tab">
-							<img src="img/adress.png" @click="opennew('instead/adresslist')"/>
+							<img src="img/adress.png" @click="opennew('instead/adresslist')" />
 							<span>
 								收货地址
 							</span>
+						</div>
+					</div>
+					<div class="user-title">
+						今日推荐
+					</div>
+					<div class="index-group" @click="opennew('shop')">
+						<div class="img-box">
+							<img src="img/index02.png" />
+						</div>
+						<div class="index-detail">
+							<div class="index-h">
+								老董家黄焖鸡
+							</div>
+							<div class="index-x" style="align-items: flex-start;">
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xhalf.png" />
+								</div>
+							</div>
+							<div class="index-x">
+								<span class="shop-type">
+									小吃快餐
+								</span>
+							</div>
+							<div class="index-money">
+								<span>
+									金山福地二期
+								</span>
+								<span>
+									月销量:
+									<strong>69</strong>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="index-group" @click="opennew('shop')">
+						<div class="img-box">
+							<img src="img/index02.png" />
+						</div>
+						<div class="index-detail">
+							<div class="index-h">
+								老董家黄焖鸡
+							</div>
+							<div class="index-x" style="align-items: flex-start;">
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xactive.png" />
+								</div>
+								<div class="x-group">
+									<img src="img/xhalf.png" />
+								</div>
+							</div>
+							<div class="index-x">
+								<span class="shop-type">
+									小吃快餐
+								</span>
+							</div>
+							<div class="index-money">
+								<span>
+									金山福地二期
+								</span>
+								<span>
+									月销量:
+									<strong>69</strong>
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<footer class="footer">
 				<div class="footer-group">
-					<img src="img/index.png"    @click="opennew('index')"/>
+					<img src="img/index.png" @click="opennew('index')" />
 					<span>
 						首页
 					</span>
 				</div>
 				<div class="footer-group" @click="opennew('preferential')">
-					<img src="img/found.png"/>
+					<img src="img/found.png" />
 					<span>
 						同城惠
 					</span>
 				</div>
 				<div class="footer-group">
-					<img src="img/order.png"  @click="opennew('vipcart')"/>
+					<img src="img/order.png" @click="opennew('vipcart')" />
 					<span>
 						会员中心
 					</span>
