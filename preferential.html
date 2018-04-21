@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -14,9 +13,8 @@
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 	</head>
-
 	<body>
-		<div id="app" class="wrapper index">
+		<div id="app" class="wrapper index preferential">
 			<div class="layui" v-show="layui">
 				<div class="layui-inner">
 					<div class="layui-top">
@@ -43,7 +41,107 @@
 			</header>
 			<div class="main">
 				<div class="index-top">
-					人气商家
+					<span>
+						同城广告
+					</span>
+					<span @click="opennew('shoplist')">
+						更多
+						<img src="img/arrright.png"/>
+					</span>
+				</div>
+				<div class="per-main">
+					<div class="per-tab">
+						<img src="img/index.jpg"/>
+						<p>
+							老董家黄焖鸡
+						</p>
+					</div>
+					<div class="per-tab">
+						<img src="img/index02.png"/>
+						<p>
+							柳州酒香鸡
+						</p>
+					</div>
+					<div class="per-tab">
+						<img src="img/index.jpg"/>
+						<p>
+							老董家黄焖鸡
+						</p>
+					</div>
+					<div class="per-tab">
+						<img src="img/index02.png"/>
+						<p>
+							龙腾创意屋
+						</p>
+					</div>
+					<div class="per-tab">
+						<img src="img/index.jpg"/>
+						<p>
+							老董家黄焖鸡
+						</p>
+					</div>
+					<div class="per-tab">
+						<img src="img/index02.png"/>
+						<p>
+							如意蛋糕房
+						</p>
+					</div>
+				</div>
+				<div class="index-top">
+					<span>
+						同城必点
+					</span>
+					<span @click="opennew('shoplist')">
+						更多
+						<img src="img/arrright.png"/>
+					</span>
+				</div>
+				<div class="per-main">
+					<div class="per-tab">
+						<img src="img/index.jpg"/>
+						<p>
+							老董家黄焖鸡
+						</p>
+					</div>
+					<div class="per-tab">
+						<img src="img/index02.png"/>
+						<p>
+							柳州酒香鸡
+						</p>
+					</div>
+					<div class="per-tab">
+						<img src="img/index.jpg"/>
+						<p>
+							老董家黄焖鸡
+						</p>
+					</div>
+					<div class="per-tab">
+						<img src="img/index02.png"/>
+						<p>
+							龙腾创意屋
+						</p>
+					</div>
+					<div class="per-tab">
+						<img src="img/index.jpg"/>
+						<p>
+							老董家黄焖鸡
+						</p>
+					</div>
+					<div class="per-tab">
+						<img src="img/index02.png"/>
+						<p>
+							如意蛋糕房
+						</p>
+					</div>
+				</div>
+				<div class="index-top">
+					<span>
+						人气商家
+					</span>
+					<span @click="opennew('shoplist')">
+						更多
+						<img src="img/arrright.png"/>
+					</span>
 				</div>
 				<div class="index-main">
 					<div class="index-group" @click="opendetail()">

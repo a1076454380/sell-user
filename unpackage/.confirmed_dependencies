@@ -1,31 +1,31 @@
 {
-	"index.html": {
-		"refer": [
-			"shop.html",
-			"city.html",
-			"instead/instead.html",
-			"user.html"
-		]
-	},
-	"login.html": {
-		"refer": [
-			"index.html"
-		]
-	},
-	"instead/instead.html": {
-		"refer": [
-			"instead/fadresslist.html"
-		]
-	},
-	"instead/fadresslist.html": {
-		"refer": [
-			"instead/map.html"
-		]
-	},
-	"user.html": {
-		"refer": [
-			"userinfo.html",
-			"index.html"
-		]
-	}
+  "index.html": {
+    "refer": [
+      "shop.html",
+      "city.html",
+      "instead/instead.html",
+      "user.html"
+    ]
+  },
+  "login.html": {
+    "refer": [
+      "index.html"
+    ]
+  },
+  "instead/instead.html": {
+    "refer": [
+      "instead/fadresslist.html"
+    ]
+  },
+  "instead/fadresslist.html": {
+    "refer": [
+      "instead/map.html"
+    ]
+  },
+  "user.html": {
+    "refer": [
+      "userinfo.html",
+      "index.html"
+    ]
+  }
 }

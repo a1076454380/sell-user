@@ -7,12 +7,16 @@
 		<title></title>
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
+	<style type="text/css">
+		body,html,.wrapper,.main{height: 100%;}
+	</style>
 	<body>
 		<div id="app" class="wrapper orderlist">
 			<div class="layui" v-show="layui">
@@ -30,74 +34,70 @@
 					</div>
 				</div>
 			</div>
-				<header class="header">
-					<span class="header-back mui-action-back">
+			<header class="header">
+				<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
-					<span class="header-main">我的订单</span>
-					<span class="header-settings">
+				<span class="header-main">我的订单</span>
+				<span class="header-settings">
 						
 					</span>
-				</header>
-			<div class="main main-big">	
-				<div class="order-group" @click="opennew">
-					<div class="order-top">
-						<img src="img/index.jpg"/>
-						<span>
-							老董家黄焖鸡
-							<img src="img/arrright.png"/>
-						</span>
+			</header>
+			<div class="main">
+				<div class="nav">
+					<div class="nav-tab" :class="tabnum==0?'active':''" @click="tab(0)">
+						全部
 					</div>
-					<div class="order-main">
-						<div class="main-group">
-							<img src="img/index.jpg"/>
-							<div class="group-text">
-								<div class="group-title">
-									<div class="group-name">
-										大份黄焖鸡
+					<div class="nav-tab" :class="tabnum==1?'active':''" @click="tab(1)">
+						待付款
+					</div>
+					<div class="nav-tab" :class="tabnum==2?'active':''" @click="tab(2)">
+						待使用
+					</div>
+					<div class="nav-tab" :class="tabnum==3?'active':''" @click="tab(3)">
+						待评价
+					</div>
+				</div>
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<div class="order-group" @click="opennew('orderdetail')">
+								<img src="img/index.jpg"/>
+								<div class="order-main">
+									<div class="order-text">
+										<span class="order-name">
+											老董家黄焖鸡
+										</span>
+										<span class="order-state">
+											已取消
+										</span>
 									</div>
-									<div class="group">
-										¥15.00
+									<div class="order-time">
+										下单时间:2017-08-25 17:08
 									</div>
-								</div>
-								<div class="group-num">
-									x1
+									<div class="order-money">
+										<span class="oder-price">
+											总价： ¥ 42.00
+										</span>
+										<span class="order-setting" @click.stop="opennew('shop')">
+											再来一单
+										</span>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="main-group">
-							<img src="img/index02.png"/>
-							<div class="group-text">
-								<div class="group-title">
-									<div class="group-name">
-										米饭
-									</div>
-									<div class="group">
-										¥1.00
-									</div>
-								</div>
-								<div class="group-num">
-									x1
-								</div>
-							</div>
+						<div class="swiper-slide">
+							<img src="img/orderhistory_03.png" class="noorder" />
 						</div>
-						<div class="main-group">
-								<div class="group-title">
-									<div class="group-name" style="font-size: .25rem;color: #999999;">
-										2018.3.15
-									</div>
-									<div class="group">
-										共计 ¥17.00
-									</div>
-								</div>
+						<div class="swiper-slide">
+							<img src="img/orderhistory_03.png" class="noorder" />
 						</div>
-						<div class="main-group" style="border: 0;">
-							<div class="main-setting">
-								<div class="setting">
-									确认收货
-								</div>
-							</div>
-						</div>	
+						<div class="swiper-slide">
+							<img src="img/orderhistory_03.png" class="noorder" />
+						</div>
+						<div class="swiper-slide">
+							<img src="img/orderhistory_03.png" class="noorder" />
+						</div>
 					</div>
 				</div>
 			</div>
@@ -107,22 +107,37 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext:'错误',
-					searchtype:localStorage.getItem('searchdpeata')
+					layuitext: '错误',
+					searchtype: localStorage.getItem('searchdpeata'),
+					mySwiper:'',
+					tabnum:0
 				},
 				methods: {
+					tab:function(index){
+						this.tabnum=index
+						this.mySwiper.slideTo(index, 1000, false); 
+					},
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
-					opennew:function(){
+					opennew: function(target) {
 						mui.openWindow({
-							url:'shop.html',
-							id:'shop'
+							url: ''+target+'.html',
+							id: target
 						})
 					}
 				},
 				mounted: function() {
 					console.log(this.searchtype)
+					var that=this
+					this.mySwiper = new Swiper('.swiper-container', {
+						nested: true,
+						on: {
+							slideChangeTransitionEnd: function() {
+								that.tabnum=this.activeIndex
+							}
+						},
+					})
 				},
 				update: function() {
 					mui.init()

@@ -9,13 +9,18 @@
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
 	<style type="text/css">
-		.main{padding: 1.6rem 0 1.2rem;}
+		.main {
+			padding: 1.6rem 0 1.2rem;
+		}
+		.index-detail{margin-left: .2rem!important;}
 	</style>
+
 	<body>
 		<div id="app" class="wrapper index newlist">
 			<div class="layui" v-show="layui">
@@ -33,44 +38,37 @@
 					</div>
 				</div>
 			</div>
-				<header class="header" v-show="sarchboo">
-					<span class="header-back mui-action-back">
+			<header class="header" v-show="sarchboo">
+				<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
-					<span class="header-main">今日头条</span>
-					<span class="header-settings" @click="opennew('rating',true)">
+				<span class="header-main">今日头条</span>
+				<span class="header-settings" @click="opennew('rating',true)">
 						发布
 					</span>
-				</header>
+			</header>
 			<div class="main">
 				<div class="newnav">
-					<div class="nav-inner">
-						<div class="inner-item" @click="change(0)" :class="shoptype==0?'active':''">
-							全部
-						</div>
-						<div class="inner-item" @click="change(1)" :class="shoptype==1?'active':''">
-							美食
-						</div>
-						<div class="inner-item" @click="change(2)" :class="shoptype==2?'active':''">
-							服装
-						</div>
-						<div class="inner-item" @click="change(3)" :class="shoptype==3?'active':''">
-							外卖
-						</div>
-						<div class="inner-item" @click="change(4)" :class="shoptype==4?'active':''">
-							代购
-						</div>
-						<div class="inner-item" @click="change(4)" :class="shoptype==4?'active':''">
-							代购
-						</div>
-						<div class="inner-item" @click="change(4)" :class="shoptype==4?'active':''">
-							代购
-						</div>
-						<div class="inner-item" @click="change(4)" :class="shoptype==4?'active':''">
-							代购
-						</div>
-						<div class="inner-item" @click="change(4)" :class="shoptype==4?'active':''">
-							代购
+					<div class="swiper-container">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide" :class="shoptype==0?'active':''" @click="change(0)">
+								全部
+							</div>
+							<div class="swiper-slide" :class="shoptype==1?'active':''" @click="change(1)">
+								外卖
+							</div>
+							<div class="swiper-slide" :class="shoptype==2?'active':''" @click="change(2)">
+								服装
+							</div>
+							<div class="swiper-slide" :class="shoptype==3?'active':''" @click="change(3)">
+								跑腿
+							</div>
+							<div class="swiper-slide" :class="shoptype==4?'active':''" @click="change(4)">
+								医药
+							</div>
+							<div class="swiper-slide" :class="shoptype==5?'active':''" @click="change(5)">
+								其他
+							</div>
 						</div>
 					</div>
 				</div>
@@ -78,27 +76,47 @@
 					今日推荐
 				</div>
 				<div class="index-main">
-					<div class="index-group" @click="opennew('newdetail')">
-						<div class="index-detail">
-							<div class="new-h">
-								为什么女生都喜欢穿黑色打底裤??
+					<div class="swiper-container swiper-container02">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide">
+								<div class="index-group" @click="opennew('newdetail')">
+									<div class="index-detail">
+										<div class="new-h">
+											为什么女生都喜欢穿黑色打底裤??
+										</div>
+										<div class="index-money">
+											<span>
+												美达轻淡
+											</span>
+											<span>
+												2017.09.15
+											</span>
+										</div>
+									</div>
+									<div class="img-box">
+										<img src="img/index02.png" />
+									</div>
+								</div>
 							</div>
-							<div class="index-money">
-								<span>
-									美达轻淡
-								</span>
-								<span>
-									2017.09.15
-								</span>
+							<div class="swiper-slide">
+								<img src="img/orderhistory_03.png" class="noorder" />
+							</div>
+							<div class="swiper-slide">
+								<img src="img/orderhistory_03.png" class="noorder" />
+							</div>
+							<div class="swiper-slide">
+								<img src="img/orderhistory_03.png" class="noorder" />
+							</div>
+							<div class="swiper-slide">
+								<img src="img/orderhistory_03.png" class="noorder" />
 							</div>
 						</div>
-						<div class="img-box">
-							<img src="img/index02.png" />
-						</div>
+
 					</div>
-					
+
 				</div>
 			</div>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
@@ -109,7 +127,8 @@
 					sarchboo: true,
 					searchdata: '',
 					shoptype: 0,
-					layuitext: '您输入的内容为空!!'
+					layuitext: '您输入的内容为空!!',
+					mySwiper: ''
 				},
 				methods: {
 					layuiboo: function() {
@@ -120,9 +139,10 @@
 					},
 					change: function(index) {
 						this.shoptype = index
+						this.mySwiper.slideTo(index, 1000, false);
 					},
-					opennew: function(target,id) {
-						localStorage.setItem('ratingtype',id)
+					opennew: function(target, id) {
+						localStorage.setItem('ratingtype', id)
 						mui.openWindow({
 							url: '' + target + '.html',
 							id: '' + target + ''
@@ -130,7 +150,20 @@
 					}
 				},
 				mounted: function() {
-					
+					var that = this
+
+					var myswiper = new Swiper('.swiper-container', {
+						slidesPerView: 3,
+						spaceBetween: 30,
+					});
+					this.mySwiper = new Swiper('.swiper-container02', {
+						nested: true,
+						on: {
+							slideChangeTransitionEnd: function() {
+								that.shoptype = this.activeIndex
+							}
+						},
+					})
 				},
 				update: function() {
 					mui.init()

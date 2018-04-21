@@ -12,8 +12,22 @@
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
 	</head>
+	<style type="text/css">
+		select{border:1px solid #DDD8CE!important;}
+	</style>
+	<script>
+		$(document).ready(function() {
+			$("#city").citySelect({
+				prov: "江苏",
+				city: "徐州",
+				dist: "鼓楼区",
+				nodata: "none"
+			});
 
+		});
+	</script>
 	<body>
 		<div id="app" class="wrapper city">
 			<div class="layui" v-show="layui">
@@ -43,9 +57,16 @@
 					<div class="city-group header-back mui-action-back">
 						定位城市:{{city}}
 					</div>
-					<div class="city-group">
+					<div class="city-group" id="city">
 						<span>手动选择:</span>
-						<input type="text" v-model="citynow" @focus="clear"/>
+						<select name="city"  class="prov">
+							<option value=""></option>
+							<option value="0">北京</option>
+						</select>
+						<select name="city"  class="city" v-model="citynow" id="mycity">
+							<option value=""></option>
+							<option value="0">北京</option>
+						</select>
 						<div class="btn" @click="sub">
 							确认
 						</div>
@@ -86,25 +107,29 @@
 				data: {
 					layui: false,
 					layuitext: '您输入的城市暂时没有开通服务!!',
-					city:'',
-					citynow:'请输入您所在的城市'
+					city: '',
+					citynow: '请输入您所在的城市'
 				},
 				methods: {
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
-					clear:function(){
-						this.citynow=''
+					clear: function() {
+						this.citynow = ''
 					},
-					sub:function(){
-						this.layui = !this.layui
+					sub: function() {
+						localStorage.setItem('city',$('#mycity').val())
+						mui.openWindow({
+							url:'index.html',
+							id:'index'
+						})
 					}
 				},
 				mounted: function() {
-					if(localStorage.getItem('city')==null){
-						this.city='定位失败,请手动选择!!'
-					}else{
-						this.city=localStorage.getItem('city')
+					if(localStorage.getItem('city') == null) {
+						this.city = '定位失败,请手动选择!!'
+					} else {
+						this.city = localStorage.getItem('city')
 					}
 				},
 				update: function() {

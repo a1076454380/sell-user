@@ -9,13 +9,18 @@
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
 	<style type="text/css">
-		body,.mui-content{background: white;}
+		body,
+		.mui-content {
+			background: white;
+		}
 	</style>
+
 	<body>
 		<div id="app" class="wrapper vip">
 			<div class="layui" v-show="layui">
@@ -36,65 +41,41 @@
 					</div>
 				</div>
 			</div>
-				<header class="header">
-					<span class="header-back mui-action-back">
+			<header class="header">
+				<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
-					<span class="header-main">会员中心</span>
-					<span class="header-settings">
+				<span class="header-main">会员中心</span>
+				<span class="header-settings">
 						
 					</span>
-				</header>
-			<div class="main">	
-				<div class="mui-slider">
-					<div class="mui-slider-group mui-slider-loop">
-						<div class="mui-slider-item mui-slider-item-duplicate">
-							<img src="img/vip.png" />
-							<div class="slide-name">
-								老董家黄焖鸡
-								<span>
-									普通会员
-								</span>
-							</div>
-							<div class="upvip" @click="layuiboo">
-								升级会员卡
-							</div>
-						</div>
+			</header>
+			<div class="main">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
 						<!--第一个内容区容器-->
-						<div class="mui-slider-item">
+						<div class="swiper-slide">
 							<!-- 具体内容 -->
 							<img src="img/vip.png" />
 							<div class="slide-name">
 								老董家黄焖鸡
 								<span>
-									超级会员
-								</span>
+										超级会员
+									</span>
 							</div>
 							<div class="upvip" @click="layuiboo">
 								升级会员卡
 							</div>
 						</div>
 						<!--第二个内容区-->
-						<div class="mui-slider-item">
+						<div class="swiper-slide">
 							<!-- 具体内容 -->
 							<img src="img/vip.png" />
 							<div class="slide-name">
 								老孙家蛋糕房
 								<span>
-									超级会员
-								</span>
-							</div>
-							<div class="upvip" @click="layuiboo">
-								升级会员卡
-							</div>
-						</div>
-						<div class="mui-slider-item mui-slider-item-duplicate">
-							<img src="img/vip.png" />
-							<div class="slide-name">
-								老孙家蛋糕房
-								<span>
-									超级会员
-								</span>
+										超级会员
+									</span>
 							</div>
 							<div class="upvip" @click="layuiboo">
 								升级会员卡
@@ -106,32 +87,33 @@
 						<div class="mui-indicator"></div>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext:'您确定要升级会员卡吗'
+					layuitext: '您确定要升级会员卡吗'
 				},
 				methods: {
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
-					opennew:function(){
+					opennew: function() {
 						mui.openWindow({
-							url:'shop.html',
-							id:'shop'
+							url: 'shop.html',
+							id: 'shop'
 						})
 					},
-					upvip:function(){
-						
+					upvip: function() {
+
 					}
 				},
 				mounted: function() {
-					
+
 				},
 				update: function() {
 					mui.init()

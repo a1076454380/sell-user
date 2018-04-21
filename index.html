@@ -16,11 +16,26 @@
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
 	<style type="text/css">
-		.header .header-back{
+		.header .header-back {
 			justify-content: flex-start;
+			margin-left: .2rem;
 		}
-		.header .header-back img{margin-right:.1rem;}
+		
+		.header .header-back img {
+			margin-right: .1rem;
+		}
+		.fade-enter-active,
+		.fade-leave-active {
+			transform: translateY(0);
+			transition: all .3s;
+		}
+		
+		.fade-enter,
+		.fade-leave-active {
+			transform: translateY(100%);
+		}
 	</style>
+
 	<body>
 		<div id="app" class="wrapper index">
 			<div class="layui" v-show="layui">
@@ -38,37 +53,24 @@
 					</div>
 				</div>
 			</div>
-			<transition name="fade">
 				<header class="header" v-show="sarchboo">
 					<span class="header-back" @click="opennew('city')">
 							<img src="img/drame.png"/>
-							{{city}}  晴转多云
+							{{city}}  {{weather}}
 						</span>
 					<span class="header-main">首页</span>
-					<span class="header-settings" @click="searchboo">
+					<span class="header-settings" @click="opennew('gosearch')">
 							<img src="img/search.png"/>
 					</span>
 				</header>
-			</transition>
-			<transition name="fade">
-				<header class="header" v-show="!sarchboo">
-					<span class="header-back" @click="searchboo">
-						取消
-					</span>
-					<span class="header-main header-main02">
-						<input type="text" v-model="searchdata" placeholder="请输入搜索的商家/商品"/>
-						<div class="select">
-								<div class="option" @click="change">
-									{{shoptype?'商家':'商品'}}
-								</div>
-						</div>
-					</span>
-					<span class="header-settings" @click="gosearch">
-						<img src="img/search.png"/>
-					</span>
-				</header>
-			</transition>
 			<div class="main">
+				<div class="mycart">
+					<img src="img/mycart.png" v-show="mycartnum==0" @click="layuiboo('您的购物车是空的！')"/>
+					<img src="img/mycart-active.png" v-show="mycartnum!=0" @click="opennew('')" />
+					<div class="mycartindex" v-show="mycartnum!=0">
+						{{mycartnum}}
+					</div>
+				</div>
 				<div class="mui-slider">
 					<div class="mui-slider-group mui-slider-loop">
 						<div class="mui-slider-item mui-slider-item-duplicate" @click="opennew('shop')"><img src="img/index.jpg" /></div>
@@ -92,42 +94,66 @@
 				<div class="main-swiper">
 					<div class="nav">
 						<div class="nav-group" @click="opennew('shoplist')">
-							<img src="img/nav01.png" />
-							<span>美食</span>
+							<img src="img/waimai.png" />
+							<span>美食外卖</span>
 						</div>
 						<div class="nav-group" @click="opennew('shoplist')">
-							<img src="img/nav02.png" />
-							<span>外卖</span>
+							<img src="img/wancan.png" />
+							<span>晚餐精选</span>
 						</div>
 						<div class="nav-group" @click="opennew('instead/instead')">
-							<img src="img/nav03.png" />
+							<img src="img/dai.png" />
 							<span>万能代购</span>
 						</div>
 						<div class="nav-group" @click="opennew('shoplist')">
-							<img src="img/nav03.png" />
+							<img src="img/chaoshi.png" />
 							<span>易点超市</span>
 						</div>
 						<div class="nav-group" @click="opennew('shoplist')">
-							<img src="img/nav04.png" />
-							<span>更多</span>
+							<img src="img/yaodian.png" />
+							<span>药品上门</span>
+						</div>
+						<div class="nav-group" @click="opennew('shoplist')">
+							<img src="img/guoshu.png" />
+							<span>生鲜果蔬</span>
+						</div>
+						<div class="nav-group" @click="opennew('shoplist')">
+							<img src="img/wucan.png" />
+							<span>午餐精选</span>
+						</div>
+						<div class="nav-group" @click="opennew('shoplist')">
+							<img src="img/tiandian.png" />
+							<span>甜品饮品</span>
+						</div>
+						<div class="nav-group" @click="opennew('shoplist')">
+							<img src="img/dangao.png" />
+							<span>鲜花蛋糕</span>
+						</div>
+						<div class="nav-group" @click="opennew('shoplist')">
+							<img src="img/kuai.png" />
+							<span>快食简餐</span>
 						</div>
 					</div>
 				</div>
 				<div class="news" @click="opennew('newslist')">
-					<img src="img/news.png"/>
+					<img src="img/newindex.png" />
 					<div class="news-list">
 						<div class="new">
-							<span></span>
-							今日穿搭推荐,男生千万别穿这五种衣服
+							<span></span> 今日穿搭推荐,男生千万别穿这五种衣服
 						</div>
 						<div class="new">
-							<span></span>
-							男生超级不喜欢女生穿着集中衣服
+							<span></span> 男生超级不喜欢女生穿着集中衣服
 						</div>
 					</div>
 				</div>
 				<div class="index-top">
-					我的专属
+					<span>
+						我的专属
+					</span>
+					<span @click="opennew('shoplist')">
+						更多
+						<img src="img/arrright.png"/>
+					</span>
 				</div>
 				<div class="index-main">
 					<div class="index-group" @click="opendetail()">
@@ -173,7 +199,13 @@
 					</div>
 				</div>
 				<div class="index-top">
-					小易推荐
+					<span>
+						小易推荐
+					</span>
+					<span @click="opennew('shoplist')">
+						更多
+						<img src="img/arrright.png"/>
+					</span>
 				</div>
 				<div class="index-top" style="margin-top: 0;">
 					<div class="top-tab">
@@ -286,13 +318,13 @@
 					</span>
 				</div>
 				<div class="footer-group">
-					<img src="img/found.png"   @click="opennew('preferential')"/>
+					<img src="img/found.png" @click="opennew('preferential')" />
 					<span>
 						同城惠
 					</span>
 				</div>
 				<div class="footer-group">
-					<img src="img/order.png"  @click="opennew('vipcart')"/>
+					<img src="img/order.png" @click="opennew('vipcart')" />
 					<span>
 						会员中心
 					</span>
@@ -315,20 +347,19 @@
 					sarchboo: true,
 					searchdata: '',
 					shoptype: true,
-					layuitext: '您输入的内容为空!!'
+					layuitext: '您输入的内容为空!!',
+					weather: '天气获取中。。。',
+					mycartnum:'0'
 				},
 				methods: {
-					layuiboo: function() {
+					layuiboo: function(text) {
+						this.layuitext=text
 						this.layui = !this.layui
-					},
-					searchboo: function() {
-						this.sarchboo = !this.sarchboo
 					},
 					change: function() {
 						this.shoptype = !this.shoptype
 					},
 					gosearch: function() {
-						console.log(123)
 						if(this.searchdata == '') {
 							this.layui = !this.layui
 						} else {
@@ -353,32 +384,68 @@
 				},
 				mounted: function() {
 					var that = this
-					document.addEventListener('plusready', onPlusReady, false);
-					// 扩展API加载完毕，现在可以正常调用扩展API
-					function onPlusReady() {
-						plus.geolocation.getCurrentPosition(function(p) {
-							var map = new AMap.Map('container', {
-								zoom: 15,
-								center: [p.coords.longitude, p.coords.latitude]
+					if(localStorage.getItem('city') == null) {
+						
+						document.addEventListener('plusready', onPlusReady, false);
+						// 扩展API加载完毕，现在可以正常调用扩展API
+						function onPlusReady() {
+							plus.geolocation.getCurrentPosition(function(p) {
+								var map = new AMap.Map('container', {
+									zoom: 15,
+									center: [p.coords.longitude, p.coords.latitude]
+								});
+								AMap.service('AMap.Geocoder', function() {
+									geocoder = new AMap.Geocoder({
+										city: "" //城市，默认：“全国”
+									});
+									//		    根据经纬度查地址
+									var lnglatXY = [p.coords.longitude, p.coords.latitude]; //地图上所标点的坐标
+									geocoder.getAddress(lnglatXY, function(status, result) {
+										if(status === 'complete' && result.info === 'OK') {
+											that.city = result.regeocode.addressComponent.city
+											localStorage.setItem('city', that.city)
+											$.ajax({
+												type: "get",
+												url: "http://api.map.baidu.com/telematics/v3/weather",
+												async: true,
+												dataType: 'jsonp',
+												data: {
+													location: '徐州',
+													output: 'json',
+													ak: '6tYzTvGZSOpYB5Oc2YGGOKt8'
+												},
+												success: function(res) {
+													that.weather = res.results[0].weather_data[0].weather
+												},
+												error: function() {
+
+												}
+											});
+										} else {
+											//获取地址失败
+											that.city = '获取失败'
+										}
+									});
+								})
+							}, function(e) {
+								that.city = '获取失败'
 							});
-							AMap.service('AMap.Geocoder', function() {
-								geocoder = new AMap.Geocoder({
-									city: "" //城市，默认：“全国”
-								});
-								//		    根据经纬度查地址
-								var lnglatXY = [p.coords.longitude, p.coords.latitude]; //地图上所标点的坐标
-								geocoder.getAddress(lnglatXY, function(status, result) {
-									if(status === 'complete' && result.info === 'OK') {
-										that.city = result.regeocode.addressComponent.city
-										localStorage.setItem('city', that.city)
-									} else {
-										//获取地址失败
-										that.city = '获取失败'
-									}
-								});
-							})
-						}, function(e) {
-							that.city = '获取失败'
+						}
+					} else {
+						this.city=localStorage.getItem('city')
+						$.ajax({
+							type: "get",
+							url: "http://api.map.baidu.com/telematics/v3/weather",
+							async: true,
+							dataType: 'jsonp',
+							data: {
+								location: localStorage.getItem('city'),
+								output: 'json',
+								ak: '6tYzTvGZSOpYB5Oc2YGGOKt8'
+							},
+							success: function(res) {
+								that.weather = res.results[0].weather_data[0].weather
+							}
 						});
 					}
 				},

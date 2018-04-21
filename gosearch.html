@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/taoyibao.css"/>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		body,html{overflow: hidden;}
+		.head{position: fixed;top: 0;left: 0;width: 100%;display: flex;z-index: 999;padding: 0 .2rem;}
+		.head span{display: flex;align-items: center;justify-content: center;white-space: nowrap;}
+		.head div{flex: 1;display: flex;align-items: center;justify-content: center;}
+
+	</style>
+	<body>
+		<div class="wrapper index search shop" style="overflow: hidden;">
+			<!--顶部搜索框-->
+			<header class="head">
+				<span class="header-back mui-action-back">
+					<img src="img/backblack.png"/>
+				</span>
+				</span>
+				<form action="">
+					<img src="img/shop02.png" />
+					<input type="text" placeholder="搜一下，发现精彩" />
+				</form>
+				<span id="goserach">
+					搜索
+				</span>
+			</header>
+			<div class="main">
+				<div class="search-top">
+					搜索历史
+				</div>
+				<div class="seearch-main">
+					<span>
+						小海螺
+					</span>
+					<span>
+						儿童读物
+					</span>
+				</div>
+				<div class="search-clear">
+					<img src="img/search_03.png"/>
+					<span>
+						清空搜索历史
+					</span>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$(function() {
+			function plusReady() {
+				// 弹出系统等待对话框
+				var w = plus.nativeUI.showWaiting("数据加载中...");
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+			setTimeout(function() {
+				plus.nativeUI.closeWaiting()
+			}, 1000)
+			$('#goserach').click(function() {
+				opennew('results')
+			})
+			function opennew(target) {
+				mui.openWindow({
+					url: '' + target + '.html',
+					id: '' + target + ''
+				})
+			}
+
+		})
+	</script>
+
+</html>

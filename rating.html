@@ -38,9 +38,7 @@
 					</span>
 				<span class="header-main" v-show='searchtype'>发表文章</span>
 				<span class="header-main" v-show='!searchtype'>发表评价</span>
-				<span class="header-settings" @click="mysub">
-						提交
-					</span>
+				<span class="header-settings"></span>
 			</header>
 			<div class="main">
 				<form :action="action" enctype="multipart/form-data">
@@ -66,6 +64,9 @@
 					<div class="img-main">
 						<img src="img/addrating.png" @click="imgclick('im04','in04')" id="im04" />
 					</div>
+				</div>
+				<div class="mysub" @click="mysub">
+					发布
 				</div>
 			</div>
 		</div>

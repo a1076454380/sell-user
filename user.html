@@ -18,7 +18,10 @@
 		.mui-content {
 			background: white;
 		}
-		.header .header-settings{justify-content: flex-end;}
+		
+		.header .header-settings {
+			justify-content: flex-end;
+		}
 	</style>
 
 	<body>
@@ -43,9 +46,8 @@
 					<img src="img/back.png"/>
 				</span>
 				<span class="header-main">用户中心</span>
-				<span class="header-settings">
-					晴转多云
-					<img src="img/drame.png"/>
+				<span class="header-settings" @click="opennew('news')">
+					<img src="img/news.png"/>
 				</span>
 			</header>
 			<div class="main">
@@ -83,7 +85,7 @@
 							</span>
 						</div>
 						<div class="user-tab">
-							<img src="img/user-order.png" style="height: .4rem;width: .5rem;" @click="opennew('orderlist')" />
+							<img src="img/user-order.png" @click="opennew('orderlist')" />
 							<span>
 								我的订单
 							</span>
@@ -92,12 +94,6 @@
 							<img src="img/service.png" />
 							<span>
 								联系客服
-							</span>
-						</div>
-						<div class="user-tab">
-							<img src="img/out.png" />
-							<span>
-								申请骑手
 							</span>
 						</div>
 						<div class="user-tab">
@@ -226,7 +222,8 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext: '此功能正在加紧完善'
+					layuitext: '此功能正在加紧完善',
+					weather:'天气获取中...'
 				},
 				methods: {
 					layuiboo: function() {
@@ -240,7 +237,24 @@
 					}
 				},
 				mounted: function() {
+					var that=this
+					$.ajax({
+						type: "get",
+						url: "http://api.map.baidu.com/telematics/v3/weather",
+						async: true,
+						dataType: 'jsonp',
+						data: {
+							location: localStorage.getItem('city'),
+							output: 'json',
+							ak: '6tYzTvGZSOpYB5Oc2YGGOKt8'
+						},
+						success: function(res) {
+							that.weather = res.results[0].weather_data[0].weather
+						},
+						error: function() {
 
+						}
+					});
 				},
 				update: function() {
 					mui.init()
