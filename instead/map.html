@@ -46,8 +46,8 @@
 				<span class="header-main">
 					<input type="text" id="pickerInput" class="box-size" placeholder="输入需要搜索的地址"/>
 				</span>
-				<span class="header-settings" @click="opennew">
-					确定
+				<span class="header-settings">
+					
 				</span>
 			</header>
 			<div class="main" id="l-map">
@@ -59,6 +59,9 @@
 						<input type="text" class="box-size" placeholder="请输入姓名"  v-model="name"/>
 						<input type="number" class="box-size" placeholder="请输入手机号"  v-model="phone"/>
 					</div>
+				</div>
+				<div class="mysub" @click="opennew">
+					确定
 				</div>
 			</div>
 		</div>

@@ -13,6 +13,9 @@
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
+	<style type="text/css">
+		.orderdetail .setting{flex-direction: column;}
+	</style>
 	<body>
 		<div id="app" class="wrapper orderdetail">
 			<div class="layui" v-show="layui">
@@ -41,21 +44,27 @@
 				<div class="detail-group">
 					<div class="detail-top">
 						<div class="top-tab">
-							<img src="../img/wait.png"/>
+							<div class="img-box">
+								<img src="../img/wait.png"/>
+							</div>
 							<span>
 								等待接单
 							</span>
 						</div>
 						<img src="../img/next.png" class="next"/>
 						<div class="top-tab">
-							<img src="../img/peisong-no.png"/>
+							<div class="img-box">
+								<img src="../img/peisong-no.png"/>
+							</div>
 							<span>
 								配送中
 							</span>
 						</div>
 						<img src="../img/next-no.png" class="next"/>
 						<div class="top-tab">
-							<img src="../img/ok-no.png"/>
+							<div class="img-box">
+								<img src="../img/ok-no.png"/>
+							</div>
 							<span>
 								已完成
 							</span>

@@ -13,6 +13,7 @@
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
 	</head>
 	<style type="text/css">
 		body,
@@ -46,9 +47,7 @@
 						<img src="img/back.png"/>
 					</span>
 				<span class="header-main">会员中心</span>
-				<span class="header-settings">
-						
-					</span>
+				<span class="header-settings"></span>
 			</header>
 			<div class="main">
 				<div class="swiper-container">
@@ -60,8 +59,8 @@
 							<div class="slide-name">
 								老董家黄焖鸡
 								<span>
-										超级会员
-									</span>
+									超级会员
+								</span>
 							</div>
 							<div class="upvip" @click="layuiboo">
 								升级会员卡
@@ -82,10 +81,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="mui-slider-indicator">
-						<div class="mui-indicator mui-active"></div>
-						<div class="mui-indicator"></div>
-					</div>
+					<div class="swiper-pagination"></div>
 				</div>
 
 			</div>
@@ -96,7 +92,8 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext: '您确定要升级会员卡吗'
+					layuitext: '您确定要升级会员卡吗',
+					mySwiper:''
 				},
 				methods: {
 					layuiboo: function() {
@@ -113,7 +110,13 @@
 					}
 				},
 				mounted: function() {
-
+					this.mySwiper = new Swiper('.swiper-container', {
+						nested: true,
+						loop:true,
+						pagination: {
+					      el: '.swiper-pagination',
+					    }
+					})
 				},
 				update: function() {
 					mui.init()
