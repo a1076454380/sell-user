@@ -66,46 +66,83 @@
 			<div class="main">
 				<div class="index-main">
 					<div class="index-group" @click="opendetail()">
-						<div class="img-box">
-							<img src="img/index02.png" />
-						</div>
-						<div class="index-detail">
-							<div class="index-h">
-								老董家黄焖鸡
-							</div>
-							<div class="index-x" style="align-items: flex-start;">
-								<div class="x-group">
-									<img src="img/xactive.png" />
+							<div class="group-inner">
+								<div class="img-box">
+									<img src="img/index02.png" />
 								</div>
-								<div class="x-group">
-									<img src="img/xactive.png" />
-								</div>
-								<div class="x-group">
-									<img src="img/xactive.png" />
-								</div>
-								<div class="x-group">
-									<img src="img/xactive.png" />
-								</div>
-								<div class="x-group">
-									<img src="img/xhalf.png" />
-								</div>
-							</div>
-							<div class="index-x">
-								<span class="shop-type">
-									小吃快餐
+								<div class="index-detail">
+									<div class="index-h">
+										老董家黄焖鸡
+									</div>
+									<div class="index-x" style="align-items: flex-start;">
+										<div class="x-group">
+											<img src="img/xactive.png" />
+										</div>
+										<div class="x-group">
+											<img src="img/xactive.png" />
+										</div>
+										<div class="x-group">
+											<img src="img/xactive.png" />
+										</div>
+										<div class="x-group">
+											<img src="img/xactive.png" />
+										</div>
+										<div class="x-group">
+											<img src="img/xhalf.png" />
+										</div>
+									</div>
+									<div class="index-x">
+										<span class="shop-type">
+									<img src="img/shopavatar.png"/>小吃快餐
 								</span>
-							</div>
-							<div class="index-money">
-								<span>
-									金山福地二期
+									</div>
+									<div class="index-money">
+										<span>
+									起送:¥15.00 | 配送费:¥5.00
 								</span>
-								<span>
+										<span>
 									月销量:
 									<strong>69</strong>
 								</span>
+									</div>
+								</div>
+							</div>
+							<div class="prefer" @click.stop="prefershow(0)">
+								<div class="prefer-group">
+									<span class="perer-name">
+										满减
+									</span>
+									<span class="prefer-text">
+										满20减30，满30减5，满45减10
+									</span>
+									<img src="img/arrbottom.png"/>
+								</div>
+								<div class="prefer-group">
+									<span class="perer-name">
+										会员
+									</span>
+									<span class="prefer-text">
+										超级会员领6元无门槛红包
+									</span>
+								</div>
+								<div class="prefer-group">
+									<span class="perer-name">
+										满减
+									</span>
+									<span class="prefer-text">
+										满20减30，满30减5，满45减10
+									</span>
+								</div>
+								<div class="prefer-group">
+									<span class="perer-name">
+										会员
+									</span>
+									<span class="prefer-text">
+										超级会员领6元无门槛红包
+									</span>
+								</div>
 							</div>
 						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -121,6 +158,13 @@
 					layuitext: '您输入的内容为空!!'
 				},
 				methods: {
+					prefershow:function(index){
+						if($('.prefer').eq(index).attr('class')=='prefer'){
+							$('.prefer').eq(index).addClass('pauto')
+						}else{
+							$('.prefer').eq(index).removeClass('pauto')
+						}
+					},
 					layuiboo: function() {
 						this.layui = !this.layui
 					},

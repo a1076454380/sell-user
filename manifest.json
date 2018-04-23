@@ -10,7 +10,7 @@
     "icons": {
         "72": "icon.png"
     },
-    "launch_path": "orderdetail.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+    "launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
     "developer": {
         "name": "",/*开发者名称*/
         "email": "",/*开发者邮箱地址*/
@@ -140,7 +140,9 @@
 					"shop.html",
 					"city.html",
 					"instead/instead.html",
-					"user.html"
+					"user.html",
+					"preferential.html",
+					"newslist.html"
 				],
 				"priority": 0
 			},
@@ -154,7 +156,9 @@
 			"instead/instead.html": {
 				"resources": [],
 				"refer": [
-					"instead/fadresslist.html"
+					"instead/fadresslist.html",
+					"instead/map02.html",
+					"instead/adresslist.html"
 				],
 				"priority": 0
 			},
@@ -169,7 +173,64 @@
 				"resources": [],
 				"refer": [
 					"userinfo.html",
-					"index.html"
+					"index.html",
+					"myfoot.html",
+					"mycollect.html",
+					"money.html",
+					"orderlist.html",
+					"instead/adresslist.html",
+					"vipcart.html"
+				],
+				"priority": 0
+			},
+			"preferential.html": {
+				"resources": [],
+				"refer": [
+					"shop.html",
+					"user.html"
+				],
+				"priority": 0
+			},
+			"orderlist.html": {
+				"resources": [],
+				"refer": [
+					"orderdetail.html"
+				],
+				"priority": 0
+			},
+			"instead/adresslist.html": {
+				"resources": [],
+				"refer": [
+					"instead/map.html"
+				],
+				"priority": 0
+			},
+			"newslist.html": {
+				"resources": [],
+				"refer": [
+					"rating.html",
+					"newdetail.html"
+				],
+				"priority": 0
+			},
+			"orderdetail.html": {
+				"resources": [],
+				"refer": [
+					"orderrating.html"
+				],
+				"priority": 0
+			},
+			"instead/map02.html": {
+				"resources": [],
+				"refer": [
+					"instead/instead.html"
+				],
+				"priority": 0
+			},
+			"instead/map.html": {
+				"resources": [],
+				"refer": [
+					"instead/instead.html"
 				],
 				"priority": 0
 			}

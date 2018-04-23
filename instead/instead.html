@@ -75,7 +75,7 @@
 							<label for="madress">
 								
 							</label>
-							<input type="text" v-model="qadress" @click="opennew('map02','q')" readonly="" />
+							<input type="text" v-model="qadress" @click="opennew('fadresslist','q')" readonly="" />
 							<img src="../img/arrright.png"/>
 						</div>
 						<div class="input-group">
@@ -214,9 +214,9 @@
 						if(this.insteadyes == true) {
 							if(this.dtext != '') {
 								if(this.yprice != '') {
-									if(this.sadressphone != '' && this.sadressname != '' && this.sadress != '') {
-										if((/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(this.sadressphone))) {
-
+									if(this.qphone != '' && this.sphone != '') {
+										if((/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(this.qphone))&&(/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(this.sphone))) {
+												this.opennew('instead-pay','')		
 										} else {
 											this.layuiboo('手机号格式错误')
 										}

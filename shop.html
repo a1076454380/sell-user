@@ -9,9 +9,11 @@
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
 	</head>
 	<style type="text/css">
 		.main {
@@ -25,23 +27,24 @@
 		
 		.fada-enter-active,
 		.fada-leave-active {
+			transform: translateX(0);
 			transition: all .3s;
 		}
 		
 		.fada-enter,
 		.fada-leave-active {
-			opacity: 0;
+			transform: translateX(-100%);
 		}
 		
 		.fade-enter-active,
 		.fade-leave-active {
-			transform: translateY(0);
+			transform: translateX(0);
 			transition: all .3s;
 		}
 		
 		.fade-enter,
 		.fade-leave-active {
-			transform: translateY(100%);
+			transform: translateX(100%);
 		}
 	</style>
 
@@ -110,7 +113,6 @@
 						<img src="img/collect.png"/>
 					</span>
 			</header>
-			<!--<transition name="fada">-->
 				<div class="main shopdetail" v-show="headerboo" @click="headershow">
 					<img src="img/index.jpg" class="shopback" />
 					<h2>
@@ -144,8 +146,6 @@
 						<img src="img/reduction.png" /> 满35减5,满55减8,满88减18
 					</p>
 				</div>
-			<!--</transition>-->
-			<!--<transition name="fada">-->
 				<div class="main" v-show="!headerboo">
 					<div class="index-main">
 						<div class="shop-header" @click="headershow">
@@ -192,6 +192,7 @@
 									<span :class="tabnum==1?'active':''">评价</span>
 								</div>
 							</div>
+							<transition name="fada">
 							<div class="shop-content" v-show="tabnum==0">
 								<div class="shop-left">
 									<div class="left-tab" v-for="(val,index) in shopdata" :class="index==num?'active':''" @click="mytab(index)">
@@ -230,6 +231,8 @@
 									</div>
 								</div>
 							</div>
+							</transition>
+							<transition name="fade">
 							<div class="shop-content" v-show="tabnum==1" style="flex-direction: column;">
 								<div class="rating-group">
 									<div class="img-box">
@@ -252,10 +255,10 @@
 									</div>
 								</div>
 							</div>
+							</transition>
 						</div>
 					</div>
 				</div>
-			<!--</transition>-->
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
