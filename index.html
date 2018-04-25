@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -16,25 +15,10 @@
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
 	<style type="text/css">
-		.header .header-back {
-			justify-content: flex-start;
-			margin-left: .2rem;
-		}
-		
-		.header .header-back img {
-			margin-right: .1rem;
-		}
-		
-		.fade-enter-active,
-		.fade-leave-active {
-			transform: translateY(0);
-			transition: all .3s;
-		}
-		
-		.fade-enter,
-		.fade-leave-active {
-			transform: translateY(100%);
-		}
+		.header .header-back {justify-content: flex-start;margin-left: .2rem;}
+		.header .header-back img {margin-right: .1rem;}
+		.fade-enter-active,.fade-leave-active {transform: translateY(0);transition: all .3s;}
+		.fade-enter,.fade-leave-active {transform: translateY(100%);}
 	</style>
 
 	<body>
@@ -439,7 +423,7 @@
 						})
 					},
 					opendetail: function(id) {
-						//						localStorage.setItem('goodsid',id)
+//						localStorage.setItem('goodsid',id)
 						this.opennew('shop')
 					}
 				},

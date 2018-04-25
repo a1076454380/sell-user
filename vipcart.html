@@ -9,11 +9,10 @@
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
+		<link rel="stylesheet" type="text/css" href="css/redpacket.css"/>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
 	</head>
 	<style type="text/css">
 		body,
@@ -50,50 +49,58 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div class="swiper-container">
-					<div class="swiper-wrapper">
-						<!--第一个内容区容器-->
-						<div class="swiper-slide">
-							<!-- 具体内容 -->
-							<img src="img/vip.png" />
-							<div class="slide-name">
-								老董家黄焖鸡
-								<span>
-									超级会员
-								</span>
-							</div>
-							<div class="upvip" @click="layuiboo">
-								升级会员卡
-							</div>
+				<div class="content">
+					<div class="group">
+						<img src="img/1.png"/>
+						<div class="title">
+							<sapn class="name">老董家米线</span>
+							<span class="youhui">满20减5块</span>
 						</div>
-						<!--第二个内容区-->
-						<div class="swiper-slide">
-							<!-- 具体内容 -->
-							<img src="img/vip.png" />
-							<div class="slide-name">
-								老孙家蛋糕房
-								<span>
-										超级会员
-									</span>
-							</div>
-							<div class="upvip" @click="layuiboo">
-								升级会员卡
-							</div>
+						<div class="button" @click="layuiboo">
+							<span>升级会员</span>
 						</div>
 					</div>
-					<div class="swiper-pagination"></div>
+					<div class="group">
+						<img src="img/4.png">
+						<div class="title">
+							<sapn class="name">老董家米线</span>
+								<span class="youhui">满20减5块</span>
+						</div>
+						<div class="button" @click="layuiboo">
+							<span>升级会员</span>
+						</div>
+					</div>
+					<div class="group">
+						<img src="img/2.png">
+						<div class="title">
+							<sapn class="name">老董家米线</span>
+								<span class="youhui">满20减5块</span>
+						</div>
+						<div class="button" @click="layuiboo">
+							<span>升级会员</span>
+						</div>
+					</div>
+					<div class="group">
+						<img src="img/3.png">
+						<div class="title">
+							<sapn class="name">老董家米线</span>
+								<span class="youhui">满20减5块</span>
+						</div>
+						<div class="button" @click="layuiboo">
+							<span>升级会员</span>
+						</div>
+					</div>
 				</div>
 
 			</div>
 		</div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
 				data: {
 					layui: false,
 					layuitext: '您确定要升级会员卡吗',
-					mySwiper:''
+					mySwiper: ''
 				},
 				methods: {
 					layuiboo: function() {
@@ -110,13 +117,7 @@
 					}
 				},
 				mounted: function() {
-					this.mySwiper = new Swiper('.swiper-container', {
-						nested: true,
-						loop:true,
-						pagination: {
-					      el: '.swiper-pagination',
-					    }
-					})
+
 				},
 				update: function() {
 					mui.init()

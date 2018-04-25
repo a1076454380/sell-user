@@ -195,7 +195,7 @@
 							<transition name="fada">
 							<div class="shop-content" v-show="tabnum==0">
 								<div class="shop-left">
-									<div class="left-tab" v-for="(val,index) in shopdata" :class="index==num?'active':''" @click="mytab(index)">
+									<div class="left-tab" v-for="(val,index) in shopdata" @click="mytab(index)">
 										{{val.groupname}}
 									</div>
 								</div>
@@ -434,19 +434,30 @@
 						var that = this
 						this.num = index
 						if(index == 0) {
-							$('.shop-right').scrollTop(0)
+							$('.shop-right').animate({
+								scrollTop:this.heightarr[index - 1]
+							},function(){
+								$('.left-tab').removeClass('active')
+								$('.left-tab').eq(0).addClass('active')
+							})
 						} else {
-							$('.shop-right').scrollTop(this.heightarr[index - 1])
-							setTimeout(function() {
-								that.num = that.num + 1
-							}, 50)
+							$('.shop-right').animate({
+								scrollTop:this.heightarr[index - 1]
+							},function(){
+								$('.left-tab').removeClass('active')
+								$('.left-tab').eq(index).addClass('active')
+							})
 						}
 					},
 					myscroll: function() {
 						this.num = 0
 						for(var i = 0; i < this.heightarr.length; i++) {
-							if(this.heightarr[i] < $('.shop-right').scrollTop()) {
-								this.num = i + 1
+							if($('.shop-right').scrollTop()==0){
+								$('.left-tab').removeClass('active')
+								$('.left-tab').eq(0).addClass('active')
+							}else if(this.heightarr[i] <= $('.shop-right').scrollTop()+10) {
+								$('.left-tab').removeClass('active')
+								$('.left-tab').eq(i+1).addClass('active')
 							}
 						}
 					},
@@ -485,6 +496,7 @@
 						this.heightarr.push(height)
 					}
 					$('.rating-img img').css('height', $('.rating-img img').css('width'))
+					$('.left-tab').eq(0).addClass('active')
 				},
 				update: function() {
 					$('.rating-img img').css('height', $('.rating-img img').css('width'))
