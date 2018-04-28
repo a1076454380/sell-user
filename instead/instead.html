@@ -52,7 +52,12 @@
 					</div>
 				</div>
 				<div class="instead-wrapper" v-show="insteadtype==true">
-					<img src="../img/instead.png" class="top-img" />
+					<div class="top-box">
+						<img src="../img/instead.png" class="top-img" />
+						<span class="num">
+							您附近有<stong>20</stong>个骑手
+						</span>
+					</div>
 					<div class="instead-main">
 						<textarea v-model="dtext" placeholder="输入您想买的物品" style="margin: 0;box-sizing: border-box;"></textarea>
 						<div class="input-group">

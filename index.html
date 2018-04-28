@@ -233,21 +233,25 @@
 					</div>
 				</div>
 				<div class="index-top" style="margin-top: 0;" id="nav">
-					<div class="top-tab" @click="screening(0)">
+					<div class="top-tab" @click="screening(0)" :class="screen==0?'img-active':''">
 						<span>好评优先</span>
-						<img src="img/arrbottom.png" />
+						<img src="img/shoplist_13.png" class="default"/>
+						<img src="img/shoplist_10.png" class="active-img"/>
 					</div>
-					<div class="top-tab" @click="screening(1)">
+					<div class="top-tab" @click="screening(1)" :class="screen==1?'img-active':''">
 						<span>销量最高</span>
-						<img src="img/arrbottom.png" />
+						<img src="img/shoplist_13.png" class="default"/>
+						<img src="img/shoplist_10.png" class="active-img"/>
 					</div>
-					<div class="top-tab" @click="screening(2)">
+					<div class="top-tab" @click="screening(2)" :class="screen==2?'img-active':''">
 						<span>离我最近</span>
-						<img src="img/arrbottom.png" />
+						<img src="img/shoplist_13.png" class="default"/>
+						<img src="img/shoplist_10.png" class="active-img"/>
 					</div>
-					<div class="top-tab" @click="screening(3)">
+					<div class="top-tab" @click="screening(3)" :class="screen==3?'img-active':''">
 						<span>人均最低</span>
-						<img src="img/arrbottom.png" />
+						<img src="img/shoplist_13.png" class="default"/>
+						<img src="img/shoplist_10.png" class="active-img"/>
 					</div>
 				</div>
 				<div class="index-main">
@@ -371,7 +375,8 @@
 					shoptype: true,
 					layuitext: '您输入的内容为空!!',
 					weather: '天气获取中。。。',
-					mycartnum: '0'
+					mycartnum: '0',
+					screen:0
 				},
 				methods: {
 					prefershow:function(index){
@@ -388,7 +393,7 @@
 							$('#nav').css('position', '')
 						}
 					},
-					screening: function() {
+					screening: function(index) {
 						$(".wrapper").animate({
 							scrollTop: $('#topheight').height() + "px"
 						}, {
@@ -396,6 +401,7 @@
 							easing: "swing"
 						});
 						$('#nav').css('position', 'fixed')
+						this.screen=index
 					},
 					layuiboo: function(text) {
 						this.layuitext = text
