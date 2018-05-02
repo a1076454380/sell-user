@@ -81,9 +81,9 @@
 					</div>
 				</div>
 			</transition>
-			<div class="mycart">
+			<div class="mycart" @click="bottomtab" >
 				<img src="img/mycart.png" v-show="mycartnum==0" />
-				<img src="img/mycart-active.png" v-show="mycartnum!=0" @click="bottomtab" />
+				<img src="img/mycart-active.png" v-show="mycartnum!=0"/>
 				<div class="mycartindex" v-show="mycartnum!=0">
 					{{mycartnum}}
 				</div>
@@ -274,7 +274,7 @@
 					headerboo: false,
 					mycartnum: 0,
 					cartboo: true,
-					mySwiper:'',
+					mySwiper: '',
 					shopdata: [{
 						groupid: '12456',
 						groupname: '超值套餐',
@@ -472,7 +472,11 @@
 						this.headerboo = !this.headerboo
 					},
 					bottomtab: function() {
-						this.cartboo = !this.cartboo
+						if(this.mycartnum==0){
+							this.layuiboo('','您还没有选择商品呢')
+						}else{
+							this.cartboo = !this.cartboo
+						}
 					},
 					reduce: function(id, type) {
 						var num = $('#' + id + '').val()
@@ -494,7 +498,7 @@
 					}
 				},
 				mounted: function() {
-					var that=this
+					var that = this
 					var height = 0;
 					for(var i = 0; i < this.shopdata.length; i++) {
 						height += $('.rmain-group').height() * this.shopdata[i].groupdata.length + 50

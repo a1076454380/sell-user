@@ -9,44 +9,37 @@
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 	</head>
 	<style type="text/css">
-		body,html{background: #fff;}
+		body,html{background: #fff;position: relative;}
 	</style>
 	<body>
-		<div class="wrapper login">
-			<!--顶部搜索框-->
-			<header class="head">
-				<span class="">
-				</span>
-				<div>
-					
-				</div>
-				<span>
-					
-				</span>
-			</header>
+		<div class="wrapper login" id="app">
+			<video src="img/loginback.mp4" autoplay="" loop=""></video>
 			<div class="main">
 				<img src="img/logo.png" class="logo"/>
 				<form action="">
-					<div class="input-group">
+					<div class="input-group" v-show="!code">
 						<img src="img/login_07.png"/>
-						<input type="number" placeholder="请输入手机号"/>
-						<img src="img/login_10.png" id="clear"/>
+						<input type="number" placeholder="请输入手机号" v-model="phone"/>
+						<img src="img/login_10.png" id="clear" @click="cleaar"/>
 					</div>
-					<div class="input-group">
-						<img src="img/login_14.png"/>
-						<input type="password" placeholder="请输入密码"/>
-						<div>
-							获取验证码
+					<transition name='fade'>
+						<div class="input-group" v-show="code">
+							<img src="img/login_14.png"/>
+							<input type="password" placeholder="请输入验证码" v-model="pwd"/>
+							<div @click="addcode">
+								{{codenum}}
+							</div>
 						</div>
-					</div>
-					<input type="submit" name="mysubmit" id="mysubmit" value="登录" />
+					</transition>
+					<input type="button" name="mysubmit" id="mysubmit" v-model="submittext" @click="gosubmit"/>
 					<div class="input-group" style="border: 0;">
-						<span onclick="opennew('login')">
+						<span>
 							微信登录
 						</span>
-						<span style="text-align: right;" onclick="opennew('register')">
+						<span style="text-align: right;">
 							QQ登录
 						</span>
 					</div>
@@ -54,25 +47,43 @@
 			</div>
 		</div>
 		<script type="text/javascript">
-			function opennew(target) {
-					mui.openWindow({
-						url: '' + target + '.html',
-						id: '' + target + ''
-					})
-				}
-			$(function(){
-				$('#clear').click(function(){
-					console.log($(this).prev())
-					$(this).prev().val()
-				})
-				$('#passchange').click(function(){
-					if($(this).prev().attr('type')=='password'){
-						$(this).prev().attr('type','text')
-					}else{
-						$(this).prev().attr('type','password')
+			var myvue=new Vue({
+				el:'#app',
+				data:{
+					phone:'',
+					pwd:'',
+					code:false,
+					submittext:'下一步',
+					codenum:'获取验证码'
+				},
+				methods:{
+					opennew:function(){
+						mui.openWindow({
+							url: '' + target + '.html',
+							id: '' + target + ''
+						})
+					},
+					gosubmit:function(){
+						this.code=true
+						this.submittext='登录'
+						this.codenum=60
+						setInterval(function(){
+							this.codenum=this.codenum-1
+						},1000)
+					},
+					cleaar:function(){
+						this.phone=''
+					},
+					addcode:function(){
+						if(this.codenum=='获取验证码'){
+							this.codenum=60
+							setInterval(function(){
+								this.codenum=this.codenum-1
+							},1000)
+							
+						}
 					}
-				})
-				
+				}
 			})
 		</script>
 	</body>
