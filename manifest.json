@@ -142,7 +142,8 @@
 					"instead/instead.html",
 					"user.html",
 					"preferential.html",
-					"newslist.html"
+					"newslist.html",
+					"shoplist.html"
 				],
 				"priority": 0
 			},
@@ -158,7 +159,8 @@
 				"refer": [
 					"instead/fadresslist.html",
 					"instead/map02.html",
-					"instead/adresslist.html"
+					"instead/adresslist.html",
+					"instead/order.html"
 				],
 				"priority": 0
 			},
@@ -187,7 +189,9 @@
 				"resources": [],
 				"refer": [
 					"shop.html",
-					"user.html"
+					"user.html",
+					"vipcart.html",
+					"index.html"
 				],
 				"priority": 0
 			},
@@ -231,6 +235,20 @@
 				"resources": [],
 				"refer": [
 					"instead/instead.html"
+				],
+				"priority": 0
+			},
+			"shop.html": {
+				"resources": [],
+				"refer": [
+					"pay.html"
+				],
+				"priority": 0
+			},
+			"instead/order.html": {
+				"resources": [],
+				"refer": [
+					"instead/orderdetail.html"
 				],
 				"priority": 0
 			}

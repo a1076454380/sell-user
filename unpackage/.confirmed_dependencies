@@ -6,7 +6,8 @@
 			"instead/instead.html",
 			"user.html",
 			"preferential.html",
-			"newslist.html"
+			"newslist.html",
+			"shoplist.html"
 		]
 	},
 	"login.html": {
@@ -18,7 +19,8 @@
 		"refer": [
 			"instead/fadresslist.html",
 			"instead/map02.html",
-			"instead/adresslist.html"
+			"instead/adresslist.html",
+			"instead/order.html"
 		]
 	},
 	"instead/fadresslist.html": {
@@ -41,7 +43,9 @@
 	"preferential.html": {
 		"refer": [
 			"shop.html",
-			"user.html"
+			"user.html",
+			"vipcart.html",
+			"index.html"
 		]
 	},
 	"orderlist.html": {
@@ -73,6 +77,16 @@
 	"instead/map.html": {
 		"refer": [
 			"instead/instead.html"
+		]
+	},
+	"shop.html": {
+		"refer": [
+			"pay.html"
+		]
+	},
+	"instead/order.html": {
+		"refer": [
+			"instead/orderdetail.html"
 		]
 	}
 }

@@ -24,35 +24,42 @@
 		html {
 			overflow: hidden;
 		}
+		.fada-enter-active,.fada-leave-active{
+                 transition: .3s all ease;
+             }
+             .fada-enter-active{
+                opacity: 1;
+                 transform: translateY(0);
+             }
+             .fada-leave-active{
+                 opacity: 0;
+                 transform: translateY(-100%);
+             }
+             .fada-enter,.fada-leave{
+                 opacity: 0;
+                  transform: translateY(-100%);
+             }
 		
-		.fada-enter-active,
-		.fada-leave-active {
-			opacity: 0;
-			transform: translateX(0);
-			transition: all .4s;
-		}
-		
-		.fada-enter,
-		.fada-leave-active {
-			transform: translateX(30px);
-		}
-		
-		.fade-enter-active,
-		.fade-leave-active {
-			opacity: 0;
-			transform: translateX(0);
-			transition: all .4s;
-		}
-		
-		.fade-enter,
-		.fade-leave-active {
-			transform: translateX(-30px);
-		}
+		.donghua-enter-active,.donghua-leave-active{
+                 transition: .3s all ease;
+             }
+             .donghua-enter-active{
+                opacity: 1;
+                 transform: translateY(0);
+             }
+             .donghua-leave-active{
+                 opacity: 0;
+                 transform: translateY(-100%);
+             }
+             .donghua-enter,.donghua-leave{
+                 opacity: 0;
+                  transform: translateY(-100%);
+             }
 	</style>
 
 	<body>
 		<div id="app" class="wrapper shop">
-			<transition name='fade'>
+			<transition name='donghua'>
 				<div class="bottom-wrapper" v-show="!cartboo" @click="bottomtab">
 					<div class="bottom-main">
 

@@ -26,6 +26,7 @@ html,body,.wrapper,.mui-content{width: 100%;height: 100%;font-size: .2rem;line-h
 .index .head input{width: 100%;height: .4rem;border: 0;margin: 0;padding: 0;background: rgba(0,0,0,0);line-height: .4rem;color: white;}
 .search .head form{margin: 0;height: .4rem;}
 .shop .head input{color: rgb(161,161,161);background: rgb(242,242,242);}
+.shop .head input::-webkit-input-placeholder{line-height: .4rem;font-size: .2rem;}
 .shop {
     margin-top: .7rem;
 }
