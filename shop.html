@@ -25,19 +25,16 @@
 			overflow: hidden;
 		}
 		.fada-enter-active,.fada-leave-active{
-                 transition: .3s all ease;
+                 transition: .3s all;
              }
              .fada-enter-active{
                 opacity: 1;
-                 transform: translateY(0);
              }
              .fada-leave-active{
                  opacity: 0;
-                 transform: translateY(-100%);
              }
              .fada-enter,.fada-leave{
                  opacity: 0;
-                  transform: translateY(-100%);
              }
 		
 		.donghua-enter-active,.donghua-leave-active{
@@ -122,6 +119,7 @@
 						<img src="img/collect.png"/>
 					</span>
 			</header>
+			<transition name='fada'>
 			<div class="main shopdetail" v-show="headerboo" @click="headershow">
 				<img src="img/index.jpg" class="shopback" />
 				<h2>
@@ -155,6 +153,7 @@
 					<img src="img/reduction.png" /> 满35减5,满55减8,满88减18
 				</p>
 			</div>
+			</transition>
 			<div class="main" v-show="!headerboo">
 				<div class="index-main">
 					<div class="shop-header" @click="headershow">

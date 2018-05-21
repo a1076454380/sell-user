@@ -171,7 +171,7 @@ a{color: #333333;}
 .shop .rating-img{width: 100%;display: flex;justify-content: space-between;}
 .shop .rating-img img{width: 24%;}
 .shop-content .rating-group:first-of-type{border-top: .01rem solid #DDD8CE;}
-.shop .shopdetail{background: rgba(0,0,0,0.5);color: white;z-index: 2;}
+.shop .shopdetail{color: white;z-index: 2;}
 .shop .shopdetail h2{text-align: center;font-size: .4rem;margin-top: 1rem;z-index: 2;position: relative;}
 .shop .shopdetail h4{padding: 0 .2rem;margin-top: .4rem;font-size: .3rem;z-index: 2;position: relative;}
 .shop .shopdetail p{padding: 0 .4rem;margin-top: .1rem;font-size: .25rem;color: white;line-height: .3rem;z-index: 2;position: relative;}
