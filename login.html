@@ -54,21 +54,24 @@
 					pwd:'',
 					code:false,
 					submittext:'下一步',
-					codenum:'获取验证码'
+					codenum:60
 				},
 				methods:{
-					opennew:function(){
+					opennew:function(target){
 						mui.openWindow({
 							url: '' + target + '.html',
 							id: '' + target + ''
 						})
 					},
 					gosubmit:function(){
+						if(this.submittext=='登录'){
+							this.opennew('index')
+						}
 						this.code=true
 						this.submittext='登录'
-						this.codenum=60
+						var that=this
 						setInterval(function(){
-							this.codenum=this.codenum-1
+							that.codenum=that.codenum-1
 						},1000)
 					},
 					cleaar:function(){
@@ -78,7 +81,7 @@
 						if(this.codenum=='获取验证码'){
 							this.codenum=60
 							setInterval(function(){
-								this.codenum=this.codenum-1
+								that.codenum=that.codenum-1
 							},1000)
 							
 						}

@@ -62,7 +62,7 @@ html,body,.wrapper,.mui-content{width: 100%;height: 100%;font-size: .2rem;line-h
 .login .input-group{margin:.15rem .4rem;border-bottom: 1px solid gainsboro;display: flex;align-items: center;justify-content: flex-end;}
 .login .input-group img{width: .35rem;margin: 0 .1rem;}
 .login .input-group input{margin: 0;padding: 0;border: 0;flex: 1;height: .6rem;font-size: .2rem;}
-.login #mysubmit{width:6.5rem;height: .8rem;color: white;background: rgb(255,80,60);display: flex;align-items: center;justify-content: center;display: block;border: 0;padding: 0;margin: .8rem auto .2rem;}
+.login #mysubmit{width:6.5rem;height: .8rem;color: white;background: #00c6c8;display: flex;align-items: center;justify-content: center;display: block;border: 0;padding: 0;margin: .8rem auto .2rem;}
 .login .input-group span{flex: 1;}
 .login .main{overflow: hidden;}
 .login h1{margin:.2rem;font-size: .23rem;display: block;font-weight: 400;}
