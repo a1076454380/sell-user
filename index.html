@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -15,10 +16,25 @@
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
 	<style type="text/css">
-		.header .header-back {justify-content: flex-start;margin-left: .2rem;}
-		.header .header-back img {margin-right: .1rem;}
-		.fade-enter-active,.fade-leave-active {transform: translateY(0);transition: all .3s;}
-		.fade-enter,.fade-leave-active {transform: translateY(100%);}
+		.header .header-back {
+			justify-content: flex-start;
+			margin-left: .2rem;
+		}
+		
+		.header .header-back img {
+			margin-right: .1rem;
+		}
+		
+		.fade-enter-active,
+		.fade-leave-active {
+			transform: translateY(0);
+			transition: all .3s;
+		}
+		
+		.fade-enter,
+		.fade-leave-active {
+			transform: translateY(100%);
+		}
 	</style>
 
 	<body>
@@ -82,55 +98,55 @@
 						<div class="nav">
 							<div class="nav-group" @click="opennew('shoplist')">
 								<div class="img-box">
-									<img src="img/index001.png"/>
+									<img src="img/index001.png" />
 								</div>
 								<span>美食外卖</span>
 							</div>
 							<div class="nav-group" @click="opennew('shoplist')">
 								<div class="img-box">
-									<img src="img/index002.png"/>
+									<img src="img/index002.png" />
 								</div>
 								<span>晚餐精选</span>
 							</div>
 							<div class="nav-group" @click="opennew('instead/instead')">
 								<div class="img-box">
-									<img src="img/index00.png"/>
+									<img src="img/index00.png" />
 								</div>
 								<span>万能代购</span>
 							</div>
 							<div class="nav-group" @click="opennew('shoplist')">
 								<div class="img-box">
-									<img src="img/index004.png"/>
+									<img src="img/index004.png" />
 								</div>
 								<span>易点超市</span>
 							</div>
 							<div class="nav-group" @click="opennew('shoplist')">
 								<div class="img-box">
-									<img src="img/index005.png"/>
+									<img src="img/index005.png" />
 								</div>
 								<span>药品上门</span>
 							</div>
 							<div class="nav-group" @click="opennew('shoplist')">
 								<div class="img-box">
-									<img src="img/index006.png"/>
+									<img src="img/index006.png" />
 								</div>
 								<span>生鲜果蔬</span>
 							</div>
 							<div class="nav-group" @click="opennew('shoplist')">
 								<div class="img-box">
-									<img src="img/index007.png"/>
+									<img src="img/index007.png" />
 								</div>
 								<span>甜品饮品</span>
 							</div>
 							<div class="nav-group" @click="opennew('shoplist')">
 								<div class="img-box">
-									<img src="img/index008.png"/>
+									<img src="img/index008.png" />
 								</div>
 								<span>鲜花蛋糕</span>
 							</div>
 							<div class="nav-group" @click="opennew('shoplist')">
 								<div class="img-box">
-									<img src="img/index009.png"/>
+									<img src="img/index009.png" />
 								</div>
 								<span>快食简餐</span>
 							</div>
@@ -153,8 +169,8 @@
 					</span>
 						<span @click="opennew('shoplist')" class="more">
 						<span>更多</span>
-						<img src="img/arrright.png"/>
-					</span>
+						<img src="img/arrright.png" />
+						</span>
 					</div>
 					<div class="index-main">
 						<div class="index-group" @click="opendetail()">
@@ -207,7 +223,7 @@
 									<span class="prefer-text">
 										满20减30，满30减5，满45减10
 									</span>
-									<img src="img/arrbottom.png"/>
+									<img src="img/arrbottom.png" />
 								</div>
 								<div class="prefer-group">
 									<span class="perer-name">
@@ -242,111 +258,111 @@
 					</span>
 						<span @click="opennew('shoplist')" class="more">
 						<span>更多</span>
-						<img src="img/arrright.png"/>
-					</span>
+						<img src="img/arrright.png" />
+						</span>
 					</div>
 				</div>
 				<div class="index-top" style="margin-top: 0;" id="nav">
 					<div class="top-tab" @click="screening(0)" :class="screen==0?'img-active':''">
 						<span>好评优先</span>
-						<img src="img/shoplist_13.png" class="default"/>
-						<img src="img/shoplist_10.png" class="active-img"/>
+						<img src="img/shoplist_13.png" class="default" />
+						<img src="img/shoplist_10.png" class="active-img" />
 					</div>
 					<div class="top-tab" @click="screening(1)" :class="screen==1?'img-active':''">
 						<span>销量最高</span>
-						<img src="img/shoplist_13.png" class="default"/>
-						<img src="img/shoplist_10.png" class="active-img"/>
+						<img src="img/shoplist_13.png" class="default" />
+						<img src="img/shoplist_10.png" class="active-img" />
 					</div>
 					<div class="top-tab" @click="screening(2)" :class="screen==2?'img-active':''">
 						<span>离我最近</span>
-						<img src="img/shoplist_13.png" class="default"/>
-						<img src="img/shoplist_10.png" class="active-img"/>
+						<img src="img/shoplist_13.png" class="default" />
+						<img src="img/shoplist_10.png" class="active-img" />
 					</div>
 					<div class="top-tab" @click="screening(3)" :class="screen==3?'img-active':''">
 						<span>人均最低</span>
-						<img src="img/shoplist_13.png" class="default"/>
-						<img src="img/shoplist_10.png" class="active-img"/>
+						<img src="img/shoplist_13.png" class="default" />
+						<img src="img/shoplist_10.png" class="active-img" />
 					</div>
 				</div>
 				<div class="index-main">
 					<div class="index-group" @click="opendetail()">
-							<div class="group-inner">
-								<div class="img-box">
-									<img src="img/index02.png" />
+						<div class="group-inner">
+							<div class="img-box">
+								<img src="img/index02.png" />
+							</div>
+							<div class="index-detail">
+								<div class="index-h">
+									老董家黄焖鸡
 								</div>
-								<div class="index-detail">
-									<div class="index-h">
-										老董家黄焖鸡
+								<div class="index-x" style="align-items: flex-start;">
+									<div class="x-group">
+										<img src="img/xactive.png" />
 									</div>
-									<div class="index-x" style="align-items: flex-start;">
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xhalf.png" />
-										</div>
+									<div class="x-group">
+										<img src="img/xactive.png" />
 									</div>
-									<div class="index-x">
-										<span class="shop-type">
+									<div class="x-group">
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group">
+										<img src="img/xhalf.png" />
+									</div>
+								</div>
+								<div class="index-x">
+									<span class="shop-type">
 									<img src="img/shopavatar.png"/>小吃快餐
 								</span>
-									</div>
-									<div class="index-money">
-										<span>
+								</div>
+								<div class="index-money">
+									<span>
 									起送:¥15.00 | 配送费:¥5.00
 								</span>
-										<span>
+									<span>
 									月销量:
 									<strong>69</strong>
 								</span>
-									</div>
-								</div>
-							</div>
-							<div class="prefer" @click.stop="prefershow(1)" >
-								<div class="prefer-group">
-									<span class="perer-name">
-										满减
-									</span>
-									<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-									<img src="img/arrbottom.png"/>
-								</div>
-								<div class="prefer-group">
-									<span class="perer-name">
-										会员
-									</span>
-									<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
-								</div>
-								<div class="prefer-group">
-									<span class="perer-name">
-										满减
-									</span>
-									<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-								</div>
-								<div class="prefer-group">
-									<span class="perer-name">
-										会员
-									</span>
-									<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
 								</div>
 							</div>
 						</div>
+						<div class="prefer" @click.stop="prefershow(1)">
+							<div class="prefer-group">
+								<span class="perer-name">
+										满减
+									</span>
+								<span class="prefer-text">
+										满20减30，满30减5，满45减10
+									</span>
+								<img src="img/arrbottom.png" />
+							</div>
+							<div class="prefer-group">
+								<span class="perer-name">
+										会员
+									</span>
+								<span class="prefer-text">
+										超级会员领6元无门槛红包
+									</span>
+							</div>
+							<div class="prefer-group">
+								<span class="perer-name">
+										满减
+									</span>
+								<span class="prefer-text">
+										满20减30，满30减5，满45减10
+									</span>
+							</div>
+							<div class="prefer-group">
+								<span class="perer-name">
+										会员
+									</span>
+								<span class="prefer-text">
+										超级会员领6元无门槛红包
+									</span>
+							</div>
+						</div>
+					</div>
 
 				</div>
 			</div>
@@ -390,13 +406,13 @@
 					layuitext: '您输入的内容为空!!',
 					weather: '天气获取中。。。',
 					mycartnum: '0',
-					screen:0
+					screen: 0
 				},
 				methods: {
-					prefershow:function(index){
-						if($('.prefer').eq(index).attr('class')=='prefer'){
+					prefershow: function(index) {
+						if($('.prefer').eq(index).attr('class') == 'prefer') {
 							$('.prefer').eq(index).addClass('pauto')
-						}else{
+						} else {
 							$('.prefer').eq(index).removeClass('pauto')
 						}
 					},
@@ -414,7 +430,7 @@
 							duration: 300,
 							easing: "swing"
 						});
-						this.screen=index
+						this.screen = index
 					},
 					layuiboo: function(text) {
 						this.layuitext = text
@@ -442,7 +458,7 @@
 						})
 					},
 					opendetail: function(id) {
-//						localStorage.setItem('goodsid',id)
+						//						localStorage.setItem('goodsid',id)
 						this.opennew('shop')
 					}
 				},
