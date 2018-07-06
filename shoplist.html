@@ -12,8 +12,8 @@
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 	</head>
+
 	<body>
 		<div id="app" class="wrapper index">
 			<div class="layui" v-show="layui">
@@ -32,176 +32,176 @@
 				</div>
 			</div>
 			<header class="header" v-show="sarchboo">
-					<span class="header-back mui-action-back">
+				<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
-					<span class="header-main">商家列表</span>
-					<span class="header-settings">
+				<span class="header-main">商家列表</span>
+				<span class="header-settings">
 							
 					</span>
-				</header>
-			<div class="main main-big">
-				<div class="index-main">
+			</header>
+			<div class="main main-big mui-content mui-scroll-wrapper" id="pullrefresh">
+				<div class="mui-scroll">
 					<div class="index-group" @click="opendetail()">
-							<div class="group-inner">
-								<div class="img-box">
-									<img src="img/index02.png" />
+						<div class="group-inner">
+							<div class="img-box">
+								<img src="img/index02.png" />
+							</div>
+							<div class="index-detail">
+								<div class="index-h">
+									老董家黄焖鸡
 								</div>
-								<div class="index-detail">
-									<div class="index-h">
-										老董家黄焖鸡
+								<div class="index-x" style="align-items: flex-start;">
+									<div class="x-group">
+										<img src="img/xactive.png" />
 									</div>
-									<div class="index-x" style="align-items: flex-start;">
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xhalf.png" />
-										</div>
+									<div class="x-group">
+										<img src="img/xactive.png" />
 									</div>
-									<div class="index-x">
-										<span class="shop-type">
+									<div class="x-group">
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group">
+										<img src="img/xhalf.png" />
+									</div>
+								</div>
+								<div class="index-x">
+									<span class="shop-type">
 									<img src="img/shopavatar.png"/>小吃快餐
 								</span>
-									</div>
-									<div class="index-money">
-										<span>
+								</div>
+								<div class="index-money">
+									<span>
 									起送:¥15.00 | 配送费:¥5.00
 								</span>
-										<span>
+									<span>
 									月销量:
 									<strong>69</strong>
 								</span>
-									</div>
-								</div>
-							</div>
-							<div class="prefer" @click.stop="prefershow(0)">
-								<div class="prefer-group">
-									<span class="perer-name">
-										满减
-									</span>
-									<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-									<img src="img/arrbottom.png"/>
-								</div>
-								<div class="prefer-group">
-									<span class="perer-name">
-										会员
-									</span>
-									<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
-								</div>
-								<div class="prefer-group">
-									<span class="perer-name">
-										满减
-									</span>
-									<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-								</div>
-								<div class="prefer-group">
-									<span class="perer-name">
-										会员
-									</span>
-									<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
 								</div>
 							</div>
 						</div>
+						<div class="prefer" @click.stop="prefershow(0)">
+							<div class="prefer-group">
+								<span class="perer-name">
+										满减
+									</span>
+								<span class="prefer-text">
+										满20减30，满30减5，满45减10
+									</span>
+								<img src="img/arrbottom.png" />
+							</div>
+							<div class="prefer-group">
+								<span class="perer-name">
+										会员
+									</span>
+								<span class="prefer-text">
+										超级会员领6元无门槛红包
+									</span>
+							</div>
+							<div class="prefer-group">
+								<span class="perer-name">
+										满减
+									</span>
+								<span class="prefer-text">
+										满20减30，满30减5，满45减10
+									</span>
+							</div>
+							<div class="prefer-group">
+								<span class="perer-name">
+										会员
+									</span>
+								<span class="prefer-text">
+										超级会员领6元无门槛红包
+									</span>
+							</div>
+						</div>
+					</div>
 
 					<div class="index-group" @click="opendetail()">
-							<div class="group-inner">
-								<div class="img-box">
-									<img src="img/index02.png" />
+						<div class="group-inner">
+							<div class="img-box">
+								<img src="img/index02.png" />
+							</div>
+							<div class="index-detail">
+								<div class="index-h">
+									老董家黄焖鸡
 								</div>
-								<div class="index-detail">
-									<div class="index-h">
-										老董家黄焖鸡
+								<div class="index-x" style="align-items: flex-start;">
+									<div class="x-group">
+										<img src="img/xactive.png" />
 									</div>
-									<div class="index-x" style="align-items: flex-start;">
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xhalf.png" />
-										</div>
+									<div class="x-group">
+										<img src="img/xactive.png" />
 									</div>
-									<div class="index-x">
-										<span class="shop-type">
+									<div class="x-group">
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group">
+										<img src="img/xhalf.png" />
+									</div>
+								</div>
+								<div class="index-x">
+									<span class="shop-type">
 									<img src="img/shopavatar.png"/>小吃快餐
 								</span>
-									</div>
-									<div class="index-money">
-										<span>
+								</div>
+								<div class="index-money">
+									<span>
 									起送:¥15.00 | 配送费:¥5.00
 								</span>
-										<span>
+									<span>
 									月销量:
 									<strong>69</strong>
 								</span>
-									</div>
-								</div>
-							</div>
-							<div class="prefer" @click.stop="prefershow(1)">
-								<div class="prefer-group">
-									<span class="perer-name">
-										满减
-									</span>
-									<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-									<img src="img/arrbottom.png"/>
-								</div>
-								<div class="prefer-group">
-									<span class="perer-name">
-										会员
-									</span>
-									<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
-								</div>
-								<div class="prefer-group">
-									<span class="perer-name">
-										满减
-									</span>
-									<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-								</div>
-								<div class="prefer-group">
-									<span class="perer-name">
-										会员
-									</span>
-									<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
 								</div>
 							</div>
 						</div>
+						<div class="prefer" @click.stop="prefershow(1)">
+							<div class="prefer-group">
+								<span class="perer-name">
+										满减
+									</span>
+								<span class="prefer-text">
+										满20减30，满30减5，满45减10
+									</span>
+								<img src="img/arrbottom.png" />
+							</div>
+							<div class="prefer-group">
+								<span class="perer-name">
+										会员
+									</span>
+								<span class="prefer-text">
+										超级会员领6元无门槛红包
+									</span>
+							</div>
+							<div class="prefer-group">
+								<span class="perer-name">
+										满减
+									</span>
+								<span class="prefer-text">
+										满20减30，满30减5，满45减10
+									</span>
+							</div>
+							<div class="prefer-group">
+								<span class="perer-name">
+										会员
+									</span>
+								<span class="prefer-text">
+										超级会员领6元无门槛红包
+									</span>
+							</div>
+						</div>
+					</div>
 
 				</div>
-			</div>
+				</div>
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
@@ -215,10 +215,10 @@
 					layuitext: '您输入的内容为空!!'
 				},
 				methods: {
-					prefershow:function(index){
-						if($('.prefer').eq(index).attr('class')=='prefer'){
+					prefershow: function(index) {
+						if($('.prefer').eq(index).attr('class') == 'prefer') {
 							$('.prefer').eq(index).addClass('pauto')
-						}else{
+						} else {
 							$('.prefer').eq(index).removeClass('pauto')
 						}
 					},
@@ -234,13 +234,40 @@
 					opendetail: function(id) {
 						//						localStorage.setItem('goodsid',id)
 						this.opennew('shop')
+					},
+					pullupRefresh: function() {
+						var that = this
+						setTimeout(function() {
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
+						}, 1500);
+					},
+					pulldownRefresh: function() {
+						var that = this
+						setTimeout(function() {
+							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							mui.toast("为你推荐了5篇文章");
+						}, 1500);
 					}
 				},
 				mounted: function() {
-
+					var that = this
+					mui.init({
+						pullRefresh: {
+							container: '#pullrefresh',
+							down: {
+								style: 'circle',
+								callback: that.pulldownRefresh
+							},
+							up: {
+								auto: true,
+								contentrefresh: '正在加载...',
+								callback: that.pullupRefresh
+							}
+						}
+					});
 				},
 				update: function() {
-					mui.init()
+
 				}
 			})
 		</script>

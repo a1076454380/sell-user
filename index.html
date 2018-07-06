@@ -65,15 +65,16 @@
 							<img src="img/search.png"/>
 					</span>
 			</header>
-			<div class="main">
-				<div id="topheight">
-					<div class="mycart">
+			<div class="main mui-scroll-wrapper">
+				<div class="mycart">
 						<img src="img/mycart.png" v-show="mycartnum==0" @click="layuiboo('您的购物车是空的！')" />
 						<img src="img/mycart-active.png" v-show="mycartnum!=0" @click="opennew('')" />
 						<div class="mycartindex" v-show="mycartnum!=0">
 							{{mycartnum}}
 						</div>
 					</div>
+				<div class="mui-scroll">
+				<div id="topheight">
 					<div class="mui-slider">
 						<div class="mui-slider-group mui-slider-loop">
 							<div class="mui-slider-item mui-slider-item-duplicate" @click="opennew('shop')"><img src="img/index.jpg" /></div>
@@ -365,6 +366,7 @@
 					</div>
 
 				</div>
+				</div>
 			</div>
 			<footer class="footer">
 				<div class="footer-group">
@@ -463,6 +465,9 @@
 					}
 				},
 				mounted: function() {
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
 					var that = this
 					if(localStorage.getItem('city') == null) {
 
@@ -499,7 +504,7 @@
 													that.weather = res.results[0].weather_data[0].weather
 												},
 												error: function() {
-
+													that.weather ='天气获取失败'
 												}
 											});
 										} else {

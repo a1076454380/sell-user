@@ -14,8 +14,12 @@
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
 	<style type="text/css">
-		body,.main{background: white;}
+		body,
+		.main {
+			background: white;
+		}
 	</style>
+
 	<body>
 		<div id="app" class="wrapper newdetail">
 			<div class="layui" v-show="layui">
@@ -33,42 +37,59 @@
 					</div>
 				</div>
 			</div>
-				<header class="header">
-					<span class="header-back mui-action-back">
+			<header class="header">
+				<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
-					<span class="header-main">文章详情</span>
-					<span class="header-settings"></span>
-				</header>
-			<div class="main main-big">	
-				<h1>
+				<span class="header-main">文章详情</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<h1>
 					为什么女生都喜欢穿黑色打底裤
 				</h1>
-				
-				<p>
-					阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
-				</p>
-				<img src="img/index.jpg"/>
-				<p>
-					阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
-				</p>
-				<div class="author">
-					<span>
-						#美妆达人
-					</span>
-					<span>
-						2017.19.20
-					</span>
+
+					<p>
+						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
+					</p>
+					<img src="img/index.jpg" />
+					<p>
+						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
+					</p>
+					<p>
+						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
+					</p>
+					<p>
+						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
+					</p>
+					<p>
+						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
+					</p>
+					<p>
+						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
+					</p>
+					<p>
+						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
+					</p>
 				</div>
 			</div>
+			<footer class="footer">
+				<span>
+						#美妆达人
+					</span>
+				<span>
+						2017.19.20
+					</span>
+			</footer>
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext:'错误',
-					searchtype:localStorage.getItem('searchdpeata')
+					layuitext: '错误',
+					searchtype: localStorage.getItem('searchdpeata')
 				},
 				methods: {
 					layuiboo: function() {
@@ -76,10 +97,12 @@
 					}
 				},
 				mounted: function() {
-					
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
 				},
 				update: function() {
-					mui.init()
+
 				}
 			})
 		</script>

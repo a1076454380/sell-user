@@ -46,8 +46,8 @@
 					<img src="img/news.png"/>
 				</span>
 			</header>
-			<div class="main">
-				<div class="index-main">
+			<div class="main mui-scroll-wrapper">
+				<div class="index-main mui-scroll">
 					<img src="img/index.jpg" class="avatar" @click="opennew('userinfo')" />
 					<h2 class="user-name" @click="opennew('userinfo')">董小礼</h2>
 					<div class="user-group">
@@ -338,9 +338,12 @@
 
 						}
 					});
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
 				},
 				update: function() {
-					mui.init()
+					
 				}
 			})
 		</script>

@@ -15,9 +15,6 @@
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
 	<style type="text/css">
-		.main {
-			padding: 1.6rem 0 1.2rem;
-		}
 		.index-detail{margin-left: .2rem!important;}
 		.index-group{flex-direction: row!important;}
 	</style>
@@ -73,8 +70,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="index-main">
-					<div class="swiper-container swiper-container02">
+				<div class="index-main mui-scroll-wrapper" style="margin-top: .7rem;">
+					<div class="swiper-container swiper-container02 mui-scroll">
 						<div class="swiper-wrapper">
 							<div class="swiper-slide">
 								<div class="index-group" @click="opennew('newdetail')">
@@ -148,8 +145,10 @@
 					}
 				},
 				mounted: function() {
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
 					var that = this
-
 					var myswiper = new Swiper('.swiper-container', {
 						slidesPerView: 3,
 						spaceBetween: 30,
@@ -164,7 +163,7 @@
 					})
 				},
 				update: function() {
-					mui.init()
+					
 				}
 			})
 		</script>

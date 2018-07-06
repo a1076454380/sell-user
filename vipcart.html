@@ -48,8 +48,8 @@
 				<span class="header-main">会员中心</span>
 				<span class="header-settings"></span>
 			</header>
-			<div class="main">
-				<div class="content">
+			<div class="main mui-scroll-wrapper">
+				<div class="mui-scroll">
 					<div class="group">
 						<img src="img/1.png"/>
 						<div class="title">
@@ -93,6 +93,32 @@
 				</div>
 
 			</div>
+			<footer class="footer">
+				<div class="footer-group">
+					<img src="img/index.png"  @click="opennew('index')" />
+					<span>
+						首页
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="img/found.png" @click="opennew('preferential')" />
+					<span>
+						同城惠
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="img/order.png"/>
+					<span>
+						会员中心
+					</span>
+				</div>
+				<div class="footer-group" @click="opennew('user')">
+					<img src="img/user.png" />
+					<span>
+						我的
+					</span>
+				</div>
+			</footer>
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
@@ -106,10 +132,10 @@
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
-					opennew: function() {
+					opennew: function(target) {
 						mui.openWindow({
-							url: 'shop.html',
-							id: 'shop'
+							url: '' + target + '.html',
+							id: '' + target + ''
 						})
 					},
 					upvip: function() {
@@ -117,7 +143,9 @@
 					}
 				},
 				mounted: function() {
-
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
 				},
 				update: function() {
 					mui.init()

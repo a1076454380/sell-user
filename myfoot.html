@@ -63,8 +63,8 @@
 							
 					</span>
 				</header>
-			<div class="main">
-				<div class="index-main">
+			<div class="main mui-scroll-wrapper">
+				<div class="index-main mui-scroll">
 					<div class="index-group" @click="opendetail()">
 							<div class="group-inner">
 								<div class="img-box">
@@ -180,10 +180,12 @@
 					}
 				},
 				mounted: function() {
-					
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
 				},
 				update: function() {
-					mui.init()
+					
 				}
 			})
 		</script>

@@ -39,7 +39,8 @@
 						
 					</span>
 				</header>
-			<div class="main">	
+			<div class="main mui-scroll-wrapper">	
+				<div class="mui-scroll">
 				<div class="money-item">
 					<div class="money-top">
 						<div class="money-price">
@@ -57,6 +58,7 @@
 					<div class="money-time">
 						满99可用,限最新版本客户端使用
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -80,10 +82,12 @@
 					}
 				},
 				mounted: function() {
-					
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
 				},
 				update: function() {
-					mui.init()
+					
 				}
 			})
 		</script>
