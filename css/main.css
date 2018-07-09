@@ -1,4 +1,5 @@
 /*通用*/
+html,body{width: 100%;height: 100%;position: relative;color: #999999;}
 .logo{width: 2rem;height: 2rem;margin: 0 auto;display: block;}
 a{color: #333333;}
 #nav{top: .8rem;left: 0;width: 100%;}
@@ -16,7 +17,7 @@ a{color: #333333;}
 .header-main input{flex: 1;}
 .header-main .select{height: 2.4rem;}
 .header-main .option{line-height: .8rem;background: #00c6c8;padding: 0 .15rem;border-bottom-left-radius: .1rem;border-bottom-right-radius: .1rem;}
-.main{width: 100%;height: calc(100% - 1.8rem);margin-top: .8rem;position: relative;}
+.main{width: 100%;height: calc(100% - 1.8rem);margin-top: .8rem;position: relative;color: #666666;}
 .main-big{height: calc(100% - .8rem);}
 .main-wrap{margin: 0 .25rem;}
 .layui{position: fixed;top: 0;left: 0;background: rgba(0,0,0,0.5);display: flex;align-items: center;justify-content: center;width: 100%;height: 100%;z-index: 10000;}
@@ -25,7 +26,7 @@ a{color: #333333;}
 .layui-main{background:white;height: 1.5rem;display: flex;align-items: center;justify-content: center;font-size: 14px;}
 .layui-settings{width: 100%;display: flex;}
 .layui-setting{width:100%;height: .6rem;background: #00c6c8;color: white;display: flex;align-items: center;justify-content: center;}
-.footer{position: fixed;bottom: 0;left: 0;width: 100%;display: flex;align-items: center;background: #00c6c8;color: white;padding:0 0 .1rem 0;}
+.footer{position: absolute;bottom: 0;left: 0;width: 100%;display: flex;align-items: center;background: #00c6c8;color: white;padding:0 0 .1rem 0;}
 .footer-group{flex: 1;display: flex;align-items: center;justify-content: center;flex-direction: column;font-size: .2rem;font-weight: bold;}
 .footer-group img{width: .35rem;height: .35rem;margin: .1rem 0;}
 .mycart{position: fixed;right: .2rem;bottom: 1.2rem;border-radius: 50%;background: rgba(255,255,255,0.8);border: .01rem solid #DDD8CE;width: .6rem;height: .6rem;display: flex;align-items: center;justify-content: center;z-index: 99;}
@@ -121,11 +122,14 @@ a{color: #333333;}
 .goodsdetail .rating-name{width:100%;display: flex;justify-content: space-between;}
 .goodsdetail .rating-name span:first-of-type{font-size: .3rem;font-weight: bold;}
 .goodsdetail .rating-text{font-size: .25rem;height: .6rem;overflow: hidden;line-height: .3rem;}
-.goodsdetail .index-top{display: flex;justify-content: space-between;align-items: center;}
-.goodsdetail .index-top img{width: .25rem;height: .25rem;margin: 0 .1rem;}
+.goodsdetail .index-top{display: flex;justify-content: space-between;align-items: center;padding: 0 .15rem;}
+.goodsdetail .index-top img{width: .25rem;height: .25rem;margin-left:.1rem;}
 .goodsdetail .index-top span:first-of-type{flex: 1;}
 .goodsdetail .index-top span:last-of-type{font-size: .25rem;}
-.ratingall .rating-group{border-bottom: .01rem solid ghostwhite;}
+.ratingall .rating-group{border-bottom: .01rem solid ghostwhite;display: flex;margin-bottom: .2rem;}
+.ratingall .rating-group .img-box{width: .6rem;}
+.goodsdetail .rating-group{display: flex;margin: .2rem;}
+.goodsdetail .rating-group .img-box{width: .7rem;}
 /*商家*/
 .shop .shop-header{width: 100%;height: 3rem;background: rgba(0,0,0,0.5);display: flex;position: relative;overflow: hidden;color: white;padding-top: .5rem;}
 .shop .shopback{position: absolute;left: 0;top: 0;width: 100%;height:100%;transform: scale(1.5);z-index: 0; filter: blur(10px);}
@@ -370,6 +374,7 @@ a{color: #333333;}
 .userinfo input{width: 3rem;height: .7rem;text-align: right;margin: 0;border: 0;padding: 0;}
 .userinfo input::-webkit-input-placeholder{color:#666666;}
 .userinfo form{margin-top: .15rem;}
+.userinfo .submit{position: absolute;bottom: .2rem;border-radius: .1rem;width: calc(100% - .4rem);left: .2rem;height: .7rem;display: flex;align-items: center;justify-content: center;background: #00c6c8;color: white;}
 /*同城惠*/
 .preferential .per-main{display: flex;justify-content: space-between;flex-wrap: wrap;padding: .2rem 0;background: white;padding:.2rem;}
 .preferential .per-tab{width: 30%;position: relative;margin-bottom: .2rem;border-radius: .1rem;}
@@ -386,7 +391,7 @@ a{color: #333333;}
 .newslist .news-texm{width: 3px;height: 3px;background: rgb(280,80,60);border-radius: 50%;display: inline-block;float: left;top: .2rem;position: relative;margin-right: 5px;}
 .newslist .noinform{width: 4px;height: 4px;border-radius: 50%;background: #00c6c8;display: inline-block;}
 /*发表评价*/
-.orderrating{background: rgb(245,245,245)!important;padding: .8rem .3rem!important;}
+.orderrating{background: rgb(245,245,245)!important;padding:.3rem!important;}
 .orderrating .shop-inform{display: flex;align-items: center;margin: .4rem 0 .1rem 0;}
 .orderrating .shop-inform img{width: .6rem;height: .6rem;border-radius: .1rem;margin-right: .1rem;transition: all .3s;}
 .orderrating .arrtop{display: block;width: .3rem;margin-left: .15rem;}
@@ -398,3 +403,23 @@ a{color: #333333;}
 .orderrating .img-box{padding:  .2rem;}
 /*地图*/
 .map .header span{height: auto;}
+/*购物车*/
+.shopcart .cart-top{position: absolute;width: 100%;height: 2rem;background: #00c6c8;top: 0;left: 0;border-bottom-left-radius: .15rem;border-bottom-right-radius: .15rem;}
+.shopcart .cart-group{background: white;margin: .2rem;width: calc(100% - .4rem);border-radius: .1rem;box-shadow: 0 0 3px 2px gainsboro;z-index: 5;position: relative;}
+.shopcart .cart-title{display: flex;align-items: center;height: .6rem;justify-content: space-between;}
+.shopcart .cart-title img{height: .35rem;margin: 0 .1rem 0 .2rem;}
+.shopcart .cart-tab{display: flex;padding: .2rem 0;}
+.shopcart .cart-tab img{width: 1.6rem;height: 1.6rem;border-radius: .1rem;margin: 0 .1rem 0 .2rem;}
+.shopcart .cart-text{height: .6rem;line-height: .3rem;overflow: hidden;}
+.shopcart .cart-config span{height: .35rem;line-height: .35rem;background: rgb(220,220,220);padding: 0 .1rem;color: white;border-radius: .05rem;display: inline-block;}
+.shopcart .cart-price{color: red;display: flex;justify-content: space-between;}
+.shopcart .cart-price span{font-size: .3rem;}
+.shopcart .tab-main{display: flex;flex-direction: column;justify-content: space-between;}
+.shopcart .num-box{display: flex;border: 1px solid gainsboro;height: .4rem;overflow: hidden;margin-right: .15rem;border-radius: .1rem;align-items: center;}
+.shopcart .num-box img{height: .3rem;width: .3rem;}
+.shopcart .num-box input{height: .3rem;width: .5rem;border: 0;border-left:  1px solid gainsboro;border-right:  1px solid gainsboro;margin: 0;text-align: center;color: gainsboro;padding: 0;}
+.shopcart .cart-name{display: flex;align-items: center;}
+.shopcart .footer{height: 1rem;padding: 0;}
+.shopcart .footer-text{flex: 1;background: white;display: flex;align-items: center;color: #00c6c8;height: 100%;padding-left: .2rem;}
+.shopcart .footer-text span{font-size: .3rem;}
+.shopcart .footer-setting{display: flex;align-items: center;justify-content: center;width: 2.5rem;height: 100%;}

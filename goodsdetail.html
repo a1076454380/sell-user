@@ -40,65 +40,67 @@
 						<img src="img/collect.png"/>
 					</span>
 			</header>
-			<div class="main">
-				<div class="mui-slider">
-					<div class="mui-slider-group mui-slider-loop">
-						<div class="mui-slider-item mui-slider-item-duplicate"><img src="img/index.jpg" /></div>
-						<!--第一个内容区容器-->
-						<div class="mui-slider-item">
-							<!-- 具体内容 -->
-							<img src="img/index.jpg" />
+			<div class="main mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="mui-slider">
+						<div class="mui-slider-group mui-slider-loop">
+							<div class="mui-slider-item mui-slider-item-duplicate"><img src="img/index.jpg" /></div>
+							<!--第一个内容区容器-->
+							<div class="mui-slider-item">
+								<!-- 具体内容 -->
+								<img src="img/index.jpg" />
+							</div>
+							<!--第二个内容区-->
+							<div class="mui-slider-item">
+								<!-- 具体内容 -->
+								<img src="img/index02.png" />
+							</div>
+							<div class="mui-slider-item mui-slider-item-duplicate"><img src="img/index02.png" /></div>
 						</div>
-						<!--第二个内容区-->
-						<div class="mui-slider-item">
-							<!-- 具体内容 -->
-							<img src="img/index02.png" />
+						<div class="mui-slider-indicator">
+							<div class="mui-indicator mui-active"></div>
+							<div class="mui-indicator"></div>
 						</div>
-						<div class="mui-slider-item mui-slider-item-duplicate"><img src="img/index02.png" /></div>
 					</div>
-					<div class="mui-slider-indicator">
-						<div class="mui-indicator mui-active"></div>
-						<div class="mui-indicator"></div>
-					</div>
-				</div>
-				<div class="index-main">
-					<h4>
+					<div class="index-main">
+						<h4>
 						黄金鸡排帕帕泥
 					</h4>
-					<span>
+						<span>
 						月售:13
 					</span>
-					<p>
-						啪啪泥外面是香喷喷的面包，经高温压制，让民阿宝香味四溢，咬一口让你赞不绝口！！
-					</p>
-				</div>
-				<div class="index-top">
-					<span>
+						<p>
+							啪啪泥外面是香喷喷的面包，经高温压制，让民阿宝香味四溢，咬一口让你赞不绝口！！
+						</p>
+					</div>
+					<div class="index-top" @click="opennew('ratingall')">
+						<span>
 						商品评价
 					</span>
-					<span>
+						<span>
 						35条评论
 					</span>
-					<img src="img/rightarr.png"/>
-				</div>
-				<div class="index-main">
-					<div class="rating-group">
-						<div class="img-box">
-							<img src="img/index02.png"/>
-						</div>
-						<div class="rating-main">
-							<div class="rating-name">
-								<span>董小礼</span>
-								<span>2018.01.15</span>
+						<img src="img/rightarr.png" />
+					</div>
+					<div class="index-main">
+						<div class="rating-group">
+							<div class="img-box">
+								<img src="img/index02.png" />
 							</div>
-							<div class="rating-text">
-								这里是非常的好吃的,超级想吃的!下次还会再来!!
-							</div>
-							<div class="rating-img">
-								<img src="img/index.jpg"/>
-								<img src="img/index02.png"/>
-								<img src="img/index.jpg"/>
-								<img src="img/index02.png"/>
+							<div class="rating-main">
+								<div class="rating-name">
+									<span>董小礼</span>
+									<span>2018.01.15</span>
+								</div>
+								<div class="rating-text">
+									这里是非常的好吃的,超级想吃的!下次还会再来!!
+								</div>
+								<div class="rating-img">
+									<img src="img/index.jpg" />
+									<img src="img/index02.png" />
+									<img src="img/index.jpg" />
+									<img src="img/index02.png" />
+								</div>
 							</div>
 						</div>
 					</div>
@@ -121,6 +123,7 @@
 				</div>
 			</footer>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -131,14 +134,23 @@
 				methods: {
 					layuiboo: function() {
 						this.layui = !this.layui
+					},
+					opennew: function(target) {
+						mui.openWindow({
+							url: target + '.html',
+							name: target
+						})
 					}
 				},
 				mounted: function() {
-					$('.rating-img img').css('height',$('.rating-img img').width())
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
+					$('.rating-img img').css('height', $('.rating-img img').width())
 				},
 				update: function() {
 					mui.init()
-					$('.rating-img img').css('height',$('.rating-img img').width())
+					$('.rating-img img').css('height', $('.rating-img img').width())
 				}
 			})
 		</script>

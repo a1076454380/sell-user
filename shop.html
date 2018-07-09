@@ -85,7 +85,7 @@
 								总计:
 								<strong>69.00</strong>
 							</div>
-							<div class="bottom-setting" style="background: #FF6666;color: white;width: 2rem;justify-content: center;flex: inherit;padding: 0;" @click.stop="pay">
+							<div class="bottom-setting" style="background: #FF6666;color: white;width: 2rem;justify-content: center;flex: inherit;padding: 0;" @click.stop="pay('pay')">
 								结算
 							</div>
 						</div>
@@ -221,7 +221,7 @@
 												{{val.groupname}}
 											</div>
 											<div class="right-main">
-												<div class="rmain-group" v-for="item in val.groupdata">
+												<div class="rmain-group" v-for="item in val.groupdata" @click="pay('goodsdetail')">
 													<img :src="item.shopimg" class="img" />
 													<div class="shoptext">
 														<h4>
@@ -503,10 +503,10 @@
 							$('#' + id + '').val(parseInt(num) + 1)
 						}
 					},
-					pay: function() {
+					pay: function(target) {
 						mui.openWindow({
-							url: 'pay.html',
-							id: 'pay'
+							url: ''+target+'.html',
+							id: target
 						})
 					}
 				},

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -36,7 +35,6 @@
 			transform: translateY(100%);
 		}
 	</style>
-
 	<body>
 		<div id="app" class="wrapper index" @scroll="myscroll">
 			<div class="layui" v-show="layui">
@@ -67,8 +65,8 @@
 			</header>
 			<div class="main mui-scroll-wrapper">
 				<div class="mycart">
-						<img src="img/mycart.png" v-show="mycartnum==0" @click="layuiboo('您的购物车是空的！')" />
-						<img src="img/mycart-active.png" v-show="mycartnum!=0" @click="opennew('')" />
+						<!--<img src="img/mycart.png" v-show="mycartnum==0" @click="layuiboo('您的购物车是空的！')" />-->
+						<img src="img/mycart-active.png" v-show="mycartnum==0" @click="opennew('shopcart')" />
 						<div class="mycartindex" v-show="mycartnum!=0">
 							{{mycartnum}}
 						</div>
@@ -471,12 +469,10 @@
 					});
 					var that = this
 					if(localStorage.getItem('city') == null) {
-
 						document.addEventListener('plusready', onPlusReady, false);
 						// 扩展API加载完毕，现在可以正常调用扩展API
 						function onPlusReady() {
 							plus.geolocation.getCurrentPosition(function(p) {
-								alert(p.coords.longitude + '' + p.coords.latitude)
 								var map = new AMap.Map('container', {
 									zoom: 15,
 									center: [p.coords.longitude, p.coords.latitude]
@@ -491,22 +487,13 @@
 										if(status === 'complete' && result.info === 'OK') {
 											that.city = result.regeocode.addressComponent.city
 											localStorage.setItem('city', that.city)
-											$.ajax({
-												type: "get",
-												url: "http://api.map.baidu.com/telematics/v3/weather",
-												async: true,
-												dataType: 'jsonp',
-												data: {
-													location: '徐州',
-													output: 'json',
-													ak: '6tYzTvGZSOpYB5Oc2YGGOKt8'
-												},
-												success: function(res) {
-													that.weather = res.results[0].weather_data[0].weather
-												},
-												error: function() {
-													that.weather ='天气获取失败'
-												}
+											AMap.plugin('AMap.Weather', function() {
+											    //创建天气查询实例
+											    var weather = new AMap.Weather();
+											    //执行实时天气信息查询
+											    weather.getLive(localStorage.getItem('city'), function(err, data) {
+											        that.weather=data.weather
+											    });
 											});
 										} else {
 											//获取地址失败
@@ -520,19 +507,13 @@
 						}
 					} else {
 						this.city = localStorage.getItem('city')
-						$.ajax({
-							type: "get",
-							url: "http://api.map.baidu.com/telematics/v3/weather",
-							async: true,
-							dataType: 'jsonp',
-							data: {
-								location: localStorage.getItem('city'),
-								output: 'json',
-								ak: '6tYzTvGZSOpYB5Oc2YGGOKt8'
-							},
-							success: function(res) {
-								that.weather = res.results[0].weather_data[0].weather
-							}
+						AMap.plugin('AMap.Weather', function() {
+						    //创建天气查询实例
+						    var weather = new AMap.Weather();
+						    //执行实时天气信息查询
+						    weather.getLive(localStorage.getItem('city'), function(err, data) {
+						        that.weather=data.weather
+						    });
 						});
 					}
 				},
