@@ -36,13 +36,13 @@
 				<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
-				<span class="header-main" v-show='searchtype'>发表文章</span>
-				<span class="header-main" v-show='!searchtype'>发表评价</span>
+				<span class="header-main">发表文章</span>
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
 				<form :action="action" enctype="multipart/form-data">
-					<input type="text" name="" v-model="title" placeholder="请输入发布标题" v-show='searchtype' />
+					<input type="text" name="" v-model="title" placeholder="请输入发布标题"/>
+					<input type="text" name="" v-model="navtext" readonly="readonly" @click="bottomshow" placeholder="请选择分类"/>
 					<textarea name="" v-model="text" placeholder="请输入发布内容">
 						
 					</textarea>
@@ -69,6 +69,25 @@
 					发布
 				</div>
 			</div>
+			<transition name='alert'>
+				<div class="bottom" v-show="bottomboo" @click="bottomshow">
+					<div class="bottom-tab" @click.stop="bottomshow('小吃零食')">
+						小吃零食
+					</div>
+					<div class="bottom-tab" @click.stop="bottomshow('医药用品')">
+						医药用品
+					</div>
+					<div class="bottom-tab" @click.stop="bottomshow('时尚服装')">
+						时尚服装
+					</div>
+					<div class="bottom-tab" @click.stop="bottomshow('黑科技广场')">
+						黑科技广场
+					</div>
+					<div class="bottom-tab bottom-setting" @click.stop="bottomshow">
+						取消 
+					</div>
+				</div>
+			</transition>
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
@@ -76,16 +95,22 @@
 				data: {
 					layui: false,
 					layuitext: '发送成功',
-					searchtype: localStorage.getItem('ratingtype'),
 					title: '',
 					text: '',
 					imgid: '',
 					inputid: '',
 					server: 'http://39.107.70.18/Transportation/uploadDriverImage',
 					files: [],
-					action: localStorage.getItem('myurl') + '/insertSelectiveBydriver'
+					action: localStorage.getItem('myurl') + '/insertSelectiveBydriver',
+					navtext:'',
+					bottomboo:false
 				},
 				methods: {
+					bottomshow:function(text){
+						console.log(text)
+						this.navtext=text
+						this.bottomboo=!this.bottomboo
+					},
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
