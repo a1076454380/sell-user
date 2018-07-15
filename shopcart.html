@@ -44,19 +44,20 @@
 			<div class="main mui-scroll-wrapper">
 				<div class="cart-top"></div>
 				<div class="mui-scroll">
-					<div class="cart-group">
+					<!--<p>您的购物车暂无商品~</p>-->
+					<div class="cart-group" @click="opennew('shop')">
 						<div class="cart-title">
 							<div class="cart-name">
-								<img src="img/1.png"/>
+								<img src="img/1.png" />
 								<div class="title">
 									必胜客旗舰店
 								</div>
 							</div>
-							<img src="img/delete.png" class="cart-delete" @click="layuiboo"/>
+							<img src="img/delete.png" class="cart-delete" @click="layuiboo" />
 						</div>
 						<div class="cart-main">
 							<div class="cart-tab">
-								<img src="img/index.jpg"/>
+								<img src="img/index.jpg" />
 								<div class="tab-main">
 									<div class="cart-text">
 										青少年短袖男2018夏韩版潮流学生帅气港风小清新双色拼接短袖!
@@ -69,22 +70,59 @@
 											￥<span>59</span>
 										</div>
 										<div class="num-box">
-											<img src="img/remove.png"/>
-											<input type="number" value="1"/>
-											<img src="img/add01.png"/>
+											<img src="img/remove.png" @click="removenum(1)" class="remove1" />
+											<input type="number" value="1" />
+											<img src="img/add01.png" @click="addnum(1)" class="add1" />
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<div class="footprint-top">
+						<div class="footer-hr"></div>
+						<div class="footer-title">
+							我的足迹
+						</div>
+						<div class="footer-hr"></div>
+					</div>
+					<div class="footerprint-box">
+						<div class="footerprint-tab" @click="opennew('shop')">
+							<img src="img/index.jpg" />
+							<h1>
+								老董家黄焖鸡超辣风味黄焖鸡，黄鸡炸鸡排，手撕原味鸡。。
+							</h1>
+							<div class="print-box">
+								¥<strong>15.60</strong>
+							</div>
+						</div>
+						<div class="footerprint-tab" @click="opennew('shop')">
+							<img src="img/index.jpg" />
+							<h1>
+								老董家黄焖鸡超辣风味黄焖鸡，黄鸡炸鸡排，手撕原味鸡。。
+							</h1>
+							<div class="print-box">
+								¥<strong>15.60</strong>
+							</div>
+						</div>
+						<div class="footerprint-tab" @click="opennew('shop')">
+							<img src="img/index.jpg" />
+							<h1>
+								老董家黄焖鸡超辣风味黄焖鸡，黄鸡炸鸡排，手撕原味鸡。。
+							</h1>
+							<div class="print-box">
+								¥<strong>15.60</strong>
+							</div>
+						</div>
+					</div>
 				</div>
+
 			</div>
 			<footer class="footer">
 				<div class="footer-text">
 					￥<span>69.00</span>
 				</div>
-				<div class="footer-setting">
+				<div class="footer-setting" @click="opennew('pay')">
 					去支付
 				</div>
 			</footer>
@@ -95,12 +133,27 @@
 		var myapp = new Vue({
 			el: '#app',
 			data: {
-				layui:false,
-				layuitext :'确定删除此商品吗？'
+				layui: false,
+				layuitext: '确定删除此商品吗？'
 			},
 			methods: {
-				layuiboo:function(){
-					this.layui=!this.layui
+				layuiboo: function() {
+					this.layui = !this.layui
+				},
+				removenum: function(index) {
+					if($('.remove' + index).next().val() != 1) {
+						$('.remove' + index).next().val(parseInt($('.add' + index).prev().val()) - 1)
+					}
+				},
+				addnum: function(index) {
+					console.log($('.add' + index).prev())
+					$('.add' + index).prev().val(parseInt($('.add' + index).prev().val()) + 1)
+				},
+				opennew: function(target) {
+					mui.openWindow({
+						url: '' + target + '.html',
+						id: '' + target + ''
+					})
 				}
 			},
 			mounted() {
@@ -110,4 +163,5 @@
 			}
 		})
 	</script>
+
 </html>

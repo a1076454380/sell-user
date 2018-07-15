@@ -65,9 +65,8 @@
 			</header>
 			<div class="main mui-scroll-wrapper">
 				<div class="mycart">
-						<!--<img src="img/mycart.png" v-show="mycartnum==0" @click="layuiboo('您的购物车是空的！')" />-->
-						<img src="img/mycart-active.png" v-show="mycartnum==0" @click="opennew('shopcart')" />
-						<div class="mycartindex" v-show="mycartnum!=0">
+						<img src="img/mycart-active.png" @click="opennew('shopcart')" />
+						<div class="mycartindex">
 							{{mycartnum}}
 						</div>
 					</div>
@@ -405,8 +404,8 @@
 					shoptype: true,
 					layuitext: '您输入的内容为空!!',
 					weather: '天气获取中。。。',
-					mycartnum: '0',
-					screen: 0
+					screen: 0,
+					mycartnum:0
 				},
 				methods: {
 					prefershow: function(index) {
