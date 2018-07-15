@@ -107,7 +107,7 @@ a{color: #333333;}
 .goodsdetail .mui-slider img{height: 4rem;}
 .goodsdetail .footer{background: white;padding: 0;}
 .goodsdetail .go{background: #00c6c8;color: white;display: flex;align-items: center;justify-content: center;width: 30%;height: .8rem;}
-.goodsdetail .money{flex: 1;height: .8rem;color: #666666;display: flex;flex-direction: column;font-size: .2rem;margin-left: .1rem;}
+.goodsdetail .money{flex: 1;height: .8rem;color: #666666;display: flex;font-size: .2rem;margin-left: .1rem;align-items: center;}
 .goodsdetail .money .discount{font-size: .4rem;color: #00c6c8;font-weight: bold;line-height: .5rem;}
 .goodsdetail .index-main{background:white;margin-bottom: .1rem;padding: .1rem;}
 .goodsdetail h4{font-size: .4rem;font-weight: bold;line-height: .5rem;padding: .1rem 0;border-bottom: .01rem solid ghostwhite;}
