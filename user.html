@@ -48,32 +48,32 @@
 			</header>
 			<div class="main mui-scroll-wrapper">
 				<div class="index-main mui-scroll">
-					<img src="img/index.jpg" class="avatar" @click="opennew('userinfo')" />
-					<h2 class="user-name" @click="opennew('userinfo')">董小礼</h2>
-					<div class="user-group">
-						<div class="user-item" @click="opennew('mycollect')">
-							<img src="img/user-collect.png" />
-							<span>
-								收藏
-							</span>
-						</div>
-						<div class="user-item" @click="opennew('money')">
-							<img src="img/hbao.png" />
-							<span>
-								我的红包
-							</span>
-						</div>
-						<div class="user-item" @click="opennew('myfoot')">
-							<img src="img/user-foot.png" />
-							<span>
-								足迹
-							</span>
-						</div>
+					<div class="head-top">
+						<img src="img/index.jpg" class="avatar" @click="opennew('userinfo')" />
+						<h2 class="user-name" @click="opennew('userinfo')">董小礼</h2>
 					</div>
 					<div class="user-title">
 						我的工具
 					</div>
 					<div class="user-group02">
+						<div class="user-tab" @click="opennew('mycollect')">
+							<img src="img/user-collect.png" />
+							<span>
+								收藏
+							</span>
+						</div>
+						<div class="user-tab" @click="opennew('money')">
+							<img src="img/hbao.png" />
+							<span>
+								我的红包
+							</span>
+						</div>
+						<div class="user-tab" @click="opennew('myfoot')">
+							<img src="img/user-foot.png" />
+							<span>
+								足迹
+							</span>
+						</div>
 						<div class="user-tab" @click="layuiboo">
 							<img src="img/card.png" />
 							<span>

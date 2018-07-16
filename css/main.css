@@ -193,7 +193,8 @@ a{color: #333333;}
 .shop .bottom-tab strong{font-size: .3rem;color: #00c6c8;}
 /*个人中心*/
 .user{background: white;}
-.user .user-name{text-align: center;width: 100%;height:.5rem;line-height: .5rem;}
+.user .head-top{background: #00c6c8;padding: .2rem 0;border-bottom-left-radius: .2rem;border-bottom-right-radius: .2rem;overflow: hidden;}
+.user .user-name{text-align: center;width: 100%;height:.5rem;line-height: .5rem;color: #FFFFFF;}
 .user .user-group{margin:0 .4rem ;display: flex;margin-top: .2rem;justify-content: space-around;}
 .user .user-group .user-item{display: flex;flex-direction: column;align-items: center;justify-content: center;}
 .user .user-tab img,.user .user-group img{width: .5rem;margin-bottom: .1rem;}
