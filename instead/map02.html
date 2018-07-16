@@ -77,10 +77,11 @@
 				},
 				mounted: function() {
 					var that = this
-//					document.addEventListener('plusready', onPlusReady, false);
-//					function onPlusReady() {
-//						plus.geolocation.getCurrentPosition(function(p) {
-							var mapcenter =  [116.39, 39.9]
+					document.addEventListener('plusready', onPlusReady, false);
+					function onPlusReady() {
+						plus.geolocation.getCurrentPosition(function(p) {
+							var mapcenter =  '['+p.coords.longitude+','+p.coords.latitude +']'
+							mapcenter=JSON.parse(mapcenter)
 							var map = new AMap.Map('l-map', {
 								zoom: 15,
 								center: mapcenter
@@ -183,10 +184,10 @@
 									map.setCenter(infoWindow.getPosition());
 								});
 							}
-//						}, function(e) {
-//							alert('Geolocation error: ' + e.message);
-//						});
-//					}
+						}, function(e) {
+							alert('Geolocation error: ' + e.message);
+						});
+					}
 				},
 				update: function() {
 					mui.init()
