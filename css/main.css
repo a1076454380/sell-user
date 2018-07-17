@@ -104,17 +104,17 @@ a{color: #333333;}
 .city .btn{float: right;background: #00c6c8;color: white;border-radius: .1rem;display: flex;justify-content: center;align-items: center;padding:.1rem .2rem;}
 .city .index-main{padding-top: .2rem;}
 /*商品详情*/
-.goodsdetail .mui-slider{height: 4rem;overflow: hidden;}
-.goodsdetail .mui-slider img{height: 4rem;}
+.goodsdetail .slider{height: 4rem;overflow: hidden;border-radius: .1rem;box-shadow: 0 0 2px 0px gainsboro;margin: .2rem;}
+.goodsdetail .slider img{width: 100%;}
 .goodsdetail .footer{background: white;padding: 0;}
 .goodsdetail .go{background: #00c6c8;color: white;display: flex;align-items: center;justify-content: center;width: 30%;height: .8rem;}
 .goodsdetail .money{flex: 1;height: .8rem;color: #666666;display: flex;font-size: .2rem;margin-left: .1rem;align-items: center;}
 .goodsdetail .money .discount{font-size: .4rem;color: #00c6c8;font-weight: bold;line-height: .5rem;}
-.goodsdetail .index-main{background:white;margin-bottom: .1rem;padding: .1rem;}
-.goodsdetail h4{font-size: .4rem;font-weight: bold;line-height: .5rem;padding: .1rem 0;border-bottom: .01rem solid ghostwhite;}
+.goodsdetail .index-main{background:white;margin-bottom: .1rem;padding: .2rem;}
+.goodsdetail h4{font-size: .4rem;font-weight: bold;line-height: .5rem;padding: .1rem 0;border-bottom: .01rem solid ghostwhite;color: #000000;}
 .goodsdetail p{font-size: .25rem; line-height: .35rem;color: #333333;}
 .goodsdetail .index-main span{font-size: .25rem; line-height: .5rem;color: #666666;}
-.goodsdetail{display: flex;justify-content: space-between;margin-bottom: .2rem;background: white;}
+.goodsdetail{display: flex;justify-content: space-between;background: white;}
 .goodsdetail .img-box{width: 20%;}
 .goodsdetail .img-box img{width: 80%;border-radius: 50%;}
 .goodsdetail .rating-main{flex: 1;}
@@ -123,9 +123,9 @@ a{color: #333333;}
 .goodsdetail .rating-name{width:100%;display: flex;justify-content: space-between;}
 .goodsdetail .rating-name span:first-of-type{font-size: .3rem;font-weight: bold;}
 .goodsdetail .rating-text{font-size: .25rem;height: .6rem;overflow: hidden;line-height: .3rem;}
-.goodsdetail .index-top{display: flex;justify-content: space-between;align-items: center;padding: 0 .15rem;}
+.goodsdetail .index-top{display: flex;justify-content: space-between;align-items: center;padding: 0 .2rem;border-top: 1px solid ghostwhite;padding-top: .1rem;}
 .goodsdetail .index-top img{width: .25rem;height: .25rem;margin-left:.1rem;}
-.goodsdetail .index-top span:first-of-type{flex: 1;}
+.goodsdetail .index-top span:first-of-type{flex: 1;font-size: .3rem;color: #000000;}
 .goodsdetail .index-top span:last-of-type{font-size: .25rem;}
 .ratingall .rating-group{border-bottom: .01rem solid ghostwhite;display: flex;margin-bottom: .2rem;}
 .ratingall .rating-group .img-box{width: .6rem;}
@@ -193,7 +193,7 @@ a{color: #333333;}
 .shop .bottom-tab strong{font-size: .3rem;color: #00c6c8;}
 /*个人中心*/
 .user{background: white;}
-.user .head-top{background: #00c6c8;padding: .2rem 0;border-bottom-left-radius: .2rem;border-bottom-right-radius: .2rem;overflow: hidden;}
+.user .head-top{background: #00c6c8;padding-bottom: .2rem;border-bottom-left-radius: .2rem;border-bottom-right-radius: .2rem;overflow: hidden;}
 .user .user-name{text-align: center;width: 100%;height:.5rem;line-height: .5rem;color: #FFFFFF;}
 .user .user-group{margin:0 .4rem ;display: flex;margin-top: .2rem;justify-content: space-around;}
 .user .user-group .user-item{display: flex;flex-direction: column;align-items: center;justify-content: center;}
@@ -201,7 +201,7 @@ a{color: #333333;}
 .user .user-title{margin:0 .2rem;line-height: .5rem;height: .5rem;margin-top: .4rem;font-size: .3rem;font-weight: bold;border-bottom: .01rem solid ghostwhite;}
 .user .user-tab{display: flex;flex-direction: column;width: 25%;align-items: center;justify-content: flex-end;margin-bottom: .2rem;}
 .user .user-group02{margin:0 .4rem ;display: flex;margin-top: .2rem;flex-wrap: wrap;}
-.user .avatar{display: block;width: 1.2rem!important;height: 1.2rem!important;margin: .5rem auto .1rem!important;border-radius: 50%;}
+.user .avatar{display: block;width: 1.2rem!important;height: 1.2rem!important;margin: .2rem auto .1rem!important;border-radius: 50%;}
 .user .index-group{border-bottom: .01rem solid ghostwhite;}
 /*去支付*/
 .pay .paybtn{position: fixed;width: calc(100% - .4rem);height: .8rem;background: #00c6c8;color: white;line-height: .8rem;text-align: center;bottom: .2rem;left: .2rem;border-radius: .05rem;box-shadow: 0 4px 20px 2px gainsboro;}
@@ -273,16 +273,18 @@ a{color: #333333;}
 .vip .swiper-container{overflow-y: -webkit-paged-x!important;overflow-x: hidden;}
 .vip .swiper-pagination-bullets{bottom: 1rem!important;}
 /*我的红包*/
+.money{background: none;}
 .money .money-item{background: url(../img/cart_03.png) no-repeat;margin:.2rem .1rem;border-radius: .1rem;height: 2.2rem;display: flex;align-items: center;background-size:100% ;flex-direction: column;}
 .money .money-item img{height: 2rem;margin: 0 .2rem;}
 .nollect-setting img{width: .5rem;height: .5rem;margin: 0 .1rem;}
 .nollect-setting{display: flex;align-items: center;background: #00c6c8;}
 .money .money-top{display: flex;align-items: center;height: 1.7rem;width: 100%;}
-.money .money-time{width: 100%;text-indent: .4rem;color: rgb(153,153,153);}
+.money .money-time{width: 100%;text-indent: .4rem;color: rgb(153,153,153);display: flex;justify-content: space-between;}
 .money .money-price{margin: 0 .6rem;color: #00c6c8;font-size: .3rem;}
 .money .money-price span{font-size: .8rem;}
 .money .money-main p{font-size: .3rem;}
 .money .money-main h1{font-size: .3rem;margin-bottom: .1rem;}
+.money .join{background: orangered;color: #FFFFFF;padding: .05rem .2rem;border-radius: .2rem;display: flex;align-items: center;justify-content: center;margin-right: .2rem;text-indent: 0;}
 /*新闻列表*/
 .newlist .new-h{font-size: .4rem;font-weight: bold;height: 1.5rem;height: .7rem;}
 .newlist .newnav{width: 100%;height: .7rem;overflow-y: scroll;background: white;position: fixed;top: .8rem;left: 0;overflow: hidden;}
@@ -440,3 +442,5 @@ a{color: #333333;}
 .bottom .bottom-setting{margin: .2rem 0;background: #00c6c8;color: white;border-radius: .15rem;border: 0;}
 /*足迹*/
 .myfoot .index-x:last-of-type{align-items: flex-end;}
+/*红包集市*/
+.redb .group{background: #FFFFFF;width: calc(100% - .4rem);margin: .2rem;border-radius: .1rem;}
