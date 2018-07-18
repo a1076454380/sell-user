@@ -4,15 +4,15 @@ html,body,.wrapper,.mui-content{width: 100%;height: 100%;font-size: .28rem;line-
 .head span{display: flex;align-items: center;justify-content: center;white-space: nowrap;}
 .head div{flex: 1;display: flex;align-items: center;justify-content: center;}
 .shop .header-back img{height: .3rem;width: .3rem;}
-.search .head span{width: .7rem;}
+.search .head span{width: .7rem;font-size: .2rem;}
 .search .head{padding: 0;height: .7rem;align-items: center;}
 .search .head form{margin: 0;}
 .search .main{margin-top: .15rem;background: white;height: calc(100% - 1.1rem);padding: 0;overflow: hidden;}
 .search .search-top{margin:.1rem .2rem;font-size: .25rem;}
 .search .search-clear{display: flex;align-items: center;justify-content: center;}
 .search .search-clear img{width: .3rem;height: .3rem;margin-right: .1rem;}
-.search .seearch-main{margin: 0 .4rem;}
-.search .seearch-main span{margin: .2rem;}
+.search .seearch-main{margin: .2rem .4rem;}
+.search .seearch-main span{margin:.1rem .2rem;}
 .results .head img{height: .3rem;}
 .results .top-img{height: .15rem!important;}
 .results .main-img{width: 100%;}
