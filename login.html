@@ -36,10 +36,10 @@
 					</transition>
 					<input type="button" name="mysubmit" id="mysubmit" v-model="submittext" @click="gosubmit"/>
 					<div class="input-group" style="border: 0;">
-						<span>
+						<span @click='login(0)'>
 							微信登录
 						</span>
-						<span style="text-align: right;">
+						<span style="text-align: right;" @click='login(1)'>
 							QQ登录
 						</span>
 					</div>
@@ -54,7 +54,8 @@
 					pwd:'',
 					code:false,
 					submittext:'下一步',
-					codenum:60
+					codenum:60,
+					auths:null
 				},
 				methods:{
 					opennew:function(target){
@@ -85,7 +86,31 @@
 							},1000)
 							
 						}
+					},
+					login:function(index){
+						var s = this.auths[index];
+						if ( !s.authResult ) {
+							s.login( function(e){
+								// 获取登录操作结果
+								var result = e.target.authResult;
+								alert( "登录认证成功："+JSON.stringify(result) );
+							}, function(e){
+								alert( "登录认证失败！" );
+							}, {} );
+						}
 					}
+				},
+				mounted(){
+					var that=this
+					document.addEventListener( "plusready", function(){
+						// 扩展API加载完毕，现在可以正常调用扩展API
+						plus.oauth.getServices( function(services){
+							that.auths = services;
+							alert(JSON.stringify(services))
+						}, function(e){
+							alert( "获取分享服务列表失败："+e.message+" - "+e.code );
+						} );
+					}, false );
 				}
 			})
 		</script>
