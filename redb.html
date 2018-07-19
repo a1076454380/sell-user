@@ -24,6 +24,9 @@
 						{{layuitext}}
 					</div>
 					<div class="layui-settings">
+						<div class="layui-setting" @click="layuitrue">
+							取消
+						</div>
 						<div class="layui-setting" @click="layuiboo">
 							确定
 						</div>
@@ -57,7 +60,7 @@
 					</div>
 					<div class="money-time">
 						<span>满99可用,限最新版本客户端使用</span>
-						<div class="join">
+						<div class="join" @click="layuiboo()">
 							立即领取
 						</div>
 					</div>
@@ -70,10 +73,13 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext:'错误',
+					layuitext:'确定领取卡卷吗?',
 					searchtype:localStorage.getItem('searchdpeata')
 				},
 				methods: {
+					layuitrue:function(){
+						this.layuiboo()
+					},
 					layuiboo: function() {
 						this.layui = !this.layui
 					},

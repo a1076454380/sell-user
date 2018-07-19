@@ -72,7 +72,11 @@
 						this.submittext='登录'
 						var that=this
 						setInterval(function(){
-							that.codenum=that.codenum-1
+							if(that.codenum!=1){
+								that.codenum=that.codenum-1
+							}else{
+								获取验证码
+							}
 						},1000)
 					},
 					cleaar:function(){

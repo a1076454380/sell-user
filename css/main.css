@@ -298,7 +298,7 @@ a{color: #333333;}
 .newdetail h1{font-size: .4rem;font-weight: bold;margin: .5rem .15rem .4rem;line-height: .6rem;}
 .newdetail p{margin: .2rem .15rem;font-size: .25rem;line-height: .4rem;color: #333333;}
 .newdetail img{margin: .1rem;width: calc(100% - .2rem);}
-.newdetail .footer{height: 1rem;background: white;color: #333333;justify-content: space-between;box-shadow: -1px 0 1px 1px gainsboro;padding: 0 .15rem;}
+.newdetail .footer{height: 1rem;background: white;color: #333333;justify-content: space-between;padding: 0 .15rem;border-top: 1px solid ghostwhite;}
 /*订单列表*/
 .orderlist .nav{width: 100%;height: .8rem;border-bottom: .01rem solid ghostwhite;display: flex;align-items: center;background: white;margin-bottom: .2rem;}
 .orderlist .nav-tab{flex: 1;display: flex;align-items: center;justify-content: center;height: .8rem;transition:all .3s;}
@@ -389,6 +389,7 @@ a{color: #333333;}
 /*消息*/
 .newslist .head img{height: .3rem;}
 .newslist .news-group{background: white;margin: .1rem 0;display: flex;padding:.1rem .2rem;}
+.newslist .news-text{width: 100%;}
 .newslist .news-group img{width: 1.9rem;height: 1.2rem;margin-left: .1rem;}
 .newslist .news-group h1{height: .9rem;line-height: .4rem;overflow: hidden;font-weight: 600;white-space: inherit;font-size: .2rem;}
 .newslist .news-inform{display: flex;justify-content: space-between;color: rgb(181,181,181);}

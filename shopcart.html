@@ -53,7 +53,7 @@
 									必胜客旗舰店
 								</div>
 							</div>
-							<img src="img/delete.png" class="cart-delete" @click="layuiboo" />
+							<img src="img/delete.png" class="cart-delete" @click.stop="layuiboo" />
 						</div>
 						<div class="cart-main">
 							<div class="cart-tab">
@@ -70,9 +70,9 @@
 											￥<span>59</span>
 										</div>
 										<div class="num-box">
-											<img src="img/remove.png" @click="removenum(1)" class="remove1" />
+											<img src="img/remove.png" @click.stop="removenum(1)" class="remove1" />
 											<input type="number" value="1" />
-											<img src="img/add01.png" @click="addnum(1)" class="add1" />
+											<img src="img/add01.png" @click.stop="addnum(1)" class="add1" />
 										</div>
 									</div>
 								</div>
