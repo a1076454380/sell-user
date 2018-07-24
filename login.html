@@ -44,6 +44,21 @@
 						</span>
 					</div>
 				</form>
+				<div class="layui" v-show="layui">
+					<div class="layui-inner">
+						<div class="layui-top">
+							友情提示
+						</div>
+						<div class="layui-main">
+							{{layuitext}}
+						</div>
+						<div class="layui-settings">
+							<div class="layui-setting" @click="layuiboo">
+								确定
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script type="text/javascript">
@@ -55,9 +70,14 @@
 					code:false,
 					submittext:'下一步',
 					codenum:60,
-					auths:null
+					auths:null,
+					layui:false,
+					layuitext:''
 				},
 				methods:{
+					layuiboo:function(){
+						this.layui=!this.layui
+					},
 					opennew:function(target){
 						mui.openWindow({
 							url: '' + target + '.html',
@@ -66,7 +86,12 @@
 					},
 					gosubmit:function(){
 						if(this.submittext=='登录'){
-							this.opennew('index')
+							this.opennew('index');
+							return false; 
+						}else if(!(/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(this.phone))){ 
+						this.layuitext='手机号格式错误'
+						  this.layui=true;
+						  return false;
 						}
 						this.code=true
 						this.submittext='登录'
@@ -75,7 +100,7 @@
 							if(that.codenum!=1){
 								that.codenum=that.codenum-1
 							}else{
-								获取验证码
+								that.codenum='获取验证码'
 							}
 						},1000)
 					},
