@@ -7,15 +7,17 @@
 		<title></title>
 		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
-		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="../css/main.css" />
 		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<style type="text/css">
-		.orderdetail .setting{flex-direction: column;}
+		.back-group span:last-of-type {
+			font-weight: 600;
+		}
 	</style>
+
 	<body>
 		<div id="app" class="wrapper orderdetail">
 			<div class="layui" v-show="layui">
@@ -40,114 +42,74 @@
 				<span class="header-main">订单详情</span>
 				<span class="header-settings"></span>
 			</header>
-			<div class="main">
-				<div class="detail-group">
-					<div class="detail-top">
-						<div class="top-tab">
-							<div class="img-box">
-								<img src="../img/wait.png"/>
-							</div>
-							<span>
-								等待接单
+			<div class="main" style="padding-top: .2rem;">
+				<div class="detail-group content">
+					<div class="shop-name">
+						<span style="flex: 1;color: rgb(254, 99, 91);text-align: right;">
+								正在配送中
 							</span>
+					</div>
+					<div class="shop-back">
+						<div class="back-inner" style="border: 0;">
+							<div class="back-group">
+								<span>
+										起点
+									</span>
+								<span>
+										金山福地二期20栋604
+									</span>
+							</div>
+							<div class="back-group">
+								<span>
+										终点
+									</span>
+								<span>
+										淮海环球港A51214
+									</span>
+							</div>
 						</div>
-						<img src="../img/next.png" class="next"/>
-						<div class="top-tab">
-							<div class="img-box">
-								<img src="../img/peisong-no.png"/>
+					</div>
+					<div class="shop-back" style="height: .8rem;">
+						<div class="back-inner">
+							<div class="back-group">
+								<span></span>
+								<span>
+									<span class="moneyred">
+										¥48.4
+									</span>
+								</span>
 							</div>
-							<span>
-								配送中
-							</span>
 						</div>
-						<img src="../img/next-no.png" class="next"/>
-						<div class="top-tab">
-							<div class="img-box">
-								<img src="../img/ok-no.png"/>
+					</div>
+					<div class="shop-back">
+						<div class="back-inner">
+							<div class="back-group" style="justify-content: center;">
+								<a href="tel:154565646">
+									<img src="../img/detail_03.png" class="phone" />
+								</a>
+								<a href="tel:154565646">
+									联系骑手
+								</a>
 							</div>
-							<span>
-								已完成
-							</span>
 						</div>
 					</div>
 				</div>
-				<div class="detail-group setting">
-					<h2>
-						等待接单中,请耐心等待
-					</h2>
-					<div class="shalou">
-						<span></span><img src="../img/shalou.png"/><span></span>
+				<div class="detail-group inform">
+					<div class="inform-group">
+						<span class="inform-name">
+							订单号码
+						</span>
+						<span class="inform-text">
+							LLN566564562
+						</span>
 					</div>
-					<p>
-						订单预计耗时14分09秒
-					</p>
-					<div class="setting-bottom">
-						<div>
-							取消订单
-						</div>
-					</div>
-				</div>
-				<div class="detail-group">
-					<div class="detail-inner">
-						<div class="group-top">
-							订单信息
-						</div>
-						<div class="group">
-							<div class="group-name">
-								订单编号
-							</div>
-							<div class="group-text">
-								LLB588156156
-							</div>
-						</div>
-						<div class="group">
-							<div class="group-name">
-								订单时间
-							</div>
-							<div class="group-text">
-								2019.05.14
-							</div>
-						</div>
-						<div class="group">
-							<div class="group-name">
-								订单起点
-							</div>
-							<div class="group-text">
-								金山福地爱神的箭ij
-							</div>
-						</div>
-						<div class="group">
-							<div class="group-name">
-								订单终点
-							</div>
-							<div class="group-text">
-								撒旦教决赛的厚爱
-							</div>
-						</div>
-						<div class="group">
-							<div class="group-name">
-								订单内容
-							</div>
-							<div class="group-text">
-								一台华硕坠机堡垒
-							</div>
-						</div>
-						<div class="group">
-							<div class="group-name">
-								订单费用
-							</div>
-							<div class="group-text">
-								¥69.00
-							</div>
-						</div>
-						<div class="group">
-							<div class="group-name">
-								订单地图
-							</div>
-							<div class="group-text" @click="opennew('ordermap')">
-								点击查看跑腿员位置
-							</div>
-						</div>
+					<div class="inform-group">
+						<span class="inform-name">
+							订单时间
+						</span>
+						<span class="inform-text">
+							2018-04-25
+						</span>
 					</div>
 				</div>
 			</div>
@@ -157,25 +119,36 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext: '错误'
+					layuitext: '错误',
+					mapboo: false
 				},
 				methods: {
-					layuiboo: function(text) {
-						this.layuitext = text
+					opennew: function(target) {
+						mui.openWindow({
+							url: '' + target + '.html',
+							id: target
+						})
+					},
+					layuiboo: function() {
 						this.layui = !this.layui
 					},
-					opennew: function(id, index) {
-						mui.openWindow({
-							url: '' + id + '.html',
-							id: id
-						})
+					mapshow: function() {
+						if($('#orderinform').css('top') != '0px') {
+							$('#container').height('50%')
+							$('#orderinform').css('top', '0')
+							this.mapboo = true
+						} else {
+							$('#container').height('4rem')
+							$('#orderinform').css('top', '-2rem')
+							this.mapboo = false
+						}
 					}
 				},
 				mounted: function() {
-					
+
 				},
 				update: function() {
-
+					mui.init()
 				}
 			})
 		</script>

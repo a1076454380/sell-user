@@ -409,7 +409,6 @@
 				},
 				methods: {
 					prefershow: function(index) {
-						
 						if($('.prefer').eq(index).attr('class') == 'prefer') {
 							$('.prefer').eq(index).addClass('pauto')
 						} else {
@@ -463,6 +462,10 @@
 					}
 				},
 				mounted: function() {
+					localStorage.setItem('myurl','http://27.54.248.14')
+//					if(localStorage.getItem('userid')==undefined||localStorage.getItem('userid')==null||localStorage.getItem('userid')==''){
+//						this.opennew('login')
+//					}
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});

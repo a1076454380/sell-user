@@ -1,83 +1,483 @@
 /*搜索*/
-html,body,.wrapper,.mui-content{width: 100%;height: 100%;font-size: .28rem;line-height: none;overflow-x: scroll;}
-.head{position: fixed;top: 0;left: 0;width: 100%;display: flex;z-index: 999;padding: 0 .2rem;}
-.head span{display: flex;align-items: center;justify-content: center;white-space: nowrap;}
-.head div{flex: 1;display: flex;align-items: center;justify-content: center;}
-.shop .header-back img{height: .3rem;width: .3rem;}
-.search .head span{width: .7rem;font-size: .2rem;}
-.search .head{padding: 0;height: .9rem;align-items: center;}
-.search .head form{margin: 0;}
-.search .main{margin-top: .15rem;background: white;height: calc(100% - 1.1rem);padding: 0;overflow: hidden;}
-.search .search-top{margin:.1rem .2rem;font-size: .25rem;}
-.search .search-clear{display: flex;align-items: center;justify-content: center;}
-.search .search-clear img{width: .3rem;height: .3rem;margin-right: .1rem;}
-.search .seearch-main{margin: .2rem .4rem;}
-.search .seearch-main span{margin:.1rem .2rem;}
-.results .head img{height: .3rem;}
-.results .top-img{height: .15rem!important;}
-.results .main-img{width: 100%;}
-.shop #myslide{height: 3rem;}
-.shop .head{background: #fff;}
-.index .head form{background: rgba(255,255,255,.5);display: flex;align-items: center;flex: 1;margin-right: .4rem;border-radius: 2px;}
-.index .head  input::-webkit-input-placeholder{color:white;font-size: .25rem;}
-.index .head form img{width: .3rem;height: .3rem;margin:0 .1rem;}
 
-.shop .head form{background: rgb(242,242,242);}
-.index .head input{width: 100%;height: .55rem;border: 0;margin: 0;padding: 0;background: #999999;line-height: .4rem;color: white;}
-.search .head form{margin: 0;height: .55rem;}
-.shop .head input{color: rgb(161,161,161);background: rgb(242,242,242);}
-.shop .head input::-webkit-input-placeholder{line-height: .4rem;font-size: .2rem;}
-.shop {
-    margin-top: .7rem;
+.mui-content,
+.wrapper,
+body,
+html {
+	width: 100%;
+	height: 100%;
+	font-size: 0.28rem;
+	line-height: none;
+	overflow-x: scroll
 }
-/*支付*/
-.pay .head{background: white;height: .7rem;border-bottom: 1px solid ghostwhite;}
-.pay .head img{height: .3rem;}
-.pay .bottom-buy{position: fixed;bottom: 0;left: 0;width: 100%;height: 1rem;color: white;background: rgb(280,80,60);display: flex;align-items: center;justify-content: center;}
-.pay .main-money{display: flex;align-items: center;height: 2.2rem;font-size: .3rem;background: white;}
-.pay .main-money img{width: 1.8rem;height: 1.8rem;margin: 0 .4rem 0 .7rem;}
-.pay .main-money span{margin: 0 .25rem;color: rgb(280,80,60);font-size: .4rem;}
-.pay p{height: .7rem;line-height: .7rem;margin: 0 .35rem;font-size: .25rem;}
-.pay .pay-group{height: 1rem;display: flex;background: white;align-items: center;padding: 0 .4rem;}
-.pay .pay-group img{width: .5rem;height: .5rem;}
-.pay .pay-group span{flex: 1;margin: 0 .25rem;}
-.pay .pay-circle{width: .4rem;height: .4rem;border-radius: 50%;border: 1px solid gainsboro;}
-.pay .pay-circle img{display: none;width: .4rem;height: .4rem;}
-.pay .active{border: 0;}
-.pay .active img{display: block;}
-.pay .user-group{background: white;border-bottom: 1px solid ghostwhite;height: 1rem;padding: 0 .2rem;display: flex;align-items: center;}
-.pay .user-go{display: flex;align-items: center;}
-.pay .user-name{flex: 1;}
-.pay .user-go img{width: .6rem;height: .6rem;border-radius: 50%;}
-.pay .user-go .more{width: .3rem;height: .3rem;margin-left: .2rem;}
-.pay .user-group input{margin: 0;border: 0;font-size: .2rem;}
-.pay .user-group02{display: flex;align-items: center;}
-.pay .user-group02 .clear{width: .3rem;height: .3rem;}
-.pay .clear img{width: .3rem;height: .3rem;border-radius: 50%;}
-.main{margin-top: .7rem;}
-/*登录*/
-.login .head{background: white;height: .7rem;}
-.login .head img{height: .3rem;}
-.login .logo{width: 1.5rem;height: 1.5rem;margin:  1rem auto .7rem;display: block;}
-.login .input-group{margin:.15rem .4rem;border-bottom: 1px solid gainsboro;display: flex;align-items: center;justify-content: flex-end;}
-.login .input-group img{width: .35rem;margin: 0 .1rem;}
-.login .input-group input{margin: 0;padding: 0;border: 0;flex: 1;height: .6rem;font-size: .2rem;}
-.login #mysubmit{width:6.5rem;height: .8rem;color: white;background: #FFC408;display: flex;align-items: center;justify-content: center;display: block;border: 0;padding: 0;margin: .8rem auto .2rem;}
-.login .input-group span{flex: 1;}
-.login .main{overflow: hidden;}
-.login h1{margin:.2rem;font-size: .23rem;display: block;font-weight: 400;}
-.login .group02{background: white;margin: 0;padding: .1rem 0;}
-.register .input-group{background: white;padding: .1rem;border: 0;}
-.register .registergp div{width: .3rem;height: .3rem;border-radius: 50%;border: 1px solid gray;margin: 0 .1rem;}
-.register .registergp img{width: .3rem;height: .3rem;}
-.login{position: relative;color: white;}
-.login video{position: fixed;height: 100%;top: 0;left: 0;}
-.login form{position: relative;z-index: 3;}
-.login input{background: none;color: white;}
-.login input::-webkit-input-placeholder{color: white;}
-.layui{position: fixed;top: 0;left: 0;background: rgba(0,0,0,0.5);display: flex;align-items: center;justify-content: center;width: 100%;height: 100%;z-index: 10000;}
-.layui-inner{width: 60%;overflow: hidden;border-radius: .1rem;}
-.layui-top{width:100%;height: .6rem;display: flex;align-items: center;justify-content: center;color: white;background: #FFC408;border-top-left-radius: .1rem;border-top-right-radius: .1rem;font-size: 18px;}
-.layui-main{background:white;height: 1.5rem;display: flex;align-items: center;justify-content: center;font-size: 14px;color: #666666;}
-.layui-settings{width: 100%;display: flex;}
-.layui-setting{width:100%;height: .6rem;background: #FFC408;color: white;display: flex;align-items: center;justify-content: center;}
+
+.head {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	display: flex;
+	z-index: 999;
+	padding: 0 0.2rem
+}
+
+.head span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap
+}
+
+.head div {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center
+}
+
+.shop .header-back img {
+	height: 0.3rem;
+	width: 0.3rem
+}
+
+.search .head span {
+	width: 0.7rem;
+	font-size: 0.2rem
+}
+
+.search .head {
+	padding: 0;
+	height: 0.9rem;
+	align-items: center
+}
+
+.search .head form {
+	margin: 0
+}
+
+.search .main {
+	margin-top: 0.15rem;
+	background: white;
+	height: calc(100% - 1.1rem);
+	padding: 0;
+	overflow: hidden
+}
+
+.search .search-top {
+	margin: 0.1rem 0.2rem;
+	font-size: 0.25rem
+}
+
+.search .search-clear {
+	display: flex;
+	align-items: center;
+	justify-content: center
+}
+
+.search .search-clear img {
+	width: 0.3rem;
+	height: 0.3rem;
+	margin-right: 0.1rem
+}
+
+.search .seearch-main {
+	margin: 0.2rem 0.4rem
+}
+
+.search .seearch-main span {
+	margin: 0.1rem 0.2rem
+}
+
+.results .head img {
+	height: 0.3rem
+}
+
+.results .top-img {
+	height: 0.15rem!important
+}
+
+.results .main-img {
+	width: 100%
+}
+
+.shop #myslide {
+	height: 3rem
+}
+
+.shop .head {
+	background: #fff
+}
+
+.index .head form {
+	background: rgba(255, 255, 255, .5);
+	display: flex;
+	align-items: center;
+	flex: 1;
+	margin-right: 0.4rem;
+	border-radius: 2px
+}
+
+.index .head input::-webkit-input-placeholder {
+	color: white;
+	font-size: 0.25rem
+}
+
+.index .head form img {
+	width: 0.3rem;
+	height: 0.3rem;
+	margin: 0 0.1rem
+}
+
+.shop .head form {
+	background: rgb(242, 242, 242)
+}
+
+.index .head input {
+	width: 100%;
+	height: 0.55rem;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	background: #999999;
+	line-height: 0.4rem;
+	color: white
+}
+
+.search .head form {
+	margin: 0;
+	height: 0.55rem
+}
+
+.shop .head input {
+	color: rgb(161, 161, 161);
+	background: rgb(242, 242, 242)
+}
+
+.shop .head input::-webkit-input-placeholder {
+	line-height: 0.4rem;
+	font-size: 0.2rem
+}
+
+.shop {
+	margin-top: 0.7rem
+}
+
+.pay .head {
+	background: white;
+	height: 0.7rem;
+	border-bottom: 1px solid ghostwhite
+}
+
+.pay .head img {
+	height: 0.3rem
+}
+
+.pay .bottom-buy {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 1rem;
+	color: white;
+	background: rgb(280, 80, 60);
+	display: flex;
+	align-items: center;
+	justify-content: center
+}
+
+.pay .main-money {
+	display: flex;
+	align-items: center;
+	height: 2.2rem;
+	font-size: 0.3rem;
+	background: white
+}
+
+.pay .main-money img {
+	width: 1.8rem;
+	height: 1.8rem;
+	margin: 0 0.4rem 0 0.7rem
+}
+
+.pay .main-money span {
+	margin: 0 0.25rem;
+	color: rgb(280, 80, 60);
+	font-size: 0.4rem
+}
+
+.pay p {
+	height: 0.7rem;
+	line-height: 0.7rem;
+	margin: 0 0.35rem;
+	font-size: 0.25rem
+}
+
+.pay .pay-group {
+	height: 1rem;
+	display: flex;
+	background: white;
+	align-items: center;
+	padding: 0 0.4rem
+}
+
+.pay .pay-group img {
+	width: 0.5rem;
+	height: 0.5rem
+}
+
+.pay .pay-group span {
+	flex: 1;
+	margin: 0 0.25rem
+}
+
+.pay .pay-circle {
+	width: 0.4rem;
+	height: 0.4rem;
+	border-radius: 50%;
+	border: 1px solid gainsboro
+}
+
+.pay .pay-circle img {
+	display: none;
+	width: 0.4rem;
+	height: 0.4rem
+}
+
+.pay .active {
+	border: 0
+}
+
+.pay .active img {
+	display: block
+}
+
+.pay .user-group {
+	background: white;
+	border-bottom: 1px solid ghostwhite;
+	height: 1rem;
+	padding: 0 0.2rem;
+	display: flex;
+	align-items: center
+}
+
+.pay .user-go {
+	display: flex;
+	align-items: center
+}
+
+.pay .user-name {
+	flex: 1
+}
+
+.pay .user-go img {
+	width: 0.6rem;
+	height: 0.6rem;
+	border-radius: 50%
+}
+
+.pay .user-go .more {
+	width: 0.3rem;
+	height: 0.3rem;
+	margin-left: 0.2rem
+}
+
+.pay .user-group input {
+	margin: 0;
+	border: 0;
+	font-size: 0.2rem
+}
+
+.pay .user-group02 {
+	display: flex;
+	align-items: center
+}
+
+.pay .user-group02 .clear {
+	width: 0.3rem;
+	height: 0.3rem
+}
+
+.pay .clear img {
+	width: 0.3rem;
+	height: 0.3rem;
+	border-radius: 50%
+}
+
+.main {
+	margin-top: 0.7rem
+}
+
+.login .head {
+	background: white;
+	height: 0.7rem
+}
+
+.login .head img {
+	height: 0.3rem
+}
+
+.login .logo {
+	width: 1.5rem;
+	height: 1.5rem;
+	margin: 1rem auto 0.7rem;
+	display: block
+}
+
+.login .input-group {
+	margin: 0.15rem 0.4rem;
+	border-bottom: 1px solid gainsboro;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end
+}
+
+.login .input-group img {
+	width: 0.35rem;
+	margin: 0 0.1rem
+}
+
+.login .input-group input {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	flex: 1;
+	height: 0.6rem;
+	font-size: 0.2rem
+}
+
+.login #mysubmit {
+	width: 6.5rem;
+	height: 0.8rem;
+	color: #666666;
+	background: #FFFFFF;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	display: block;
+	border: 0;
+	padding: 0;
+	margin: 0.8rem auto 0.2rem
+}
+
+.login .input-group span {
+	flex: 1
+}
+
+.login .main {
+	overflow: hidden
+}
+
+.login h1 {
+	margin: 0.2rem;
+	font-size: 0.23rem;
+	display: block;
+	font-weight: 400
+}
+
+.login .group02 {
+	background: white;
+	margin: 0;
+	padding: 0.1rem 0
+}
+
+.register .input-group {
+	background: white;
+	padding: 0.1rem;
+	border: 0
+}
+
+.register .registergp div {
+	width: 0.3rem;
+	height: 0.3rem;
+	border-radius: 50%;
+	border: 1px solid gray;
+	margin: 0 0.1rem
+}
+
+.register .registergp img {
+	width: 0.3rem;
+	height: 0.3rem
+}
+
+.login {
+	position: relative;
+	color: white
+}
+
+.login video {
+	position: fixed;
+	height: 100%;
+	top: 0;
+	left: 0
+}
+
+.login form {
+	position: relative;
+	z-index: 3
+}
+
+.login input {
+	background: none;
+	color: white
+}
+
+.login input::-webkit-input-placeholder {
+	color: white
+}
+
+.layui {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	z-index: 10000
+}
+
+.layui-inner {
+	width: 60%;
+	overflow: hidden;
+	border-radius: 0.1rem
+}
+
+.layui-top {
+	width: 100%;
+	height: 0.6rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	background: #FFC408;
+	border-top-left-radius: 0.1rem;
+	border-top-right-radius: 0.1rem;
+	font-size: 18px
+}
+
+.layui-main {
+	background: white;
+	height: 1.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	color: #666666
+}
+
+.layui-settings {
+	width: 100%;
+	display: flex
+}
+
+.layui-setting {
+	width: 100%;
+	height: 0.6rem;
+	background: #FFC408;
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center
+}

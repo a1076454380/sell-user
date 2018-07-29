@@ -43,7 +43,7 @@
         "popGesture": "hide",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
         "runmode": "normal",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
         "signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
-        "distribute": {"plugins":{"oauth":{"qq":{"appid":"1107053640"}},"payment":{"alipay":{"description":"阿里支付","scheme":""},"appleiap":{"description":"Apple应用内支付"}},"maps":{"amap":{"appkey_ios":"517fe75d5a9e7a3073aa65f933f39ff5","appkey_android":"470d82c78453795008a2fe229f1f913c","description":""}}},
+        "distribute": {"plugins":{"oauth":{"qq":{"appid":"1107053640"}},"payment":{"alipay":{"description":"阿里支付","scheme":""},"appleiap":{"description":"Apple应用内支付"}},"maps":{"baidu":{"appkey_ios":"a2bBtV8scDzDa2Z0ATkZawuoPNCZAn6j","appkey_android":"60Baq0TPjWwGHhNP63qHrzcrv4bDnLfR","appkey":"","description":""}}},
             "apple": {
                 "appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
                 "mobileprovision": "",/*iOS应用打包配置文件*/

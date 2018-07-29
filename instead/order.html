@@ -28,6 +28,9 @@
 						<div class="layui-setting" @click="layuiboo">
 							确定
 						</div>
+						<div class="layui-setting" @click="layuiboo">
+							取消
+						</div>
 					</div>
 				</div>
 			</div>
@@ -40,59 +43,34 @@
 			</header>
 			<div class="main">
 				<div class="list-group" @click="opennew('orderdetail',0)">
-					<h2>
-						<span>
-							金山福地二期604
-						</span>
-						<img src="../img/orderright.png"/>
-						<span style="text-align: right;">
-							双沟镇政府
-						</span>
-					</h2>
-				</div>
-				<div class="list-group" @click="opennew('orderdetail',0)">
-					<h2>
-						<span>
-							金山福地二期604
-						</span>
-						<img src="../img/orderright.png"/>
-						<span style="text-align: right;">
-							双沟镇政府
-						</span>
-					</h2>
-				</div>
-				<div class="list-group" @click="opennew('orderdetail',0)">
-					<h2>
-						<span>
-							金山福地二期604
-						</span>
-						<img src="../img/orderright.png"/>
-						<span style="text-align: right;">
-							双沟镇政府
-						</span>
-					</h2>
-				</div>
-				<div class="list-group" @click="opennew('orderdetail',0)">
-					<h2>
-						<span>
-							金山福地二期604
-						</span>
-						<img src="../img/orderright.png"/>
-						<span style="text-align: right;">
-							双沟镇政府
-						</span>
-					</h2>
-				</div>
-				<div class="list-group" @click="opennew('orderdetail',0)">
-					<h2>
-						<span>
-							金山福地二期604
-						</span>
-						<img src="../img/orderright.png"/>
-						<span style="text-align: right;">
-							双沟镇政府
-						</span>
-					</h2>
+					<div class="list-top">
+						<div class="list-title">
+							一包紫树
+						</div>
+						<div class="list-state">
+							正在取货中
+						</div>
+					</div>
+					<div class="adress-group" style="height: .7rem;">
+						<span class="fhuo"></span>
+						<div class="adress-text">
+							徐海路淮海环球港
+						</div>
+					</div>
+					<div class="adress-group" style="height: .7rem;">
+						<span class="shuo"></span>
+						<div class="adress-text">
+							徐海路淮海环球港
+						</div>
+					</div>
+					<div class="list-top list-bottom">
+						<div class="list-data">
+							2017-08-12
+						</div>
+						<div class="list-setting" @click.stop="layuiboo('确认取消订单吗？')">
+							取消订单
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

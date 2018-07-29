@@ -13,7 +13,6 @@
 		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-		<script src="../js/date.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -30,6 +29,9 @@
 						<div class="layui-setting" @click="layuiboo">
 							确定
 						</div>
+						<div class="layui-setting" @click="layuiboo">
+							取消
+						</div>
 					</div>
 				</div>
 			</div>
@@ -41,7 +43,7 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div class="list-group" @click="opennew('map',0)">
+				<div class="list-group" @click="layuiboo('是否将当前位置设置为默认地址？')">
 					<div class="group-main">
 						<h2>
 							徐州市贾汪区
@@ -58,7 +60,26 @@
 							</span>
 						</p>
 					</div>
-					<img src="../img/change.png"/>
+					<img src="../img/change.png" @click.stop="opennew('map',0)"/>
+				</div>
+				<div class="list-group" @click="layuiboo('是否将当前位置设置为默认地址？')">
+					<div class="group-main">
+						<h2>
+							徐州市贾汪区
+						</h2>
+						<p>
+							金山福地二期26栋604
+						</p>
+						<p>
+							<span>
+								董礼
+							</span>
+							<span>
+								1732713550
+							</span>
+						</p>
+					</div>
+					<img src="../img/change.png" @click.stop="opennew('map',0)"/>
 				</div>
 			</div>
 			<div class="list-bottom" @click="open('map','q')">
