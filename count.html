@@ -24,9 +24,6 @@
 						{{layuitext}}
 					</div>
 					<div class="layui-settings">
-						<div class="layui-setting" @click="layuitrue">
-							取消
-						</div>
 						<div class="layui-setting" @click="layuiboo">
 							确定
 						</div>
@@ -37,34 +34,31 @@
 					<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
-					<span class="header-main">我的红包</span>
+					<span class="header-main">我的折扣卷</span>
 					<span class="header-settings">
 						
 					</span>
 				</header>
 			<div class="main mui-scroll-wrapper">	
 				<div class="mui-scroll">
-					<div class="money-item" v-for="(val,index) in mydata">
-						<div class="money-top">
-							<div class="money-price">
-								¥<span>{{val.maRePrice}}</span>
-							</div>
-							<div class="money-main">
-								<h1>
-									标题
-								</h1>
-								<p>
-									{{val.createTime1}}到期
-								</p>
-							</div>
+				<div class="money-item" v-for="val in countdata">
+					<div class="money-top">
+						<div class="money-price">
+							<span>{{val.usTdDicsont}}</span>折
 						</div>
-						<div class="money-time">
-							<span>满{{maReLimit}}可用,限最新版本客户端使用</span>
-							<div class="join" @click="layuiboo()">
-								立即领取
-							</div>
+						<div class="money-main">
+							<h1>
+								老董家黄焖鸡专用卡卷
+							</h1>
+							<p>
+								{{val.usTdAbortTime1}}到期
+							</p>
 						</div>
 					</div>
+					<div class="money-time">
+						限购{{val.usTdNum}}
+					</div>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -73,15 +67,11 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext:'确定领取卡卷吗?',
-					searchtype:localStorage.getItem('searchdpeata'),
+					layuitext:'错误',
 					myurl:localStorage.getItem('myurl'),
-					mydata:''
+					countdata:''
 				},
 				methods: {
-					layuitrue:function(){
-						this.layuiboo()
-					},
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
@@ -95,10 +85,10 @@
 						var that=this
 						$.ajax({
 							type:"get",
-							url:myurl+"/queryMaRedEnvelopePojoAll",
+							url:myurl+"/queryByMaRedMiddleUserPojoDiscount",
 							async:true,
 							success:function(res){
-								that.mydata=res.data
+								that.countdata=res.data
 							}
 						});
 					}

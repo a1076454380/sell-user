@@ -183,7 +183,8 @@
 					"money.html",
 					"orderlist.html",
 					"instead/adresslist.html",
-					"vipcart.html"
+					"vipcart.html",
+					"adresslist.html"
 				],
 				"priority": 0
 			},
@@ -258,6 +259,13 @@
 				"resources": [],
 				"refer": [
 					"preferential.html"
+				],
+				"priority": 0
+			},
+			"adresslist.html": {
+				"resources": [],
+				"refer": [
+					"addadress.html"
 				],
 				"priority": 0
 			}

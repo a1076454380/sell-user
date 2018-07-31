@@ -52,16 +52,13 @@
 						待付款
 					</div>
 					<div class="nav-tab" :class="tabnum==2?'active':''" @click="tab(2)">
-						待使用
-					</div>
-					<div class="nav-tab" :class="tabnum==3?'active':''" @click="tab(3)">
 						待评价
 					</div>
 				</div>
 				<div class="swiper-container">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
-							<div class="order-group" @click="opennew('orderdetail')">
+							<div class="order-group" @click="opennew('orderdetail')" v-for="vai in ">
 								<img src="img/index.jpg"/>
 								<div class="order-main">
 									<div class="order-text">
@@ -86,18 +83,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="swiper-slide">
-							<img src="img/orderhistory_03.png" class="noorder" />
-						</div>
-						<div class="swiper-slide">
-							<img src="img/orderhistory_03.png" class="noorder" />
-						</div>
-						<div class="swiper-slide">
-							<img src="img/orderhistory_03.png" class="noorder" />
-						</div>
-						<div class="swiper-slide">
-							<img src="img/orderhistory_03.png" class="noorder" />
-						</div>
+						<!--<img src="img/orderhistory_03.png" class="noorder" />-->
 					</div>
 				</div>
 			</div>
@@ -110,7 +96,9 @@
 					layuitext: '错误',
 					searchtype: localStorage.getItem('searchdpeata'),
 					mySwiper:'',
-					tabnum:0
+					tabnum:0,
+					orderdata:'',
+					myurl:localStorage.getItem('myurl')
 				},
 				methods: {
 					tab:function(index){
@@ -125,19 +113,18 @@
 							url: ''+target+'.html',
 							id: target
 						})
+					},
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"get",
+							url:myurl+"",
+							async:true
+						});
 					}
 				},
 				mounted: function() {
-					console.log(this.searchtype)
 					var that=this
-					this.mySwiper = new Swiper('.swiper-container', {
-						nested: true,
-						on: {
-							slideChangeTransitionEnd: function() {
-								that.tabnum=this.activeIndex
-							}
-						},
-					})
 				},
 				update: function() {
 					mui.init()

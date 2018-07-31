@@ -113,7 +113,6 @@
 				mounted: function() {
 					var that = this
 					document.addEventListener('plusready', onPlusReady, false);
-
 					function onPlusReady() {
 						plus.geolocation.getCurrentPosition(function(p) {
 							var map = new BMap.Map("container");

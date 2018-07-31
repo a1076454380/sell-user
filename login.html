@@ -45,8 +45,8 @@
 						<!--<span @click='login(0)'>
 							微信登录
 						</span>-->
-						<span style="text-align: right;" @click='login(1)'>
-							QQ登录
+						<span style="text-align: right;" @click="opennew('register')">
+							没有账号，我要注册~
 						</span>
 					</div>
 				</form>
@@ -78,7 +78,8 @@
 					codenum: 60,
 					auths: null,
 					layui: false,
-					layuitext: ''
+					layuitext: '',
+					myurl:localStorage.getItem('myurl')
 				},
 				methods: {
 					layuiboo: function() {
@@ -97,8 +98,17 @@
 								type:"get",
 								url:localStorage.getItem('myurl')+"/queryLoginByUsPhone",
 								dataType:'json',
+								data:{
+									usPhone:that.phone
+								},
 								success:function(res){
-									console.log(res)
+									if(res.staus==200){
+										localStorage.setItem('userid',res.data.usId)
+										localStorage.setItem('usNickname',res.data.usNickname)
+										localStorage.setItem('usPhone',res.data.usPhone)
+										localStorage.setItem('usHeadImg',res.data.usHeadImg)
+										that.opennew('index')
+									}
 								},
 								error:function(err){
 									

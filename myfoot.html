@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -65,43 +64,58 @@
 			</header>
 			<div class="main mui-scroll-wrapper">
 				<div class="index-main mui-scroll">
-					<div class="index-group" @click="opendetail()">
+					<div class="index-group" @click="opendetail()" v-for="val in collectdata">
 						<div class="group-inner">
 							<div class="img-box">
-								<img src="img/index02.png" />
+								<img :src="val.usTsFacadeImg" />
 							</div>
 							<div class="index-detail">
 								<div class="index-h">
-									老董家黄焖鸡
+									{{val.usTsCompanyName}}
 								</div>
 								<div class="index-x" style="align-items: flex-start;">
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xhalf.png" />
-									</div>
+											<div class="x-group">
+												<img src="img/xactive.png" v-if="val.usSsStar>=1"/>
+												<img src="img/xhalf.png"  v-if="val.usSsStar1"/>
+											</div>
+											<div class="x-group">
+												<img src="img/xactive.png" v-if="val.usSsStar>=2"/>
+												<img src="img/xhalf.png"  v-if="val.usSsStar<1"/>
+											</div>
+											<div class="x-group">
+												<img src="img/xactive.png" v-if="val.usSsStar>=3"/>
+												<img src="img/xhalf.png"  v-if="val.usSsStar<3"/>
+											</div>
+											<div class="x-group">
+												<img src="img/xactive.png" v-if="val.usSsStar>=4"/>
+												<img src="img/xhalf.png"  v-if="val.usSsStar<4"/>
+											</div>
+											<div class="x-group">
+												<img src="img/xactive.png" v-if="val.usSsStar>=5"/>
+												<img src="img/xhalf.png"  v-if="val.usSsStar<5"/>
+											</div>
+										</div>
+								<div class="index-x">
+									<span class="shop-type">
+									<img src="img/shopavatar.png"/>我的收藏
+								</span>
 								</div>
 								<div class="index-money">
-									<span>
-									起送:¥15.00 | 配送费:¥5.00
-								</span>
-									<span>
-									月销量:
-									<strong>69</strong>
-								</span>
+														<span>
+												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
+											</span>
+														<span>
+												月销量:
+												<strong>69</strong>
+											</span>
 								</div>
 							</div>
 						</div>
+						<transition name='fade'>
+							<div class="delete" v-show="nocollect" @click="layuiboo(val.usCollectionId)">
+								删除
+							</div>
+						</transition>
 					</div>
 				</div>
 			</div>
@@ -137,6 +151,20 @@
 							url: '' + target + '.html',
 							id: '' + target + ''
 						})
+					},
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"get",
+							url:myurl+"/queryUsTraderStoresRecommendPojoByUsFootprint",
+							data:{
+								usUserId:localStorage.getItem('userid')
+							},
+							async:true,
+							success:function(res){
+								that.collectdata=res.data
+							}
+						});
 					}
 				},
 				mounted: function() {

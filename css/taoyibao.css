@@ -35,7 +35,7 @@ html {
 	justify-content: center
 }
 
-.shop .header-back img {
+.index .header-back img {
 	height: 0.3rem;
 	width: 0.3rem
 }
@@ -100,11 +100,11 @@ html {
 	width: 100%
 }
 
-.shop #myslide {
+.index #myslide {
 	height: 3rem
 }
 
-.shop .head {
+.index .head {
 	background: #fff
 }
 
@@ -128,7 +128,7 @@ html {
 	margin: 0 0.1rem
 }
 
-.shop .head form {
+.index .head form {
 	background: rgb(242, 242, 242)
 }
 
@@ -148,17 +148,17 @@ html {
 	height: 0.55rem
 }
 
-.shop .head input {
+.index .head input {
 	color: rgb(161, 161, 161);
 	background: rgb(242, 242, 242)
 }
 
-.shop .head input::-webkit-input-placeholder {
+.index .head input::-webkit-input-placeholder {
 	line-height: 0.4rem;
 	font-size: 0.2rem
 }
 
-.shop {
+.index {
 	margin-top: 0.7rem
 }
 

@@ -7,9 +7,11 @@
 		<title></title>
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/taoyibao.css"/>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<style type="text/css">
 		body,html{overflow: hidden;}
@@ -20,7 +22,7 @@
 		input{color:#333333!important;font-size: .2rem;}
 	</style>
 	<body>
-		<div class="wrapper index search shop" style="overflow: hidden;">
+		<div class="wrapper index search" style="overflow: hidden;" id="app">
 			<!--顶部搜索框-->
 			<header class="head">
 				<span class="header-back mui-action-back">
@@ -29,58 +31,141 @@
 				</span>
 				<form action="">
 					<img src="img/shop02.png" />
-					<input type="text" placeholder="搜一下，发现精彩" />
+					<input type="text" placeholder="搜一下，发现精彩" v-model="searchtext"/>
 				</form>
-				<span id="goserach">
+				<span id="goserach" @click="gosearch">
 					搜索
 				</span>
 			</header>
 			<div class="main">
-				<div class="search-top">
+				<div class="search-top" v-show="!history">
 					搜索历史
 				</div>
-				<div class="seearch-main">
-					<span>
-						小海螺
+				<div class="seearch-main" v-show="!history">
+					<span v-show="!history&&historydata.length==0" style="width: 100%;text-align: center;display: block;margin: 0;">
+						您还没有搜索过呢！
 					</span>
-					<span>
-						儿童读物
+					<span v-for="val in historydata">
+						{{val}}
 					</span>
 				</div>
-				<div class="search-clear">
+				<div class="search-clear" v-show="!history&&historydata.length!=0" @click="clear">
 					<img src="img/search_03.png"/>
 					<span>
 						清空搜索历史
 					</span>
 				</div>
+				<div class="index-group" @click="opendetail()" v-show="history">
+						<div class="group-inner">
+							<div class="img-box">
+								<img src="img/index02.png" />
+							</div>
+							<div class="index-detail">
+								<div class="index-h">
+									老董家黄焖鸡
+								</div>
+								<div class="index-x" style="align-items: flex-start;">
+									<div class="x-group">
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group">
+										<img src="img/xhalf.png" />
+									</div>
+								</div>
+								<div class="index-x">
+									<span class="shop-type">
+									<img src="img/shopavatar.png"/>小吃快餐
+								</span>
+								</div>
+								<div class="index-money">
+									<span>
+									起送:¥15.00 | 配送费:¥5.00
+								</span>
+									<span>
+									月销量:
+									<strong>69</strong>
+								</span>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
-		$(function() {
-			function plusReady() {
-				// 弹出系统等待对话框
-				var w = plus.nativeUI.showWaiting("数据加载中...");
-			}
-			if(window.plus) {
-				plusReady();
-			} else {
-				document.addEventListener("plusready", plusReady, false);
-			}
-			setTimeout(function() {
-				plus.nativeUI.closeWaiting()
-			}, 1000)
-			$('#goserach').click(function() {
-				opennew('shoplist')
+		var myvue = new Vue({
+				el: '#app',
+				data: {
+					history:false,
+					searchtext:'',
+					layui:false,
+					layuitext:'未知错误',
+					historydata:JSON.parse(localStorage.getItem('historydata')),
+					myurl:localStorage.getItem('myurl')
+				},
+				methods: {
+					gosearch:function(){
+						if(this.searchtext==''){
+							this.layuiboo('您还没有输入内容呢~')
+							return false;
+						}
+						this.history=!this.history
+						this.historydata.push(this.searchtext)
+						localStorage.setItem('historydata',JSON.stringify(this.historydata))
+						var that=this
+						$.ajax({
+							type:"get",
+							url:myurl+"/queryUsTraderStoresRecommendPojoByUsTsName",
+							async:true,
+							data:{
+								lng:localStorage.getItem('lng'),
+								lat:localStorage.getItem('lat'),
+								usTsName:that.searchtext
+							},
+							success:function(res){
+								
+							}
+						});
+					},
+					layuiboo:function(text){
+						this.layuitext=text
+						this.layui=!this.layui
+					},
+					clear:function(){
+						this.historydata=[]
+						localStorage.setItem('historydata','[]')
+					}
+				},
+				mounted: function() {
+					if(localStorage.getItem('historydata')==undefined){
+						localStorage.setItem('historydata','[]')
+					}
+				}
 			})
-			function opennew(target) {
-				mui.openWindow({
-					url: '' + target + '.html',
-					id: '' + target + ''
-				})
-			}
-
-		})
 	</script>
 
 </html>

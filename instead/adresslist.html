@@ -27,8 +27,11 @@
 						{{layuitext}}
 					</div>
 					<div class="layui-settings">
-						<div class="layui-setting" @click="layuiboo">
+						<div class="layui-setting" @click="moren">
 							确定
+						</div>
+						<div class="layui-setting" @click="layuiboo">
+							取消
 						</div>
 					</div>
 				</div>
@@ -41,24 +44,24 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div class="list-group" @click="opennew('map',0)">
+				<div class="list-group" v-for="(val,index) in adressdata" @click="layuiboo('是否将当前收货地址设置为默认收货地址？',val.usAddressId)">
 					<div class="group-main">
 						<h2>
-							徐州市贾汪区
+							{{val.usAdsProvince}}{{val.usAdsCity}}{{val.usAdsArea}}
 						</h2>
 						<p>
-							金山福地二期26栋604
+							{{val.usAdsDetailed}}
 						</p>
 						<p>
 							<span>
-								董礼
+								{{val.usAdsCreateName}}
 							</span>
 							<span>
-								1732713550
+								{{val.usAdsCreateTime}}
 							</span>
 						</p>
 					</div>
-					<img src="../img/change.png"/>
+					<img src="../img/change.png" @click="opennew('map02',0)"/>
 				</div>
 				
 			</div>
@@ -71,18 +74,38 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext: '错误'
+					layuitext: '错误',
+					myurl:localStorage.getItem('myurl'),
+					adressdata:'',
+					usAddressId:''
 				},
 				methods: {
-					layuiboo: function(text) {
+					moren:function(){
+						var that=this
+						$.ajax({
+							type:"post",
+							url:myurl+"/updateByUsAdsStatus",
+							async:true,
+							success:function(res){
+								if(res.staus==200){
+									that.layuiboo()
+									plus.nativeUI.toast('默认地址修改完成')
+								}
+							}
+						});
+					},
+					layuiboo: function(text,id) {
+						if(id!=''){
+							this.usAddressId=id
+						}
 						this.layuitext = text
 						this.layui = !this.layui
 					},
 					opennew: function(id, index) {
-//						localStorage.setItem('sadress', this.adress[index].adress)
-//						localStorage.setItem('sdetail', this.adress[index].detail)
-//						localStorage.setItem('sname', this.adress[index].adress)
-//						localStorage.setItem('sphone', this.adress[index].adress)
+						localStorage.setItem('sadress', this.adressdata[index].adress)
+						localStorage.setItem('sdetail', this.adressdata[index].detail)
+						localStorage.setItem('sname', this.adressdata[index].adress)
+						localStorage.setItem('sphone', this.adressdata[index].adress)
 						mui.openWindow({
 							url: '' + id + '.html',
 							id: id
@@ -94,6 +117,17 @@
 							url: '' + id + '.html',
 							id: id
 						})
+					},
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"get",
+							url:myurl+"/queryUsAddressAll",
+							async:true,
+							success:function(res){
+								that.adressdata=res.data
+							}
+						});
 					}
 				},
 				mounted: function() {

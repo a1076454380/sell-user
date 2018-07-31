@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -35,6 +36,7 @@
 			transform: translateY(100%);
 		}
 	</style>
+
 	<body>
 		<div id="app" class="wrapper index" @scroll="myscroll">
 			<div class="layui" v-show="layui">
@@ -71,105 +73,212 @@
 					<img src="img/redb.png" @click="opennew('redb')" />
 				</div>
 				<div class="mui-scroll">
-				<div id="topheight">
-					<div class="mui-slider">
-						<div class="mui-slider-group mui-slider-loop">
-							<div class="mui-slider-item mui-slider-item-duplicate" @click="opennew('shop')"><img src="img/index.jpg" /></div>
-							<!--第一个内容区容器-->
-							<div class="mui-slider-item" @click="opennew('shop')">
-								<!-- 具体内容 -->
-								<img src="img/index.jpg" />
-							</div>
-							<!--第二个内容区-->
-							<div class="mui-slider-item" @click="opennew('shop')">
-								<!-- 具体内容 -->
-								<img src="img/index02.png" />
-							</div>
-							<div class="mui-slider-item mui-slider-item-duplicate" @click="opennew('shop')"><img src="img/index02.png" /></div>
-						</div>
-						<div class="mui-slider-indicator">
-							<div class="mui-indicator mui-active"></div>
-							<div class="mui-indicator"></div>
-						</div>
-					</div>
-					<div class="main-swiper">
-						<div class="nav">
-							<div class="nav-group" @click="opennew('shoplist')">
-								<div class="img-box">
-									<img src="img/index001.png" />
+					<div id="topheight">
+						<div class="mui-slider">
+							<div class="mui-slider-group mui-slider-loop">
+								<!--第一个内容区容器-->
+								<div class="mui-slider-item" @click="opennew('shop',val.usTraderStoresId)" v-for="val in bannerdata">
+									<!-- 具体内容 -->
+									<img :src="val.usTsBannerImg" />
 								</div>
-								<span>美食外卖</span>
 							</div>
-							<div class="nav-group" @click="opennew('shoplist')">
-								<div class="img-box">
-									<img src="img/index002.png" />
-								</div>
-								<span>晚餐精选</span>
-							</div>
-							<div class="nav-group" @click="opennew('instead/instead')">
-								<div class="img-box">
-									<img src="img/index00.png" />
-								</div>
-								<span>万能代购</span>
-							</div>
-							<div class="nav-group" @click="opennew('shoplist')">
-								<div class="img-box">
-									<img src="img/index004.png" />
-								</div>
-								<span>易点超市</span>
-							</div>
-							<div class="nav-group" @click="opennew('shoplist')">
-								<div class="img-box">
-									<img src="img/index005.png" />
-								</div>
-								<span>药品上门</span>
-							</div>
-							<div class="nav-group" @click="opennew('shoplist')">
-								<div class="img-box">
-									<img src="img/index006.png" />
-								</div>
-								<span>生鲜果蔬</span>
-							</div>
-							<div class="nav-group" @click="opennew('shoplist')">
-								<div class="img-box">
-									<img src="img/index007.png" />
-								</div>
-								<span>甜品饮品</span>
-							</div>
-							<div class="nav-group" @click="opennew('shoplist')">
-								<div class="img-box">
-									<img src="img/index008.png" />
-								</div>
-								<span>鲜花蛋糕</span>
-							</div>
-							<div class="nav-group" @click="opennew('shoplist')">
-								<div class="img-box">
-									<img src="img/index009.png" />
-								</div>
-								<span>快食简餐</span>
+							<div class="mui-slider-indicator">
+								<div class="mui-indicator mui-active"></div>
+								<div class="mui-indicator"></div>
 							</div>
 						</div>
-					</div>
-					<div class="news" @click="opennew('newslist')">
-						<img src="img/newindex.png" />
-						<div class="news-list">
-							<div class="new">
-								<span></span> 今日穿搭推荐,男生千万别穿这五种衣服
-							</div>
-							<div class="new">
-								<span></span> 男生超级不喜欢女生穿着集中衣服
+						<div class="main-swiper">
+							<div class="nav">
+								<div class="nav-group" @click="opennew('shoplist')">
+									<div class="img-box">
+										<img src="img/index001.png" />
+									</div>
+									<span>美食外卖</span>
+								</div>
+								<div class="nav-group" @click="opennew('shoplist')">
+									<div class="img-box">
+										<img src="img/index002.png" />
+									</div>
+									<span>晚餐精选</span>
+								</div>
+								<div class="nav-group" @click="opennew('instead/instead')">
+									<div class="img-box">
+										<img src="img/index00.png" />
+									</div>
+									<span>万能代购</span>
+								</div>
+								<div class="nav-group" @click="opennew('shoplist')">
+									<div class="img-box">
+										<img src="img/index004.png" />
+									</div>
+									<span>易点超市</span>
+								</div>
+								<div class="nav-group" @click="opennew('shoplist')">
+									<div class="img-box">
+										<img src="img/index005.png" />
+									</div>
+									<span>药品上门</span>
+								</div>
+								<div class="nav-group" @click="opennew('shoplist')">
+									<div class="img-box">
+										<img src="img/index006.png" />
+									</div>
+									<span>生鲜果蔬</span>
+								</div>
+								<div class="nav-group" @click="opennew('shoplist')">
+									<div class="img-box">
+										<img src="img/index007.png" />
+									</div>
+									<span>甜品饮品</span>
+								</div>
+								<div class="nav-group" @click="opennew('shoplist')">
+									<div class="img-box">
+										<img src="img/index008.png" />
+									</div>
+									<span>鲜花蛋糕</span>
+								</div>
+								<div class="nav-group" @click="opennew('shoplist')">
+									<div class="img-box">
+										<img src="img/index009.png" />
+									</div>
+									<span>快食简餐</span>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="index-top">
-						<span>
-						我的专属
+						<div class="news" @click="opennew('newslist')">
+							<img src="img/newindex.png" />
+							<div class="news-list" v-for='(val,index) in newdata'>
+								<div class="new" v-if="index<2">
+									<span></span> {{val.maPnTitle}}
+								</div>
+							</div>
+						</div>
+						<div class="index-top">
+							<span>
+								我的专属
+							</span>
+							<span @click="opennew('shoplist')" class="more">
+								<span>更多</span>
+								<img src="img/arrright.png" />
+							</span>
+						</div>
+						<div class="index-main">
+							<div class="index-group" @click="opendetail()" v-for="(val,index) in mydata">
+								<div class="group-inner">
+									<div class="img-box">
+										<img :src="val.usTsFacadeImg" />
+									</div>
+									<div class="index-detail">
+										<div class="index-h">
+											{{val.usTsCompanyName}}
+										</div>
+										<div class="index-x" style="align-items: flex-start;">
+											<div class="x-group">
+												<img src="img/xactive.png" v-if="val.usSsStar>=1"/>
+												<img src="img/xhalf.png"  v-if="val.usSsStar1"/>
+											</div>
+											<div class="x-group">
+												<img src="img/xactive.png" v-if="val.usSsStar>=2"/>
+												<img src="img/xhalf.png"  v-if="val.usSsStar<1"/>
+											</div>
+											<div class="x-group">
+												<img src="img/xactive.png" v-if="val.usSsStar>=3"/>
+												<img src="img/xhalf.png"  v-if="val.usSsStar<3"/>
+											</div>
+											<div class="x-group">
+												<img src="img/xactive.png" v-if="val.usSsStar>=4"/>
+												<img src="img/xhalf.png"  v-if="val.usSsStar<4"/>
+											</div>
+											<div class="x-group">
+												<img src="img/xactive.png" v-if="val.usSsStar>=5"/>
+												<img src="img/xhalf.png"  v-if="val.usSsStar<5"/>
+											</div>
+										</div>
+										<div class="index-x">
+											<span class="shop-type">
+												<img src="img/shopavatar.png"/>为您推荐
+											</span>
+													</div>
+													<div class="index-money">
+														<span>
+												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
+											</span>
+														<span>
+												月销量:
+												<strong>69</strong>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="prefer" @click.stop="prefershow(0)">
+									<div class="prefer-group">
+										<span class="perer-name">
+										满减
+									</span>
+										<span class="prefer-text">
+										满20减30，满30减5，满45减10
+									</span>
+										<img src="img/arrbottom.png" />
+									</div>
+									<div class="prefer-group">
+										<span class="perer-name">
+										会员
+									</span>
+										<span class="prefer-text">
+										超级会员领6元无门槛红包
+									</span>
+									</div>
+									<div class="prefer-group">
+										<span class="perer-name">
+										满减
+									</span>
+										<span class="prefer-text">
+										满20减30，满30减5，满45减10
+									</span>
+									</div>
+									<div class="prefer-group">
+										<span class="perer-name">
+										会员
+									</span>
+										<span class="prefer-text">
+										超级会员领6元无门槛红包
+									</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="index-top">
+							<span>
+						小易推荐
 					</span>
-						<span @click="opennew('shoplist')" class="more">
+							<span @click="opennew('shoplist')" class="more">
 						<span>更多</span>
-						<img src="img/arrright.png" />
-						</span>
+							<img src="img/arrright.png" />
+							</span>
+						</div>
 					</div>
+					<!--<div class="index-top" style="margin-top: 0;" id="nav">
+						<div class="top-tab" @click="screening(0)" :class="screen==0?'img-active':''">
+							<span>好评优先</span>
+							<img src="img/shoplist_13.png" class="default" />
+							<img src="img/shoplist_10.png" class="active-img" />
+						</div>
+						<div class="top-tab" @click="screening(1)" :class="screen==1?'img-active':''">
+							<span>销量最高</span>
+							<img src="img/shoplist_13.png" class="default" />
+							<img src="img/shoplist_10.png" class="active-img" />
+						</div>
+						<div class="top-tab" @click="screening(2)" :class="screen==2?'img-active':''">
+							<span>离我最近</span>
+							<img src="img/shoplist_13.png" class="default" />
+							<img src="img/shoplist_10.png" class="active-img" />
+						</div>
+						<div class="top-tab" @click="screening(3)" :class="screen==3?'img-active':''">
+							<span>人均最低</span>
+							<img src="img/shoplist_13.png" class="default" />
+							<img src="img/shoplist_10.png" class="active-img" />
+						</div>
+					</div>-->
 					<div class="index-main">
 						<div class="index-group" @click="opendetail()">
 							<div class="group-inner">
@@ -213,7 +322,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="prefer" @click.stop="prefershow(0)">
+							<div class="prefer" @click.stop="prefershow(1)">
 								<div class="prefer-group">
 									<span class="perer-name">
 										满减
@@ -249,120 +358,8 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="index-top">
-						<span>
-						小易推荐
-					</span>
-						<span @click="opennew('shoplist')" class="more">
-						<span>更多</span>
-						<img src="img/arrright.png" />
-						</span>
-					</div>
-				</div>
-				<div class="index-top" style="margin-top: 0;" id="nav">
-					<div class="top-tab" @click="screening(0)" :class="screen==0?'img-active':''">
-						<span>好评优先</span>
-						<img src="img/shoplist_13.png" class="default" />
-						<img src="img/shoplist_10.png" class="active-img" />
-					</div>
-					<div class="top-tab" @click="screening(1)" :class="screen==1?'img-active':''">
-						<span>销量最高</span>
-						<img src="img/shoplist_13.png" class="default" />
-						<img src="img/shoplist_10.png" class="active-img" />
-					</div>
-					<div class="top-tab" @click="screening(2)" :class="screen==2?'img-active':''">
-						<span>离我最近</span>
-						<img src="img/shoplist_13.png" class="default" />
-						<img src="img/shoplist_10.png" class="active-img" />
-					</div>
-					<div class="top-tab" @click="screening(3)" :class="screen==3?'img-active':''">
-						<span>人均最低</span>
-						<img src="img/shoplist_13.png" class="default" />
-						<img src="img/shoplist_10.png" class="active-img" />
-					</div>
-				</div>
-				<div class="index-main">
-					<div class="index-group" @click="opendetail()">
-						<div class="group-inner">
-							<div class="img-box">
-								<img src="img/index02.png" />
-							</div>
-							<div class="index-detail">
-								<div class="index-h">
-									老董家黄焖鸡
-								</div>
-								<div class="index-x" style="align-items: flex-start;">
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xhalf.png" />
-									</div>
-								</div>
-								<div class="index-x">
-									<span class="shop-type">
-									<img src="img/shopavatar.png"/>小吃快餐
-								</span>
-								</div>
-								<div class="index-money">
-									<span>
-									起送:¥15.00 | 配送费:¥5.00
-								</span>
-									<span>
-									月销量:
-									<strong>69</strong>
-								</span>
-								</div>
-							</div>
-						</div>
-						<div class="prefer" @click.stop="prefershow(1)">
-							<div class="prefer-group">
-								<span class="perer-name">
-										满减
-									</span>
-								<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-								<img src="img/arrbottom.png" />
-							</div>
-							<div class="prefer-group">
-								<span class="perer-name">
-										会员
-									</span>
-								<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
-							</div>
-							<div class="prefer-group">
-								<span class="perer-name">
-										满减
-									</span>
-								<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-							</div>
-							<div class="prefer-group">
-								<span class="perer-name">
-										会员
-									</span>
-								<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
-							</div>
-						</div>
-					</div>
 
-				</div>
+					</div>
 				</div>
 			</div>
 			<footer class="footer">
@@ -405,7 +402,11 @@
 					layuitext: '您输入的内容为空!!',
 					weather: '天气获取中。。。',
 					screen: 0,
-					mycartnum:0
+					mycartnum: 0,
+					bannerdata: '',
+					newdata: '',
+					mydata:'',
+					navdata:''
 				},
 				methods: {
 					prefershow: function(index) {
@@ -450,7 +451,8 @@
 							})
 						}
 					},
-					opennew: function(target) {
+					opennew: function(target, id) {
+						localStorage.setItem('usTraderStoresId', id)
 						mui.openWindow({
 							url: '' + target + '.html',
 							id: '' + target + ''
@@ -459,29 +461,94 @@
 					opendetail: function(id) {
 						//						localStorage.setItem('goodsid',id)
 						this.opennew('shop')
+					},
+					myajax: function() {
+						var that = this
+						//						顶部轮播图
+						$.ajax({
+							type: "get",
+							url: localStorage.getItem('myurl') + "/queryIndexBannerImg",
+							dataType: 'json',
+							success: function(res) {
+								that.bannerdata = res.data
+							},
+							error: function(err) {
+								alert('顶部轮播图获取失败！')
+							}
+						});
+						//						同城头条
+						$.ajax({
+							type: "get",
+							url: localStorage.getItem('myurl') + "/queryByMaPublicAll",
+							dataType: 'json',
+							success: function(res) {
+								that.newdata = res.data
+							},
+							error: function(err) {
+								alert('今日头条获取失败！')
+							}
+						});
+//						我的专属
+						$.ajax({
+							type: "get",
+							url: localStorage.getItem('myurl') + "/queryTUsTraderStoresRecommendPojoMySpecialty",
+							dataType: 'json',
+							data:{
+								usUserId:localStorage.getItem('userid'),
+								lng:localStorage.getItem('lng'),
+								lat:localStorage.getItem('lat')
+							},
+							success: function(res) {
+								that.mydata = res.data
+							},
+							error: function(err) {
+								alert('今日头条获取失败！')
+							}
+						});
+//						分类查询
+						$.ajax({
+							type: "get",
+							url: localStorage.getItem('myurl') + "/queryMaMerchantsStyleAll",
+							dataType: 'json',
+							success: function(res) {
+								that.navdata = res.data
+							},
+							error: function(err) {
+								alert('今日头条获取失败！')
+							}
+						});
 					}
 				},
 				mounted: function() {
-					localStorage.setItem('myurl','http://27.54.248.14')
-//					if(localStorage.getItem('userid')==undefined||localStorage.getItem('userid')==null||localStorage.getItem('userid')==''){
-//						this.opennew('login')
-//					}
+					function plusReady() {
+						plus.navigator.setStatusBarBackground('#FFC408');
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+					localStorage.setItem('myurl', 'http://192.168.2.223/user')
+					if(localStorage.getItem('userid') == undefined || localStorage.getItem('userid') == null || localStorage.getItem('userid') == '') {
+						this.opennew('login')
+					}
 					mui('.mui-scroll-wrapper').scroll({
-						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
-					});
+						deceleration: 0.0006
+					})
 					var that = this
 					if(localStorage.getItem('city') == null) {
 						document.addEventListener('plusready', onPlusReady, false);
-						// 扩展API加载完毕，现在可以正常调用扩展API
 						function onPlusReady() {
 							plus.geolocation.getCurrentPosition(function(p) {
+								localStorage.setItem('lng',p.coords.longitude)
+								localStorage.setItem('lat',p.coords.latitude)
 								var map = new AMap.Map('container', {
 									zoom: 15,
 									center: [p.coords.longitude, p.coords.latitude]
 								});
 								AMap.service('AMap.Geocoder', function() {
 									geocoder = new AMap.Geocoder({
-										city: "" //城市，默认：“全国”
+										city: ""
 									});
 									//		    根据经纬度查地址
 									var lnglatXY = [p.coords.longitude, p.coords.latitude]; //地图上所标点的坐标
@@ -490,12 +557,12 @@
 											that.city = result.regeocode.addressComponent.city
 											localStorage.setItem('city', that.city)
 											AMap.plugin('AMap.Weather', function() {
-											    //创建天气查询实例
-											    var weather = new AMap.Weather();
-											    //执行实时天气信息查询
-											    weather.getLive(localStorage.getItem('city'), function(err, data) {
-											        that.weather=data.weather
-											    });
+												//创建天气查询实例
+												var weather = new AMap.Weather();
+												//执行实时天气信息查询
+												weather.getLive(localStorage.getItem('city'), function(err, data) {
+													that.weather = data.weather
+												});
 											});
 										} else {
 											//获取地址失败
@@ -510,12 +577,12 @@
 					} else {
 						this.city = localStorage.getItem('city')
 						AMap.plugin('AMap.Weather', function() {
-						    //创建天气查询实例
-						    var weather = new AMap.Weather();
-						    //执行实时天气信息查询
-						    weather.getLive(localStorage.getItem('city'), function(err, data) {
-						        that.weather=data.weather
-						    });
+							//创建天气查询实例
+							var weather = new AMap.Weather();
+							//执行实时天气信息查询
+							weather.getLive(localStorage.getItem('city'), function(err, data) {
+								that.weather = data.weather
+							});
 						});
 					}
 				},
