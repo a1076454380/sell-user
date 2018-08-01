@@ -480,9 +480,10 @@ input::-webkit-input-placeholder {
 }
 
 .index .prefer {
-	height: 0.8rem;
 	overflow: hidden;
-	margin: 0.1rem 0
+	margin: 0.1rem 0;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .index .pauto {
@@ -493,7 +494,7 @@ input::-webkit-input-placeholder {
 	display: flex;
 	height: 0.4rem;
 	align-items: center;
-	margin: 0 0.2rem 0 2rem
+	width: 50%;
 }
 
 .index .perer-name {
@@ -505,7 +506,8 @@ input::-webkit-input-placeholder {
 	height: 0.3rem;
 	display: flex;
 	align-items: center;
-	font-size: 0.2rem
+	font-size: 0.2rem;
+	margin-left: .1rem;
 }
 
 .index .prefer-text {
@@ -1840,9 +1842,10 @@ input::-webkit-input-placeholder {
 }
 
 .money .money-price {
-	margin: 0 0.6rem;
+	margin-left:.6rem;
 	color: #FFC408;
-	font-size: 0.3rem
+	font-size: 0.3rem;
+	width: 1.8rem;
 }
 
 .money .money-price span {
@@ -2976,7 +2979,7 @@ input::-webkit-input-placeholder {
 .register .avatar-box input{z-index: 66;opacity: 0;}
 .register input{width: calc(100% - .4rem);border: 0;border-bottom: 1px solid ghostwhite;color: #666666;margin-left:.2rem ;font-size: .25rem;}
 .register input::-webkit-input-placeholder{color: gainsboro!important;}
-.register input[type='submit']{background: #FFC408;color: #FFFFFF;display: flex;align-items: center;justify-content: center;position: absolute;bottom: 0;}
+.register input[type='button']{background: #FFC408;color: #FFFFFF;display: flex;align-items: center;justify-content: center;position: absolute;bottom: 0;}
 .register .radio-box,.register span{display: flex;align-items: center;}
 .register .radio-box{width: calc(100% - .4rem);margin-left:.2rem ;border-bottom: 1px solid ghostwhite;padding-bottom: .2rem;}
 input[type=radio] {

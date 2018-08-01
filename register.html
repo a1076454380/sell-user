@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
-		<link rel="stylesheet" type="text/css" href="css/date.css"/>
+		<link rel="stylesheet" type="text/css" href="css/date.css" />
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.form.js" type="text/javascript" charset="utf-8"></script>
 	</head>
+
 	<body>
 		<div class="wrapper register goodsdetail" id="app">
 			<header class="header">
@@ -24,13 +26,13 @@
 					</span>
 			</header>
 			<div class="main">
-				<form :action="[myurl+'/register']">
+				<form :action="[myurl+'/register']" method="post" enctype="multipart/form-data" name="form1" id="myform">
 					<div class="avatar-box">
-						<input type="file" name="picPath" id="file1" value="" data-title='请选择用户头像！' @change="change('img01','file1')"/>
-						<img src="img/2.png" id="img01"/>
+						<input type="file" name="picPath" id="file1" value="" data-title='请选择用户头像！' @change="change('img01','file1')" />
+						<img src="img/2.png" id="img01" />
 					</div>
-					<input type="text" placeholder="皮皮虾" name="usNickname" data-title='昵称不能为空！'/>
-					<input type="text" name="usPhone" id="usPhone" placeholder="152XXXXXX775" data-title='手机号不能为空！'/>
+					<input type="text" placeholder="皮皮虾" name="usNickname" data-title='昵称不能为空！' />
+					<input type="text" name="usPhone" id="usPhone" placeholder="152XXXXXX775" data-title='手机号不能为空！' />
 					<div class="radio-box">
 						<span>
 							<input type="radio" name="usSex" id="usSex" value="0" checked="checked"/>
@@ -42,8 +44,8 @@
 						</span>
 					</div>
 					<div id="datePlugin"></div>
-					<input type="text" name="usBirthday" id="usBirthday" placeholder="1998-01-25" data-title='生日不能为空！'/>
-					<input type="submit" value="快速注册" />
+					<input type="text" name="usBirthday" id="usBirthday" placeholder="1998-01-25" data-title='生日不能为空！' />
+					<input type="button" value="快速注册" @click="submit" />
 				</form>
 				<div class="layui" v-show="layui">
 					<div class="layui-inner">
@@ -57,26 +59,51 @@
 							<div class="layui-setting" @click="layuiboo">
 								确定
 							</div>
-							
+
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<script src="js/date.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
 				data: {
-					layui:false,
-					layuitext:'未知错误',
-					myurl:localStorage.getItem('myurl')
+					layui: false,
+					layuitext: '未知错误',
+					myurl: localStorage.getItem('myurl')
 				},
 				methods: {
-					layuiboo:function(){
-						this.layui=!this.layui
+					submit: function() {
+						var that = this
+						if($('input').val() == '') {
+							that.layuiboo($('input').attr('data-title'))
+							return false;
+						}
+						$('form').ajaxSubmit({
+							type: 'post',
+							url: that.myurl + '/register',
+							dataType: 'json',
+							success: function(res) {
+								console.log(res)
+								if(res.status == 200) {
+									mui.openWindow({
+										url: 'login.html',
+										id: 'login'
+									})
+								}else{
+									that.layuiboo(res.msg)
+								}
+							}
+						})
 					},
-					change:function(picId, fileId) {
+					layuiboo: function(text) {
+						this.layuitext = text
+						this.layui = !this.layui
+					},
+					change: function(picId, fileId) {
 						var pic = document.getElementById(picId);
 						var file = document.getElementById(fileId);
 						if(window.FileReader) { //chrome,firefox7+,opera,IE10,IE9，IE9也可以用滤镜来实现
@@ -85,7 +112,7 @@
 							oFReader.onload = function(oFREvent) {
 								pic.src = oFREvent.target.result;
 							};
-		
+
 						} else if(document.all) { //IE8-
 							file.select();
 							var reallocalpath = document.selection.createRange().text //IE下获取实际的本地文件路径
@@ -104,7 +131,11 @@
 				},
 				mounted() {
 					var that = this
-					try{ $('#usBirthday').date({theme:"date"});}catch(e){}
+					try {
+						$('#usBirthday').date({
+							theme: "date"
+						});
+					} catch(e) {}
 				}
 			})
 		</script>

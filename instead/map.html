@@ -12,27 +12,11 @@
 		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=I3GAIGZ5MwMnqKQdAWAKw2EqujewYBYU"></script>
+		<script src="../js/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
 	</head>
-	<style type="text/css">
-		.main {
-			height: 100%;
-		}
-		
-		.header {
-			overflow: initial;
-			background: none;
-			z-index: 9;
-		}
-		
-		#container {
-			height: 100%;
-			width: 100%;
-		}
-	</style>
 
 	<body>
-		<div id="app" class="wrapper instead map">
+		<div id="app" class="wrapper addadress">
 			<div class="layui" v-show="layui">
 				<div class="layui-inner">
 					<div class="layui-top">
@@ -45,32 +29,28 @@
 						<div class="layui-setting" @click="layuiboo">
 							确定
 						</div>
+						<div class="layui-setting" @click="layuiboo">
+							取消
+						</div>
 					</div>
 				</div>
 			</div>
 			<header class="header">
 				<span class="header-back mui-action-back">
-						<img src="../img/back.png"/>
-					</span>
-				<span class="header-main">
-					<input type="text" id="suggestId" class="box-size" placeholder="输入需要搜索的地址"/>
+					<img src="../img/back.png"/>
 				</span>
-				<span class="header-settings">
-					
-				</span>
+				<span class="header-main">添加地址</span>
+				<span class="header-settings"></span>
 			</header>
-			<div class="main" id="l-map" style="margin: 0;">
-				<div id="container"></div>
-				<div class="pickerInput">
-					<input type="text" class="box-size" placeholder="搜索地址" readonly="" v-model="adress" />
-					<input type="text" class="box-size" placeholder="请输入详细地址" v-model="detail" />
-					<div>
-						<input type="text" class="box-size" placeholder="请输入姓名" v-model="name" />
-						<input type="number" class="box-size" placeholder="请输入手机号" v-model="phone" />
-					</div>
+			<div class="main">
+				<div id="city">
+					<select class="prov" name="usAdsProvince"></select>
+					<select class="city" disabled="disabled" name="usAdsCity"></select>
+					<select class="dist" disabled="disabled" name="usAdsArea"></select>
 				</div>
-				<div class="mysub" @click="opennew">
-					确定
+				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址" />
+				<div class="submit" @click="submit">
+					确定新增
 				</div>
 			</div>
 		</div>
@@ -79,94 +59,40 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext: '信息未填写完整',
-					adress: '',
-					detail: '',
-					name: '',
-					phone: ''
+					layuitext: '错误',
+					myurl: localStorage.getItem('myurl')
 				},
 				methods: {
-					layuiboo: function() {
+					layuiboo: function(text, id) {
+						if(id != '') {
+							this.usAddressId = id
+						}
+						this.layuitext = text
 						this.layui = !this.layui
 					},
-					opennew: function() {
-						if(this.adress == '' || this.detail == '' || this.name == '' || this.phone == '') {
-							this.layuitext = '信息未填写完整'
-							this.layuiboo()
-						} else {
-							if((/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(this.phone))) {
-								localStorage.setItem(localStorage.getItem('maptype') + 'adress', this.adress)
-								localStorage.setItem(localStorage.getItem('maptype') + 'detail', this.detail)
-								localStorage.setItem(localStorage.getItem('maptype') + 'name', this.name)
-								localStorage.setItem(localStorage.getItem('maptype') + 'phone', this.phone)
-								mui.openWindow({
-									url: 'instead.html',
-									id: 'instead'
-								})
-							} else {
-								this.layuitext = '手机号格式错误'
-								this.layuiboo()
-							}
-						}
+					opennew: function(id) {
+						mui.openWindow({
+							url: '' + id + '.html',
+							id: id
+						})
+					},
+					submit: function() {
+						localStorage.setItem(localStorage.getItem('maptype') + 'adress', this.adress)
+						localStorage.setItem(localStorage.getItem('maptype') + 'detail', this.detail)
+						localStorage.setItem(localStorage.getItem('maptype') + 'name', this.name)
+						localStorage.setItem(localStorage.getItem('maptype') + 'phone', this.phone)
 					}
 				},
 				mounted: function() {
-					var that = this
-					document.addEventListener('plusready', onPlusReady, false);
-					function onPlusReady() {
-						plus.geolocation.getCurrentPosition(function(p) {
-							var map = new BMap.Map("container");
-								//		设置中心点坐标
-								var point = new BMap.Point(p.coords.longitude,p.coords.latitude);
-								map.centerAndZoom(point, 18);
-								var marker = new BMap.Marker(point); // 创建标注    
-								map.addOverlay(marker);
-								give(p.coords.longitude,p.coords.latitude)
-
-							var ac = new BMap.Autocomplete( //建立一个自动完成的对象
-								{
-									"input": "suggestId"
-								});
-							var myValue;
-							ac.addEventListener("onconfirm", function(e) { //鼠标点击下拉列表后的事件
-								var _value = e.item.value;
-								myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
-								setPlace();
-							});
-			
-							function give(lng, lat) {
-								var myGeo = new BMap.Geocoder();
-								// 根据坐标得到地址描述    
-								myGeo.getLocation(new BMap.Point(lng, lat), function(result) {
-									if(result) {
-										that.adress = result.address
-									}
-								});
-							}
-
-							function setPlace() {
-								map.clearOverlays();
-								function myFun() {
-									var pp = local.getResults().getPoi(0).point;
-									map.centerAndZoom(pp, 18);
-									map.addOverlay(new BMap.Marker(pp));
-									give(pp.lng, pp.lat)
-								}
-								var local = new BMap.LocalSearch(map, {
-									onSearchComplete: myFun
-								});
-								local.search(myValue);
-							}
-						}, function(e) {
-							alert('Geolocation error: ' + e.message);
-						}, {
-							provider: 'baidu',
-							coordsType:'bd09ll'
-						});
-					}
+					$("#city").citySelect({
+						prov: "湖南",
+						city: "长沙",
+						dist: "雨花区",
+						nodata: "none"
+					});
 				},
 				update: function() {
-					mui.init()
+
 				}
 			})
 		</script>

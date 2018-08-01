@@ -24,9 +24,6 @@
 						{{layuitext}}
 					</div>
 					<div class="layui-settings">
-						<div class="layui-setting" @click="layuitrue">
-							取消
-						</div>
 						<div class="layui-setting" @click="layuiboo">
 							确定
 						</div>
@@ -37,21 +34,21 @@
 					<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
-					<span class="header-main">我的红包</span>
+					<span class="header-main">我的优惠</span>
 					<span class="header-settings">
 						
 					</span>
 				</header>
-			<div class="main mui-scroll-wrapper">	
+			<div class="main mui-scroll-wrapper main-big">	
 				<div class="mui-scroll">
-					<div class="money-item" v-for="(val,index) in mydata">
+					<div class="money-item" v-for="(val,index) in mydata01">
 						<div class="money-top">
 							<div class="money-price">
-								¥<span>{{val.maRePrice}}</span>
+								¥<span>{{val.maRePrice==undefined?val.usApPrice:val.maRePrice}}</span>
 							</div>
 							<div class="money-main">
 								<h1>
-									标题
+									红包
 								</h1>
 								<p>
 									{{val.createTime1}}到期
@@ -59,8 +56,50 @@
 							</div>
 						</div>
 						<div class="money-time">
-							<span>满{{maReLimit}}可用,限最新版本客户端使用</span>
-							<div class="join" @click="layuiboo()">
+							<span>满{{val.maReLimit==undefined?val.usApPriceLimit:val.maReLimit}}可用,限最新版本客户端使用</span>
+							<div class="join" @click="havecollect(1,val.maRedEnvelopeId==undefined?val.usAgentPackageId:val.maRedEnvelopeId)">
+								立即领取
+							</div>
+						</div>
+					</div>
+					<div class="money-item" v-for="(val,index) in mydata[mydata.length-2]">
+						<div class="money-top">
+							<div class="money-price">
+								¥<span>{{val.usTpPrice}}</span>
+							</div>
+							<div class="money-main">
+								<h1>
+									红包
+								</h1>
+								<p>
+									{{val.usTpAbortTime1}}到期
+								</p>
+							</div>
+						</div>
+						<div class="money-time">
+							<span>满{{val.usTpLimitPrice}}可用,限最新版本客户端使用</span>
+							<div class="join" @click="havecollect(1,val.usTraderPackageId)">
+								立即领取
+							</div>
+						</div>
+					</div>
+					<div class="money-item" v-for="(val,index) in mydata[mydata.length-1]">
+						<div class="money-top">
+							<div class="money-price">
+								<span>{{val.usTdDicsont}}</span>折
+							</div>
+							<div class="money-main">
+								<h1>
+									折扣卷
+								</h1>
+								<p>
+									{{val.usTdAbortTime1}}到期
+								</p>
+							</div>
+						</div>
+						<div class="money-time">
+							<span>剩余{{val.usTdNum}}张,限最新版本客户端使用</span>
+							<div class="join" @click="havecollect(2,val.usTraderDiscountId )">
 								立即领取
 							</div>
 						</div>
@@ -76,13 +115,36 @@
 					layuitext:'确定领取卡卷吗?',
 					searchtype:localStorage.getItem('searchdpeata'),
 					myurl:localStorage.getItem('myurl'),
-					mydata:''
+					mydata:'',
+					mydata01:[]
 				},
 				methods: {
+					havecollect:function(type,id){
+						var that=this
+						$.ajax({
+							type:"post",
+							url:that.myurl+"/insertByMaRedMiddleUser",
+							async:true,
+							dataType:'json',
+							data:{
+								usUserId:localStorage.getItem('userid'),
+								maRmuStatus:type,
+								maRmuId:id
+							},
+							success:function(res){
+								if(res.status==200){
+									that.layuiboo('领取成功！')
+								}else{
+									that.layuiboo('领取失败！')
+								}
+							}
+						});
+					},
 					layuitrue:function(){
 						this.layuiboo()
 					},
-					layuiboo: function() {
+					layuiboo: function(text) {
+						this.layuitext=text
 						this.layui = !this.layui
 					},
 					opennew:function(){
@@ -95,10 +157,15 @@
 						var that=this
 						$.ajax({
 							type:"get",
-							url:myurl+"/queryMaRedEnvelopePojoAll",
+							url:that.myurl+"/queryMaRedEnvelopePojoAll",
 							async:true,
+							dataType:'json',
 							success:function(res){
 								that.mydata=res.data
+								for(var i =0;i<that.mydata.length-2;i++){
+									that.mydata01.push(that.mydata[i])
+								}
+								console.log(that.mydata01)
 							}
 						});
 					}
@@ -107,6 +174,7 @@
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
+					this.myajax()
 				},
 				update: function() {
 					

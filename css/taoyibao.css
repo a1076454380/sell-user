@@ -411,7 +411,7 @@ html {
 	left: 0
 }
 
-.login form {
+.login .form {
 	position: relative;
 	z-index: 3
 }

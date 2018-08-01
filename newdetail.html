@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<style type="text/css">
 		body,
@@ -47,39 +47,24 @@
 			<div class="main mui-scroll-wrapper">
 				<div class="mui-scroll">
 					<h1>
-					为什么女生都喜欢穿黑色打底裤
+					{{mydata.maPnTitle}}
 				</h1>
 
 					<p>
-						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
+						{{mydata.maPnContent}}
 					</p>
-					<img src="img/index.jpg" />
-					<p>
-						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
-					</p>
-					<p>
-						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
-					</p>
-					<p>
-						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
-					</p>
-					<p>
-						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
-					</p>
-					<p>
-						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
-					</p>
-					<p>
-						阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
-					</p>
+					<img :src="mydata.maPnImg1" v-if="mydata.maPnImg1!=''"/>
+					<img :src="mydata.maPnImg2" v-if="mydata.maPnImg2!=''"/>
+					<img :src="mydata.maPnImg3" v-if="mydata.maPnImg3!=''"/>
+					<img :src="mydata.maPnImg4" v-if="mydata.maPnImg4!=''"/>
 				</div>
 			</div>
 			<footer class="footer">
 				<span>
-						#美妆达人
+						#{{mydata.maPnCreateName}}
 					</span>
 				<span>
-						2017.19.20
+						{{mydata.createTime1}}
 					</span>
 			</footer>
 		</div>
@@ -89,17 +74,53 @@
 				data: {
 					layui: false,
 					layuitext: '错误',
-					searchtype: localStorage.getItem('searchdpeata')
+					myurl: localStorage.getItem('myurl'),
+					mydata: ''
 				},
 				methods: {
 					layuiboo: function() {
 						this.layui = !this.layui
+					},
+					myajax: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting('加载中...')
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that = this
+						$.ajax({
+							type: "get",
+							url: that.myurl + "/queryByMaPublicNewsId",
+							async: true,
+							dataType: 'json',
+							data:{
+								maPublicNewsId:localStorage.getItem('maPublicNewsId')
+							},
+							success: function(res) {
+								console.log(res)
+								that.mydata = res.data
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							}
+						});
 					}
 				},
 				mounted: function() {
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
+					this.myajax()
 				},
 				update: function() {
 

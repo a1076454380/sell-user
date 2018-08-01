@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -14,12 +15,37 @@
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 	</head>
 	<style type="text/css">
-		.fade-enter-active,.fade-leave-active {transition: all .2s ease-in;}
-		.fade-enter,.fade-leave-active {opacity: 0;transform: translateX(100%);}
-		.nocllect {margin: 0!important;padding: 0!important;}
-		.index .index-group{flex-direction: row;margin: .1rem 0;}
-		.delete{width: .7rem;display: flex;align-items: center;color: white;background: rgb(236,94,74);justify-content: center;}
+		.fade-enter-active,
+		.fade-leave-active {
+			transition: all .2s ease-in;
+		}
+		
+		.fade-enter,
+		.fade-leave-active {
+			opacity: 0;
+			transform: translateX(100%);
+		}
+		
+		.nocllect {
+			margin: 0!important;
+			padding: 0!important;
+		}
+		
+		.index .index-group {
+			flex-direction: row;
+			margin: .1rem 0;
+		}
+		
+		.delete {
+			width: .7rem;
+			display: flex;
+			align-items: center;
+			color: white;
+			background: rgb(236, 94, 74);
+			justify-content: center;
+		}
 	</style>
+
 	<body>
 		<div id="app" class="wrapper index">
 			<div class="layui" v-show="layui">
@@ -51,7 +77,10 @@
 			</header>
 			<div class="main main-big mui-scroll-wrapper">
 				<div class="index-main mui-scroll">
-					<div class="index-group" @click="opendetail()" v-for="val in collectdata">
+					<p v-if="collectdata.length==0" style="display: flex;align-items: center;justify-content: center;height: 1rem;" @click="opennew('index')">
+						您还没有收藏商品呢。快去首页看看吧
+					</p>
+					<div class="index-group" @click="opendetail()" v-for="val in collectdata" v-if="collectdata.length!=0">
 						<div class="group-inner">
 							<div class="img-box">
 								<img :src="val.usTsFacadeImg" />
@@ -61,39 +90,35 @@
 									{{val.usTsCompanyName}}
 								</div>
 								<div class="index-x" style="align-items: flex-start;">
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=1"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar1"/>
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=2"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<1"/>
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=3"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<3"/>
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=4"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<4"/>
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=5"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<5"/>
-											</div>
-										</div>
+									<div class="x-group">
+										<img src="img/xactive.png" v-if="val.usSsStar>=1" />
+										<img src="img/xhalf.png" v-if="val.usSsStar1" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" v-if="val.usSsStar>=2" />
+										<img src="img/xhalf.png" v-if="val.usSsStar<1" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" v-if="val.usSsStar>=3" />
+										<img src="img/xhalf.png" v-if="val.usSsStar<3" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" v-if="val.usSsStar>=4" />
+										<img src="img/xhalf.png" v-if="val.usSsStar<4" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" v-if="val.usSsStar>=5" />
+										<img src="img/xhalf.png" v-if="val.usSsStar<5" />
+									</div>
+								</div>
 								<div class="index-x">
 									<span class="shop-type">
 									<img src="img/shopavatar.png"/>我的收藏
 								</span>
 								</div>
 								<div class="index-money">
-														<span>
+									<span>
 												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
-											</span>
-														<span>
-												月销量:
-												<strong>69</strong>
 											</span>
 								</div>
 							</div>
@@ -115,9 +140,9 @@
 					layuitext: '确定取消收藏吗',
 					nocollect: false,
 					noindex: 0,
-					collectdata:'',
-					myurl:localStorage.getItem('myurl'),
-					usCollectionId:''
+					collectdata: '',
+					myurl: localStorage.getItem('myurl'),
+					usCollectionId: ''
 				},
 				methods: {
 					prefershow: function(index) {
@@ -129,8 +154,8 @@
 					},
 					layuiboo: function(id) {
 						this.layui = !this.layui
-						if(id!=''){
-							this.usCollectionId=id
+						if(id != '') {
+							this.usCollectionId = id
 						}
 					},
 					opendetail: function(id) {
@@ -146,14 +171,14 @@
 					},
 					deleted: function() {
 						this.layuiboo()
-						var that=this
+						var that = this
 						$.ajax({
-							type:"post",
-							url:myurl+"/deleteCollectionUs",
-							data:{
-								usCollectionId:that.usCollectionId
+							type: "post",
+							url: myurl + "/deleteCollectionUs",
+							data: {
+								usCollectionId: that.usCollectionId
 							},
-							success:function(res){
+							success: function(res) {
 								plus.nativeUI.toast('删除完成')
 							}
 						});
@@ -164,28 +189,30 @@
 							id: '' + target + ''
 						})
 					},
-					myajax:function(){
-						var that=this
+					myajax: function() {
+						var that = this
 						$.ajax({
-							type:"get",
-							url:myurl+"/queryUsCollectionUsTraderStoresRecommendPojo",
-							data:{
-								usUserId:localStorage.getItem('userid')
+							type: "get",
+							url: that.myurl + "/queryUsCollectionUsTraderStoresRecommendPojo",
+							data: {
+								usUserId: localStorage.getItem('userid')
 							},
-							async:true,
-							success:function(res){
-								that.collectdata=res.data
+							async: true,
+							dataType: 'json',
+							success: function(res) {
+								that.collectdata = res.data[0]
 							}
 						});
 					}
 				},
 				mounted: function() {
 					mui('.mui-scroll-wrapper').scroll({
-						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+						deceleration: 0.0006
 					});
+					this.myajax()
 				},
 				update: function() {
-					
+
 				}
 			})
 		</script>

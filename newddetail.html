@@ -46,10 +46,10 @@
 				</header>
 			<div class="main main-big">	
 				<h1>
-					老董家黄焖鸡
+					{{mydata.cmessageTitle}}
 				</h1>
 				<p>
-					阿萨德骄傲是哦哦好soID爱哦我的Joan死哦点击奥斯卡掉的加我ID骄傲is的奇偶叫萨卡掉的价位和odajiosmaiodjwoij撒打开哦我的考iwjioj
+					{{mydata.cmessageContent}}
 				</p>
 			</div>
 		</div>
@@ -59,7 +59,9 @@
 				data: {
 					layui: false,
 					layuitext:'错误',
-					searchtype:localStorage.getItem('searchdpeata')
+					searchtype:localStorage.getItem('searchdpeata'),
+					myurl:localStorage.getItem('myurl'),
+					mydata:''
 				},
 				methods: {
 					layuiboo: function() {
@@ -70,10 +72,25 @@
 							url: '' + adr + '.html',
 							id: '' + adr + ''
 						})
+					},
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"get",
+							url:that.myurl+"/queryByCmessagePojo",
+							async:true,
+							dataType:'json',
+							data:{
+								cmessageId:localStorage.getItem('cuserCmessageId')
+							},
+							success:function(res){
+								that.mydata=res.data
+							}
+						});
 					}
 				},
 				mounted: function() {
-					
+					this.myajax()
 				},
 				update: function() {
 					mui.init()

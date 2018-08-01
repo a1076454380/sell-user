@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -13,7 +12,6 @@
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
-
 	<body>
 		<div id="app" class="wrapper newslist">
 			<div class="layui" v-show="layui">
@@ -41,7 +39,7 @@
 					</span>
 			</header>
 			<div class="main main-big">
-				<div class="news-group" @click="opennew('newddetail')" v-for="val in newdata">
+				<div class="news-group" @click="opennew('newddetail',val.cuserCmessageId)" v-for="val in newdata">
 					<div class="news-text">
 						<h1>
 							<span class="noinform" v-if="val.status=0"></span>
@@ -72,7 +70,8 @@
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
-					opennew: function(adr) {
+					opennew: function(adr,id) {
+						localStorage.setItem('cuserCmessageId',id)
 						mui.openWindow({
 							url: '' + adr + '.html',
 							id: '' + adr + ''
@@ -82,8 +81,9 @@
 						var that=this
 						$.ajax({
 							type:"get",
-							url:myurl+"/queryByCmessagePojo",
+							url:that.myurl+"/queryByCmessagePojo",
 							async:true,
+							dataType:'json',
 							data:{
 								usUserId:localStorage.getItem('userid')
 							},
@@ -94,7 +94,7 @@
 					}
 				},
 				mounted: function() {
-
+					this.myajax()
 				},
 				update: function() {
 					mui.init()

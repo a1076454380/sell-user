@@ -10,9 +10,8 @@
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-		<script src="js/jquery.form.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -40,29 +39,27 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<form :action="action" enctype="multipart/form-data">
-					<input type="text" name="" v-model="title" placeholder="请输入发布标题"/>
-					<input type="text" name="" v-model="navtext" readonly="readonly" @click="bottomshow" placeholder="请选择分类"/>
+					<input type="text" name="" v-model="title" placeholder="请输入发布标题" />
+					<input type="text" name="" v-model="navtext" readonly="readonly" @click="bottomshow" placeholder="请选择分类" />
 					<textarea name="" v-model="text" placeholder="请输入发布内容">
 						
 					</textarea>
-					<input type="hidden" name="" id="in01" />
-					<input type="hidden" name="" id="in02" />
-					<input type="hidden" name="" id="in03" />
-					<input type="hidden" name="" id="in04" />
-				</form>
+					<input type="hidden" name="" id="in01" v-model="maPnImg1"/>
+					<input type="hidden" name="" id="in02"  v-model="maPnImg2"/>
+					<input type="hidden" name="" id="in03"  v-model="maPnImg3"/>
+					<input type="hidden" name="" id="in04"  v-model="maPnImg4"/>
 				<div class="img-box">
 					<div class="img-main">
-						<img src="img/addrating.png" @click="imgclick('im01','in01')" id="im01" />
+						<img src="img/addrating.png" @click="imgclick('maPnImg1','in01')" id="maPnImg1" />
 					</div>
 					<div class="img-main">
-						<img src="img/addrating.png" @click="imgclick('im02','in02')" id="im02" />
+						<img src="img/addrating.png" @click="imgclick('maPnImg2','in02')" id="maPnImg2" />
 					</div>
 					<div class="img-main">
-						<img src="img/addrating.png" @click="imgclick('im03','in03')" id="im03" />
+						<img src="img/addrating.png" @click="imgclick('maPnImg3','in03')" id="maPnImg3" />
 					</div>
 					<div class="img-main">
-						<img src="img/addrating.png" @click="imgclick('im04','in04')" id="im04" />
+						<img src="img/addrating.png" @click="imgclick('maPnImg4','in04')" id="maPnImg4" />
 					</div>
 				</div>
 				<div class="mysub" @click="mysub">
@@ -71,20 +68,11 @@
 			</div>
 			<transition name='alert'>
 				<div class="bottom" v-show="bottomboo" @click="bottomshow">
-					<div class="bottom-tab" @click.stop="bottomshow('小吃零食')">
-						小吃零食
+					<div class="bottom-tab" @click.stop="bottomshow(val.maMsName,val.maMerchantsStyleId)" v-for="val in navdata">
+						{{val.maMsName}}
 					</div>
-					<div class="bottom-tab" @click.stop="bottomshow('医药用品')">
-						医药用品
-					</div>
-					<div class="bottom-tab" @click.stop="bottomshow('时尚服装')">
-						时尚服装
-					</div>
-					<div class="bottom-tab" @click.stop="bottomshow('黑科技广场')">
-						黑科技广场
-					</div>
-					<div class="bottom-tab bottom-setting" @click.stop="bottomshow">
-						取消 
+					<div class="bottom-tab bottom-setting" @click.stop="bottomshow('','')">
+						取消
 					</div>
 				</div>
 			</transition>
@@ -99,31 +87,87 @@
 					text: '',
 					imgid: '',
 					inputid: '',
-					server: 'http://39.107.70.18/Transportation/uploadDriverImage',
+					server: localStorage.getItem('myurl') + '/imageNewsImage',
 					files: [],
-					action: localStorage.getItem('myurl') + '/insertSelectiveBydriver',
-					navtext:'',
-					bottomboo:false
+					navtext: '',
+					bottomboo: false,
+					navdata:'',
+					myurl:localStorage.getItem('myurl'),
+					maMerchantsStyleId:'',
+					maPnImg1:'',
+					maPnImg2:"",
+					maPnImg3:"",
+					maPnImg4:''
 				},
 				methods: {
-					bottomshow:function(text){
-						console.log(text)
-						this.navtext=text
-						this.bottomboo=!this.bottomboo
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type: "get",
+							url: that.myurl + "/queryMaMerchantsStyleAll",
+							dataType: 'json',
+							success: function(res) {
+								that.navdata = res.data
+							}
+						});
 					},
-					layuiboo: function() {
+					bottomshow: function(text,id) {
+						this.maMerchantsStyleId=id
+						this.navtext = text
+						this.bottomboo = !this.bottomboo
+					},
+					layuiboo: function(text) {
+						this.layuitext=text
 						this.layui = !this.layui
 					},
 					mysub: function() {
-						var that=this
-						plus.nativeUI.showWaiting("正在提交数据,不要关闭页面!!");
-						$('form').ajaxSubmit({
+						var that = this
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						if(that.title==''){
+							this.layuiboo('标题不能为空！')
+							return false;
+						}
+						if(that.text==''){
+							this.layuiboo('内容不能为空！')
+							return false;
+						}
+						if(that.maMerchantsStyleId==''){
+							this.layuiboo('分类不能为空！')
+							return false;
+						}
+						$.ajax({
 							type: 'post',
 							dataType: 'json',
-							url: that.action,
+							url: that.myurl+'/insertReport',
+							data:{
+								usUserId:localStorage.getItem('userid'),
+								maMerchantsStyleId:that.maMerchantsStyleId,
+								maPnTitle:that.title,
+								maPnContent:that.text,
+								maPnImg1:that.maPnImg1,
+								maPnImg2:that.maPnImg2,
+								maPnImg3:that.maPnImg3,
+								maPnImg4:that.maPnImg4
+							},
 							success: function(res) {
-								plus.nativeUI.closeWaiting();
-								that.layuiboo()
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+									plus.nativeUI.toast('发送成功')
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 							}
 						})
 					},
@@ -238,7 +282,7 @@
 					}
 				},
 				mounted: function() {
-
+					this.myajax()
 				},
 				update: function() {
 					mui.init()

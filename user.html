@@ -49,8 +49,8 @@
 			<div class="main mui-scroll-wrapper">
 				<div class="index-main mui-scroll">
 					<div class="head-top">
-						<img src="img/index.jpg" class="avatar" @click="opennew('userinfo')" />
-						<h2 class="user-name" @click="opennew('userinfo')">董小礼</h2>
+						<img :src="avatar" class="avatar" @click="opennew('userinfo')" />
+						<h2 class="user-name" @click="opennew('userinfo')">{{usNickname}}</h2>
 					</div>
 					<div class="user-title">
 						我的工具
@@ -225,7 +225,9 @@
 				data: {
 					layui: false,
 					layuitext: '此功能正在加紧完善',
-					weather:'天气获取中...'
+					weather:'天气获取中...',
+					avatar:localStorage.getItem('usHeadImg'),
+					usNickname:localStorage.getItem('usNickname')
 				},
 				methods: {
 					prefershow:function(index){

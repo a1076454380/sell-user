@@ -77,7 +77,7 @@
 						<div class="mui-slider">
 							<div class="mui-slider-group mui-slider-loop">
 								<!--第一个内容区容器-->
-								<div class="mui-slider-item" @click="opennew('shop',val.usTraderStoresId)" v-for="val in bannerdata">
+								<div class="mui-slider-item" @click="opennew('shop',val.usTraderStoresId)" v-for="val in bannerdata" v-if="val.maApName=='用户首页的轮播图片'">
 									<!-- 具体内容 -->
 									<img :src="val.usTsBannerImg" />
 								</div>
@@ -147,23 +147,23 @@
 						</div>
 						<div class="news" @click="opennew('newslist')">
 							<img src="img/newindex.png" />
-							<div class="news-list" v-for='(val,index) in newdata'>
-								<div class="new" v-if="index<2">
+							<div class="news-list">
+								<div class="new" v-for='(val,index) in newdata' v-if="index<2">
 									<span></span> {{val.maPnTitle}}
 								</div>
 							</div>
 						</div>
-						<div class="index-top">
+						<div class="index-top" v-if="mydata[0]=='null'">
 							<span>
 								我的专属
 							</span>
 							<span @click="opennew('shoplist')" class="more">
 								<span>更多</span>
-								<img src="img/arrright.png" />
+							<img src="img/arrright.png" />
 							</span>
 						</div>
 						<div class="index-main">
-							<div class="index-group" @click="opendetail()" v-for="(val,index) in mydata">
+							<div class="index-group" @click="opendetail()" v-for="(val,index) in mydata" v-if="mydata[0]=='null'">
 								<div class="group-inner">
 									<div class="img-box">
 										<img :src="val.usTsFacadeImg" />
@@ -174,43 +174,43 @@
 										</div>
 										<div class="index-x" style="align-items: flex-start;">
 											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=1"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar1"/>
+												<img src="img/xactive.png" v-if="val.usSsStar>=1" />
+												<img src="img/xhalf.png" v-if="val.usSsStar1" />
 											</div>
 											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=2"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<1"/>
+												<img src="img/xactive.png" v-if="val.usSsStar>=2" />
+												<img src="img/xhalf.png" v-if="val.usSsStar<1" />
 											</div>
 											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=3"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<3"/>
+												<img src="img/xactive.png" v-if="val.usSsStar>=3" />
+												<img src="img/xhalf.png" v-if="val.usSsStar<3" />
 											</div>
 											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=4"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<4"/>
+												<img src="img/xactive.png" v-if="val.usSsStar>=4" />
+												<img src="img/xhalf.png" v-if="val.usSsStar<4" />
 											</div>
 											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=5"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<5"/>
+												<img src="img/xactive.png" v-if="val.usSsStar>=5" />
+												<img src="img/xhalf.png" v-if="val.usSsStar<5" />
 											</div>
 										</div>
 										<div class="index-x">
 											<span class="shop-type">
 												<img src="img/shopavatar.png"/>为您推荐
 											</span>
-													</div>
-													<div class="index-money">
-														<span>
+										</div>
+										<div class="index-money">
+											<span>
 												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
 											</span>
-														<span>
+											<span>
 												月销量:
 												<strong>69</strong>
 											</span>
 										</div>
 									</div>
 								</div>
-								<div class="prefer" @click.stop="prefershow(0)">
+								<div class="prefer">
 									<div class="prefer-group">
 										<span class="perer-name">
 										满减
@@ -257,53 +257,58 @@
 							</span>
 						</div>
 					</div>
-					<!--<div class="index-top" style="margin-top: 0;" id="nav">
-						<div class="top-tab" @click="screening(0)" :class="screen==0?'img-active':''">
+					<div class="index-top" style="margin-top: 0;" id="nav">
+						<div class="top-tab" @click="screening('haoping')" :class="screen=='haoping'?'img-active':''">
 							<span>好评优先</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
-						<div class="top-tab" @click="screening(1)" :class="screen==1?'img-active':''">
+						<div class="top-tab" @click="screening('xiaoliang')" :class="screen=='xiaoliang'?'img-active':''">
 							<span>销量最高</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
-						<div class="top-tab" @click="screening(2)" :class="screen==2?'img-active':''">
+						<div class="top-tab" @click="screening('juli')" :class="screen=='juli'?'img-active':''">
 							<span>离我最近</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
-						<div class="top-tab" @click="screening(3)" :class="screen==3?'img-active':''">
+						<div class="top-tab" @click="screening('renjun')" :class="screen=='renjun'?'img-active':''">
 							<span>人均最低</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
-					</div>-->
+					</div>
 					<div class="index-main">
-						<div class="index-group" @click="opendetail()">
+						<div class="index-group" @click="opendetail()" v-for="val in tuidata[0]">
 							<div class="group-inner">
 								<div class="img-box">
-									<img src="img/index02.png" />
+									<img :src="val.usTsFacadeImg" />
 								</div>
 								<div class="index-detail">
 									<div class="index-h">
-										老董家黄焖鸡
+										{{val.usTsCompanyName}}
 									</div>
 									<div class="index-x" style="align-items: flex-start;">
 										<div class="x-group">
-											<img src="img/xactive.png" />
+											<img src="img/xactive.png" v-if="val.usSsStar>=1" />
+											<img src="img/xhalf.png" v-if="val.usSsStar1" />
 										</div>
 										<div class="x-group">
-											<img src="img/xactive.png" />
+											<img src="img/xactive.png" v-if="val.usSsStar>=2" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<1" />
 										</div>
 										<div class="x-group">
-											<img src="img/xactive.png" />
+											<img src="img/xactive.png" v-if="val.usSsStar>=3" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<3" />
 										</div>
 										<div class="x-group">
-											<img src="img/xactive.png" />
+											<img src="img/xactive.png" v-if="val.usSsStar>=4" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<4" />
 										</div>
 										<div class="x-group">
-											<img src="img/xhalf.png" />
+											<img src="img/xactive.png" v-if="val.usSsStar>=5" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<5" />
 										</div>
 									</div>
 									<div class="index-x">
@@ -313,47 +318,46 @@
 									</div>
 									<div class="index-money">
 										<span>
-									起送:¥15.00 | 配送费:¥5.00
+									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.peisong}}
 								</span>
 										<span>
 									月销量:
-									<strong>69</strong>
+									<strong>{{val.xiaoliang}}</strong>
 								</span>
 									</div>
 								</div>
 							</div>
-							<div class="prefer" @click.stop="prefershow(1)">
-								<div class="prefer-group">
+							<div class="prefer">
+								<div class="prefer-group" v-if="val.manjian.length!=0">
 									<span class="perer-name">
 										满减
 									</span>
 									<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-									<img src="img/arrbottom.png" />
-								</div>
-								<div class="prefer-group">
-									<span class="perer-name">
-										会员
-									</span>
-									<span class="prefer-text">
-										超级会员领6元无门槛红包
+										满{{val.manjian[0].usTsFullPrice}}减{{val.manjian[0].usTsSubtractPrice}}
 									</span>
 								</div>
-								<div class="prefer-group">
+								<div class="prefer-group" v-if="val.xinren.length!=0">
 									<span class="perer-name">
-										满减
+										新人
 									</span>
 									<span class="prefer-text">
-										满20减30，满30减5，满45减10
+										新用户立减{{val.xinren[0].usTnaPrice}}元
 									</span>
 								</div>
-								<div class="prefer-group">
+								<div class="prefer-group" v-if="val.zhekou.length!=0">
 									<span class="perer-name">
-										会员
+										折扣
 									</span>
 									<span class="prefer-text">
-										超级会员领6元无门槛红包
+										线上专享{{val.zhekou[0].usTdDicsont}}折
+									</span>
+								</div>
+								<div class="prefer-group" v-if="val.hongbao.length!=0">
+									<span class="perer-name">
+										红包
+									</span>
+									<span class="prefer-text">
+										满{{val.hongbao[0].usTpLimitPrice}}可用{{val.hongbao[0].usTpPrice}}元红包
 									</span>
 								</div>
 							</div>
@@ -401,21 +405,15 @@
 					shoptype: true,
 					layuitext: '您输入的内容为空!!',
 					weather: '天气获取中。。。',
-					screen: 0,
+					screen: 'haoping',
 					mycartnum: 0,
 					bannerdata: '',
 					newdata: '',
-					mydata:'',
-					navdata:''
+					mydata: '',
+					navdata: '',
+					tuidata: ''
 				},
 				methods: {
-					prefershow: function(index) {
-						if($('.prefer').eq(index).attr('class') == 'prefer') {
-							$('.prefer').eq(index).addClass('pauto')
-						} else {
-							$('.prefer').eq(index).removeClass('pauto')
-						}
-					},
 					myscroll: function() {
 						if($(".wrapper").scrollTop() >= $('#topheight').height()) {
 							$('#nav').css('position', 'fixed')
@@ -423,14 +421,35 @@
 							$('#nav').css('position', '')
 						}
 					},
-					screening: function(index) {
+					screening: function(type) {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						$(".wrapper").animate({
 							scrollTop: $('#topheight').height() + "px"
 						}, {
 							duration: 300,
 							easing: "swing"
 						});
-						this.screen = index
+						this.screen = type
+						this.tuidata[0].sort(function(a, b) {
+							return parseFloat(a[type]) - parseFloat(b[type]);
+						})
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 					},
 					layuiboo: function(text) {
 						this.layuitext = text
@@ -463,6 +482,15 @@
 						this.opennew('shop')
 					},
 					myajax: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						var that = this
 						//						顶部轮播图
 						$.ajax({
@@ -484,34 +512,70 @@
 							success: function(res) {
 								that.newdata = res.data
 							},
-							error: function(err) {
-								alert('今日头条获取失败！')
-							}
+							error: function(err) {}
 						});
-//						我的专属
+						//						我的专属
 						$.ajax({
 							type: "get",
 							url: localStorage.getItem('myurl') + "/queryTUsTraderStoresRecommendPojoMySpecialty",
 							dataType: 'json',
-							data:{
-								usUserId:localStorage.getItem('userid'),
-								lng:localStorage.getItem('lng'),
-								lat:localStorage.getItem('lat')
+							data: {
+								usUserId: localStorage.getItem('userid'),
+								lng: localStorage.getItem('lng'),
+								lat: localStorage.getItem('lat')
 							},
 							success: function(res) {
 								that.mydata = res.data
 							},
 							error: function(err) {
-								alert('今日头条获取失败！')
+								console.log(err)
 							}
 						});
-//						分类查询
+						//						分类查询
 						$.ajax({
 							type: "get",
 							url: localStorage.getItem('myurl') + "/queryMaMerchantsStyleAll",
 							dataType: 'json',
 							success: function(res) {
 								that.navdata = res.data
+							},
+							error: function(err) {
+								alert('今日头条获取失败！')
+							}
+						});
+						//						小易推荐
+						$.ajax({
+							type: "get",
+							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojo",
+							dataType: 'json',
+							data: {
+								lng: '34.2650727570',
+								lat: '117.2543334961'
+							},
+							success: function(res) {
+								that.tuidata = res.data
+								for(var i = 8; i < res.data.length; i = i + 9) {
+									that.tuidata[0][parseInt(i / 8) - 1].xiaoliang = res.data[i]
+									that.tuidata[0][parseInt(i / 8) - 1].peisong = res.data[i - 2].maDiPrice
+									that.tuidata[0][parseInt(i / 8) - 1].xinren = res.data[i - 7]
+									that.tuidata[0][parseInt(i / 8) - 1].manjian = res.data[i - 6]
+									that.tuidata[0][parseInt(i / 8) - 1].zhekou = res.data[i - 5]
+									that.tuidata[0][parseInt(i / 8) - 1].hongbao = res.data[i - 4]
+									that.tuidata[0][parseInt(i / 8) - 1].renjun = res.data[i]
+									that.tuidata[0][parseInt(i / 8) - 1].juli = res.data[i - 1]
+								}
+								that.tuidata[0].sort(function(a, b) {
+									return parseFloat(a['haoping']) - parseFloat(b['haoping']);
+								})
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 							},
 							error: function(err) {
 								alert('今日头条获取失败！')
@@ -538,10 +602,11 @@
 					var that = this
 					if(localStorage.getItem('city') == null) {
 						document.addEventListener('plusready', onPlusReady, false);
+
 						function onPlusReady() {
 							plus.geolocation.getCurrentPosition(function(p) {
-								localStorage.setItem('lng',p.coords.longitude)
-								localStorage.setItem('lat',p.coords.latitude)
+								localStorage.setItem('lng', p.coords.longitude)
+								localStorage.setItem('lat', p.coords.latitude)
 								var map = new AMap.Map('container', {
 									zoom: 15,
 									center: [p.coords.longitude, p.coords.latitude]
@@ -585,6 +650,7 @@
 							});
 						});
 					}
+					this.myajax()
 				},
 				update: function() {
 					mui.init()
