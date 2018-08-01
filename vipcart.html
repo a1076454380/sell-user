@@ -45,7 +45,7 @@
 				<div class="mui-scroll">
 					<div class="vip-top"></div>
 					<div class="avatar-box">
-						<img src="img/index02.png"/>
+						<img src="img/index02.png" />
 					</div>
 					<div class="h2">
 						超级会员
@@ -54,69 +54,30 @@
 						我的Power
 					</div>
 					<div class="vip-group">
-						<div class="vip-inner">
+						<div class="vip-inner" v-for="val in mydata">
 							<div class="group">
 								<div class="img-box">
-									<img src="img/2.png"/>
+									<img src="img/2.png" />
 								</div>
 								<h1>
-									老董家黄焖鸡超级会员
+									{{val.usTsCompanyName}}{{val.usTmcLevel}}
 								</h1>
 								<p>
 									<span>
-										超级会员尊享8折优惠
+										
 									</span>
 									<span @click="layuiboo">
 										升级会员卡
 									</span>
 								</p>
 							</div>
-							
-						</div>
-						<div class="vip-inner">
-							<div class="group">
-								<div class="img-box">
-									<img src="img/2.png"/>
-								</div>
-								<h1>
-									老董家黄焖鸡超级会员
-								</h1>
-								<p>
-									<span>
-										超级会员尊享8折优惠
-									</span>
-									<span @click="layuiboo">
-										升级会员卡
-									</span>
-								</p>
-							</div>
-							
-						</div>
-						<div class="vip-inner">
-							<div class="group">
-								<div class="img-box">
-									<img src="img/2.png"/>
-								</div>
-								<h1>
-									老董家黄焖鸡超级会员
-								</h1>
-								<p>
-									<span>
-										超级会员尊享8折优惠
-									</span>
-									<span @click="layuiboo">
-										升级会员卡
-									</span>
-								</p>
-							</div>
-							
 						</div>
 					</div>
 				</div>
 			</div>
 			<footer class="footer">
 				<div class="footer-group">
-					<img src="img/index.png"  @click="opennew('index')" />
+					<img src="img/index.png" @click="opennew('index')" />
 					<span>
 						首页
 					</span>
@@ -128,7 +89,7 @@
 					</span>
 				</div>
 				<div class="footer-group factive">
-					<img src="img/dvip-active.png"/>
+					<img src="img/dvip-active.png" />
 					<span>
 						会员中心
 					</span>
@@ -147,7 +108,9 @@
 				data: {
 					layui: false,
 					layuitext: '您确定要升级会员卡吗',
-					mySwiper: ''
+					mySwiper: '',
+					myurl:localStorage.getItem('myurl'),
+					mydata:''
 				},
 				methods: {
 					layuiboo: function() {
@@ -161,12 +124,29 @@
 					},
 					upvip: function() {
 
+					},
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"get",
+							url:that.myurl+"/queryUsMemberPojoAll",
+							dataType:'json',
+							data:{
+//								usUserId:localStorage.getItem('userid')
+								usUserId:'a32730a8-80ee-11e8-9366-00155dc504d0'
+							},
+							success:function(res){
+								that.mydata=res.data
+								console.log(res)
+							}
+						});
 					}
 				},
 				mounted: function() {
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
+					this.myajax()
 				},
 				update: function() {
 					mui.init()

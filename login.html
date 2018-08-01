@@ -103,7 +103,6 @@
 									usPhone:that.phone
 								},
 								success:function(res){
-									console.log(JSON.stringify(res))
 									if(res.status==200){
 										localStorage.setItem('userid',res.data.usUserId)
 										localStorage.setItem('usNickname',res.data.usNickname)
@@ -148,7 +147,7 @@
 					}
 				},
 				mounted() {
-					
+					localStorage.setItem('myurl', 'http://192.168.2.223/user')
 				}
 			})
 		</script>

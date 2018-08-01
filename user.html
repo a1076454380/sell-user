@@ -100,6 +100,12 @@
 								收货地址
 							</span>
 						</div>
+						<div class="user-tab">
+							<img src="img/exit.png" @click="exit" />
+							<span>
+								退出登陆
+							</span>
+						</div>
 					</div>
 					<div class="user-title">
 						今日推荐
@@ -230,6 +236,10 @@
 					usNickname:localStorage.getItem('usNickname')
 				},
 				methods: {
+					exit:function(){
+						localStorage.clear()
+						this.opennew('login')
+					},
 					prefershow:function(index){
 						if($('.prefer').eq(index).attr('class')=='prefer'){
 							$('.prefer').eq(index).addClass('pauto')

@@ -41,133 +41,57 @@
 					</span>
 			</header>
 			<div class="main main-big mui-content mui-scroll-wrapper" id="pullrefresh">
-				<div class="mui-scroll">
-					<div class="index-group" @click="opendetail()">
-						<div class="group-inner">
-							<div class="img-box">
-								<img src="img/index02.png" />
+				<div class="index-group" @click="opendetail()" v-for="val in tuidata[0]">
+					<div class="group-inner">
+						<div class="img-box">
+							<img src="img/index02.png" />
+						</div>
+						<div class="index-detail">
+							<div class="index-h">
+								{{val.usTsCompanyName}}
 							</div>
-							<div class="index-detail">
-								<div class="index-h">
-									老董家黄焖鸡
-								</div>
-								<div class="index-x" style="align-items: flex-start;">
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xhalf.png" />
-									</div>
-								</div>
-								<div class="index-x">
-									<span class="shop-type">
+							<div class="index-x" style="align-items: flex-start;">
+								<div class="x-group">
+											<img src="img/xactive.png" v-if="val.usSsStar>=1" />
+											<img src="img/xhalf.png" v-if="val.usSsStar1" />
+										</div>
+										<div class="x-group">
+											<img src="img/xactive.png" v-if="val.usSsStar>=2" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<1" />
+										</div>
+										<div class="x-group">
+											<img src="img/xactive.png" v-if="val.usSsStar>=3" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<3" />
+										</div>
+										<div class="x-group">
+											<img src="img/xactive.png" v-if="val.usSsStar>=4" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<4" />
+										</div>
+										<div class="x-group">
+											<img src="img/xactive.png" v-if="val.usSsStar>=5" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<5" />
+										</div>
+							</div>
+							<div class="index-x">
+								<span class="shop-type">
 									<img src="img/shopavatar.png"/>小吃快餐
 								</span>
-								</div>
-								<div class="index-money">
-									<span>
-									起送:¥15.00 | 配送费:¥5.00
+							</div>
+							<div class="index-money">
+								<span>
+									起送:¥{{val.usTsActionPrice}}| 配送费:¥{{val.peisong}}
 								</span>
-									<span>
+								<span>
 									月销量:
-									<strong>69</strong>
+									<strong>{{val.xiaoliang}}</strong>
 								</span>
-								</div>
-							</div>
-						</div>
-						</div>
-					</div>
-
-					<div class="index-group" @click="opendetail()">
-						<div class="group-inner">
-							<div class="img-box">
-								<img src="img/index02.png" />
-							</div>
-							<div class="index-detail">
-								<div class="index-h">
-									老董家黄焖鸡
-								</div>
-								<div class="index-x" style="align-items: flex-start;">
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xactive.png" />
-									</div>
-									<div class="x-group">
-										<img src="img/xhalf.png" />
-									</div>
-								</div>
-								<div class="index-x">
-									<span class="shop-type">
-									<img src="img/shopavatar.png"/>小吃快餐
-								</span>
-								</div>
-								<div class="index-money">
-									<span>
-									起送:¥15.00 | 配送费:¥5.00
-								</span>
-									<span>
-									月销量:
-									<strong>69</strong>
-								</span>
-								</div>
-							</div>
-						</div>
-						<div class="prefer" @click.stop="prefershow(1)">
-							<div class="prefer-group">
-								<span class="perer-name">
-										满减
-									</span>
-								<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-								<img src="img/arrbottom.png" />
-							</div>
-							<div class="prefer-group">
-								<span class="perer-name">
-										会员
-									</span>
-								<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
-							</div>
-							<div class="prefer-group">
-								<span class="perer-name">
-										满减
-									</span>
-								<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-							</div>
-							<div class="prefer-group">
-								<span class="perer-name">
-										会员
-									</span>
-								<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
 							</div>
 						</div>
 					</div>
+				</div>
 
-				</div>
-				</div>
+			</div>
+		</div>
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
@@ -178,7 +102,9 @@
 					sarchboo: true,
 					searchdata: '',
 					shoptype: true,
-					layuitext: '您输入的内容为空!!'
+					layuitext: '您输入的内容为空!!',
+					myurl: localStorage.getItem('myurl'),
+					tuidata:''
 				},
 				methods: {
 					prefershow: function(index) {
@@ -201,38 +127,56 @@
 						//						localStorage.setItem('goodsid',id)
 						this.opennew('shop')
 					},
-					pullupRefresh: function() {
+					myajax: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						var that = this
-						setTimeout(function() {
-							mui('#pullrefresh').pullRefresh().endPullupToRefresh(); //参数为true代表没有更多数据了。
-						}, 1500);
-					},
-					pulldownRefresh: function() {
-						var that = this
-						setTimeout(function() {
-							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-							mui.toast("为你推荐了5篇文章");
-						}, 1500);
+						$.ajax({
+							type: "get",
+							url: that.myurl + "/queryUsTraderStoresRecommendPojoByMaMerchantsStyleId",
+							async: true,
+							dataType: 'json',
+							data:{
+								lng:'34.2650727570',
+								lat:'117.2543334961',
+								maMerchantsStyleId:'1'
+							},
+							success: function(res) {
+								that.tuidata = res.data
+								for(var i = 6; i < res.data.length; i = i + 7) {
+									console.log(i)
+									that.tuidata[0][parseInt(i / 6) - 1].xiaoliang = res.data[i-1]
+									that.tuidata[0][parseInt(i / 6) - 1].peisong = res.data[i].maDiPrice
+								}
+								console.log(that.tuidata)
+
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							},
+							error:function(err){
+								console.log(err)
+							}
+						});
 					}
 				},
 				mounted: function() {
-					var that = this
-					mui.init({
-						pullRefresh: {
-							container: '#pullrefresh',
-							down: {
-								style: 'circle',
-								callback: that.pulldownRefresh
-							},
-							up: {
-								auto: true,
-								contentrefresh: '正在加载...',
-								callback: that.pullupRefresh
-							}
-						}
-					});
+					this.myajax()
 				},
-				update: function() {
+				updated() {
 
 				}
 			})

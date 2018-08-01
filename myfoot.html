@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -64,7 +65,7 @@
 			</header>
 			<div class="main mui-scroll-wrapper">
 				<div class="index-main mui-scroll">
-					<div class="index-group" @click="opendetail()" v-for="val in collectdata">
+					<div class="index-group" @click="opendetail()" v-for="(val,index) in collectdata[0]">
 						<div class="group-inner">
 							<div class="img-box">
 								<img :src="val.usTsFacadeImg" />
@@ -74,48 +75,43 @@
 									{{val.usTsCompanyName}}
 								</div>
 								<div class="index-x" style="align-items: flex-start;">
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=1"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar1"/>
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=2"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<1"/>
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=3"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<3"/>
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=4"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<4"/>
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=5"/>
-												<img src="img/xhalf.png"  v-if="val.usSsStar<5"/>
-											</div>
-										</div>
+									<div class="x-group">
+										<img src="img/xactive.png" v-if="val.usSsStar>=1" />
+										<img src="img/xhalf.png" v-if="val.usSsStar1" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" v-if="val.usSsStar>=2" />
+										<img src="img/xhalf.png" v-if="val.usSsStar<1" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" v-if="val.usSsStar>=3" />
+										<img src="img/xhalf.png" v-if="val.usSsStar<3" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" v-if="val.usSsStar>=4" />
+										<img src="img/xhalf.png" v-if="val.usSsStar<4" />
+									</div>
+									<div class="x-group">
+										<img src="img/xactive.png" v-if="val.usSsStar>=5" />
+										<img src="img/xhalf.png" v-if="val.usSsStar<5" />
+									</div>
+								</div>
 								<div class="index-x">
 									<span class="shop-type">
 									<img src="img/shopavatar.png"/>我的收藏
 								</span>
 								</div>
 								<div class="index-money">
-														<span>
-												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
+									<span>
+												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{collectdata[collectdata.length-1].maDiPrice}}
 											</span>
-														<span>
+									<span>
 												月销量:
-												<strong>69</strong>
+												<strong>{{collectdata[index+1]}}</strong>
 											</span>
 								</div>
 							</div>
 						</div>
-						<transition name='fade'>
-							<div class="delete" v-show="nocollect" @click="layuiboo(val.usCollectionId)">
-								删除
-							</div>
-						</transition>
 					</div>
 				</div>
 			</div>
@@ -129,7 +125,9 @@
 					sarchboo: true,
 					searchdata: '',
 					shoptype: true,
-					layuitext: '您输入的内容为空!!'
+					layuitext: '您输入的内容为空!!',
+					myurl: localStorage.getItem('myurl'),
+					collectdata: ''
 				},
 				methods: {
 					prefershow: function(index) {
@@ -152,17 +150,19 @@
 							id: '' + target + ''
 						})
 					},
-					myajax:function(){
-						var that=this
+					myajax: function() {
+						var that = this
 						$.ajax({
-							type:"get",
-							url:myurl+"/queryUsTraderStoresRecommendPojoByUsFootprint",
-							data:{
-								usUserId:localStorage.getItem('userid')
+							type: "get",
+							url: that.myurl + "/queryUsTraderStoresRecommendPojoByUsFootprint",
+							dataType: 'json',
+							data: {
+								usUserId: 'a32730a8-80ee-11e8-9366-00155dc504d0'
 							},
-							async:true,
-							success:function(res){
-								that.collectdata=res.data
+							async: true,
+							success: function(res) {
+								console.log(res)
+								that.collectdata = res.data
 							}
 						});
 					}
@@ -171,6 +171,7 @@
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
+					this.myajax()
 				},
 				update: function() {
 

@@ -1149,7 +1149,8 @@ input::-webkit-input-placeholder {
 }
 
 .shop .rating-main {
-	margin: 0.1rem
+	margin: 0.1rem;
+	flex: 1;
 }
 
 .shop .rating-main span:first-of-type {

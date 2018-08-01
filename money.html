@@ -39,26 +39,83 @@
 						
 					</span>
 				</header>
-			<div class="main mui-scroll-wrapper">	
+			<div class="main mui-scroll-wrapper main-big">	
 				<div class="mui-scroll">
-				<div class="money-item">
-					<div class="money-top">
-						<div class="money-price">
-							¥<span>5</span>
+					<div class="money-item" v-for="(val,index) in mydata01">
+						<div class="money-top">
+							<div class="money-price">
+								¥<span>{{val.maRePrice==undefined?val.usApPrice:val.maRePrice}}</span>
+							</div>
+							<div class="money-main">
+								<h1>
+									红包
+								</h1>
+								<p>
+									{{val.createTime1}}到期
+								</p>
+							</div>
 						</div>
-						<div class="money-main">
-							<h1>
-								老董家黄焖鸡专用卡卷
-							</h1>
-							<p>
-								2017.08.13到期
-							</p>
+						<div class="money-time">
+							<span>满{{val.maReLimit==undefined?val.usApPriceLimit:val.maReLimit}}可用,限最新版本客户端使用</span>
+							<div class="join" @click="havecollect(1,val.maRedEnvelopeId==undefined?val.usAgentPackageId:val.maRedEnvelopeId)">
+								立即领取
+							</div>
 						</div>
 					</div>
-					<div class="money-time">
-						满99可用,限最新版本客户端使用
+					<div class="money-item" v-for="(val,index) in mydata[0]">
+						<div class="money-top">
+							<div class="money-price">
+								¥<span>{{val.maRePrice}}</span>
+							</div>
+							<div class="money-main">
+								<h1>
+									红包
+								</h1>
+								<p>
+									{{val.maReLimitTime1}}到期
+								</p>
+							</div>
+						</div>
+						<div class="money-time">
+							<span>满{{val.maReLimit}}可用,限最新版本客户端使用</span>
+						</div>
 					</div>
-				</div>
+					<div class="money-item" v-for="(val,index) in mydata[1]">
+						<div class="money-top">
+							<div class="money-price">
+								¥<span>{{val.usApPrice}}</span>
+							</div>
+							<div class="money-main">
+								<h1>
+									红包
+								</h1>
+								<p>
+									{{val.usApLimitTime1}}到期
+								</p>
+							</div>
+						</div>
+						<div class="money-time">
+							<span>满{{val.usApPriceLimit}}可用,限最新版本客户端使用</span>
+						</div>
+					</div>
+					<div class="money-item" v-for="(val,index) in mydata[2]">
+						<div class="money-top">
+							<div class="money-price">
+								¥<span>{{val.usTpPrice}}</span>
+							</div>
+							<div class="money-main">
+								<h1>
+									红包
+								</h1>
+								<p>
+									{{val.usTdAbortTime1}}到期
+								</p>
+							</div>
+						</div>
+						<div class="money-time">
+							<span>满{{val.usTpLimitPrice}}可用,限最新版本客户端使用</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -67,24 +124,50 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext:'错误',
-					searchtype:localStorage.getItem('searchdpeata')
+					layuitext:'确定领取卡卷吗?',
+					searchtype:localStorage.getItem('searchdpeata'),
+					myurl:localStorage.getItem('myurl'),
+					mydata:'',
+					mydata01:[]
 				},
 				methods: {
-					layuiboo: function() {
+					layuitrue:function(){
+						this.layuiboo()
+					},
+					layuiboo: function(text) {
+						this.layuitext=text
 						this.layui = !this.layui
 					},
-					opennew:function(){
+					opennew:function(target){
 						mui.openWindow({
-							url:'shop.html',
-							id:'shop'
+							url:''+target+'.html',
+							id:target
 						})
+					},
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"get",
+							url:that.myurl+"/queryByMaRedMiddleUserPojoRed",
+							data:{
+								usUserId:'a32730a8-80ee-11e8-9366-00155dc504d0'
+							},
+							dataType:'json',
+							success:function(res){
+								that.mydata=res.data
+								console.log(that.mydata)
+							},
+							error:function(res){
+								console.log(res)
+							}
+						});
 					}
 				},
 				mounted: function() {
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
+					this.myajax()
 				},
 				update: function() {
 					
