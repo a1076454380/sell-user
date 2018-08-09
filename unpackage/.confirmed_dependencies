@@ -10,7 +10,9 @@
 			"shoplist.html",
 			"shopcart.html",
 			"gosearch.html",
-			"login.html"
+			"login.html",
+			"vipcart.html",
+			"redb.html"
 		],
 		"resources": []
 	},
@@ -46,7 +48,11 @@
 			"orderlist.html",
 			"instead/adresslist.html",
 			"vipcart.html",
-			"adresslist.html"
+			"adresslist.html",
+			"preferential.html",
+			"login.html",
+			"shop.html",
+			"news.html"
 		],
 		"resources": []
 	},
@@ -98,7 +104,8 @@
 	},
 	"shop.html": {
 		"refer": [
-			"pay.html"
+			"pay.html",
+			"goodsdetail.html"
 		],
 		"resources": []
 	},
@@ -110,14 +117,32 @@
 	},
 	"vipcart.html": {
 		"refer": [
-			"preferential.html"
+			"preferential.html",
+			"index.html",
+			"user.html"
 		],
 		"resources": []
 	},
 	"adresslist.html": {
 		"refer": [
-			"addadress.html"
+			"addadress.html",
+			"changeadress.html"
 		],
 		"resources": []
+	},
+	"shoplist.html": {
+		"refer": [
+			"shop.html"
+		]
+	},
+	"goodsdetail.html": {
+		"refer": [
+			"ratingall.html"
+		]
+	},
+	"city.html": {
+		"refer": [
+			"index.html"
+		]
 	}
 }

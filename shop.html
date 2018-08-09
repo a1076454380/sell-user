@@ -66,25 +66,25 @@
 				<div class="bottom-wrapper" v-show="!cartboo" @click="bottomtab">
 					<div class="bottom-main">
 
-						<div class="bottom-tab">
+						<div class="bottom-tab" v-for='(val,index) in cartdata' v-if="val.usTraderStoresId==mydata[0][0].usTraderStoresId">
 							<div class="bottom-name">
-								黄焖鸡
+								{{val.usTsName}}
 							</div>
 							<div class="bottom-price">
-								¥29.00
+								¥{{val.usTsPrice}}
 							</div>
 							<div class="bottom-setting">
-								<img src="img/reduce.png" @click.stop="reduce('a1','0')" />
-								<input type="number" value="1" id='a1' />
-								<img src="img/add.png" @click.stop="reduce('a1','1')" />
+								<img src="img/reduce.png" @click.stop="reduce(val.usShoppingCartId,'0',index,val.usTsPrice)" v-show="val.usScNum!=1"/>
+								<input type="number" :value="val.usScNum" id='a1' />
+								<img src="img/add.png" @click.stop="reduce(val.usShoppingCartId,'1',index,val.usTsPrice)" />
 							</div>
 						</div>
 						<div class="bottom-tab">
 							<div style="flex: 1;padding-left: .1rem;">
 								总计:
-								<strong>69.00</strong>
+								<strong>{{allprice}}</strong>
 							</div>
-							<div class="bottom-setting" style="background: #FF6666;color: white;width: 2rem;justify-content: center;flex: inherit;padding: 0;" @click.stop="pay('pay')">
+							<div class="bottom-setting" style="background: #FF6666;color: white;width: 2rem;justify-content: center;flex: inherit;padding: 0;" @click.stop="pay('pay','')">
 								结算
 							</div>
 						</div>
@@ -131,7 +131,7 @@
 					</h4>
 					<p>
 						<span v-if="mydata[5].length==0&&mydata[4].length==0&&mydata[3].length==0&&mydata[2].length==0">对不起客官，本店暂无红包呢！</span>
-						<span v-if="mydata[5].length!=0">线上专享{{mydata[5][0].usTpPrice}}元红包，满{{mydata[4][0].usTpLimitPrice}}可用！</span>
+						<span v-if="mydata[5].length!=0">线上专享{{mydata[5][0].usTpPrice}}元红包，满{{mydata[5][0].usTpLimitPrice}}可用！</span>
 					</p>
 					<h4>
 						配送
@@ -222,12 +222,13 @@
 									<!--右侧详情-->
 									<div class="shop-right">
 										<div class="right-group">
-											<div class="right-header"  v-if="shopdata!=null&&shopdata!=''">
+											<div class="right-header" v-if="shopdetil!=''">
 												{{shopdetil[0].usTssResult}}
 											</div>
 											<div class="right-main">
-												<div class="rmain-group"  v-for="(val,index) in shopdetil" @click="pay('goodsdetail')" v-if="index%2==0">
-													<img :src="val.usTsImgUrl" class="img" />
+												<div class="rmain-group" v-for="(val,index) in shopdetil" @click="pay('goodsdetail',val.usTraderShoppingId)" v-if="index%2==0">
+													<!--<img :src="val.usTsImgUrl" class="img" />-->
+													<img src="img/index.jpg" class="img"/>
 													<div class="shoptext">
 														<h4>
 															{{val.usTsName}}
@@ -258,7 +259,8 @@
 								<div class="shop-content swiper-slide" style="flex-direction: column;" v-if="tabnum==1">
 									<div class="rating-group" v-for="val in mydata[1]">
 										<div class="img-box">
-											<img :src="val.usHeadImg" />
+											<!--<img :src="val.usHeadImg" />-->
+											<img src="img/index.jpg" class="avatar"/>
 										</div>
 										<div class="rating-main">
 											<div class="rating-name">
@@ -269,10 +271,14 @@
 												{{val.usScContent}}
 											</div>
 											<div class="rating-img">
-												<img :src="val.usScImg1Url" v-if="val.usScImg1Url!=''&&val.usScImg1Url!=null" />
+												<!--<img :src="val.usScImg1Url" v-if="val.usScImg1Url!=''&&val.usScImg1Url!=null" />
 												<img :src="val.usScImg2Url" v-if="val.usScImg2Url!=''&&val.usScImg1Url!=null" />
 												<img :src="val.usScImg3Url" v-if="val.usScImg3Url!=''&&val.usScImg1Url!=null" />
-												<img :src="val.usScImg4Url" v-if="val.usScImg4Url!=''&&val.usScImg1Url!=null" />
+												<img :src="val.usScImg4Url" v-if="val.usScImg4Url!=''&&val.usScImg1Url!=null" />-->
+												<img src="img/index.jpg"/>
+												<img src="img/index02.png"/>
+												<img src="img/index.jpg"/>
+												<img src="img/index02.png"/>
 											</div>
 										</div>
 									</div>
@@ -299,49 +305,50 @@
 					shopdata: '',
 					mydata: '',
 					myurl: localStorage.getItem('myurl'),
-					shopdetil: ''
+					shopdetil: '',
+					cartdata: [],
+					allprice: 0
 				},
 				methods: {
-					addcollect:function(id){
-						var that=this	
+					addcollect: function(id) {
+						var that = this
 						$.ajax({
-							type:"post",
-							url:that.myurl+"/insertUsCollection",
-							dataType:'json',
-							data:{
-								usTraderShoppingId:id,
-								usUserId:localStorage.getItem('userid')
+							type: "post",
+							url: that.myurl + "/insertUsCollection",
+							dataType: 'json',
+							data: {
+								usTraderShoppingId: id,
+								usUserId: localStorage.getItem('userid')
 							},
-							success:function(res){
-								if(res.status==200){
+							success: function(res) {
+								if(res.status == 200) {
 									that.layuiboo('收藏成功')
-								}else{
+								} else {
 									that.layuiboo('收藏失败')
 								}
 							}
 						});
 					},
-					addcart: function(id,price) {
-						var that=this
+					addcart: function(id, price) {
+						var that = this
 						$('.mycart').addClass('cartanimate')
-									this.mycartnum++
-										setTimeout(function() {
-											$('.mycart').removeClass('cartanimate')
-										}, 500)
+							setTimeout(function() {
+								$('.mycart').removeClass('cartanimate')
+							}, 500)
 						$.ajax({
-							type:"post",
-							url:that.myurl+"/insertUsShoppingCart",
-							dataType:'json',
-							data:{
-								usTraderShoppingId:id,
-								usUserId:localStorage.getItem('userid'),
-								usScNum:1,
-								usScPrice:price
+							type: "post",
+							url: that.myurl + "/insertUsShoppingCart",
+							dataType: 'json',
+							data: {
+								usTraderShoppingId: id,
+								usUserId: localStorage.getItem('userid'),
+								usScNum: 1,
+								usScPrice: price
 							},
-							success:function(res){
-								if(res.status==200){
-									
-								}else{
+							success: function(res) {
+								if(res.status == 200) {
+									that.havecart()
+								} else {
 									that.layuiboo('加入购物车失败')
 								}
 							}
@@ -352,23 +359,27 @@
 						this.layuitext = text
 					},
 					mytab: function(index) {
+						//						获取分类下商品
 						var that = this
 						this.num = index
-						console.log(localStorage.getItem('usTraderStoresId'))
 						$.ajax({
 							type: "get",
 							url: that.myurl + "/queryUsTraderShoppingSortByUsTraderIdDetails",
 							dataType: 'json',
 							data: {
-								usTraderStoresId: '3',
-								usTraderShoppingSortId: 'goodtype2'
+								usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+								usTraderShoppingSortId: index
 							},
 							success: function(res) {
-								that.shopdetil = res.data
-								for(var i = 0; i < res.data.length; i = i + 2) {
-									that.shopdetil[i].xiaoliang = that.shopdetil[i + 1]
+								if(res.data[0] != null) {
+									that.shopdetil = res.data
+									for(var i = 0; i < res.data.length; i = i + 2) {
+										that.shopdetil[i].xiaoliang = that.shopdetil[i + 1]
+									}
+								} else {
+									that.shopdetil = ''
 								}
-								console.log(that.shopdetil)
+
 							}
 						});
 					},
@@ -380,24 +391,41 @@
 					},
 					bottomtab: function() {
 						if(this.mycartnum == 0) {
-							this.layuiboo('', '您还没有选择商品呢')
+							this.layuiboo('您的购物车是空的')
 						} else {
 							this.cartboo = !this.cartboo
 						}
 					},
-					reduce: function(id, type) {
-						var num = $('#' + id + '').val()
+					reduce: function(id, type, index, price) {
+						var that = this
 						if(type == 0) {
-							if(num > 1) {
-								$('#' + id + '').val(parseInt(num) - 1)
-							} else {
-
+							if(this.cartdata[index].usScNum!=0){
+								this.cartdata[index].usScNum--
 							}
 						} else {
-							$('#' + id + '').val(parseInt(num) + 1)
+							this.cartdata[index].usScNum++
 						}
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/updateUsShoppingCart",
+							data: {
+								usShoppingCartId: id,
+								usScNum: that.cartdata[index].usScNum,
+								usScPrice: price
+							},
+							dataType: 'json',
+							success: function(res) {
+								if(type == 0) {
+									that.allprice = that.allprice - price
+								} else {
+									that.allprice = that.allprice + price
+								}
+
+							}
+						});
 					},
-					pay: function(target) {
+					pay: function(target, usTraderShoppingId) {
+						localStorage.setItem('usTraderShoppingId', usTraderShoppingId)
 						mui.openWindow({
 							url: '' + target + '.html',
 							id: target
@@ -413,17 +441,18 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
+						//						获取分类
 						var that = this
 						$.ajax({
 							type: "get",
 							url: that.myurl + "/queryUsTraderShoppingSortByUsTraderId",
 							dataType: 'json',
 							data: {
-								usTraderId: localStorage.getItem('usTraderStoresId')
+								usTraderId: localStorage.getItem('usTraderId')
 							},
 							success: function(res) {
 								that.shopdata = res.data
-								if(that.shopdata!=null&&that.shopdata!=''){
+								if(that.shopdata != null && that.shopdata != '') {
 									that.num = res.data[0].usTraderShoppingSortId
 									that.mytab(that.num)
 								}
@@ -439,6 +468,7 @@
 								}
 							}
 						});
+						//						获取店铺信息
 						$.ajax({
 							type: "get",
 							url: that.myurl + "/queryUsTraderStoresRecommendPojoDetail",
@@ -447,8 +477,35 @@
 								usTraderStoresId: localStorage.getItem('usTraderStoresId')
 							},
 							success: function(res) {
-								console.log(res)
 								that.mydata = res.data
+								that.havecart()
+							},
+							error: function(err) {
+								console.log(err)
+							}
+						});
+					},
+					havecart: function() {
+						var that=this
+						//						获取购物车
+						$.ajax({
+							type: "get",
+							url: that.myurl + "/queryByUsShoppingCartPojo",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('userid')
+							},
+							success: function(res) {
+								that.cartdata = res.data
+								that.mycartnum=0
+								that.allprice=0
+								for(var i = 0; i < res.data.length; i++) {
+									that.allprice += res.data[i].usTsPrice * res.data[i].usScNum;
+									if(res.data[i].usTraderStoresId == that.mydata[0][0].usTraderStoresId) {
+										that.mycartnum++
+									}
+								}
+
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
@@ -458,9 +515,6 @@
 								} else {
 									document.addEventListener("plusready", plusReady, false);
 								}
-							},
-							error: function(err) {
-								console.log(err)
 							}
 						});
 					}

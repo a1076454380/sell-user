@@ -9,10 +9,9 @@
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
-
 	<body>
 		<div id="app" class="wrapper userinfo">
 			<div class="layui" v-show="layui">
@@ -35,25 +34,25 @@
 					<img src="img/back.png"/>
 				</span>
 				<span class="header-main">个人信息</span>
-				<span class="header-settings" >
+				<span class="header-settings">
 					
 				</span>
 			</header>
 			<div class="main main-big">
-				<form :action="action" method="post">
+				<form method="post">
 					<div class="info-group">
 						<div class="group-name">
 							头像
 						</div>
-						<img src="img/index.jpg" class="avatar" @click="imgclick('img01','in01')" id="img01"/>
-						<input type="hidden" id="in01"/>
+						<img :src="avatar" class="avatar" @click="imgclick('img01','in01')" id="img01" />
+						<input type="hidden" id="in01" v-model="usHeadImg"/>
 						<img src="img/arrright.png" class="aright" />
 					</div>
 					<div class="info-group">
 						<div class="group-name">
 							昵称
 						</div>
-						<input type="text" placeholder="请输入新的用户名" />
+						<input type="text" placeholder="请输入新的用户名" v-model="usNickname"/>
 						<img src="img/arrright.png" class="aright" />
 					</div>
 				</form>
@@ -68,11 +67,14 @@
 				data: {
 					layui: false,
 					layuitext: '未知错误',
-					server: 'http://39.107.70.18/Transportation/uploadDriverImage',
-					action: localStorage.getItem('myurl') + '/insertSelectiveBydriver',
+					server:localStorage.getItem('myurl')+'/imagePriaseImage',
 					imgid: '',
 					inputid: '',
-					files: []
+					files: [],
+					usHeadImg:'',
+					usNickname:localStorage.getItem('usNickname'),
+					avatar:localStorage.getItem('usHeadImg'),
+					myurl:localStorage.getItem('myurl')
 				},
 				methods: {
 					layuiboo: function() {
@@ -86,14 +88,58 @@
 					},
 					mysub: function() {
 						var that = this
-						plus.nativeUI.showWaiting("正在提交数据,不要关闭页面!!");
-						$('form').ajaxSubmit({
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("数据更新中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						$.ajax({
 							type: 'post',
 							dataType: 'json',
-							url: that.action,
+							url: that.myurl+'/updateHeadImg',
+							data:{
+								usUserId:localStorage.getItem('userid'),
+								usNickname:that.usNickname,
+								usHeadImg:that.usHeadImg
+							},
 							success: function(res) {
-								plus.nativeUI.closeWaiting();
-								that.layuiboo()
+								if(res.status==200){
+									$.ajax({
+										type:"get",
+										url:localStorage.getItem('myurl')+"/queryLoginByUsPhone",
+										dataType:'json',
+										data:{
+											usPhone:localStorage.getItem('usPhone')
+										},
+										success:function(res){
+											if(res.status==200){
+												localStorage.setItem('userid',res.data.usUserId)
+												localStorage.setItem('usNickname',res.data.usNickname)
+												localStorage.setItem('usPhone',res.data.usPhone)
+												localStorage.setItem('usHeadImg',res.data.usHeadImg)
+												function plusReady() {
+													// 弹出系统等待对话框
+													plus.nativeUI.toast("更新完成...");
+												}
+												if(window.plus) {
+													plusReady();
+												} else {
+													document.addEventListener("plusready", plusReady, false);
+												}
+											}
+										},
+										error:function(err){
+											console.log(JSON.stringify(err))
+										}
+									});
+								}
+							},
+							error:function(res){
+								console.log(res)
 							}
 						})
 					},

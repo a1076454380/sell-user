@@ -3,15 +3,16 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">   
 		<title></title>
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
@@ -60,7 +61,7 @@
 							<img src="img/drame.png"/>
 							{{city}}  {{weather}}
 						</span>
-				<span class="header-main">首页</span>
+				<span class="header-main">易点外卖</span>
 				<span class="header-settings" @click="opennew('gosearch')">
 							<img src="img/search.png"/>
 					</span>
@@ -77,10 +78,10 @@
 						<div class="mui-slider">
 							<div class="mui-slider-group">
 								<!--第一个内容区容器-->
-								<div class="mui-slider-item" @click="opendetail(val.usTraderStoresId)" v-for="val in bannerdata" v-if="val.maApName=='用户首页的轮播图片'">
+								<div class="mui-slider-item" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in bannerdata" v-if="val.maApName=='用户首页的轮播图片'">
 									<!-- 具体内容 -->
 									<!--<img :src="val.usTsBannerImg" />-->
-									<img src="img/1.png" />
+									<img src="img/4.png" />
 								</div>
 							</div>
 							<div class="mui-slider-indicator">
@@ -96,9 +97,10 @@
 									</div>
 									<span>万能代购</span>
 								</div>
-								<div class="nav-group" @click="openlist(val.maMerchantsStyleId)" v-for='val in navdata'>
+								<div class="nav-group" @click="openlist(val.maMerchantsStyleId,val.maMsName)" v-for='val in navdata'>
 									<div class="img-box">
-										<img :src="val.maMsImgUrl" />
+										<!--<img :src="val.maMsImgUrl" />-->
+										<img src="img/index002.png" />
 									</div>
 									<span>{{val.maMsName}}</span>
 								</div>
@@ -112,20 +114,18 @@
 								</div>
 							</div>
 						</div>
-						<div class="index-top" v-if="mydata[0]=='null'">
+						<div class="index-top" v-if="mydata[0]!='null'">
 							<span>
 								我的专属
 							</span>
-							<span @click="opennew('shoplist')" class="more">
-								<span>更多</span>
-							<img src="img/arrright.png" />
-							</span>
+
 						</div>
 						<div class="index-main">
-							<div class="index-group" @click="opendetail()" v-for="(val,index) in mydata" v-if="mydata[0]=='null'">
+							<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="(val,index) in mydata[0]" v-if="mydata[0]!='null'">
 								<div class="group-inner">
 									<div class="img-box">
-										<img :src="val.usTsFacadeImg" />
+										<!--<img :src="val.usTsFacadeImg" />-->
+										<img src="img/index.jpg" />
 									</div>
 									<div class="index-detail">
 										<div class="index-h">
@@ -160,48 +160,13 @@
 										</div>
 										<div class="index-money">
 											<span>
-												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
+												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{mydata[2].maDiPrice}}
 											</span>
 											<span>
 												月销量:
-												<strong>69</strong>
+												<strong>{{val.xiaoliang}}</strong>
 											</span>
 										</div>
-									</div>
-								</div>
-								<div class="prefer">
-									<div class="prefer-group">
-										<span class="perer-name">
-										满减
-									</span>
-										<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-										<img src="img/arrbottom.png" />
-									</div>
-									<div class="prefer-group">
-										<span class="perer-name">
-										会员
-									</span>
-										<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
-									</div>
-									<div class="prefer-group">
-										<span class="perer-name">
-										满减
-									</span>
-										<span class="prefer-text">
-										满20减30，满30减5，满45减10
-									</span>
-									</div>
-									<div class="prefer-group">
-										<span class="perer-name">
-										会员
-									</span>
-										<span class="prefer-text">
-										超级会员领6元无门槛红包
-									</span>
 									</div>
 								</div>
 							</div>
@@ -213,32 +178,33 @@
 						</div>
 					</div>
 					<div class="index-top" style="margin-top: 0;" id="nav">
-						<div class="top-tab" @click="screening('haoping')" :class="screen=='haoping'?'img-active':''">
+						<div class="top-tab" @click="screening('usSsStar','j')" :class="screen=='usSsStar'?'img-active':''">
 							<span>好评优先</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
-						<div class="top-tab" @click="screening('xiaoliang')" :class="screen=='xiaoliang'?'img-active':''">
+						<div class="top-tab" @click="screening('xiaoliang','j')" :class="screen=='xiaoliang'?'img-active':''">
 							<span>销量最高</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
-						<div class="top-tab" @click="screening('juli')" :class="screen=='juli'?'img-active':''">
+						<div class="top-tab" @click="screening('juli','s')" :class="screen=='juli'?'img-active':''">
 							<span>离我最近</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
-						<div class="top-tab" @click="screening('renjun')" :class="screen=='renjun'?'img-active':''">
+						<div class="top-tab" @click="screening('renjun','s')" :class="screen=='renjun'?'img-active':''">
 							<span>人均最低</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
 					</div>
 					<div class="index-main">
-						<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in tuidata[0]">
+						<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in tuidata[0]">
 							<div class="group-inner">
 								<div class="img-box">
-									<img :src="val.usTsFacadeImg" />
+									<!--<img :src="val.usTsFacadeImg" />-->
+									<img src="img/index02.png" />
 								</div>
 								<div class="index-detail">
 									<div class="index-h">
@@ -277,7 +243,7 @@
 								</span>
 										<span>
 									月销量:
-									<strong>{{val.xiaoliang}}</strong>
+									<strong>{{val.xiaoliang==null?'0':val.xiaoliang}}</strong>
 								</span>
 									</div>
 								</div>
@@ -360,7 +326,7 @@
 					shoptype: true,
 					layuitext: '您输入的内容为空!!',
 					weather: '天气获取中。。。',
-					screen: 'haoping',
+					screen: 'usSsStar',
 					mycartnum: 0,
 					bannerdata: '',
 					newdata: '',
@@ -369,8 +335,9 @@
 					tuidata: ''
 				},
 				methods: {
-					openlist:function(id){
-						localStorage.setItem('maMerchantsStyleId',id)
+					openlist: function(id,maMsName) {
+						localStorage.setItem('maMerchantsStyleId', id)
+						localStorage.setItem('maMsName', maMsName)
 						this.opennew('shoplist')
 					},
 					myscroll: function() {
@@ -380,7 +347,7 @@
 							$('#nav').css('position', '')
 						}
 					},
-					screening: function(type) {
+					screening: function(type, jiang) {
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
@@ -397,10 +364,16 @@
 							easing: "swing"
 						});
 						this.screen = type
-						this.tuidata[0].sort(function(a, b) {
-							return parseFloat(a[type]) - parseFloat(b[type]);
-						})
-						console.log(this.tuidata[0])
+						if(jiang == 's') {
+							this.tuidata[0].sort(function(a, b) {
+								return parseFloat(a[type]) - parseFloat(b[type]);
+							})
+						} else {
+							this.tuidata[0].sort(function(a, b) {
+								return parseFloat(b[type]) - parseFloat(a[type]);
+							})
+						}
+
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.closeWaiting()
@@ -436,8 +409,9 @@
 							id: '' + target + ''
 						})
 					},
-					opendetail: function(id) {
-						localStorage.setItem('usTraderStoresId',id)
+					opendetail: function(id, usTraderId) {
+						localStorage.setItem('usTraderStoresId', id)
+						localStorage.setItem('usTraderId', usTraderId)
 						this.opennew('shop')
 					},
 					myajax: function() {
@@ -485,9 +459,9 @@
 							},
 							success: function(res) {
 								that.mydata = res.data
-							},
-							error: function(err) {
-								console.log(err)
+								for(var i = 0; i < res.data[0].length; i++) {
+									that.mydata[0][i].xiaoliang = res.data[2 * i + 1]
+								}
 							}
 						});
 						//						分类查询
@@ -497,9 +471,6 @@
 							dataType: 'json',
 							success: function(res) {
 								that.navdata = res.data
-							},
-							error: function(err) {
-								alert('今日头条获取失败！')
 							}
 						});
 						//						小易推荐
@@ -508,36 +479,38 @@
 							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojo",
 							dataType: 'json',
 							data: {
-								lng: '34.2650727570',
-								lat: '117.2543334961'
+								lng: localStorage.getItem('lng'),
+								lat: localStorage.getItem('lat')
 							},
 							success: function(res) {
 								that.tuidata = res.data
 								for(var i = 8; i < res.data.length; i = i + 9) {
-									that.tuidata[0][parseInt(i / 8) - 1].xiaoliang = res.data[i]
+									that.tuidata[0][parseInt(i / 8) - 1].xiaoliang = res.data[i] || 0
 									that.tuidata[0][parseInt(i / 8) - 1].peisong = res.data[i - 2].maDiPrice
 									that.tuidata[0][parseInt(i / 8) - 1].xinren = res.data[i - 7]
 									that.tuidata[0][parseInt(i / 8) - 1].manjian = res.data[i - 6]
 									that.tuidata[0][parseInt(i / 8) - 1].zhekou = res.data[i - 5]
 									that.tuidata[0][parseInt(i / 8) - 1].hongbao = res.data[i - 4]
-									that.tuidata[0][parseInt(i / 8) - 1].renjun = res.data[i]
-									that.tuidata[0][parseInt(i / 8) - 1].juli = res.data[i - 1]
+									that.tuidata[0][parseInt(i / 8) - 1].renjun = res.data[i] || 0
+									that.tuidata[0][parseInt(i / 8) - 1].juli = res.data[i - 1] || 0
 								}
-								console.log(that.tuidata)
-								function plusReady() {
-									// 弹出系统等待对话框
-									plus.nativeUI.closeWaiting()
-								}
-								if(window.plus) {
-									plusReady();
-								} else {
-									document.addEventListener("plusready", plusReady, false);
-								}
+								that.screening('usSsStar', 'j')
+
 							},
 							error: function(err) {
 								alert('今日头条获取失败！')
 							}
 						});
+
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 					}
 				},
 				mounted: function() {
@@ -556,8 +529,8 @@
 					} else {
 						document.addEventListener("plusready", plusReady, false);
 					}
-					localStorage.setItem('myurl', 'http://192.168.2.223/user')
-
+					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
+//					localStorage.setItem('myurl', 'http://192.168.2.223/user')
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006
 					})
@@ -612,12 +585,14 @@
 							});
 						});
 					}
+					localStorage.setItem('lng', '34.2650727570')
+					localStorage.setItem('lat', '117.2543334961')
 					this.myajax()
 				},
 				updated() {
 					mui(".mui-slider").slider({
-                    interval: 3000  //如果你想自动3000ms滑动一下就写上这个。如果是拖拽才滑动就不写这个。就直接写sliderMuiObj.slider();
-                });
+						interval: 3000 //如果你想自动3000ms滑动一下就写上这个。如果是拖拽才滑动就不写这个。就直接写sliderMuiObj.slider();
+					});
 				}
 			})
 		</script>

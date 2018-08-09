@@ -45,7 +45,8 @@
 				<div class="mui-scroll">
 					<div class="vip-top"></div>
 					<div class="avatar-box">
-						<img src="img/index02.png" />
+						<!--<img :src="usHeadImg" />-->
+						<img src="img/index.jpg"/>
 					</div>
 					<div class="h2">
 						超级会员
@@ -66,7 +67,7 @@
 									<span>
 										
 									</span>
-									<span @click="layuiboo">
+									<span @click="layuiboo(val.usTmcLevelNumber,val.usTraderId,val.usTraderStoresId)">
 										升级会员卡
 									</span>
 								</p>
@@ -110,10 +111,17 @@
 					layuitext: '您确定要升级会员卡吗',
 					mySwiper: '',
 					myurl:localStorage.getItem('myurl'),
-					mydata:''
+					mydata:'',
+					usHeadImg:localStorage.getItem('usHeadImg'),
+					usTmcLevelNumber:'',
+					usTraderId:'',
+					usTraderStoresId:''
 				},
 				methods: {
-					layuiboo: function() {
+					layuiboo: function(usTmcLevelNumber,usTraderId,usTraderStoresId) {
+						this.usTmcLevelNumber=usTmcLevelNumber
+						this.usTraderId=usTraderId
+						this.usTraderStoresId=usTraderStoresId
 						this.layui = !this.layui
 					},
 					opennew: function(target) {
@@ -123,7 +131,36 @@
 						})
 					},
 					upvip: function() {
-
+						var that=this
+						$.ajax({
+							type:"get",
+							url:that.myurl+"/queryUsMemberPojoDetail",
+							dataType:'json',
+							data:{
+								usTmcLevelNumber:that.usTmcLevelNumber,
+								usTraderId:that.usTraderId,
+								usTraderStoresId:that.usTraderStoresId
+							},
+							success:function(res){
+								console.log(res.data[0].usMemberId)
+								console.log(res.data[0].usMePrice)
+								$.ajax({
+									type:"post",
+									url:that.myurl+"/createAliPayMember",
+									data:{
+										usMemberId:res.data[0].usMemberId,
+										usMdPrice:res.data[0].usMePrice
+									},
+									dataType:'json',
+									success:function(res){
+										console.log(res)
+									},
+									error:function(err){
+										console.log(JSON.stringify(err))
+									}
+								});
+							}
+						})
 					},
 					myajax:function(){
 						var that=this
@@ -132,12 +169,10 @@
 							url:that.myurl+"/queryUsMemberPojoAll",
 							dataType:'json',
 							data:{
-//								usUserId:localStorage.getItem('userid')
-								usUserId:'a32730a8-80ee-11e8-9366-00155dc504d0'
+								usUserId:localStorage.getItem('userid')
 							},
 							success:function(res){
 								that.mydata=res.data
-								console.log(res)
 							}
 						});
 					}

@@ -47,46 +47,13 @@
 						<span>
 						同城广告
 					</span>
-						<span @click="opennew('shoplist')">
-						更多
-						<img src="img/arrright.png"/>
-					</span>
 					</div>
 					<div class="per-main">
-						<div class="per-tab">
-							<img src="img/index.jpg" />
+						<div class="per-tab" v-for="val in tuidata[0]"  @click="opendetail(val.usTraderStoresId,val.usTraderId)">
+							<!--<img :src="val.usTsFacadeImg" />-->
+									<img src="img/index02.png"/>
 							<p>
-								老董家黄焖鸡
-							</p>
-						</div>
-						<div class="per-tab">
-							<img src="img/index02.png" />
-							<p>
-								柳州酒香鸡
-							</p>
-						</div>
-						<div class="per-tab">
-							<img src="img/index.jpg" />
-							<p>
-								老董家黄焖鸡
-							</p>
-						</div>
-						<div class="per-tab">
-							<img src="img/index02.png" />
-							<p>
-								龙腾创意屋
-							</p>
-						</div>
-						<div class="per-tab">
-							<img src="img/index.jpg" />
-							<p>
-								老董家黄焖鸡
-							</p>
-						</div>
-						<div class="per-tab">
-							<img src="img/index02.png" />
-							<p>
-								如意蛋糕房
+								{{val.usTsCompanyName}}
 							</p>
 						</div>
 					</div>
@@ -94,46 +61,14 @@
 						<span>
 						同城必点
 					</span>
-						<span @click="opennew('shoplist')">
-						更多
-						<img src="img/arrright.png"/>
-					</span>
+						
 					</div>
 					<div class="per-main">
-						<div class="per-tab">
-							<img src="img/index.jpg" />
+						<div class="per-tab" v-for="val in tuidata[0]"  @click="opendetail(val.usTraderStoresId,val.usTraderId)">
+							<!--<img :src="val.usTsFacadeImg" />-->
+									<img src="img/index.jpg"/>
 							<p>
-								老董家黄焖鸡
-							</p>
-						</div>
-						<div class="per-tab">
-							<img src="img/index02.png" />
-							<p>
-								柳州酒香鸡
-							</p>
-						</div>
-						<div class="per-tab">
-							<img src="img/index.jpg" />
-							<p>
-								老董家黄焖鸡
-							</p>
-						</div>
-						<div class="per-tab">
-							<img src="img/index02.png" />
-							<p>
-								龙腾创意屋
-							</p>
-						</div>
-						<div class="per-tab">
-							<img src="img/index.jpg" />
-							<p>
-								老董家黄焖鸡
-							</p>
-						</div>
-						<div class="per-tab">
-							<img src="img/index02.png" />
-							<p>
-								如意蛋糕房
+								{{val.usTsCompanyName}}
 							</p>
 						</div>
 					</div>
@@ -141,93 +76,52 @@
 						<span>
 						人气商家
 					</span>
-						<span @click="opennew('shoplist')">
-						更多
-						<img src="img/arrright.png"/>
-					</span>
 					</div>
 					<div class="index-main">
-						<div class="index-group" @click="opendetail()">
+						<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in tuidata[0]">
 							<div class="group-inner">
 								<div class="img-box">
-									<img src="img/index02.png" />
+									<!--<img :src="val.usTsFacadeImg" />-->
+									<img src="img/index.jpg"/>
 								</div>
 								<div class="index-detail">
 									<div class="index-h">
-										老董家黄焖鸡
+										{{val.usTsCompanyName}}
 									</div>
 									<div class="index-x" style="align-items: flex-start;">
 										<div class="x-group">
-											<img src="img/xactive.png" />
+											<img src="img/xactive.png" v-if="val.usSsStar>=1" />
+											<img src="img/xhalf.png" v-if="val.usSsStar1" />
 										</div>
 										<div class="x-group">
-											<img src="img/xactive.png" />
+											<img src="img/xactive.png" v-if="val.usSsStar>=2" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<1" />
 										</div>
 										<div class="x-group">
-											<img src="img/xactive.png" />
+											<img src="img/xactive.png" v-if="val.usSsStar>=3" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<3" />
 										</div>
 										<div class="x-group">
-											<img src="img/xactive.png" />
+											<img src="img/xactive.png" v-if="val.usSsStar>=4" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<4" />
 										</div>
 										<div class="x-group">
-											<img src="img/xhalf.png" />
+											<img src="img/xactive.png" v-if="val.usSsStar>=5" />
+											<img src="img/xhalf.png" v-if="val.usSsStar<5" />
 										</div>
 									</div>
 									<div class="index-x">
 										<span class="shop-type">
-									<img src="img/shopavatar.png"/>小吃快餐
+									<img src="img/shopavatar.png"/>小易推荐
 								</span>
 									</div>
 									<div class="index-money">
 										<span>
-									起送:¥15.00 | 配送费:¥5.00
+									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.peisong}}
 								</span>
 										<span>
 									月销量:
-									<strong>69</strong>
-								</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="index-group" @click="opendetail()">
-							<div class="group-inner">
-								<div class="img-box">
-									<img src="img/index02.png" />
-								</div>
-								<div class="index-detail">
-									<div class="index-h">
-										老董家黄焖鸡
-									</div>
-									<div class="index-x" style="align-items: flex-start;">
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group">
-											<img src="img/xhalf.png" />
-										</div>
-									</div>
-									<div class="index-x">
-										<span class="shop-type">
-									<img src="img/shopavatar.png"/>小吃快餐
-								</span>
-									</div>
-									<div class="index-money">
-										<span>
-									起送:¥15.00 | 配送费:¥5.00
-								</span>
-										<span>
-									月销量:
-									<strong>69</strong>
+									<strong>{{val.xiaoliang==null?'0':val.xiaoliang}}</strong>
 								</span>
 									</div>
 								</div>
@@ -273,7 +167,9 @@
 					sarchboo: true,
 					searchdata: '',
 					shoptype: true,
-					layuitext: '您输入的内容为空!!'
+					layuitext: '您输入的内容为空!!',
+					tuidata:'',
+					myurl:localStorage.getItem('myurl')
 				},
 				methods: {
 					prefershow: function(index) {
@@ -295,12 +191,57 @@
 							id: '' + target + ''
 						})
 					},
-					opendetail: function(id) {
-						//						localStorage.setItem('goodsid',id)
+					opendetail: function(id, usTraderId) {
+						localStorage.setItem('usTraderStoresId', id)
+						localStorage.setItem('usTraderId', usTraderId)
 						this.opennew('shop')
+					},
+					myajax:function(){
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that=this
+						$.ajax({
+							type: "get",
+							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojo",
+							dataType: 'json',
+							data: {
+								lng: localStorage.getItem('lng'),
+								lat: localStorage.getItem('lat')
+							},
+							success: function(res) {
+								if(res.data!=null){
+									that.tuidata = res.data
+									for(var i = 8; i < res.data.length; i = i + 9) {
+										that.tuidata[0][parseInt(i / 8) - 1].xiaoliang = res.data[i]
+										that.tuidata[0][parseInt(i / 8) - 1].peisong = res.data[i - 2].maDiPrice
+									}
+								}
+							},
+							error: function(err) {
+								alert('今日头条获取失败！')
+							}
+							
+						});
+						function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 					}
 				},
 				mounted: function() {
+					this.myajax()
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});

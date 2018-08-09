@@ -77,13 +77,13 @@
 						var that=this
 						$.ajax({
 							type:"get",
-							url:that.myurl+"/queryByCmessagePojo",
-							async:true,
+							url:that.myurl+"/queryByCmessage",
 							dataType:'json',
 							data:{
 								cmessageId:localStorage.getItem('cuserCmessageId')
 							},
 							success:function(res){
+								console.log(res)
 								that.mydata=res.data
 							}
 						});

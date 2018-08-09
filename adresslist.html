@@ -25,7 +25,7 @@
 						{{layuitext}}
 					</div>
 					<div class="layui-settings">
-						<div class="layui-setting" @click="moren">
+						<div class="layui-setting" @click="layuiboo">
 							确定
 						</div>
 						<div class="layui-setting" @click="layuiboo">
@@ -42,7 +42,7 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div class="list-group" v-for="(val,index) in adressdata" @click="layuiboo('是否将当前收货地址设置为默认收货地址？',val.usAddressId)">
+				<div class="list-group" v-for="(val,index) in adressdata" @click="change(val.usAddressId)">
 					<div class="group-main">
 						<h2>
 							{{val.usAdsProvince}}{{val.usAdsCity}}{{val.usAdsArea}}
@@ -59,11 +59,11 @@
 							</span>
 						</p>
 					</div>
-					<img src="img/change.png" @click="opennew('changeadress',0)"/>
+					<img src="img/change.png" @click.stop="opennew('changeadress',index)"/>
 				</div>
 				
 			</div>
-			<div class="list-bottom" @click="opennew('addadress')">
+			<div class="list-bottom" @click="opennew('addadress','')">
 				<img src="img/add.png"/>增加地址
 			</div>
 		</div>
@@ -78,15 +78,18 @@
 					usAddressId:''
 				},
 				methods: {
-					moren:function(){
+					change:function(id){
 						var that=this
 						$.ajax({
 							type:"post",
-							url:myurl+"/updateByUsAdsStatus",
-							async:true,
+							url:that.myurl+"/updateByUsAdsStatus",
+							dataType:'json',
+							data:{
+								usAddressId:id,
+								usUserId:localStorage.getItem('userid')
+							},
 							success:function(res){
-								if(res.staus==200){
-									that.layuiboo()
+								if(res.status==200){
 									plus.nativeUI.toast('默认地址修改完成')
 								}
 							}
@@ -99,32 +102,57 @@
 						this.layuitext = text
 						this.layui = !this.layui
 					},
-					opennew: function(id,type) {
-						if(type==0){
-							localStorage.setItem('prov','江苏')
-							localStorage.setItem('city','徐州')
-							localStorage.setItem('dist','云龙区')
-							localStorage.setItem('usAdsDetailed','金山福地')
+					opennew: function(id,index) {
+						var that=this
+						if(index!=''){
+							localStorage.setItem('usAddressId',that.adressdata[index].usAddressId)
+							localStorage.setItem('prov',that.adressdata[index].usAdsProvince)
+							localStorage.setItem('city',that.adressdata[index].usAdsCity)
+							localStorage.setItem('dist',that.adressdata[index].usAdsArea)
+							localStorage.setItem('usAdsDetailed',that.adressdata[index].usAdsDetailed)
 						}
+						
 						mui.openWindow({
 							url: '' + id + '.html',
 							id: id
 						})
 					},
 					myajax:function(){
+						
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting('加载中')
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						var that=this
 						$.ajax({
 							type:"get",
-							url:myurl+"/queryUsAddressAll",
-							async:true,
+							url:that.myurl+"/queryUsAddressAll",
+							dataType:'json',
+							data:{
+								usUserId:localStorage.getItem('userid')
+							},
 							success:function(res){
 								that.adressdata=res.data
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 							}
 						});
 					}
 				},
 				mounted: function() {
-					
+					this.myajax()
 				},
 				update: function() {
 

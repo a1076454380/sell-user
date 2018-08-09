@@ -145,9 +145,13 @@
 							url: this.myurl + "/queryMaPublicNewsPojoAll",
 							dataType: 'json',
 							success: function(res) {
+								console.log(res)
 								that.newdata = res.data
 								that.shoptype = res.data[0].maMerchantsStyleId
-								function plusReady() {
+								
+							}
+						});
+						function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
 								}
@@ -156,8 +160,6 @@
 								} else {
 									document.addEventListener("plusready", plusReady, false);
 								}
-							}
-						});
 					}
 				},
 				mounted: function() {

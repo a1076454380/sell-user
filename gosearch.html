@@ -45,7 +45,7 @@
 					<span v-show="!history&&historydata.length==0" style="width: 100%;text-align: center;display: block;margin: 0;">
 						您还没有搜索过呢！
 					</span>
-					<span v-for="val in historydata">
+					<span v-for="val in historydata" @click="historysearch(val)">
 						{{val}}
 					</span>
 				</div>
@@ -55,7 +55,10 @@
 						清空搜索历史
 					</span>
 				</div>
-				<div class="index-group" @click="opendetail()" v-show="history" v-for="val in tuidata">
+				<p v-if="history&&tuidata==''" style="text-align: center;line-height: 1rem;">
+					未查询到数据
+				</p>
+				<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-if="history" v-for="val in tuidata[0]">
 						<div class="group-inner">
 							<div class="img-box">
 								<img src="img/index02.png" />
@@ -135,6 +138,10 @@
 					tuidata:''
 				},
 				methods: {
+					historysearch:function(text){
+						this.searchtext=text
+						this.gosearch()
+					},
 					gosearch:function(){
 						if(this.searchtext==''){
 							this.layuiboo('您还没有输入内容呢~')
@@ -156,22 +163,21 @@
 						$.ajax({
 							type:"get",
 							url:that.myurl+"/queryUsTraderStoresRecommendPojoByUsTsName",
+							dataType:'json',
 							data:{
-								lng:'117.2543334961',
-								lat:'34.2650727570',
+								lng:localStorage.getItem('lng'),
+								lat:localStorage.getItem('lat'),
 								usTsName:that.searchtext
 							},
 							success:function(res){
-								that.tuidata = res.data
-								for(var i = 8; i < res.data.length; i = i + 9) {
-									that.tuidata[0][parseInt(i / 8) - 1].xiaoliang = res.data[i]
-									that.tuidata[0][parseInt(i / 8) - 1].peisong = res.data[i - 2].maDiPrice
-									that.tuidata[0][parseInt(i / 8) - 1].xinren = res.data[i - 7]
-									that.tuidata[0][parseInt(i / 8) - 1].manjian = res.data[i - 6]
-									that.tuidata[0][parseInt(i / 8) - 1].zhekou = res.data[i - 5]
-									that.tuidata[0][parseInt(i / 8) - 1].hongbao = res.data[i - 4]
-									that.tuidata[0][parseInt(i / 8) - 1].renjun = res.data[i]
-									that.tuidata[0][parseInt(i / 8) - 1].juli = res.data[i - 1]
+								if(res.data!=null){
+									that.tuidata = res.data
+									for(var i = 8; i < res.data.length; i = i + 9) {
+										that.tuidata[0][parseInt(i / 8) - 1].xiaoliang = res.data[i]
+										that.tuidata[0][parseInt(i / 8) - 1].peisong = res.data[i - 2].maDiPrice
+									}
+								}else{
+									that.tuidata=''
 								}
 								console.log(that.tuidata)
 								function plusReady() {
@@ -193,6 +199,17 @@
 					clear:function(){
 						this.historydata=[]
 						localStorage.setItem('historydata','[]')
+					},
+					opendetail: function(id,usTraderId) {
+						localStorage.setItem('usTraderStoresId',id)
+						localStorage.setItem('usTraderId',usTraderId)
+						this.opennew('shop')
+					},
+					opennew: function(target, id) {
+						mui.openWindow({
+							url: '' + target + '.html',
+							id: '' + target + ''
+						})
 					}
 				},
 				mounted: function() {

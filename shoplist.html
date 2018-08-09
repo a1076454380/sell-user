@@ -41,7 +41,10 @@
 					</span>
 			</header>
 			<div class="main main-big mui-content mui-scroll-wrapper" id="pullrefresh">
-				<div class="index-group" @click="opendetail()" v-for="val in tuidata[0]">
+				<p v-if="tuidata==''" style="text-align: center;line-height: 1rem;">
+					暂无商品
+				</p>
+				<div class="index-group" @click="opendetail()" v-for="val in tuidata[0]" v-if="tuidata!=''">
 					<div class="group-inner">
 						<div class="img-box">
 							<img src="img/index02.png" />
@@ -74,7 +77,7 @@
 							</div>
 							<div class="index-x">
 								<span class="shop-type">
-									<img src="img/shopavatar.png"/>小吃快餐
+									<img src="img/shopavatar.png"/>{{maMsName}}
 								</span>
 							</div>
 							<div class="index-money">
@@ -83,7 +86,7 @@
 								</span>
 								<span>
 									月销量:
-									<strong>{{val.xiaoliang}}</strong>
+									<strong>{{val.xiaoliang==null?'0':val.xiaoliang}}</strong>
 								</span>
 							</div>
 						</div>
@@ -104,7 +107,8 @@
 					shoptype: true,
 					layuitext: '您输入的内容为空!!',
 					myurl: localStorage.getItem('myurl'),
-					tuidata:''
+					tuidata:'',
+					maMsName:localStorage.getItem('maMsName')
 				},
 				methods: {
 					prefershow: function(index) {
@@ -144,18 +148,21 @@
 							async: true,
 							dataType: 'json',
 							data:{
-								lng:'34.2650727570',
-								lat:'117.2543334961',
-								maMerchantsStyleId:'1'
+								lng:localStorage.getItem('lng'),
+								lat:localStorage.getItem('lat'),
+								maMerchantsStyleId:localStorage.getItem('maMerchantsStyleId')
 							},
 							success: function(res) {
-								that.tuidata = res.data
-								for(var i = 6; i < res.data.length; i = i + 7) {
-									console.log(i)
-									that.tuidata[0][parseInt(i / 6) - 1].xiaoliang = res.data[i-1]
-									that.tuidata[0][parseInt(i / 6) - 1].peisong = res.data[i].maDiPrice
+								console.log(res)
+								if(res.data!=null){
+									that.tuidata = res.data
+									for(var i = 6; i < res.data.length; i = i + 7) {
+										console.log(i)
+										that.tuidata[0][parseInt(i / 6) - 1].xiaoliang = res.data[i-1]
+										that.tuidata[0][parseInt(i / 6) - 1].peisong = res.data[i].maDiPrice
+									}
 								}
-								console.log(that.tuidata)
+								
 
 								function plusReady() {
 									// 弹出系统等待对话框

@@ -67,7 +67,7 @@
 				</div>
 			</div>
 			<transition name='alert'>
-				<div class="bottom" v-show="bottomboo" @click="bottomshow">
+				<div class="bottom" v-show="bottomboo" @click="bottomshow('','')">
 					<div class="bottom-tab" @click.stop="bottomshow(val.maMsName,val.maMerchantsStyleId)" v-for="val in navdata">
 						{{val.maMsName}}
 					</div>
@@ -155,7 +155,8 @@
 								maPnImg1:that.maPnImg1,
 								maPnImg2:that.maPnImg2,
 								maPnImg3:that.maPnImg3,
-								maPnImg4:that.maPnImg4
+								maPnImg4:that.maPnImg4,
+								maPnCreateName:localStorage.getItem('usNickname')
 							},
 							success: function(res) {
 								function plusReady() {
@@ -260,9 +261,9 @@
 									//上传文件的信息
 									var files = json.data;
 									$("#" + that.inputid + "").val(files)
-									alert($("#" + that.inputid + "").val())
 									wt.close();
 								} else {
+									alert(JSON.stringify(responseText))
 									alert("上传失败：" + status);
 									//关闭原生的转圈等待框
 									wt.close();

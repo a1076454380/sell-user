@@ -48,7 +48,7 @@
 						</div>
 						<div class="money-main">
 							<h1>
-								老董家黄焖鸡专用卡卷
+								折扣卷
 							</h1>
 							<p>
 								{{val.usTdAbortTime1}}到期
@@ -56,7 +56,7 @@
 						</div>
 					</div>
 					<div class="money-time">
-						限购{{val.usTdNum}}
+						每人限购{{val.usTdNum}}张
 					</div>
 				</div>
 				</div>
@@ -85,9 +85,13 @@
 						var that=this
 						$.ajax({
 							type:"get",
-							url:myurl+"/queryByMaRedMiddleUserPojoDiscount",
-							async:true,
+							url:that.myurl+"/queryByMaRedMiddleUserPojoDiscount",
+							dataType:'json',
+							data:{
+								usUserId:localStorage.getItem('userid')
+							},
 							success:function(res){
+								console.log(res)
 								that.countdata=res.data
 							}
 						});
@@ -97,6 +101,7 @@
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
+					this.myajax()
 				},
 				update: function() {
 					

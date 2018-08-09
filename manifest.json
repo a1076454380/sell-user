@@ -1,7 +1,7 @@
 {
     "@platforms": ["android", "iPhone", "iPad"],
     "id": "H5929B52D",/*应用的标识，创建应用时自动生成，勿手动修改*/
-    "name": "外卖用户端",/*应用名称，程序桌面图标名称*/
+    "name": "易点外卖",/*应用名称，程序桌面图标名称*/
     "version": {
         "name": "1.0",/*应用版本名称*/
         "code": ""
@@ -146,7 +146,9 @@
 					"shoplist.html",
 					"shopcart.html",
 					"gosearch.html",
-					"login.html"
+					"login.html",
+					"vipcart.html",
+					"redb.html"
 				],
 				"priority": 0
 			},
@@ -186,7 +188,11 @@
 					"orderlist.html",
 					"instead/adresslist.html",
 					"vipcart.html",
-					"adresslist.html"
+					"adresslist.html",
+					"preferential.html",
+					"login.html",
+					"shop.html",
+					"news.html"
 				],
 				"priority": 0
 			},
@@ -246,7 +252,8 @@
 			"shop.html": {
 				"resources": [],
 				"refer": [
-					"pay.html"
+					"pay.html",
+					"goodsdetail.html"
 				],
 				"priority": 0
 			},
@@ -260,14 +267,38 @@
 			"vipcart.html": {
 				"resources": [],
 				"refer": [
-					"preferential.html"
+					"preferential.html",
+					"index.html",
+					"user.html"
 				],
 				"priority": 0
 			},
 			"adresslist.html": {
 				"resources": [],
 				"refer": [
-					"addadress.html"
+					"addadress.html",
+					"changeadress.html"
+				],
+				"priority": 0
+			},
+			"shoplist.html": {
+				"resources": [],
+				"refer": [
+					"shop.html"
+				],
+				"priority": 0
+			},
+			"goodsdetail.html": {
+				"resources": [],
+				"refer": [
+					"ratingall.html"
+				],
+				"priority": 0
+			},
+			"city.html": {
+				"resources": [],
+				"refer": [
+					"index.html"
 				],
 				"priority": 0
 			}
@@ -276,7 +307,6 @@
 			"resources": [
 				"img/index02.png",
 				"img/order-active.png",
-				"goodsdetail.html",
 				"img/user-active.png",
 				"img/freight.png",
 				"img/cart.png",
@@ -285,7 +315,6 @@
 				"img/back.png",
 				"img/nav04.png",
 				"js/mui.min.js",
-				"ratingall.html",
 				"img/index.jpg",
 				"img/rightarr.png",
 				"img/nav02.png",

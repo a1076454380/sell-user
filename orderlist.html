@@ -10,9 +10,9 @@
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<style type="text/css">
 		body,html,.wrapper,.main{height: 100%;}
@@ -43,42 +43,44 @@
 						
 					</span>
 			</header>
-			<div class="main">
+			<div class="main" style="height: calc(100% - .8rem);">
 				<div class="nav">
-					<div class="nav-tab" :class="tabnum==0?'active':''" @click="tab(0)">
+					<div class="nav-tab" :class="tabnum==3?'active':''" @click="tab(3)">
 						全部
 					</div>
-					<div class="nav-tab" :class="tabnum==1?'active':''" @click="tab(1)">
+					<div class="nav-tab" :class="tabnum==0?'active':''" @click="tab(0)">
 						待付款
 					</div>
-					<div class="nav-tab" :class="tabnum==2?'active':''" @click="tab(2)">
-						待评价
+					<div class="nav-tab" :class="tabnum==1?'active':''" @click="tab(1)">
+						已付款
 					</div>
 				</div>
-				<div class="swiper-container">
+				<div class="swiper-container" style="height: calc(100% - 1rem);overflow-y: scroll;">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
-							<div class="order-group" @click="opennew('orderdetail')" v-for="vai in ">
+							<p>
+									暂无订单
+								</p>
+							<div class="order-group" @click="opennew('orderdetail',val.usOrderId,val.usTraderStoresId,val.maMerchantsStyleId,val.usTraderId)" v-for="val in orderdata" v-if='tabnum==3?true:val.usOrIsPay==tabnum'>
+								
 								<img src="img/index.jpg"/>
 								<div class="order-main">
 									<div class="order-text">
 										<span class="order-name">
-											老董家黄焖鸡
+											{{val.usTsCompanyName}}
 										</span>
 										<span class="order-state">
-											已取消
+											{{val.usOrIsPay==0?'代付款':'已付款'}}
 										</span>
 									</div>
 									<div class="order-time">
-										下单时间:2017-08-25 17:08
+										下单时间:{{val.createTime1}}
 									</div>
 									<div class="order-money">
 										<span class="oder-price">
-											总价： ¥ 42.00
+											总价： ¥ {{val.usOrPrice}}
 										</span>
-										<span class="order-setting" @click.stop="opennew('shop')">
-											再来一单
-										</span>
+										
 									</div>
 								</div>
 							</div>
@@ -96,19 +98,22 @@
 					layuitext: '错误',
 					searchtype: localStorage.getItem('searchdpeata'),
 					mySwiper:'',
-					tabnum:0,
+					tabnum:3,
 					orderdata:'',
 					myurl:localStorage.getItem('myurl')
 				},
 				methods: {
 					tab:function(index){
 						this.tabnum=index
-						this.mySwiper.slideTo(index, 1000, false); 
 					},
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
-					opennew: function(target) {
+					opennew: function(target,usOrderId,usTraderStoresId,maMerchantsStyleId,usTraderId) {
+						localStorage.setItem('usOrderId',usOrderId)
+						localStorage.setItem('usTraderStoresId',usTraderStoresId)
+						localStorage.setItem('maMerchantsStyleId',maMerchantsStyleId)
+						localStorage.setItem('usTraderId',usTraderId)
 						mui.openWindow({
 							url: ''+target+'.html',
 							id: target
@@ -118,13 +123,20 @@
 						var that=this
 						$.ajax({
 							type:"get",
-							url:myurl+"",
-							async:true
+							url:that.myurl+"/queryByUsOrderPojoAndUsUserId",
+							dataType:'json',
+							data:{
+								usUserId:localStorage.getItem('userid')
+							},
+							success:function(res){
+								console.log(res)
+								that.orderdata=res.data
+							}
 						});
 					}
 				},
 				mounted: function() {
-					var that=this
+					this.myajax()
 				},
 				update: function() {
 					mui.init()

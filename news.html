@@ -43,7 +43,7 @@
 					<div class="news-text">
 						<h1>
 							<span class="noinform" v-if="val.status=0"></span>
-							{val.cmessageTitle}
+							{{val.cmessageTitle}}
 						</h1>
 						<div class="news-inform">
 							<span>
@@ -85,10 +85,12 @@
 							async:true,
 							dataType:'json',
 							data:{
-								usUserId:localStorage.getItem('userid')
+//								usUserId:localStorage.getItem('userid')
+								usUserId:'a32730a8-80ee-11e8-9366-00155dc504d0'
 							},
 							success:function(res){
-								that.newdata=!that.newdata
+								console.log(res)
+								that.newdata=res.data
 							}
 						});
 					}

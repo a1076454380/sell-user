@@ -41,45 +41,45 @@
 			</header>
 			<div class="main orderrating">
 				<div class="shop-inform">
-					<img src="img/index.jpg"/>
+					<img src="img/shoprating.png" />
 					<span>
-						老董家黄焖鸡
+						发表评价
 					</span>
 				</div>
-				<img src="img/arrright02.png" class="arrtop"/>
-				<form :action="action" enctype="multipart/form-data">
+				<img src="img/arrright02.png" class="arrtop" />
+				<form enctype="multipart/form-data">
 					<h1>
 						您对这一单用餐体验还满意吗？
 					</h1>
 					<div class="star-box">
 						<div class="star-group" @click="goscore(1)">
-							<img src="img/xactive.png" v-show="score>=1"/>
-							<img src="img/xhalf.png" v-show="score<1"/>
+							<img src="img/xactive.png" v-show="score>=1" />
+							<img src="img/xhalf.png" v-show="score<1" />
 						</div>
 						<div class="star-group" @click="goscore(2)">
-							<img src="img/xactive.png" v-show="score>=2"/>
-							<img src="img/xhalf.png" v-show="score<2"/>
+							<img src="img/xactive.png" v-show="score>=2" />
+							<img src="img/xhalf.png" v-show="score<2" />
 						</div>
 						<div class="star-group" @click="goscore(3)">
-							<img src="img/xactive.png" v-show="score>=3"/>
-							<img src="img/xhalf.png" v-show="score<3"/>
+							<img src="img/xactive.png" v-show="score>=3" />
+							<img src="img/xhalf.png" v-show="score<3" />
 						</div>
 						<div class="star-group" @click="goscore(4)">
-							<img src="img/xactive.png" v-show="score>=4"/>
-							<img src="img/xhalf.png" v-show="score<4"/>
+							<img src="img/xactive.png" v-show="score>=4" />
+							<img src="img/xhalf.png" v-show="score<4" />
 						</div>
 						<div class="star-group" @click="goscore(5)">
-							<img src="img/xactive.png" v-show="score>=5"/>
-							<img src="img/xhalf.png" v-show="score<5"/>
+							<img src="img/xactive.png" v-show="score>=5" />
+							<img src="img/xhalf.png" v-show="score<5" />
 						</div>
 					</div>
 					<textarea name="" v-model="text" placeholder="请输入评价内容">
 						
 					</textarea>
-					<input type="hidden" name="" id="in01" />
-					<input type="hidden" name="" id="in02" />
-					<input type="hidden" name="" id="in03" />
-					<input type="hidden" name="" id="in04" />
+					<input type="hidden" name="" id="in01" v-model="usScImg1Url" />
+					<input type="hidden" name="" id="in02" v-model="usScImg2Url" />
+					<input type="hidden" name="" id="in03" v-model="usScImg3Url" />
+					<input type="hidden" name="" id="in04" v-model="usScImg4Url" />
 				</form>
 				<div class="img-box">
 					<div class="img-main">
@@ -95,7 +95,7 @@
 						<img src="img/addrating.png" @click="imgclick('im04','in04')" id="im04" />
 					</div>
 				</div>
-				<div class="mysub" @click="mysub">
+				<div class="mysub" @click="myajax">
 					发布
 				</div>
 			</div>
@@ -111,30 +111,46 @@
 					text: '',
 					imgid: '',
 					inputid: '',
-					server: 'http://39.107.70.18/Transportation/uploadDriverImage',
+					server: localStorage.getItem('myurl') + '/imagePriaseImage',
 					files: [],
-					action: localStorage.getItem('myurl') + '/insertSelectiveBydriver',
-					score:4
+					score: 4,
+					myurl: localStorage.getItem('myurl'),
+					usScImg1Url: '',
+					usScImg2Url: '',
+					usScImg3Url: '',
+					usScImg4Url: ''
 				},
 				methods: {
-					goscore:function(res){
-						this.score=res
+					myajax: function() {
+						var that = this
+						var jsondata = {
+							usUserId: localStorage.getItem('userid'),
+							usOrderId: localStorage.getItem('usOrderId'),
+							usScContent: that.text,
+							usScImg1Url: that.usScImg1Url,
+							usScImg2Url: that.usScImg2Url,
+							usScImg3Url: that.usScImg3Url,
+							usScImg4Url: that.usScImg4Url,
+							usScStatus: 1,
+							usSsStar: that.score
+						}
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/insertPriase",
+							dataType: 'json',
+							data: jsondata,
+							success: function(res) {
+								if(res.data.status == 200) {
+									
+								}
+							}
+						});
+					},
+					goscore: function(res) {
+						this.score = res
 					},
 					layuiboo: function() {
 						this.layui = !this.layui
-					},
-					mysub: function() {
-						var that=this
-						plus.nativeUI.showWaiting("正在提交数据,不要关闭页面!!");
-						$('form').ajaxSubmit({
-							type: 'post',
-							dataType: 'json',
-							url: that.action,
-							success: function(res) {
-								plus.nativeUI.closeWaiting();
-								that.layuiboo()
-							}
-						})
 					},
 					imgclick: function(imid, inid) {
 						var that = this
@@ -225,7 +241,6 @@
 									//上传文件的信息
 									var files = json.data;
 									$("#" + that.inputid + "").val(files)
-									alert($("#" + that.inputid + "").val())
 									wt.close();
 								} else {
 									alert("上传失败：" + status);

@@ -65,10 +65,11 @@
 			</header>
 			<div class="main mui-scroll-wrapper">
 				<div class="index-main mui-scroll">
-					<div class="index-group" @click="opendetail()" v-for="(val,index) in collectdata[0]">
+					<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="(val,index) in collectdata[0]">
 						<div class="group-inner">
 							<div class="img-box">
-								<img :src="val.usTsFacadeImg" />
+								<!--<img :src="val.usTsFacadeImg" />-->
+								<img src="img/index02.png"/>
 							</div>
 							<div class="index-detail">
 								<div class="index-h">
@@ -157,11 +158,10 @@
 							url: that.myurl + "/queryUsTraderStoresRecommendPojoByUsFootprint",
 							dataType: 'json',
 							data: {
-								usUserId: 'a32730a8-80ee-11e8-9366-00155dc504d0'
+								usUserId: localStorage.getItem('userid')
 							},
 							async: true,
 							success: function(res) {
-								console.log(res)
 								that.collectdata = res.data
 							}
 						});

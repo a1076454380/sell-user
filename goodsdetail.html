@@ -10,8 +10,8 @@
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -47,13 +47,13 @@
 					</div>
 					<div class="index-main">
 						<h4>
-						黄金鸡排帕帕泥
+						{{mydata[0][0].usTsName}}
 					</h4>
 						<span>
-						月售:13
+						月售:{{mydata[2]}}
 					</span>
 						<p>
-							啪啪泥外面是香喷喷的面包，经高温压制，让民阿宝香味四溢，咬一口让你赞不绝口！！
+							{{mydata[0][0].usTsDetails}}
 						</p>
 					</div>
 					<div class="index-top" @click="opennew('ratingall')">
@@ -61,28 +61,28 @@
 						商品评价
 					</span>
 						<span>
-						35条评论
+						{{mydata[1]}}条评论
 					</span>
 						<img src="img/rightarr.png" />
 					</div>
-					<div class="index-main">
-						<div class="rating-group">
+					<div class="index-main" v-if="mydata[0][0].usNickname!=null">
+						<div class="rating-group" v-for="val in mydata[0]">
 							<div class="img-box">
 								<img src="img/index02.png" />
 							</div>
 							<div class="rating-main">
 								<div class="rating-name">
-									<span>董小礼</span>
-									<span>2018.01.15</span>
+									<span>{{val.usNickname}}</span>
+									<span>{{val.crateTime1}}</span>
 								</div>
 								<div class="rating-text">
-									这里是非常的好吃的,超级想吃的!下次还会再来!!
+									{{val.usScContent}}
 								</div>
 								<div class="rating-img">
-									<img src="img/index.jpg" />
-									<img src="img/index02.png" />
-									<img src="img/index.jpg" />
-									<img src="img/index02.png" />
+									<img :src="val.usScImg1Url" v-if="val.usScImg1Url!=null&&val.usScImg1Url!=''"/>
+									<img :src="val.usScImg2Url" v-if="val.usScImg1Url!=null&&val.usScImg2Url!=''"/>
+									<img :src="val.usScImg3Url" v-if="val.usScImg1Url!=null&&val.usScImg3Url!=''"/>
+									<img :src="val.usScImg4Url" v-if="val.usScImg1Url!=null&&val.usScImg4Url!=''"/>
 								</div>
 							</div>
 						</div>
@@ -92,15 +92,15 @@
 			<footer class="footer">
 				<div class="money">
 					<span class="discount">
-						￥78.00
+						￥{{mydata[0][0].usTsPrice}}
 					</span>
 				</div>
-				<div class="go">
+				<div class="go" @click="addcart">
 					加入购物车
 				</div>
-				<div class="go">
+				<!--<div class="go">
 					立即抢购
-				</div>
+				</div>-->
 			</footer>
 		</div>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -109,10 +109,52 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext: '错误'
+					layuitext: '错误',
+					myurl:localStorage.getItem('myurl'),
+					mydata:''
 				},
 				methods: {
-					layuiboo: function() {
+					addcart:function(){
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that=this
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/insertUsShoppingCart",
+							dataType: 'json',
+							data: {
+								usTraderShoppingId: that.mydata[0][0].usTraderShoppingId,
+								usUserId: localStorage.getItem('userid'),
+								usScNum: 1,
+								usScPrice: that.mydata[0][0].usTsPrice
+							},
+							success: function(res) {
+								if(res.status == 200) {
+									that.layuiboo('加入购物车成功')
+								} else {
+									that.layuiboo('加入购物车失败')
+								}
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							}
+						});
+					},
+					layuiboo: function(text) {
+						this.layuitext=text
 						this.layui = !this.layui
 					},
 					opennew: function(target) {
@@ -120,15 +162,32 @@
 							url: target + '.html',
 							name: target
 						})
+					},
+					myajax:function(){
+						var that=this
+						$.ajax({
+							type:"get",
+							url:that.myurl+"/queryUsShoppingCommentPojoByUsTraderShoppingId",
+							dataType:'json',
+							data:{
+								usTraderShoppingId:localStorage.getItem('usTraderShoppingId'),
+								usUserId:localStorage.getItem('userid')
+							},
+							success:function(res){
+								that.mydata=res.data
+								console.log(that.mydata)
+							}
+						});
 					}
 				},
 				mounted: function() {
 					mui('.mui-scroll-wrapper').scroll({
-						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+						deceleration: 0.0006
 					});
 					$('.rating-img img').css('height', $('.rating-img img').width())
+					this.myajax()
 				},
-				update: function() {
+				updated() {
 					mui.init()
 					$('.rating-img img').css('height', $('.rating-img img').width())
 				}

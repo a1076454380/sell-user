@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
 	</head>
@@ -44,11 +44,11 @@
 			</header>
 			<div class="main">
 				<div id="city">  
-				  <select class="prov" name="usAdsProvince"></select>   
-				  <select class="city" disabled="disabled" name="usAdsCity"></select>  
-				  <select class="dist" disabled="disabled" name="usAdsArea"></select>  
+				  <select class="prov" name="usAdsProvince" v-model="prove"></select>   
+				  <select class="city" disabled="disabled" name="usAdsCity" v-model="city"></select>  
+				  <select class="dist" disabled="disabled" name="usAdsArea" v-model="dist"></select>  
 				</div>
-				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址"/>
+				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址" v-model="usAdsDetailed"/>
 				<div class="submit" @click="submit">
 					确定新增
 				</div>
@@ -60,7 +60,11 @@
 				data: {
 					layui: false,
 					layuitext: '错误',
-					myurl:localStorage.getItem('myurl')
+					myurl:localStorage.getItem('myurl'),
+					prove:'',
+					city:'',
+					dist:'',
+					usAdsDetailed:''
 				},
 				methods: {
 					layuiboo: function(text,id) {
@@ -77,7 +81,44 @@
 						})
 					},
 					submit:function(){
-						
+						var that=this
+						if(that.prove==''||that.city==''||that.usAdsDetailed==''){
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.toast('请把信息填写完整！')
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
+							return false;
+						}
+						$.ajax({
+							type:"post",
+							url:that.myurl+"/insertAddress",
+							dataType:'json',
+							data:{
+								usUserId:localStorage.getItem('userid'),
+								usAdsProvince:that.prove,
+								usAdsCity:that.city,
+								usAdsArea:that.dist,
+								usAdsDetailed:that.usAdsDetailed
+							},
+							success:function(res){
+								if(res.status==200){
+									function plusReady() {
+										// 弹出系统等待对话框
+										plus.nativeUI.toast('新增完成！')
+									}
+									if(window.plus) {
+										plusReady();
+									} else {
+										document.addEventListener("plusready", plusReady, false);
+									}
+								}
+							}
+						});
 					}
 				},
 				mounted: function() {

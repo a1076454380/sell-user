@@ -10,8 +10,8 @@
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -40,31 +40,24 @@
 			</header>
 			<div class="main">
 				<div class="index-main">
-					<div class="rating-group">
+					<div class="rating-group" v-for="val in mydata[0]" v-if="mydata[1].usNickname!=null">
 						<div class="img-box">
 							<img src="img/index02.png"/>
 						</div>
 						<div class="rating-main">
 							<div class="rating-name">
-								<span>董小礼</span>
-								<span>2018.01.15</span>
-							</div>
-							<div class="rating-name star">
-								<img src="img/xactive.png"/>
-								<img src="img/xactive.png"/>
-								<img src="img/xactive.png"/>
-								<img src="img/xactive.png"/>
-								<img src="img/xhalf.png"/>
+								<span>{{val.usNickname}}</span>
+								<span>{{val.crateTime1}}</span>
 							</div>
 							<div class="rating-text">
-								这里是非常的好吃的,超级想吃的!下次还会再来!!
-							</div>
-							<div class="rating-img">
-								<img src="img/index.jpg"/>
-								<img src="img/index02.png"/>
-								<img src="img/index.jpg"/>
-								<img src="img/index02.png"/>
-							</div>
+								{{val.usScContent}}
+								</div>
+								<div class="rating-img">
+									<img :src="val.usScImg1Url" v-if="val.usScImg1Url!=null&&val.usScImg1Url!=''"/>
+									<img :src="val.usScImg2Url" v-if="val.usScImg1Url!=null&&val.usScImg2Url!=''"/>
+									<img :src="val.usScImg3Url" v-if="val.usScImg1Url!=null&&val.usScImg3Url!=''"/>
+									<img :src="val.usScImg4Url" v-if="val.usScImg1Url!=null&&val.usScImg4Url!=''"/>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -75,17 +68,54 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext: '错误'
+					layuitext: '错误',
+					mydata:'',
+					myurl:localStorage.getItem('myurl')
 				},
 				methods: {
 					layuiboo: function() {
 						this.layui = !this.layui
+					},
+					myajax:function(){
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that=this
+						$.ajax({
+							type:"get",
+							url:that.myurl+"/queryUsShoppingCommentPojoByUsTraderShoppingId",
+							dataType:'json',
+							data:{
+								usTraderShoppingId:localStorage.getItem('usTraderShoppingId'),
+								usUserId:localStorage.getItem('userid')
+							},
+							success:function(res){
+								console.log(res)
+								that.mydata=res.data
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							}
+						});
 					}
 				},
 				mounted: function() {
 					$('.rating-img img').css('height',$('.rating-img img').width())
+					this.myajax()
 				},
-				update: function() {
+				updated() {
 					mui.init()
 					$('.rating-img img').css('height',$('.rating-img img').width())
 				}

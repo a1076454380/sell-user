@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -10,6 +11,7 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
+
 	<body>
 		<div id="app" class="wrapper shopcart">
 			<div class="layui" v-show="layui">
@@ -24,7 +26,7 @@
 						<div class="layui-setting" @click="layuiboo">
 							取消
 						</div>
-						<div class="layui-setting" @click="layuiboo()">
+						<div class="layui-setting" @click="godelete()">
 							确定
 						</div>
 					</div>
@@ -44,35 +46,35 @@
 			<div class="main mui-scroll-wrapper">
 				<div class="cart-top"></div>
 				<div class="mui-scroll">
-					<!--<p>您的购物车暂无商品~</p>-->
-					<div class="cart-group" @click="opennew('shop')">
+					<p v-if="mydata.length==0" style="text-align: center;line-height: 1rem;color: #ffffff;">您的购物车暂无商品~</p>
+					<div class="cart-group" @click="opennew('shop')" v-for="val in mydata">
 						<div class="cart-title">
 							<div class="cart-name">
 								<img src="img/1.png" />
 								<div class="title">
-									必胜客旗舰店
+									{{val.usTsCompanyName}}
 								</div>
 							</div>
-							<img src="img/delete.png" class="cart-delete" @click.stop="layuiboo" />
+							<img src="img/delete.png" class="cart-delete" @click.stop="layuiboo(val.usShoppingCartId)" />
 						</div>
 						<div class="cart-main">
 							<div class="cart-tab">
 								<img src="img/index.jpg" />
 								<div class="tab-main">
 									<div class="cart-text">
-										青少年短袖男2018夏韩版潮流学生帅气港风小清新双色拼接短袖!
+										{{val.usTsName}}
 									</div>
 									<div class="cart-config">
-										<span>红色</span>
+										<span>{{val.usTsNorm}}</span>
 									</div>
 									<div class="cart-price">
 										<div class="money">
-											￥<span>59</span>
+											￥<span>{{val.usTsPrice}}</span>
 										</div>
 										<div class="num-box">
-											<img src="img/remove.png" @click.stop="removenum(1)" class="remove1" />
-											<input type="number" value="1" />
-											<img src="img/add01.png" @click.stop="addnum(1)" class="add1" />
+											<img src="img/remove.png" @click.stop="removenum(1,val.usTsPrice)" class="remove1" />
+											<input type="number" v-model="val.usScNum" />
+											<img src="img/add01.png" @click.stop="addnum(1,val.usTsPrice)" class="add1" />
 										</div>
 									</div>
 								</div>
@@ -87,31 +89,13 @@
 						<div class="footer-hr"></div>
 					</div>
 					<div class="footerprint-box">
-						<div class="footerprint-tab" @click="opennew('shop')">
+						<div class="footerprint-tab" @click="opennew('shop')" v-for="val in record">
 							<img src="img/index.jpg" />
 							<h1>
-								老董家黄焖鸡超辣风味黄焖鸡，黄鸡炸鸡排，手撕原味鸡。。
+								{{val.usTsCompanyName}}
 							</h1>
 							<div class="print-box">
-								¥<strong>15.60</strong>
-							</div>
-						</div>
-						<div class="footerprint-tab" @click="opennew('shop')">
-							<img src="img/index.jpg" />
-							<h1>
-								老董家黄焖鸡超辣风味黄焖鸡，黄鸡炸鸡排，手撕原味鸡。。
-							</h1>
-							<div class="print-box">
-								¥<strong>15.60</strong>
-							</div>
-						</div>
-						<div class="footerprint-tab" @click="opennew('shop')">
-							<img src="img/index.jpg" />
-							<h1>
-								老董家黄焖鸡超辣风味黄焖鸡，黄鸡炸鸡排，手撕原味鸡。。
-							</h1>
-							<div class="print-box">
-								¥<strong>15.60</strong>
+								¥<strong>{{val.usTsActionPrice}}</strong>
 							</div>
 						</div>
 					</div>
@@ -120,9 +104,9 @@
 			</div>
 			<footer class="footer">
 				<div class="footer-text">
-					￥<span>69.00</span>
+					￥<span>{{allprice}}</span>
 				</div>
-				<div class="footer-setting" @click="opennew('pay')">
+				<div class="footer-setting" @click="pay">
 					去支付
 				</div>
 			</footer>
@@ -134,29 +118,235 @@
 			el: '#app',
 			data: {
 				layui: false,
-				layuitext: '确定删除此商品吗？'
+				layuitext: '确定删除此商品吗？',
+				myurl: localStorage.getItem('myurl'),
+				mydata: '',
+				allprice: 0,
+				usShoppingCartId: '',
+				record: '',
+				lorderList: []
 			},
 			methods: {
-				layuiboo: function() {
+				pay: function() {
+					var that = this
+					$.ajax({
+						type: "get",
+						url: that.myurl + "/queryUsAddressAll",
+						dataType: 'json',
+						data: {
+							usUserId: localStorage.getItem('userid')
+						},
+						success: function(res) {
+							for(var i = 0; i < res.data.length; i++) {
+								if(res.data[i].usAdsStatus == 1) {
+									for (var i=0;i<that.lorderList.length;i++) {
+										that.lorderList[i].usUserId=localStorage.getItem('userid')
+										that.lorderList[i].usAddressId=res.data[i].usAddressId
+									}
+									$.ajax({  
+									    type: "POST",  
+									    url: that.myurl+"/createAliPayBefore",  
+									    data:{lorderList:JSON.stringify(that.lorderList)},//将对象序列化成JSON字符串  
+									    dataType:"json",  
+									    success: function(respon){  
+									       	localStorage.setItem('usOrderId',respon.data[0].usOrderId)
+											localStorage.setItem('usTraderStoresId',respon.data[0].usTraderStoresId)
+											localStorage.setItem('maMerchantsStyleId',respon.data[0].maMerchantsStyleId)
+											localStorage.setItem('usTraderId',respon.data[0].usTraderId)
+											that.opennew('orderdetail')
+									    } 
+									});  
+									break;
+								}
+								
+							}
+
+						},
+						error: function(res) {
+							console.log(err)
+						}
+					});
+				},
+				godelete: function() {
+					this.layuiboo()
+					var that = this
+					$.ajax({
+						type: "post",
+						url: that.myurl + "/deleteUsShoppingCart",
+						data: {
+							usShoppingCartId: that.usShoppingCartId
+						},
+						dataType: 'json',
+						success: function(res) {
+							if(res.status == 200) {
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.toast('删除完成')
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							} else {
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.toast('删除失败')
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							}
+						}
+					});
+				},
+				layuiboo: function(id) {
+					this.usShoppingCartId = id
 					this.layui = !this.layui
 				},
-				removenum: function(index) {
+				removenum: function(index, price) {
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.nativeUI.showWaiting("加载中...");
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+					var that = this
 					if($('.remove' + index).next().val() != 1) {
-						$('.remove' + index).next().val(parseInt($('.add' + index).prev().val()) - 1)
+						var num = parseInt($('.add' + index).prev().val()) - 1
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/updateUsShoppingCart",
+							data: {
+								usShoppingCartId: that.mydata[index - 1].usShoppingCartId,
+								usScNum: num,
+								usScPrice: price
+							},
+							dataType: 'json',
+							success: function(res) {
+								that.mydata[index - 1].usScNum--
+									that.allprice = that.allprice - price
+
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							}
+						});
 					}
 				},
-				addnum: function(index) {
-					console.log($('.add' + index).prev())
-					$('.add' + index).prev().val(parseInt($('.add' + index).prev().val()) + 1)
+				addnum: function(index, price) {
+					var that = this
+
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.nativeUI.showWaiting("加载中...");
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+					if($('.remove' + index).next().val() != 1) {
+						var num = $('.add' + index).prev().val()
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/updateUsShoppingCart",
+							data: {
+								usShoppingCartId: that.mydata[index - 1].usShoppingCartId,
+								usScNum: parseInt(num) + 1,
+								usScPrice: price
+							},
+							dataType: 'json',
+							success: function(res) {
+								that.mydata[index - 1].usScNum++
+									that.allprice = that.allprice + price
+
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							}
+						});
+					}
+
 				},
 				opennew: function(target) {
 					mui.openWindow({
 						url: '' + target + '.html',
 						id: '' + target + ''
 					})
+				},
+				myajax: function() {
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.nativeUI.showWaiting('加载中')
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+					var that = this
+					$.ajax({
+						type: "get",
+						url: that.myurl + "/queryByUsShoppingCartPojo",
+						dataType: 'json',
+						data: {
+							usUserId: localStorage.getItem('userid')
+						},
+						success: function(res) {
+							console.log(res)
+							if(res.data!=null){
+								that.mydata = res.data
+								for(var i = 0; i < res.data.length; i++) {
+									that.allprice += res.data[i].usTsPrice * res.data[i].usScNum;
+									var nav = (`{"usTraderStoresId":"${res.data[i].usTraderStoresId}","usOrPrice":"${res.data[i].usTsPrice*res.data[i].usScNum}","usTraderShoppingId":"${res.data[i].usTraderShoppingId}","usOdNum":"${res.data[i].usScNum}","usOrIsReserve":"0","usShoppingCartId":"${res.data[i].usShoppingCartId}"}`)
+									that.lorderList.push(JSON.parse(nav))
+								}
+							}
+							
+						}
+					});
+					$.ajax({
+						type: "get",
+						url: that.myurl + "/queryTUsTraderStoresRecommendPojoMySpecialtyCart",
+						dataType: 'json',
+						data: {
+							usUserId: localStorage.getItem('userid')
+						},
+						success: function(res) {
+							that.record = res.data[0]
+						}
+					});
+					function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.closeWaiting()
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
 				}
 			},
 			mounted() {
+				this.myajax()
 				mui('.mui-scroll-wrapper').scroll({
 					deceleration: 0.0006
 				});

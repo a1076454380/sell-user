@@ -53,10 +53,10 @@
 					<p>
 						{{mydata.maPnContent}}
 					</p>
-					<img :src="mydata.maPnImg1" v-if="mydata.maPnImg1!=''"/>
-					<img :src="mydata.maPnImg2" v-if="mydata.maPnImg2!=''"/>
-					<img :src="mydata.maPnImg3" v-if="mydata.maPnImg3!=''"/>
-					<img :src="mydata.maPnImg4" v-if="mydata.maPnImg4!=''"/>
+					<img :src="mydata.maPnImg1" v-if="mydata.maPnImg1!=''" />
+					<img :src="mydata.maPnImg2" v-if="mydata.maPnImg2!=''" />
+					<img :src="mydata.maPnImg3" v-if="mydata.maPnImg3!=''" />
+					<img :src="mydata.maPnImg4" v-if="mydata.maPnImg4!=''" />
 				</div>
 			</div>
 			<footer class="footer">
@@ -97,23 +97,24 @@
 							url: that.myurl + "/queryByMaPublicNewsId",
 							async: true,
 							dataType: 'json',
-							data:{
-								maPublicNewsId:localStorage.getItem('maPublicNewsId')
+							data: {
+								maPublicNewsId: localStorage.getItem('maPublicNewsId')
 							},
 							success: function(res) {
 								console.log(res)
 								that.mydata = res.data
-								function plusReady() {
-									// 弹出系统等待对话框
-									plus.nativeUI.closeWaiting()
-								}
-								if(window.plus) {
-									plusReady();
-								} else {
-									document.addEventListener("plusready", plusReady, false);
-								}
 							}
 						});
+
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 					}
 				},
 				mounted: function() {
