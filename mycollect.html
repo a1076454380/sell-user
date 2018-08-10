@@ -204,7 +204,6 @@
 						})
 					},
 					myajax: function() {
-						console.log(localStorage.getItem('userid'))
 						var that = this
 						$.ajax({
 							type: "get",
@@ -215,7 +214,6 @@
 							dataType: 'json',
 							success: function(res) {
 								that.collectdata = res.data
-								console.log(that.collectdata)
 							}
 						});
 					}

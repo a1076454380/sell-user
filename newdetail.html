@@ -92,6 +92,7 @@
 							document.addEventListener("plusready", plusReady, false);
 						}
 						var that = this
+						console.log(localStorage.getItem('maPublicNewsId'))
 						$.ajax({
 							type: "get",
 							url: that.myurl + "/queryByMaPublicNewsId",
@@ -101,7 +102,6 @@
 								maPublicNewsId: localStorage.getItem('maPublicNewsId')
 							},
 							success: function(res) {
-								console.log(res)
 								that.mydata = res.data
 							}
 						});

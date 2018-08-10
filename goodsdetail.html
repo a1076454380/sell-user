@@ -6,7 +6,6 @@
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<title></title>
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
-		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -40,8 +39,7 @@
 						<img src="img/collect.png"/>
 					</span>
 			</header>
-			<div class="main mui-scroll-wrapper">
-				<div class="mui-scroll">
+			<div class="main" style="height: calc(100% - 1.6rem);overflow-y: scroll;">
 					<div class="slider">
 						<img src="img/index.jpg" />
 					</div>
@@ -87,7 +85,6 @@
 							</div>
 						</div>
 					</div>
-				</div>
 			</div>
 			<footer class="footer">
 				<div class="money">
@@ -103,7 +100,6 @@
 				</div>-->
 			</footer>
 		</div>
-		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -181,9 +177,7 @@
 					}
 				},
 				mounted: function() {
-					mui('.mui-scroll-wrapper').scroll({
-						deceleration: 0.0006
-					});
+					
 					$('.rating-img img').css('height', $('.rating-img img').width())
 					this.myajax()
 				},

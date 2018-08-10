@@ -457,15 +457,7 @@
 									that.mytab(that.num)
 								}
 
-								function plusReady() {
-									// 弹出系统等待对话框
-									plus.nativeUI.closeWaiting()
-								}
-								if(window.plus) {
-									plusReady();
-								} else {
-									document.addEventListener("plusready", plusReady, false);
-								}
+								
 							}
 						});
 						//						获取店铺信息
@@ -484,6 +476,15 @@
 								console.log(err)
 							}
 						});
+						function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 					},
 					havecart: function() {
 						var that=this

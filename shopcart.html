@@ -311,7 +311,6 @@
 							usUserId: localStorage.getItem('userid')
 						},
 						success: function(res) {
-							console.log(res)
 							if(res.data!=null){
 								that.mydata = res.data
 								for(var i = 0; i < res.data.length; i++) {

@@ -153,7 +153,6 @@
 								maMerchantsStyleId:localStorage.getItem('maMerchantsStyleId')
 							},
 							success: function(res) {
-								console.log(res)
 								if(res.data!=null){
 									that.tuidata = res.data
 									for(var i = 6; i < res.data.length; i = i + 7) {
@@ -162,9 +161,12 @@
 										that.tuidata[0][parseInt(i / 6) - 1].peisong = res.data[i].maDiPrice
 									}
 								}
-								
-
-								function plusReady() {
+							},
+							error:function(err){
+								console.log(err)
+							}
+						});
+						function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
 								}
@@ -173,11 +175,6 @@
 								} else {
 									document.addEventListener("plusready", plusReady, false);
 								}
-							},
-							error:function(err){
-								console.log(err)
-							}
-						});
 					}
 				},
 				mounted: function() {
