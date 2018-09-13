@@ -83,7 +83,8 @@
 					myurl:localStorage.getItem('myurl')
 				},
 				methods: {
-					layuiboo: function() {
+					layuiboo: function(text) {
+						this.layuitext=text
 						this.layui = !this.layui
 					},
 					opennew: function(target) {
@@ -103,16 +104,21 @@
 									usPhone:that.phone
 								},
 								success:function(res){
+									console.log(res)
 									if(res.status==200){
 										localStorage.setItem('userid',res.data.usUserId)
 										localStorage.setItem('usNickname',res.data.usNickname)
 										localStorage.setItem('usPhone',res.data.usPhone)
 										localStorage.setItem('usHeadImg',res.data.usHeadImg)
 										that.opennew('index')
+									}else{
+										that.layuiboo(res.msg)
+										that.opennew('register')
 									}
 								},
 								error:function(err){
 									console.log(JSON.stringify(err))
+									that.layuiboo(err.msg)
 								}
 							});
 						} else if(!(/^1[3|4|5|8|7][0-9]\d{4,8}$/.test(this.phone))) {
@@ -127,8 +133,8 @@
 							if(that.codenum != 1) {
 								that.codenum = that.codenum - 1
 							} else {
-								that.codenum = '获取验证码'
 								clearInterval(set)
+								that.codenum = '获取验证码'
 							}
 						}, 1000)
 					},
@@ -147,7 +153,8 @@
 					}
 				},
 				mounted() {
-					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
+//					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
+					localStorage.setItem('myurl', 'http://192.168.2.245/user')
 				}
 			})
 		</script>

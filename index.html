@@ -442,7 +442,7 @@
 							success: function(res) {
 								that.newdata = res.data
 							},
-							error: function(err) {}
+							error: function(err) {console.log(err)}
 						});
 						//						我的专属
 						$.ajax({
@@ -455,11 +455,14 @@
 								lat: localStorage.getItem('lat')
 							},
 							success: function(res) {
-								console.log(res.data[0])
+								console.log(res.data)
 								that.mydata = res.data
 								for(var i = 0; i < res.data[0].length; i++) {
 									that.mydata[0][i].xiaoliang = res.data[2 * i + 1]
 								}
+							},
+							error:function(err){
+								console.log(err)
 							}
 						});
 						//						分类查询
@@ -496,7 +499,7 @@
 
 							},
 							error: function(err) {
-								alert('今日头条获取失败！')
+								alert('小易推荐获取失败！')
 							}
 						});
 
@@ -527,8 +530,8 @@
 						})
 						return false;
 					}
-					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
-//					localStorage.setItem('myurl', 'http://192.168.2.223/user')
+//					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
+					localStorage.setItem('myurl', 'http://192.168.2.245/user')
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006
 					})
