@@ -121,7 +121,7 @@
 				<span class="header-settings"></span>
 			</header>
 			<transition name='fada'>
-				<div class="main shopdetail" v-show="headerboo" @click="headershow">
+				<div class="main shopdetail" v-show="headerboo" @click="headershow" v-if='false'>
 					<img src="img/index.jpg" class="shopback" />
 					<h2>
 						{{mydata[0][0].usTsCompanyName}}
@@ -321,6 +321,7 @@
 								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
+								
 								if(res.status == 200) {
 									that.layuiboo('收藏成功')
 								} else {
@@ -451,6 +452,7 @@
 								usTraderId: localStorage.getItem('usTraderId')
 							},
 							success: function(res) {
+								console.log(res)
 								that.shopdata = res.data
 								if(that.shopdata != null && that.shopdata != '') {
 									that.num = res.data[0].usTraderShoppingSortId

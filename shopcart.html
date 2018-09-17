@@ -124,7 +124,8 @@
 				allprice: 0,
 				usShoppingCartId: '',
 				record: '',
-				lorderList: []
+				lorderList: [],
+				channel:''
 			},
 			methods: {
 				pay: function() {
@@ -137,29 +138,47 @@
 							usUserId: localStorage.getItem('userid')
 						},
 						success: function(res) {
-							for(var i = 0; i < res.data.length; i++) {
-								if(res.data[i].usAdsStatus == 1) {
-									for (var i=0;i<that.lorderList.length;i++) {
-										that.lorderList[i].usUserId=localStorage.getItem('userid')
-										that.lorderList[i].usAddressId=res.data[i].usAddressId
-									}
+//							for(var i = 0; i < res.data.length; i++) {
+//								if(res.data[i].usAdsStatus == 1) {
+//									for (var i=0;i<that.lorderList.length;i++) {
+//										that.lorderList[i].usUserId=localStorage.getItem('userid')
+//										that.lorderList[i].usAddressId=res.data[i].usAddressId
+//									}
 									$.ajax({  
 									    type: "POST",  
-									    url: that.myurl+"/createAliPayBefore",  
-									    data:{lorderList:JSON.stringify(that.lorderList)},//将对象序列化成JSON字符串  
+									    url: that.myurl+"/createAliPay",  
+									    data:{
+									    	usOrderId:'uwnk328skd82j'
+									    },
 									    dataType:"json",  
 									    success: function(respon){  
-									       	localStorage.setItem('usOrderId',respon.data[0].usOrderId)
-											localStorage.setItem('usTraderStoresId',respon.data[0].usTraderStoresId)
-											localStorage.setItem('maMerchantsStyleId',respon.data[0].maMerchantsStyleId)
-											localStorage.setItem('usTraderId',respon.data[0].usTraderId)
-											that.opennew('orderdetail')
+									       console.log(respon.data[0])
+									       plus.payment.request(that.channel[0], respon.data[0], function(result) {
+												plus.nativeUI.alert("支付成功！", function() {
+													
+												});
+											}, function(error) {
+												
+											});
 									    } 
 									});  
-									break;
-								}
-								
-							}
+//									$.ajax({  
+//									    type: "POST",  
+//									    url: that.myurl+"/createAliPayBefore",  
+//									    data:{lorderList:JSON.stringify(that.lorderList)},//将对象序列化成JSON字符串  
+//									    dataType:"json",  
+//									    success: function(respon){  
+//									       	localStorage.setItem('usOrderId',respon.data[0].usOrderId)
+//											localStorage.setItem('usTraderStoresId',respon.data[0].usTraderStoresId)
+//											localStorage.setItem('maMerchantsStyleId',respon.data[0].maMerchantsStyleId)
+//											localStorage.setItem('usTraderId',respon.data[0].usTraderId)
+//											that.opennew('orderdetail')
+//									    } 
+//									});  
+//									break;
+//								}
+//								
+//							}
 
 						},
 						error: function(res) {
@@ -349,6 +368,21 @@
 				mui('.mui-scroll-wrapper').scroll({
 					deceleration: 0.0006
 				});
+				var that = this
+					// 1. 获取支付通道
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
 			}
 		})
 	</script>
