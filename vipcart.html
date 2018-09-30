@@ -45,11 +45,8 @@
 				<div class="mui-scroll">
 					<div class="vip-top"></div>
 					<div class="avatar-box">
-						<!--<img :src="usHeadImg" />-->
-						<img src="img/index.jpg"/>
-					</div>
-					<div class="h2">
-						超级会员
+						<img :src="usHeadImg | myimg" />
+						<!--<img src="img/index.jpg"/>-->
 					</div>
 					<div class="vip-title">
 						我的Power
@@ -185,6 +182,11 @@
 				},
 				update: function() {
 					mui.init()
+				},
+				filters:{
+					myimg:function(value){
+						return 'http://27.54.248.14:8081/' + value.substring(value.indexOf("upload"))
+					}
 				}
 			})
 		</script>

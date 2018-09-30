@@ -76,7 +76,7 @@
 						<div class="mui-slider">
 							<div class="mui-slider-group">
 								<!--第一个内容区容器-->
-								<div class="mui-slider-item" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in bannerdata" v-if="val.maApName=='用户首页的轮播图片'">
+								<div class="mui-slider-item" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in bannerdata" v-if="val.maApName=='用户首页的轮播图'">
 									<!-- 具体内容 -->
 									<!--<img :src="val.usTsBannerImg" />-->
 									<img src="img/4.png" />
@@ -445,17 +445,18 @@
 							error: function(err) {console.log(err)}
 						});
 						//						我的专属
+						var ajaxjson= {
+								usUserId: localStorage.getItem('userid'),
+								lng: localStorage.getItem('lng'),
+								lat: localStorage.getItem('lat')
+						}
 						$.ajax({
 							type: "get",
 							url: localStorage.getItem('myurl') + "/queryTUsTraderStoresRecommendPojoMySpecialty",
 							dataType: 'json',
-							data: {
-								usUserId: localStorage.getItem('userid'),
-								lng: localStorage.getItem('lng'),
-								lat: localStorage.getItem('lat')
-							},
+							data:ajaxjson,
 							success: function(res) {
-								console.log(res.data)
+								console.log(JSON.stringify(ajaxjson))
 								that.mydata = res.data
 								for(var i = 0; i < res.data[0].length; i++) {
 									that.mydata[0][i].xiaoliang = res.data[2 * i + 1]
@@ -530,8 +531,11 @@
 						})
 						return false;
 					}
-					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
-//					localStorage.setItem('myurl', 'http://192.168.2.116/user')
+//					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
+//					localStorage.setItem('myurl', 'http://192.168.2.116/user') //老秦
+//					localStorage.setItem('myurl', 'http://192.168.2.119/user') //祁雷
+					localStorage.setItem('myurl', 'http://192.168.2.245/user') //琼瑶姐
+					localStorage.setItem('myurl01', 'http://192.168.2.245/trader') //琼瑶姐
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006
 					})

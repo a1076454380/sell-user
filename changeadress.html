@@ -94,29 +94,22 @@
 							}
 							return false;
 						}
+						var ajaxjson = {
+							usAddressId: localStorage.getItem('usAddressId'),
+							usAdsProvince: that.usAdsProvince,
+							usAdsCity: that.usAdsCity,
+							usAdsArea: that.usAdsArea,
+							usAdsDetailed: that.usAdsDetailed
+						}
+						console.log(ajaxjson)
 						$.ajax({
 							type: "post",
 							url: that.myurl + "/updateByUsAdress",
 							dataType: 'json',
-							data: {
-								usAddressId: localStorage.getItem('usAddressId'),
-								usAdsProvince: that.usAdsProvince,
-								usAdsCity: that.usAdsCity,
-								usAdsArea: that.usAdsArea,
-								usAdsDetailed: that.usAdsDetailed
-							},
+							data: ajaxjson,
 							success: function(res) {
-								console.log(res)
 								if(res.status == 200) {
-									function plusReady() {
-										// 弹出系统等待对话框
-										plus.nativeUI.toast('修改完成！')
-									}
-									if(window.plus) {
-										plusReady();
-									} else {
-										document.addEventListener("plusready", plusReady, false);
-									}
+									mui.back()
 								}
 							}
 						});

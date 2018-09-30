@@ -161,11 +161,11 @@
 							async:true,
 							dataType:'json',
 							success:function(res){
+								console.log(res)
 								that.mydata=res.data
 								for(var i =0;i<that.mydata.length-2;i++){
 									that.mydata01.push(that.mydata[i])
 								}
-								console.log(that.mydata01)
 							}
 						});
 					}

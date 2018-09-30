@@ -305,6 +305,7 @@
 					shopdata: '',
 					mydata: '',
 					myurl: localStorage.getItem('myurl'),
+					myurl01:localStorage.getItem('myurl01'),
 					shopdetil: '',
 					cartdata: [],
 					allprice: 0
@@ -446,7 +447,7 @@
 						var that = this
 						$.ajax({
 							type: "get",
-							url: that.myurl + "/queryUsTraderShoppingSortByUsTraderId",
+							url: that.myurl01 + "/selectUsTraderShoppingSort",
 							dataType: 'json',
 							data: {
 								usTraderId: localStorage.getItem('usTraderId')
@@ -473,9 +474,6 @@
 							success: function(res) {
 								that.mydata = res.data
 								that.havecart()
-							},
-							error: function(err) {
-								console.log(err)
 							}
 						});
 						function plusReady() {

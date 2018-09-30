@@ -33,11 +33,11 @@
 					<img src="img/shop02.png" />
 					<input type="text" placeholder="搜一下，发现精彩" v-model="searchtext"/>
 				</form>
-				<span id="goserach" @click="gosearch">
+				<span id="goserach" @click="gosearch('ttt')">
 					搜索
 				</span>
 			</header>
-			<div class="main">
+			<div class="main" @scroll="myscroll" style="overflow-y: scroll;">
 				<div class="search-top" v-show="!history">
 					搜索历史
 				</div>
@@ -58,55 +58,43 @@
 				<p v-if="history&&tuidata==''" style="text-align: center;line-height: 1rem;">
 					未查询到数据
 				</p>
-				<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-if="history" v-for="val in tuidata[0]">
-						<div class="group-inner">
+				<div class="main-inner">
+				<div class="index-group">
+						<div class="group-inner" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-if="history" v-for="val in tuidata">
 							<div class="img-box">
-								<img src="img/index02.png" />
+								<img :src="val.usTsFacadeImg" />
 							</div>
 							<div class="index-detail">
 								<div class="index-h">
 									{{val.usTsCompanyName}}
 								</div>
 								<div class="index-x" style="align-items: flex-start;">
-									<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=1" />
-											<img src="img/xhalf.png" v-if="val.usSsStar1" />
+										<div class="x-group" v-for="item in val.starPercentage">
+											<img src="img/xactive.png" />
 										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=2" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<1" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=3" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<3" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=4" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<4" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=5" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<5" />
+										<div class="x-group"v-for="item in (5 - val.starPercentage)">
+											<img src="img/xhalf.png"/>
 										</div>
 								</div>
 								<div class="index-x">
 									<span class="shop-type">
-									<img src="img/shopavatar.png"/>小吃快餐
+									<img src="img/shopavatar.png"/>{{val.maMsName}}
 								</span>
 								</div>
 								<div class="index-money">
 									<span>
-									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.peisong}}
+									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.price}}
 								</span>
 								</span>
 									<span>
 									月销量:
-									<strong>{{val.xiaoliang}}</strong>
+									<strong>{{val.num}}</strong>
 								</span>
 								</div>
 							</div>
 						</div>
-					</div>
+				</div>
+			</div>
 			</div>
 			<div class="layui" v-show="layui">
 				<div class="layui-inner">
@@ -135,21 +123,35 @@
 					layuitext:'未知错误',
 					historydata:JSON.parse(localStorage.getItem('historydata')),
 					myurl:localStorage.getItem('myurl'),
-					tuidata:''
+					tuidata:[],
+					size:1,
+					pageNum:0,
+					ajaxmore:false
 				},
 				methods: {
+					myscroll:function(){
+						var that=this
+						if(Math.abs($('.main-inner').offset().top)+$('.main').height()+200>=$('.main-inner').height()){
+							if(that.ajaxmore==false){
+								that.gosearch()
+							}
+						}
+					},
 					historysearch:function(text){
 						this.searchtext=text
 						this.gosearch()
 					},
-					gosearch:function(){
+					gosearch:function(ttt){
 						if(this.searchtext==''){
 							this.layuiboo('您还没有输入内容呢~')
 							return false;
 						}
+						this.pageNum++
 						this.history=true
 						this.historydata.push(this.searchtext)
-						localStorage.setItem('historydata',JSON.stringify(this.historydata))
+						if(ttt=='ttt'){
+							localStorage.setItem('historydata',JSON.stringify(this.historydata))
+						}
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
@@ -159,6 +161,7 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
+						this.ajaxmore=true
 						var that=this
 						$.ajax({
 							type:"get",
@@ -167,19 +170,18 @@
 							data:{
 								lng:localStorage.getItem('lng'),
 								lat:localStorage.getItem('lat'),
-								usTsName:that.searchtext
+								usTsName:that.searchtext,
+								pageNum:that.pageNum
 							},
 							success:function(res){
-								if(res.data!=null){
-									that.tuidata = res.data
-									for(var i = 8; i < res.data.length; i = i + 9) {
-										that.tuidata[0][parseInt(i / 8) - 1].xiaoliang = res.data[i]
-										that.tuidata[0][parseInt(i / 8) - 1].peisong = res.data[i - 2].maDiPrice
-									}
-								}else{
-									that.tuidata=''
+								that.size=res.data.pages
+								that.ajaxmore=false
+								for (var i=0;i<res.data.list.length;i++) {
+									that.tuidata.push(res.data.list[i])
 								}
-								console.log(that.tuidata)
+								for (var i=0;i<20;i++) {
+									that.tuidata.push(res.data.list[0])
+								}
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()

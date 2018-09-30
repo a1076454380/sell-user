@@ -82,6 +82,15 @@
 						})
 					},
 					myajax:function(){
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						var that=this
 						$.ajax({
 							type:"get",
@@ -93,6 +102,15 @@
 							success:function(res){
 								console.log(res)
 								that.countdata=res.data
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 							}
 						});
 					}

@@ -22,6 +22,7 @@
 		.index-group {
 			flex-direction: row!important;
 		}
+		.swiper-container{z-index: 22!important;}
 	</style>
 
 	<body>
@@ -148,18 +149,18 @@
 								console.log(res)
 								that.newdata = res.data
 								that.shoptype = res.data[0].maMerchantsStyleId
-								
 							}
 						});
+
 						function plusReady() {
-									// 弹出系统等待对话框
-									plus.nativeUI.closeWaiting()
-								}
-								if(window.plus) {
-									plusReady();
-								} else {
-									document.addEventListener("plusready", plusReady, false);
-								}
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 					}
 				},
 				mounted: function() {

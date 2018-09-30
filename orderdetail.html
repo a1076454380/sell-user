@@ -55,32 +55,32 @@
 					<div class="detail-group top">
 						<!--<img :src="mapboo==false?'img/mapshow.png':'img/maphide.png'" class="mapshow" @click="mapshow"/>-->	
 						<div class="state-h">
-							订单{{mydata[0][0].usOrIsPay==0?'未支付':'已支付'}}
+							订单{{mydata.usOrder.usOrIsPay==0?'未支付':'已支付'}}
 						</div>
-						<div class="state-p" v-if="mydata[0][0].usOrIsPay==1">
-							{{mydata[0][0].usOrTrStartus==1?'已接单':'未接单'}}
+						<div class="state-p">
+							{{mydata.usOrder.usOrTrStartus==2?'已接单':'未接单'}}
 						</div>
 						<div class="setting">
-							<div class="setting-btn" @click="openshop(mydata[0][0].usTraderStoresId)">
-								{{mydata[0][0].usOrIsPay==0?'重新购买':'再来一单'}}
+							<div class="setting-btn" @click="openshop(mydata.usOrder.usTraderStoresId)">
+								{{mydata.usOrder.usOrIsPay==0?'重新购买':'再来一单'}}
 							</div>
-							<div class="setting-btn" @click="openrating(mydata[0][0].usOrderId)" v-if='mydata[0][0].usOrIsPay!=0&&mydata[0][0].usOrOrderevaluatestatus==0'>
+							<div class="setting-btn" @click="openrating(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay!=0&&mydata.usOrder.usOrOrderevaluatestatus==0'>
 								发表评价
 							</div>
-							<div class="setting-btn" @click="gopay(mydata[0][0].usOrderId)" v-if='mydata[0][0].usOrIsPay==0'>
+							<div class="setting-btn" @click="gopay(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay==0'>
 								我要支付
 							</div>
 						</div>
 					</div>
 					<div class="detail-group content">
 						<div class="shop-name">
-							<img :src="mydata[0][0].usTsFacadeImg" class="avatar" />
+							<img :src="mydata.usOrder.usTsFacadeImg" class="avatar" />
 							<span style="flex: 1;">
-							{{mydata[0][0].usTsCompanyName}}
+							{{mydata.listUsTriderPojo[0].usTsCompanyName}}
 						</span>
 							<img src="img/arrright.png" class="arr" />
 						</div>
-						<div class="shop-group" v-for="val in mydata[0]">
+						<div class="shop-group" v-for="val in mydata.usOrderDetaileUsTraderShoppingPojoList">
 							<img :src="val.usTsImgUrl" />
 							<div class="shop-main">
 								<div class="shop-name" style="margin: 0;">
@@ -106,37 +106,63 @@
 									配送费
 								</span>
 									<span>
-									¥{{mydata[7].maDiPrice}}
+									¥{{mydata[6].maDiPrice}}
 								</span>
 								</div>
 							</div>
 						</div>
-						<div class="shop-back" v-if="mydata[1]!=null||mydata[2]!=null||mydata[3]!=null">
+						<div class="shop-back">
 							<div class="back-inner">
-								<div class="back-group" v-if="mydata[1]!=null">
+								<div class="back-group" v-if="mydata.usTraderPackage!=undefined">
 									<span>
 									<span class="red">
 										¥
 									</span>
 									<span class="grey">
-										管理员红包
+										商户红包活动
 									</span>
 									</span>
 									<span>
-										-  ¥{{mydata[1].maRePrice}}
+										-  ¥{{mydata.usTraderPackage}}
 									</span>
 								</div>
-								<div class="back-group" v-if="mydata[2]!=null">
+								<div class="back-group" v-if="mydata.usTraderNewActivities!=undefined">
 									<span>
 									<span class="red">
 										¥
 									</span>
 									<span class="grey">
-										代理商红包
+										商户新人活动
 									</span>
 									</span>
 									<span>
-										-  ¥{{mydata[2].usTpPrice}}
+										-  ¥{{mydata.usTraderNewActivities}}
+									</span>
+								</div>
+								<div class="back-group" v-if="mydata.usTraderDiscount!=undefined">
+									<span>
+									<span class="red">
+										¥
+									</span>
+									<span class="grey">
+										商户折扣
+									</span>
+									</span>
+									<span>
+										-  ¥{{mydata.usTraderDiscount}}
+									</span>
+								</div>
+								<div class="back-group" v-if="mydata.usTraderSubtract!=undefined">
+									<span>
+									<span class="red">
+										¥
+									</span>
+									<span class="grey">
+										商户满减
+									</span>
+									</span>
+									<span>
+										-  ¥{{mydata.usTraderSubtract}}
 									</span>
 								</div>
 								<div class="back-group" v-if="mydata[3]!=null">
@@ -160,13 +186,13 @@
 									<span></span>
 									<span>
 									<span class="grey">
-										优惠¥{{youhui}}
+										<!--优惠¥{{youhui}}-->
 									</span>
 									<strong>
 										合计
 									</strong>
 									<span class="moneyred">
-										¥{{zongjia + mydata[7].maDiPrice - youhui}}
+										¥{{mydata.shoppingAllPrice}}
 									</span>
 									</span>
 								</div>
@@ -178,7 +204,7 @@
 									<a href="tel:154565646">
 										<img src="img/detail_03.png" class="phone" />
 									</a>
-									<a :href=["tel:"+mydata[0][0].usTsPhone+""]>
+									<a :href=["tel:"+mydata.listUsTriderPojo[0].usTsPhone+""]>
 										联系商家
 									</a>
 								</div>
@@ -203,13 +229,13 @@
 						</span>
 						</div>
 					</div>-->
-					<div class="detail-group inform" v-if="mydata[0][0].usOrIsPay==1">
+					<div class="detail-group inform" v-if="mydata.usOrder.usOrIsPay==1">
 						<div class="inform-group">
 							<span class="inform-name">
 							订单号码
 						</span>
 							<span class="inform-text">
-							{{mydata[0][0].usOrNum}}
+							{{mydata.usOrder.usOrNum}}
 						</span>
 						</div>
 						<div class="inform-group">
@@ -217,7 +243,7 @@
 							订单时间
 						</span>
 							<span class="inform-text">
-							{{mydata[0][0].createTime1}}
+							{{mydata.usOrder.createTime1}}
 						</span>
 						</div>
 						<div class="inform-group">
@@ -225,7 +251,7 @@
 							支付方式
 						</span>
 							<span class="inform-text">
-							{{mydata[0][0].usOpStatus==1?'支付宝':'微信'}}
+							{{mydata.usOrder.usOpStatus==1?'支付宝':'微信'}}
 						</span>
 						</div>
 					</div>
@@ -239,7 +265,7 @@
 					layui: false,
 					layuitext: '错误',
 					mapboo:false,
-					myurl:localStorage.getItem('myurl'),
+					myurl:localStorage.getItem('myurl01'),
 					mydata:'',
 					youhui:'',
 					zongjia:0
@@ -277,36 +303,35 @@
 						}
 					},
 					myajax:function(){
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						var that=this
-						
 						var jsonData={
-								usOrderId:localStorage.getItem('usOrderId'),
-								usUserId:localStorage.getItem('userid'),
-								usTraderStoresId:localStorage.getItem('usTraderStoresId'),
-								maMerchantsStyleId:localStorage.getItem('maMerchantsStyleId'),
-								usTraderId:localStorage.getItem('usTraderId')
+							usOrderId:localStorage.getItem('usOrderId')
 						}
 						$.ajax({
-							type:"get",
-							url:that.myurl+"/queryVyUsOrderPojoUsOrderId",
+							type:"post",
+							url:that.myurl+"/selectOrderDetailsEmployee",
 							dataType:'json',
 							data:jsonData,
 							success:function(res){
 								console.log(res)
 								that.mydata=res.data
-								if(that.mydata[1]!=null){
-									that.youhui+=that.mydata[1].maRePrice
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
 								}
-//								if(that.mydata[2]!=null){
-//									that.youhui+=that.mydata[2].maRePrice
-//								}
-								if(that.mydata[3]!=null){
-									that.youhui+=that.mydata[3].usTpPrice
-								}
-								var shop=res.data[0]
-								for (var i=0;i<shop.length;i++) {
-									console.log(res)
-									that.zongjia+=shop[i].usOdNum*shop[i].usTsPrice
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
 								}
 							}
 						});

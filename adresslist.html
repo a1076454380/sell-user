@@ -59,12 +59,12 @@
 							</span>
 						</p>
 					</div>
-					<img src="img/change.png" @click.stop="opennew('changeadress',index)"/>
+					<img src="img/change.png" @click.stop="opennew('changeadress',index)" />
 				</div>
-				
+
 			</div>
 			<div class="list-bottom" @click="opennew('addadress','')">
-				<img src="img/add.png"/>增加地址
+				<img src="img/add.png" />增加地址
 			</div>
 		</div>
 		<script type="text/javascript">
@@ -73,52 +73,49 @@
 				data: {
 					layui: false,
 					layuitext: '错误',
-					myurl:localStorage.getItem('myurl'),
-					adressdata:'',
-					usAddressId:''
+					myurl: localStorage.getItem('myurl'),
+					adressdata: '',
+					usAddressId: ''
 				},
 				methods: {
-					change:function(id){
-						var that=this
+					change: function(id) {
+						var that = this
 						$.ajax({
-							type:"post",
-							url:that.myurl+"/updateByUsAdsStatus",
-							dataType:'json',
-							data:{
-								usAddressId:id,
-								usUserId:localStorage.getItem('userid')
+							type: "post",
+							url: that.myurl + "/updateByUsAdsStatus",
+							dataType: 'json',
+							data: {
+								usAddressId: id,
+								usUserId: localStorage.getItem('userid')
 							},
-							success:function(res){
-								if(res.status==200){
+							success: function(res) {
+								if(res.status == 200) {
 									plus.nativeUI.toast('默认地址修改完成')
 								}
 							}
 						});
 					},
-					layuiboo: function(text,id) {
-						if(id!=''){
-							this.usAddressId=id
+					layuiboo: function(text, id) {
+						if(id != '') {
+							this.usAddressId = id
 						}
 						this.layuitext = text
 						this.layui = !this.layui
 					},
-					opennew: function(id,index) {
-						var that=this
-						if(index!=''){
-							localStorage.setItem('usAddressId',that.adressdata[index].usAddressId)
-							localStorage.setItem('prov',that.adressdata[index].usAdsProvince)
-							localStorage.setItem('city',that.adressdata[index].usAdsCity)
-							localStorage.setItem('dist',that.adressdata[index].usAdsArea)
-							localStorage.setItem('usAdsDetailed',that.adressdata[index].usAdsDetailed)
-						}
-						
+					opennew: function(id, index) {
+						var that = this
+						localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
+						localStorage.setItem('prov', that.adressdata[index].usAdsProvince)
+						localStorage.setItem('city', that.adressdata[index].usAdsCity)
+						localStorage.setItem('dist', that.adressdata[index].usAdsArea)
+						localStorage.setItem('usAdsDetailed', that.adressdata[index].usAdsDetailed)
 						mui.openWindow({
 							url: '' + id + '.html',
 							id: id
 						})
 					},
-					myajax:function(){
-						
+					myajax: function() {
+
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting('加载中')
@@ -128,16 +125,18 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
-						var that=this
+						var that = this
 						$.ajax({
-							type:"get",
-							url:that.myurl+"/queryUsAddressAll",
-							dataType:'json',
-							data:{
-								usUserId:localStorage.getItem('userid')
+							type: "get",
+							url: that.myurl + "/queryUsAddressAll",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('userid')
 							},
-							success:function(res){
-								that.adressdata=res.data
+							success: function(res) {
+								console.log(res)
+								that.adressdata = res.data
+
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()

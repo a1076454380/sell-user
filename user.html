@@ -236,6 +236,7 @@
 								lat:localStorage.getItem('lat')
 							},
 							success: function(res) {
+								console.log(res)
 								that.tuidata = res.data
 								for(var i = 8; i < res.data.length; i = i + 9) {
 									that.tuidata[0][parseInt(i / 8) - 1].xiaoliang = res.data[i]
