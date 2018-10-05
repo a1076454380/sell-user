@@ -109,7 +109,7 @@
 											</span>
 									<span>
 												月销量:
-												<strong>{{collectdata[index+1]}}</strong>
+												<!--<strong>{{collectdata[index+1]}}</strong>-->
 											</span>
 								</div>
 							</div>
@@ -170,7 +170,6 @@
 							data: {
 								usUserId: localStorage.getItem('userid')
 							},
-							async: true,
 							success: function(res) {
 								console.log(res)
 								that.collectdata = res.data

@@ -39,16 +39,16 @@
 				<span class="header-back mui-action-back">
 					<img src="../img/back.png"/>
 				</span>
-				<span class="header-main">添加地址</span>
+				<span class="header-main">修改地址</span>
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div id="city">
-					<select class="prov" name="usAdsProvince"></select>
-					<select class="city" disabled="disabled" name="usAdsCity"></select>
-					<select class="dist" disabled="disabled" name="usAdsArea"></select>
+				<div id="city">  
+				  <select class="prov" name="usAdsProvince" v-model="prov"></select>   
+				  <select class="city" disabled="disabled" name="usAdsCity" v-model="city"></select>  
+				  <select class="dist" disabled="disabled" name="usAdsArea" v-model="dist"></select>  
 				</div>
-				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址" />
+				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址" v-model="detail"/>
 				<div class="submit" @click="submit">
 					确定新增
 				</div>
@@ -60,12 +60,16 @@
 				data: {
 					layui: false,
 					layuitext: '错误',
-					myurl: localStorage.getItem('myurl')
+					myurl:localStorage.getItem('myurl'),
+					prov:'',
+					city:'',
+					dist:'',
+					detail:''
 				},
 				methods: {
-					layuiboo: function(text, id) {
-						if(id != '') {
-							this.usAddressId = id
+					layuiboo: function(text,id) {
+						if(id!=''){
+							this.usAddressId=id
 						}
 						this.layuitext = text
 						this.layui = !this.layui
@@ -76,11 +80,12 @@
 							id: id
 						})
 					},
-					submit: function() {
-						localStorage.setItem(localStorage.getItem('maptype') + 'adress', this.adress)
-						localStorage.setItem(localStorage.getItem('maptype') + 'detail', this.detail)
-						localStorage.setItem(localStorage.getItem('maptype') + 'name', this.name)
-						localStorage.setItem(localStorage.getItem('maptype') + 'phone', this.phone)
+					submit:function(){
+						localStorage.setItem('sprov', this.prov)
+						localStorage.setItem('scity', this.city)
+						localStorage.setItem('sdist', this.dist)
+						localStorage.setItem('sdetail',this.detail)
+						mui.back()
 					}
 				},
 				mounted: function() {

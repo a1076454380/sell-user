@@ -164,7 +164,7 @@
 						this.ajaxmore=true
 						var that=this
 						$.ajax({
-							type:"get",
+							type:"post",
 							url:that.myurl+"/queryUsTraderStoresRecommendPojoByUsTsName",
 							dataType:'json',
 							data:{
@@ -174,13 +174,11 @@
 								pageNum:that.pageNum
 							},
 							success:function(res){
+								console.log(res)
 								that.size=res.data.pages
 								that.ajaxmore=false
 								for (var i=0;i<res.data.list.length;i++) {
 									that.tuidata.push(res.data.list[i])
-								}
-								for (var i=0;i<20;i++) {
-									that.tuidata.push(res.data.list[0])
 								}
 								function plusReady() {
 									// 弹出系统等待对话框

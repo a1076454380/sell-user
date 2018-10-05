@@ -112,47 +112,33 @@
 								</div>
 							</div>
 						</div>
-						<div class="index-top" v-if="mydata[0]!='null'">
+						<div class="index-top" v-if="mydata!='null'">
 							<span>
 								我的专属
 							</span>
 						</div>
 						<div class="index-main">
-							<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="(val,index) in mydata[0]" v-if="mydata[0]!='null'">
+							<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="(val,index) in mydata" v-if="mydata!='null'">
 								<div class="group-inner">
 									<div class="img-box">
-										<!--<img :src="val.usTsFacadeImg" />-->
-										<img src="img/index.jpg" />
+										<img :src="val.usTsFacadeImg" />
+										<!--<img src="img/index.jpg" />-->
 									</div>
 									<div class="index-detail">
 										<div class="index-h">
 											{{val.usTsCompanyName}}
 										</div>
 										<div class="index-x" style="align-items: flex-start;">
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=1" />
-												<img src="img/xhalf.png" v-if="val.usSsStar1" />
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=2" />
-												<img src="img/xhalf.png" v-if="val.usSsStar<1" />
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=3" />
-												<img src="img/xhalf.png" v-if="val.usSsStar<3" />
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=4" />
-												<img src="img/xhalf.png" v-if="val.usSsStar<4" />
-											</div>
-											<div class="x-group">
-												<img src="img/xactive.png" v-if="val.usSsStar>=5" />
-												<img src="img/xhalf.png" v-if="val.usSsStar<5" />
-											</div>
+											<div class="x-group" v-for="item in val.starPercentage">
+											<img src="img/xactive.png" />
+										</div>
+										<div class="x-group"v-for="item in (5 - val.starPercentage)">
+											<img src="img/xhalf.png"/>
+										</div>
 										</div>
 										<div class="index-x">
 											<span class="shop-type">
-												<img src="img/shopavatar.png"/>为您推荐
+												<img src="img/shopavatar.png"/>我的专属
 											</span>
 										</div>
 										<div class="index-money">
@@ -161,7 +147,7 @@
 											</span>
 											<span>
 												月销量:
-												<strong>{{val.xiaoliang}}</strong>
+												<strong>{{val.monthCount}}</strong>
 											</span>
 										</div>
 									</div>
@@ -175,12 +161,12 @@
 						</div>
 					</div>
 					<div class="index-top" style="margin-top: 0;" id="nav">
-						<div class="top-tab" @click="screening('usSsStar','j')" :class="screen=='usSsStar'?'img-active':''">
+						<div class="top-tab" @click="screening('starPercentage','j')" :class="screen=='starPercentage'?'img-active':''">
 							<span>好评优先</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
-						<div class="top-tab" @click="screening('xiaoliang','j')" :class="screen=='xiaoliang'?'img-active':''">
+						<div class="top-tab" @click="screening('monthCount','j')" :class="screen=='monthCount'?'img-active':''">
 							<span>销量最高</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
@@ -190,92 +176,78 @@
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
-						<div class="top-tab" @click="screening('renjun','s')" :class="screen=='renjun'?'img-active':''">
+						<div class="top-tab" @click="screening('avgUsOrPrice','s')" :class="screen=='avgUsOrPrice'?'img-active':''">
 							<span>人均最低</span>
 							<img src="img/shoplist_13.png" class="default" />
 							<img src="img/shoplist_10.png" class="active-img" />
 						</div>
 					</div>
 					<div class="index-main">
-						<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in tuidata[0]">
+						<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in tuidata">
 							<div class="group-inner">
 								<div class="img-box">
-									<!--<img :src="val.usTsFacadeImg" />-->
-									<img src="img/index02.png" />
+									<img :src="val.usTsFacadeImg" />
+									<!--<img src="img/index02.png" />-->
 								</div>
 								<div class="index-detail">
 									<div class="index-h">
 										{{val.usTsCompanyName}}
 									</div>
 									<div class="index-x" style="align-items: flex-start;">
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=1" />
-											<img src="img/xhalf.png" v-if="val.usSsStar1" />
+										<div class="x-group" v-for="item in val.starPercentage">
+											<img src="img/xactive.png" />
 										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=2" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<1" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=3" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<3" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=4" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<4" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=5" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<5" />
+										<div class="x-group"v-for="item in (5 - val.starPercentage)">
+											<img src="img/xhalf.png"/>
 										</div>
 									</div>
 									<div class="index-x">
 										<span class="shop-type">
-									<img src="img/shopavatar.png"/>小易推荐
+									<img src="img/shopavatar.png"/>{{val.maMsName}}
 								</span>
 									</div>
 									<div class="index-money">
 										<span>
-									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.peisong}}
+									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
 								</span>
 										<span>
 									月销量:
-									<strong>{{val.xiaoliang==null?'0':val.xiaoliang}}</strong>
+									<strong>{{val.monthCount}}</strong>
 								</span>
 									</div>
 								</div>
 							</div>
 							<div class="prefer">
-								<div class="prefer-group" v-if="val.manjian.length!=0">
+								<div class="prefer-group" v-if="val.subtract!=0">
 									<span class="perer-name">
 										满减
 									</span>
 									<span class="prefer-text">
-										满{{val.manjian[0].usTsFullPrice}}减{{val.manjian[0].usTsSubtractPrice}}
+										线上专享最高可减{{val.subtract}}元.
 									</span>
 								</div>
-								<div class="prefer-group" v-if="val.xinren.length!=0">
+								<div class="prefer-group" v-if="val.activities!=0">
 									<span class="perer-name">
 										新人
 									</span>
 									<span class="prefer-text">
-										新用户立减{{val.xinren[0].usTnaPrice}}元
+										新用户立减{{val.activities}}元.
 									</span>
 								</div>
-								<div class="prefer-group" v-if="val.zhekou.length!=0">
+								<div class="prefer-group" v-if="val.discount!=0">
 									<span class="perer-name">
 										折扣
 									</span>
 									<span class="prefer-text">
-										线上专享{{val.zhekou[0].usTdDicsont}}折
+										线上专享最高{{val.discount}}折.
 									</span>
 								</div>
-								<div class="prefer-group" v-if="val.hongbao.length!=0">
+								<div class="prefer-group" v-if="val.packagePrice!=0">
 									<span class="perer-name">
 										红包
 									</span>
 									<span class="prefer-text">
-										满{{val.hongbao[0].usTpLimitPrice}}可用{{val.hongbao[0].usTpPrice}}元红包
+										限时优惠，最高领取{{val.packagePrice}}元红包.
 									</span>
 								</div>
 							</div>
@@ -362,11 +334,11 @@
 						});
 						this.screen = type
 						if(jiang == 's') {
-							this.tuidata[0].sort(function(a, b) {
+							this.tuidata.sort(function(a, b) {
 								return parseFloat(a[type]) - parseFloat(b[type]);
 							})
 						} else {
-							this.tuidata[0].sort(function(a, b) {
+							this.tuidata.sort(function(a, b) {
 								return parseFloat(b[type]) - parseFloat(a[type]);
 							})
 						}
@@ -446,21 +418,17 @@
 						});
 						//						我的专属
 						var ajaxjson= {
-								usUserId: localStorage.getItem('userid'),
-								lng: localStorage.getItem('lng'),
-								lat: localStorage.getItem('lat')
+								usUserId: localStorage.getItem('userid')
 						}
 						$.ajax({
-							type: "get",
-							url: localStorage.getItem('myurl') + "/queryTUsTraderStoresRecommendPojoMySpecialty",
+							type: "post",
+							url: localStorage.getItem('myurl') + "/queryTUsTraderStoresRecommendPojoMySpecialtyY",
 							dataType: 'json',
 							data:ajaxjson,
 							success: function(res) {
-								console.log(JSON.stringify(ajaxjson))
+								console.log(res)
 								that.mydata = res.data
-								for(var i = 0; i < res.data[0].length; i++) {
-									that.mydata[0][i].xiaoliang = res.data[2 * i + 1]
-								}
+								
 							},
 							error:function(err){
 								console.log(err)
@@ -477,8 +445,8 @@
 						});
 						//						小易推荐
 						$.ajax({
-							type: "get",
-							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojo",
+							type: "post",
+							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojoY",
 							dataType: 'json',
 							data: {
 								lng: localStorage.getItem('lng'),
@@ -486,21 +454,11 @@
 							},
 							success: function(res) {
 								that.tuidata = res.data
-								for(var i = 8; i < res.data.length; i = i + 9) {
-									that.tuidata[0][parseInt(i / 8) - 1].xiaoliang = res.data[i] || 0
-									that.tuidata[0][parseInt(i / 8) - 1].peisong = res.data[i - 2].maDiPrice
-									that.tuidata[0][parseInt(i / 8) - 1].xinren = res.data[i - 7]
-									that.tuidata[0][parseInt(i / 8) - 1].manjian = res.data[i - 6]
-									that.tuidata[0][parseInt(i / 8) - 1].zhekou = res.data[i - 5]
-									that.tuidata[0][parseInt(i / 8) - 1].hongbao = res.data[i - 4]
-									that.tuidata[0][parseInt(i / 8) - 1].renjun = res.data[i] || 0
-									that.tuidata[0][parseInt(i / 8) - 1].juli = res.data[i - 1] || 0
-								}
-								that.screening('usSsStar', 'j')
+								that.screening('starPercentage', 'j')
 
 							},
 							error: function(err) {
-								alert('小易推荐获取失败！')
+								console.log(err)
 							}
 						});
 
@@ -532,17 +490,17 @@
 						return false;
 					}
 //					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
+//					localStorage.setItem('myurl01', 'http://27.54.248.14:8081/trader')
 //					localStorage.setItem('myurl', 'http://192.168.2.116/user') //老秦
-//					localStorage.setItem('myurl', 'http://192.168.2.119/user') //祁雷
-					localStorage.setItem('myurl', 'http://192.168.2.245/user') //琼瑶姐
-					localStorage.setItem('myurl01', 'http://192.168.2.245/trader') //琼瑶姐
+					localStorage.setItem('myurl', 'http://192.168.2.119/user') //祁雷
+//					localStorage.setItem('myurl', 'http://192.168.2.245/user') //琼瑶姐
+					localStorage.setItem('myurl01', 'http://192.168.2.119/trader') //琼瑶姐
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006
 					})
 					var that = this
 					if(localStorage.getItem('city') == null) {
 						document.addEventListener('plusready', onPlusReady, false);
-
 						function onPlusReady() {
 							plus.geolocation.getCurrentPosition(function(p) {
 								localStorage.setItem('lng', p.coords.longitude)
@@ -559,6 +517,7 @@
 									var lnglatXY = [p.coords.longitude, p.coords.latitude]; //地图上所标点的坐标
 									geocoder.getAddress(lnglatXY, function(status, result) {
 										if(status === 'complete' && result.info === 'OK') {
+											localStorage.setItem('province',result.regeocode.addressComponent.province)
 											that.city = result.regeocode.addressComponent.city
 											localStorage.setItem('city', that.city)
 											AMap.plugin('AMap.Weather', function() {
@@ -590,8 +549,9 @@
 							});
 						});
 					}
-					localStorage.setItem('lng', '34.2650727570')
-					localStorage.setItem('lat', '117.2543334961')
+localStorage.setItem('userid','1')
+					localStorage.setItem('lng', '34.269544')
+					localStorage.setItem('lat', '117.273565')
 					this.myajax()
 				},
 				updated() {

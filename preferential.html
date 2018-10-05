@@ -49,7 +49,7 @@
 					</span>
 					</div>
 					<div class="per-main">
-						<div class="per-tab" v-for="val in tuidata[0]"  @click="opendetail(val.usTraderStoresId,val.usTraderId)">
+						<div class="per-tab" v-for="(val,index) in tuidata"  @click="opendetail(val.usTraderStoresId)" v-if="index<6">
 							<!--<img :src="val.usTsFacadeImg" />-->
 									<img src="img/index02.png"/>
 							<p>
@@ -64,7 +64,7 @@
 						
 					</div>
 					<div class="per-main">
-						<div class="per-tab" v-for="val in tuidata[0]"  @click="opendetail(val.usTraderStoresId,val.usTraderId)">
+						<div class="per-tab" v-for="(val,index) in tuidata02"  @click="opendetail(val.usTraderStoresId)" v-if="index<6">
 							<!--<img :src="val.usTsFacadeImg" />-->
 									<img src="img/index.jpg"/>
 							<p>
@@ -78,7 +78,7 @@
 					</span>
 					</div>
 					<div class="index-main">
-						<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in tuidata[0]">
+						<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in tuidata02">
 							<div class="group-inner">
 								<div class="img-box">
 									<!--<img :src="val.usTsFacadeImg" />-->
@@ -89,25 +89,11 @@
 										{{val.usTsCompanyName}}
 									</div>
 									<div class="index-x" style="align-items: flex-start;">
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=1" />
-											<img src="img/xhalf.png" v-if="val.usSsStar1" />
+										<div class="x-group" v-for="item in val.starPercentage">
+											<img src="img/xactive.png" />
 										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=2" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<1" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=3" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<3" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=4" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<4" />
-										</div>
-										<div class="x-group">
-											<img src="img/xactive.png" v-if="val.usSsStar>=5" />
-											<img src="img/xhalf.png" v-if="val.usSsStar<5" />
+										<div class="x-group"v-for="item in (5 - val.starPercentage)">
+											<img src="img/xhalf.png"/>
 										</div>
 									</div>
 									<div class="index-x">
@@ -117,11 +103,11 @@
 									</div>
 									<div class="index-money">
 										<span>
-									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.peisong}}
+									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
 								</span>
 										<span>
 									月销量:
-									<strong>{{val.xiaoliang==null?'0':val.xiaoliang}}</strong>
+									<strong>{{val.monthCount}}</strong>
 								</span>
 									</div>
 								</div>
@@ -168,8 +154,9 @@
 					searchdata: '',
 					shoptype: true,
 					layuitext: '您输入的内容为空!!',
-					tuidata:'',
-					myurl:localStorage.getItem('myurl')
+					tuidata:[],
+					myurl:localStorage.getItem('myurl'),
+					tuidata02:[]
 				},
 				methods: {
 					prefershow: function(index) {
@@ -208,24 +195,33 @@
 						}
 						var that=this
 						$.ajax({
-							type: "get",
-							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojo",
+							type: "post",
+							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
 							dataType: 'json',
 							data: {
-								lng: localStorage.getItem('lng'),
-								lat: localStorage.getItem('lat')
+								userAddress:'江苏省徐州市'
 							},
 							success: function(res) {
 								if(res.data!=null){
 									that.tuidata = res.data
-									for(var i = 8; i < res.data.length; i = i + 9) {
-										that.tuidata[0][parseInt(i / 8) - 1].xiaoliang = res.data[i]
-										that.tuidata[0][parseInt(i / 8) - 1].peisong = res.data[i - 2].maDiPrice
-									}
 								}
+							}
+							
+						});
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
+							dataType: 'json',
+							data: {
+								userAddress:'江苏省徐州市'
 							},
-							error: function(err) {
-								alert('今日头条获取失败！')
+							success: function(res) {
+								if(res.data!=null){
+									that.tuidata02 = res.data
+									that.tuidata02.sort(function(a, b) {
+										return parseFloat(b['monthCount']) - parseFloat(a['monthCount']);
+									})
+								}
 							}
 							
 						});

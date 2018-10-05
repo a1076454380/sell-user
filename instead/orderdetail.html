@@ -46,8 +46,8 @@
 				<div class="detail-group content">
 					<div class="shop-name">
 						<span style="flex: 1;color: rgb(254, 99, 91);text-align: right;">
-								正在配送中
-							</span>
+							{{myajax.usRtStatus | state}}
+						</span>
 					</div>
 					<div class="shop-back">
 						<div class="back-inner" style="border: 0;">
@@ -56,7 +56,7 @@
 										起点
 									</span>
 								<span>
-										金山福地二期20栋604
+										{{myajax.usAdsProvince}}{{myajax.usAdsCity}}{{myajax.usRtDetails}}
 									</span>
 							</div>
 							<div class="back-group">
@@ -64,7 +64,7 @@
 										终点
 									</span>
 								<span>
-										淮海环球港A51214
+										{{myajax.usRtProvince}}{{myajax.usRtCity}}{{myajax.usRtArea}}{{myajax.usAdsDetailed}}
 									</span>
 							</div>
 						</div>
@@ -75,7 +75,7 @@
 								<span></span>
 								<span>
 									<span class="moneyred">
-										¥48.4
+										¥{{myajax.usRtPrice}}
 									</span>
 								</span>
 							</div>
@@ -87,7 +87,7 @@
 								<a href="tel:154565646">
 									<img src="../img/detail_03.png" class="phone" />
 								</a>
-								<a href="tel:154565646">
+								<a :href=["tel:"+myajax.usRiPhone+""]>
 									联系骑手
 								</a>
 							</div>
@@ -100,7 +100,7 @@
 							订单号码
 						</span>
 						<span class="inform-text">
-							LLN566564562
+							{{myajax.usReplaceTakeId}}
 						</span>
 					</div>
 					<div class="inform-group">
@@ -108,7 +108,7 @@
 							订单时间
 						</span>
 						<span class="inform-text">
-							2018-04-25
+							{{myajax.usRtCreateTime}}
 						</span>
 					</div>
 				</div>
@@ -120,7 +120,8 @@
 				data: {
 					layui: false,
 					layuitext: '错误',
-					mapboo: false
+					mapboo: false,
+					myajax:''
 				},
 				methods: {
 					opennew: function(target) {
@@ -145,10 +146,35 @@
 					}
 				},
 				mounted: function() {
-
+					var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/queryUsReplaceTakePojoByUsReplaceTakeId",
+							dataType: 'json',
+							data: {
+								usReplaceTakeId: localStorage.getItem('usReplaceTakeId')
+							},
+							success: function(res) {
+								console.log(res)
+								that.myajax=res.data
+							}
+						});
 				},
 				update: function() {
 					mui.init()
+				},
+				filters:{
+					state:function(value){
+						if (value==1) {
+							return '订单已完成'
+						} else if(value==2){
+							return '等待接单中'
+						}else if(value==3){
+							return '订单已接取'
+						}else{
+							return '物品已购买'
+						}
+					}
 				}
 			})
 		</script>

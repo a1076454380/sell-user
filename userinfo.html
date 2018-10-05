@@ -44,7 +44,7 @@
 						<div class="group-name">
 							头像
 						</div>
-						<img :src="avatar" class="avatar" @click="imgclick('img01','in01')" id="img01" />
+						<img :src="avatar | muimg" class="avatar" @click="imgclick('img01','in01')" id="img01" />
 						<input type="hidden" id="in01" v-model="usHeadImg"/>
 						<img src="img/arrright.png" class="aright" />
 					</div>
@@ -258,6 +258,11 @@
 				},
 				update: function() {
 					mui.init()
+				},
+				filters:{
+					muimg:function(value){
+						return 'http://27.54.248.14:8081/user' + value.substring(value.indexOf('D:')+2)
+					}
 				}
 			})
 		</script>

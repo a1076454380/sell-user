@@ -43,14 +43,14 @@
 					
 				</span>
 			</header>
-			<div class="main mui-scroll-wrapper">
+			<div class="main mui-scroll-wrapper main-big">
 				<div class="cart-top"></div>
 				<div class="mui-scroll">
-					<p v-if="mydata.length==0" style="text-align: center;line-height: 1rem;color: #ffffff;">您的购物车暂无商品~</p>
-					<div class="cart-group" @click="opennew('shop')" v-for="val in mydata">
+					<p v-if="cartdata.length==0" style="text-align: center;line-height: 1rem;color: #ffffff;">您的购物车是空的~</p>
+					<div class="cart-group" @click="opennew('shop')" v-for="val in cartdata" v-if="cartdata.length!=0">
 						<div class="cart-title">
 							<div class="cart-name">
-								<img src="img/1.png" />
+								<img :src="val.usTsFacadeImg" />
 								<div class="title">
 									{{val.usTsCompanyName}}
 								</div>
@@ -58,26 +58,35 @@
 							<img src="img/delete.png" class="cart-delete" @click.stop="layuiboo(val.usShoppingCartId)" />
 						</div>
 						<div class="cart-main">
-							<div class="cart-tab">
-								<img src="img/index.jpg" />
+							<div class="cart-tab" v-for="item in val.usShoppingCartPojos">
+								<img :src="item.usTsFacadeImg" />
 								<div class="tab-main">
 									<div class="cart-text">
-										{{val.usTsName}}
+										{{item.usTsName}}
 									</div>
 									<div class="cart-config">
-										<span>{{val.usTsNorm}}</span>
+										<!--<span>{{val.usTsNorm}}</span>-->
 									</div>
 									<div class="cart-price">
 										<div class="money">
-											￥<span>{{val.usTsPrice}}</span>
+											￥<span>{{item.usScdPrice}}</span>
 										</div>
 										<div class="num-box">
-											<img src="img/remove.png" @click.stop="removenum(1,val.usTsPrice)" class="remove1" />
-											<input type="number" v-model="val.usScNum" />
-											<img src="img/add01.png" @click.stop="addnum(1,val.usTsPrice)" class="add1" />
+											<img src="img/remove.png" @click.stop="removenum(item.usTraderShoppingId,item.usScdPrice)" class="remove1" />
+											<input type="number" v-model="item.usScdNum" />
+											<img src="img/add01.png" @click.stop="addnum(item.usTraderShoppingId,item.usScdPrice)" class="add1" />
 										</div>
 									</div>
 								</div>
+							</div>
+						</div>
+						<div class="cart-bottom">
+							<div class="cart-left">
+								<strong>共计：</strong>
+								<span>{{val.usScPrice}}元</span>
+							</div>
+							<div class="cart-right">
+								立即支付
 							</div>
 						</div>
 					</div>
@@ -90,7 +99,7 @@
 					</div>
 					<div class="footerprint-box">
 						<div class="footerprint-tab" @click="opennew('shop')" v-for="val in record">
-							<img src="img/index.jpg" />
+							<img :src="val.usTsFacadeImg" />
 							<h1>
 								{{val.usTsCompanyName}}
 							</h1>
@@ -102,14 +111,6 @@
 				</div>
 
 			</div>
-			<footer class="footer">
-				<div class="footer-text">
-					￥<span>{{allprice}}</span>
-				</div>
-				<div class="footer-setting" @click="pay">
-					去支付
-				</div>
-			</footer>
 		</div>
 	</body>
 	<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -120,12 +121,12 @@
 				layui: false,
 				layuitext: '确定删除此商品吗？',
 				myurl: localStorage.getItem('myurl'),
-				mydata: '',
+				cartdata: [],
 				allprice: 0,
 				usShoppingCartId: '',
 				record: '',
 				lorderList: [],
-				channel:''
+				channel: ''
 			},
 			methods: {
 				pay: function() {
@@ -138,47 +139,47 @@
 							usUserId: localStorage.getItem('userid')
 						},
 						success: function(res) {
-//							for(var i = 0; i < res.data.length; i++) {
-//								if(res.data[i].usAdsStatus == 1) {
-//									for (var i=0;i<that.lorderList.length;i++) {
-//										that.lorderList[i].usUserId=localStorage.getItem('userid')
-//										that.lorderList[i].usAddressId=res.data[i].usAddressId
-//									}
-									$.ajax({  
-									    type: "POST",  
-									    url: that.myurl+"/createAliPay",  
-									    data:{
-									    	usOrderId:'uwnk328skd82j'
-									    },
-									    dataType:"json",  
-									    success: function(respon){  
-									       console.log(respon.data[0])
-									       plus.payment.request(that.channel[0], respon.data[0], function(result) {
-												plus.nativeUI.alert("支付成功！", function() {
-													
-												});
-											}, function(error) {
-												
-											});
-									    } 
-									});  
-//									$.ajax({  
-//									    type: "POST",  
-//									    url: that.myurl+"/createAliPayBefore",  
-//									    data:{lorderList:JSON.stringify(that.lorderList)},//将对象序列化成JSON字符串  
-//									    dataType:"json",  
-//									    success: function(respon){  
-//									       	localStorage.setItem('usOrderId',respon.data[0].usOrderId)
-//											localStorage.setItem('usTraderStoresId',respon.data[0].usTraderStoresId)
-//											localStorage.setItem('maMerchantsStyleId',respon.data[0].maMerchantsStyleId)
-//											localStorage.setItem('usTraderId',respon.data[0].usTraderId)
-//											that.opennew('orderdetail')
-//									    } 
-//									});  
-//									break;
-//								}
-//								
-//							}
+							//							for(var i = 0; i < res.data.length; i++) {
+							//								if(res.data[i].usAdsStatus == 1) {
+							//									for (var i=0;i<that.lorderList.length;i++) {
+							//										that.lorderList[i].usUserId=localStorage.getItem('userid')
+							//										that.lorderList[i].usAddressId=res.data[i].usAddressId
+							//									}
+							$.ajax({
+								type: "POST",
+								url: that.myurl + "/createAliPay",
+								data: {
+									usOrderId: 'uwnk328skd82j'
+								},
+								dataType: "json",
+								success: function(respon) {
+									console.log(respon.data[0])
+									plus.payment.request(that.channel[0], respon.data[0], function(result) {
+										plus.nativeUI.alert("支付成功！", function() {
+
+										});
+									}, function(error) {
+
+									});
+								}
+							});
+							//									$.ajax({  
+							//									    type: "POST",  
+							//									    url: that.myurl+"/createAliPayBefore",  
+							//									    data:{lorderList:JSON.stringify(that.lorderList)},//将对象序列化成JSON字符串  
+							//									    dataType:"json",  
+							//									    success: function(respon){  
+							//									       	localStorage.setItem('usOrderId',respon.data[0].usOrderId)
+							//											localStorage.setItem('usTraderStoresId',respon.data[0].usTraderStoresId)
+							//											localStorage.setItem('maMerchantsStyleId',respon.data[0].maMerchantsStyleId)
+							//											localStorage.setItem('usTraderId',respon.data[0].usTraderId)
+							//											that.opennew('orderdetail')
+							//									    } 
+							//									});  
+							//									break;
+							//								}
+							//								
+							//							}
 
 						},
 						error: function(res) {
@@ -191,13 +192,15 @@
 					var that = this
 					$.ajax({
 						type: "post",
-						url: that.myurl + "/deleteUsShoppingCart",
+						url: that.myurl + "/deleteCartDetail",
 						data: {
-							usShoppingCartId: that.usShoppingCartId
+							storesId: that.usShoppingCartId
 						},
 						dataType: 'json',
 						success: function(res) {
+							console.log(res)
 							if(res.status == 200) {
+								that.myajax()
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.toast('删除完成')
@@ -222,10 +225,12 @@
 					});
 				},
 				layuiboo: function(id) {
-					this.usShoppingCartId = id
+					if(id != undefined) {
+						this.usShoppingCartId = id
+					}
 					this.layui = !this.layui
 				},
-				removenum: function(index, price) {
+				removenum: function(id, price) {
 					function plusReady() {
 						// 弹出系统等待对话框
 						plus.nativeUI.showWaiting("加载中...");
@@ -236,35 +241,39 @@
 						document.addEventListener("plusready", plusReady, false);
 					}
 					var that = this
-					if($('.remove' + index).next().val() != 1) {
-						var num = parseInt($('.add' + index).prev().val()) - 1
-						$.ajax({
-							type: "post",
-							url: that.myurl + "/updateUsShoppingCart",
-							data: {
-								usShoppingCartId: that.mydata[index - 1].usShoppingCartId,
-								usScNum: num,
-								usScPrice: price
-							},
-							dataType: 'json',
-							success: function(res) {
-								that.mydata[index - 1].usScNum--
-									that.allprice = that.allprice - price
-
-								function plusReady() {
-									// 弹出系统等待对话框
-									plus.nativeUI.closeWaiting()
-								}
-								if(window.plus) {
-									plusReady();
-								} else {
-									document.addEventListener("plusready", plusReady, false);
-								}
-							}
-						});
+					var that = this
+					var ajaxjson = {
+						usTraderShoppingId: id,
+						usUserId: localStorage.getItem('userid'),
+						usScdNum: 1,
+						usScdPrice: price,
+						usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+						usScdCreateName: localStorage.getItem('usNickname')
 					}
+					console.log(ajaxjson)
+					//						减少购物车
+					$.ajax({
+						type: "post",
+						url: that.myurl + "/deleteUsShoppingCart",
+						dataType: 'json',
+						data: ajaxjson,
+						success: function(res) {
+							console.log(res)
+							that.myajax()
+
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.closeWaiting()
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
+						}
+					});
 				},
-				addnum: function(index, price) {
+				addnum: function(id, price) {
 					var that = this
 
 					function plusReady() {
@@ -276,20 +285,24 @@
 					} else {
 						document.addEventListener("plusready", plusReady, false);
 					}
-					if($('.remove' + index).next().val() != 1) {
-						var num = $('.add' + index).prev().val()
-						$.ajax({
-							type: "post",
-							url: that.myurl + "/updateUsShoppingCart",
-							data: {
-								usShoppingCartId: that.mydata[index - 1].usShoppingCartId,
-								usScNum: parseInt(num) + 1,
-								usScPrice: price
-							},
-							dataType: 'json',
-							success: function(res) {
-								that.mydata[index - 1].usScNum++
-									that.allprice = that.allprice + price
+					var ajaxjson = {
+						usTraderShoppingId: id,
+						usUserId: localStorage.getItem('userid'),
+						usScdNum: 1,
+						usScdPrice: price,
+						usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+						usScdCreateName: localStorage.getItem('usNickname')
+					}
+					console.log(ajaxjson)
+					$.ajax({
+						type: "post",
+						url: that.myurl + "/insertUsShoppingCart",
+						dataType: 'json',
+						data: ajaxjson,
+						success: function(res) {
+							console.log(res)
+							if(res.status == 200) {
+								that.myajax()
 
 								function plusReady() {
 									// 弹出系统等待对话框
@@ -300,10 +313,11 @@
 								} else {
 									document.addEventListener("plusready", plusReady, false);
 								}
+							} else {
+								that.layuiboo('加入购物车失败')
 							}
-						});
-					}
-
+						}
+					});
 				},
 				opennew: function(target) {
 					mui.openWindow({
@@ -314,7 +328,7 @@
 				myajax: function() {
 					function plusReady() {
 						// 弹出系统等待对话框
-						plus.nativeUI.showWaiting('加载中')
+						plus.nativeUI.showWaiting('加载中...')
 					}
 					if(window.plus) {
 						plusReady();
@@ -323,22 +337,19 @@
 					}
 					var that = this
 					$.ajax({
-						type: "get",
+						type: "post",
 						url: that.myurl + "/queryByUsShoppingCartPojo",
 						dataType: 'json',
 						data: {
 							usUserId: localStorage.getItem('userid')
 						},
 						success: function(res) {
-							if(res.data!=null){
-								that.mydata = res.data
-								for(var i = 0; i < res.data.length; i++) {
-									that.allprice += res.data[i].usTsPrice * res.data[i].usScNum;
-									var nav = (`{"usTraderStoresId":"${res.data[i].usTraderStoresId}","usOrPrice":"${res.data[i].usTsPrice*res.data[i].usScNum}","usTraderShoppingId":"${res.data[i].usTraderShoppingId}","usOdNum":"${res.data[i].usScNum}","usOrIsReserve":"0","usShoppingCartId":"${res.data[i].usShoppingCartId}"}`)
-									that.lorderList.push(JSON.parse(nav))
-								}
+							console.log(res)
+							if(res.data != null) {
+								that.cartdata = res.data
+							}else{
+								that.cartdata =[]
 							}
-							
 						}
 					});
 					$.ajax({
@@ -352,15 +363,16 @@
 							that.record = res.data[0]
 						}
 					});
+
 					function plusReady() {
-								// 弹出系统等待对话框
-								plus.nativeUI.closeWaiting()
-							}
-							if(window.plus) {
-								plusReady();
-							} else {
-								document.addEventListener("plusready", plusReady, false);
-							}
+						// 弹出系统等待对话框
+						plus.nativeUI.closeWaiting()
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
 				}
 			},
 			mounted() {
@@ -369,20 +381,20 @@
 					deceleration: 0.0006
 				});
 				var that = this
-					// 1. 获取支付通道
-					function plusReady() {
-						// 获取支付通道
-						plus.payment.getChannels(function(channels) {
-							that.channel = channels;
-						}, function(e) {
-							alert("获取支付通道失败：" + e.message);
-						});
-					}
-					if(window.plus) {
-						plusReady();
-					} else {
-						document.addEventListener('plusready', plusReady, false);
-					}
+				// 1. 获取支付通道
+				function plusReady() {
+					// 获取支付通道
+					plus.payment.getChannels(function(channels) {
+						that.channel = channels;
+					}, function(e) {
+						alert("获取支付通道失败：" + e.message);
+					});
+				}
+				if(window.plus) {
+					plusReady();
+				} else {
+					document.addEventListener('plusready', plusReady, false);
+				}
 			}
 		})
 	</script>

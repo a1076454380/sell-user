@@ -9,11 +9,9 @@
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="../css/main.css" />
-		<link rel="stylesheet" type="text/css" href="../css/date.css"/>
 		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
-		<script src="../js/date.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -27,7 +25,7 @@
 						{{layuitext}}
 					</div>
 					<div class="layui-settings">
-						<div class="layui-setting" @click="moren">
+						<div class="layui-setting" @click="layuiboo">
 							确定
 						</div>
 						<div class="layui-setting" @click="layuiboo">
@@ -37,14 +35,14 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
+				<span class="header-back" @click="back">
 						<img src="../img/back.png"/>
 					</span>
-				<span class="header-main">选择收货地址</span>
+				<span class="header-main">选择地址</span>
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div class="list-group" v-for="(val,index) in adressdata" @click="layuiboo('是否将当前收货地址设置为默认收货地址？',val.usAddressId)">
+				<div class="list-group" v-for="(val,index) in adressdata" @click="change(val.usAddressId,index)">
 					<div class="group-main">
 						<h2>
 							{{val.usAdsProvince}}{{val.usAdsCity}}{{val.usAdsArea}}
@@ -61,12 +59,12 @@
 							</span>
 						</p>
 					</div>
-					<img src="../img/change.png" @click="opennew('map02',0)"/>
+					<img src="../img/change.png" @click.stop="opennew('changeadress',index)" />
 				</div>
-				
+
 			</div>
-			<div class="list-bottom" @click="open('map','s')">
-				<img src="../img/add.png"/>增加地址
+			<div class="list-bottom" @click="opennew('addadress','')">
+				<img src="../img/add.png" />增加地址
 			</div>
 		</div>
 		<script type="text/javascript">
@@ -75,63 +73,76 @@
 				data: {
 					layui: false,
 					layuitext: '错误',
-					myurl:localStorage.getItem('myurl'),
-					adressdata:'',
-					usAddressId:''
+					myurl: localStorage.getItem('myurl'),
+					adressdata: '',
+					usAddressId: ''
 				},
 				methods: {
-					moren:function(){
-						var that=this
+					back:function(){
+						plus.webview.getWebviewById('instead/instead').reload();
+						mui.back()
+					},
+					change: function(id,index) {
+						var that = this
 						$.ajax({
-							type:"post",
-							url:myurl+"/updateByUsAdsStatus",
-							async:true,
-							success:function(res){
-								if(res.staus==200){
-									that.layuiboo()
+							type: "post",
+							url: that.myurl + "/updateByUsAdsStatus",
+							dataType: 'json',
+							data: {
+								usAddressId: id,
+								usUserId: localStorage.getItem('userid')
+							},
+							success: function(res) {
+								if(res.status == 200) {
+									localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
+									localStorage.setItem('sprov', that.adressdata[index].usAdsProvince)
+									localStorage.setItem('scity', that.adressdata[index].usAdsCity)
+									localStorage.setItem('sdist', that.adressdata[index].usAdsArea)
+									localStorage.setItem('sdetail',that.adressdata[index].usAdsDetailed)
 									plus.nativeUI.toast('默认地址修改完成')
 								}
 							}
 						});
 					},
-					layuiboo: function(text,id) {
-						if(id!=''){
-							this.usAddressId=id
+					layuiboo: function(text, id) {
+						if(id != '') {
+							this.usAddressId = id
 						}
 						this.layuitext = text
 						this.layui = !this.layui
 					},
 					opennew: function(id, index) {
-						localStorage.setItem('sadress', this.adressdata[index].adress)
-						localStorage.setItem('sdetail', this.adressdata[index].detail)
-						localStorage.setItem('sname', this.adressdata[index].adress)
-						localStorage.setItem('sphone', this.adressdata[index].adress)
+						var that = this
+						if(index!=''){
+							localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
+							localStorage.setItem('prov', that.adressdata[index].usAdsProvince)
+							localStorage.setItem('city', that.adressdata[index].usAdsCity)
+							localStorage.setItem('dist', that.adressdata[index].usAdsArea)
+							localStorage.setItem('usAdsDetailed', that.adressdata[index].usAdsDetailed)
+						}
 						mui.openWindow({
-							url: '' + id + '.html',
+							url: '../' + id + '.html',
 							id: id
 						})
 					},
-					open:function(id,type){
-						localStorage.setItem('maptype', type)
-						mui.openWindow({
-							url: '' + id + '.html',
-							id: id
-						})
-					},
-					myajax:function(){
-						var that=this
+					myajax: function() {
+						var that = this
 						$.ajax({
-							type:"get",
-							url:myurl+"/queryUsAddressAll",
-							async:true,
-							success:function(res){
-								that.adressdata=res.data
+							type: "get",
+							url: that.myurl + "/queryUsAddressAll",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('userid')
+							},
+							success: function(res) {
+								console.log(res)
+								that.adressdata = res.data
 							}
 						});
 					}
 				},
 				mounted: function() {
-					
+					this.myajax()
 				},
 				update: function() {
 

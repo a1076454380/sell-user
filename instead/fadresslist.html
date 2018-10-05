@@ -9,7 +9,6 @@
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="../css/main.css" />
-		<link rel="stylesheet" type="text/css" href="../css/date.css" />
 		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
@@ -36,34 +35,35 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
+				<span class="header-back" @click="back">
 						<img src="../img/back.png"/>
 					</span>
-				<span class="header-main">选择取件地址</span>
+				<span class="header-main">选择地址</span>
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div class="list-group" @click="layuiboo('是否将当前位置设置为默认地址？')">
+				<div class="list-group" v-for="(val,index) in adressdata" @click="change(val.usAddressId,index)">
 					<div class="group-main">
 						<h2>
-							徐州市贾汪区
+							{{val.usAdsProvince}}{{val.usAdsCity}}{{val.usAdsArea}}
 						</h2>
 						<p>
-							金山福地二期26栋604
+							{{val.usAdsDetailed}}
 						</p>
 						<p>
 							<span>
-								董礼
+								{{val.usAdsCreateName}}
 							</span>
 							<span>
-								1732713550
+								{{val.usAdsCreateTime}}
 							</span>
 						</p>
 					</div>
-					<img src="../img/change.png" @click.stop="opennew('map02',0)"/>
+					<img src="../img/change.png" @click.stop="opennew('changeadress',index)" />
 				</div>
+
 			</div>
-			<div class="list-bottom" @click="open('map','q')">
+			<div class="list-bottom" @click="opennew('addadress','')">
 				<img src="../img/add.png" />增加地址
 			</div>
 		</div>
@@ -72,33 +72,76 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext: '错误'
+					layuitext: '错误',
+					myurl: localStorage.getItem('myurl'),
+					adressdata: '',
+					usAddressId: ''
 				},
 				methods: {
-					layuiboo: function(text) {
+					back:function(){
+						plus.webview.getWebviewById('instead/instead').reload();
+						mui.back()
+					},
+					change: function(id,index) {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/updateByUsAdsStatus",
+							dataType: 'json',
+							data: {
+								usAddressId: id,
+								usUserId: localStorage.getItem('userid')
+							},
+							success: function(res) {
+								if(res.status == 200) {
+									localStorage.setItem('fprov', that.adressdata[index].usAdsProvince)
+									localStorage.setItem('fcity', that.adressdata[index].usAdsCity)
+									localStorage.setItem('fdist', that.adressdata[index].usAdsArea)
+									localStorage.setItem('fdetail',that.adressdata[index].usAdsDetailed)
+									plus.nativeUI.toast('默认地址修改完成')
+								}
+							}
+						});
+					},
+					layuiboo: function(text, id) {
+						if(id != '') {
+							this.usAddressId = id
+						}
 						this.layuitext = text
 						this.layui = !this.layui
 					},
 					opennew: function(id, index) {
-						//						localStorage.setItem('qadress', this.adress[index].adress)
-						//						localStorage.setItem('qdetail', this.adress[index].detail)
-						//						localStorage.setItem('qname', this.adress[index].adress)
-						//						localStorage.setItem('qphone', this.adress[index].adress)
+						var that = this
+						if(index!=''){
+							localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
+							localStorage.setItem('prov', that.adressdata[index].usAdsProvince)
+							localStorage.setItem('city', that.adressdata[index].usAdsCity)
+							localStorage.setItem('dist', that.adressdata[index].usAdsArea)
+							localStorage.setItem('usAdsDetailed', that.adressdata[index].usAdsDetailed)
+						}
 						mui.openWindow({
-							url: '' + id + '.html',
+							url: '../' + id + '.html',
 							id: id
 						})
 					},
-					open: function(id, type) {
-						localStorage.setItem('maptype', type)
-						mui.openWindow({
-							url: '' + id + '.html',
-							id: id
-						})
+					myajax: function() {
+						var that = this
+						$.ajax({
+							type: "get",
+							url: that.myurl + "/queryUsAddressAll",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('userid')
+							},
+							success: function(res) {
+								console.log(res)
+								that.adressdata = res.data
+							}
+						});
 					}
 				},
 				mounted: function() {
-
+					this.myajax()
 				},
 				update: function() {
 

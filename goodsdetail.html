@@ -121,16 +121,19 @@
 							document.addEventListener("plusready", plusReady, false);
 						}
 						var that=this
+						var ajaxjson = {
+							usTraderShoppingId: that.mydata[0][0].usTraderShoppingId,
+							usUserId: localStorage.getItem('userid'),
+							usScdNum: 1,
+							usScdPrice: that.mydata[0][0].usTsPrice,
+							usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+							usScdCreateName: localStorage.getItem('usNickname')
+						}
 						$.ajax({
 							type: "post",
 							url: that.myurl + "/insertUsShoppingCart",
 							dataType: 'json',
-							data: {
-								usTraderShoppingId: that.mydata[0][0].usTraderShoppingId,
-								usUserId: localStorage.getItem('userid'),
-								usScNum: 1,
-								usScPrice: that.mydata[0][0].usTsPrice
-							},
+							data:ajaxjson,
 							success: function(res) {
 								if(res.status == 200) {
 									that.layuiboo('加入购物车成功')

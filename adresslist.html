@@ -104,11 +104,13 @@
 					},
 					opennew: function(id, index) {
 						var that = this
-						localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
-						localStorage.setItem('prov', that.adressdata[index].usAdsProvince)
-						localStorage.setItem('city', that.adressdata[index].usAdsCity)
-						localStorage.setItem('dist', that.adressdata[index].usAdsArea)
-						localStorage.setItem('usAdsDetailed', that.adressdata[index].usAdsDetailed)
+						if(index!=''){
+							localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
+							localStorage.setItem('prov', that.adressdata[index].usAdsProvince)
+							localStorage.setItem('city', that.adressdata[index].usAdsCity)
+							localStorage.setItem('dist', that.adressdata[index].usAdsArea)
+							localStorage.setItem('usAdsDetailed', that.adressdata[index].usAdsDetailed)
+						}
 						mui.openWindow({
 							url: '' + id + '.html',
 							id: id

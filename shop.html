@@ -66,23 +66,23 @@
 				<div class="bottom-wrapper" v-show="!cartboo" @click="bottomtab">
 					<div class="bottom-main">
 
-						<div class="bottom-tab" v-for='(val,index) in cartdata' v-if="val.usTraderStoresId==mydata[0][0].usTraderStoresId">
+						<div class="bottom-tab" v-for='(val,index) in cartdata.usShoppingCartPojos'>
 							<div class="bottom-name">
 								{{val.usTsName}}
 							</div>
 							<div class="bottom-price">
-								¥{{val.usTsPrice}}
+								¥{{val.usScdPrice}}
 							</div>
 							<div class="bottom-setting">
-								<img src="img/reduce.png" @click.stop="reduce(val.usShoppingCartId,'0',index,val.usTsPrice)" v-show="val.usScNum!=1"/>
-								<input type="number" :value="val.usScNum" id='a1' />
-								<img src="img/add.png" @click.stop="reduce(val.usShoppingCartId,'1',index,val.usTsPrice)" />
+								<img src="img/reduce.png" @click.stop="reduce(val.usTraderShoppingId,val.usScdPrice/val.usScdNum)" v-show="val.usScdNum!=1" />
+								<input type="number" :value="val.usScdNum" id='a1' />
+								<img src="img/add.png" @click.stop="addcart(val.usTraderShoppingId,val.usScdPrice/val.usScdNum)" />
 							</div>
 						</div>
 						<div class="bottom-tab">
 							<div style="flex: 1;padding-left: .1rem;">
 								总计:
-								<strong>{{allprice}}</strong>
+								<strong>{{cartdata.usScPrice}}</strong>
 							</div>
 							<div class="bottom-setting" style="background: #FF6666;color: white;width: 2rem;justify-content: center;flex: inherit;padding: 0;" @click.stop="pay('pay','')">
 								结算
@@ -228,7 +228,7 @@
 											<div class="right-main">
 												<div class="rmain-group" v-for="(val,index) in shopdetil" @click="pay('goodsdetail',val.usTraderShoppingId)" v-if="index%2==0">
 													<!--<img :src="val.usTsImgUrl" class="img" />-->
-													<img src="img/index.jpg" class="img"/>
+													<img src="img/index.jpg" class="img" />
 													<div class="shoptext">
 														<h4>
 															{{val.usTsName}}
@@ -260,7 +260,7 @@
 									<div class="rating-group" v-for="val in mydata[1]">
 										<div class="img-box">
 											<!--<img :src="val.usHeadImg" />-->
-											<img src="img/index.jpg" class="avatar"/>
+											<img src="img/index.jpg" class="avatar" />
 										</div>
 										<div class="rating-main">
 											<div class="rating-name">
@@ -275,10 +275,10 @@
 												<img :src="val.usScImg2Url" v-if="val.usScImg2Url!=''&&val.usScImg1Url!=null" />
 												<img :src="val.usScImg3Url" v-if="val.usScImg3Url!=''&&val.usScImg1Url!=null" />
 												<img :src="val.usScImg4Url" v-if="val.usScImg4Url!=''&&val.usScImg1Url!=null" />-->
-												<img src="img/index.jpg"/>
-												<img src="img/index02.png"/>
-												<img src="img/index.jpg"/>
-												<img src="img/index02.png"/>
+												<img src="img/index.jpg" />
+												<img src="img/index02.png" />
+												<img src="img/index.jpg" />
+												<img src="img/index02.png" />
 											</div>
 										</div>
 									</div>
@@ -305,7 +305,7 @@
 					shopdata: '',
 					mydata: '',
 					myurl: localStorage.getItem('myurl'),
-					myurl01:localStorage.getItem('myurl01'),
+					myurl01: localStorage.getItem('myurl01'),
 					shopdetil: '',
 					cartdata: [],
 					allprice: 0
@@ -322,7 +322,6 @@
 								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
-								
 								if(res.status == 200) {
 									that.layuiboo('收藏成功')
 								} else {
@@ -334,19 +333,22 @@
 					addcart: function(id, price) {
 						var that = this
 						$('.mycart').addClass('cartanimate')
-							setTimeout(function() {
-								$('.mycart').removeClass('cartanimate')
-							}, 500)
+						setTimeout(function() {
+							$('.mycart').removeClass('cartanimate')
+						}, 500)
+						var ajaxjson = {
+							usTraderShoppingId: id,
+							usUserId: localStorage.getItem('userid'),
+							usScdNum: 1,
+							usScdPrice: price,
+							usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+							usScdCreateName: localStorage.getItem('usNickname')
+						}
 						$.ajax({
 							type: "post",
 							url: that.myurl + "/insertUsShoppingCart",
 							dataType: 'json',
-							data: {
-								usTraderShoppingId: id,
-								usUserId: localStorage.getItem('userid'),
-								usScNum: 1,
-								usScPrice: price
-							},
+							data: ajaxjson,
 							success: function(res) {
 								if(res.status == 200) {
 									that.havecart()
@@ -398,34 +400,6 @@
 							this.cartboo = !this.cartboo
 						}
 					},
-					reduce: function(id, type, index, price) {
-						var that = this
-						if(type == 0) {
-							if(this.cartdata[index].usScNum!=0){
-								this.cartdata[index].usScNum--
-							}
-						} else {
-							this.cartdata[index].usScNum++
-						}
-						$.ajax({
-							type: "post",
-							url: that.myurl + "/updateUsShoppingCart",
-							data: {
-								usShoppingCartId: id,
-								usScNum: that.cartdata[index].usScNum,
-								usScPrice: price
-							},
-							dataType: 'json',
-							success: function(res) {
-								if(type == 0) {
-									that.allprice = that.allprice - price
-								} else {
-									that.allprice = that.allprice + price
-								}
-
-							}
-						});
-					},
 					pay: function(target, usTraderShoppingId) {
 						localStorage.setItem('usTraderShoppingId', usTraderShoppingId)
 						mui.openWindow({
@@ -446,21 +420,19 @@
 						//						获取分类
 						var that = this
 						$.ajax({
-							type: "get",
+							type: "post",
 							url: that.myurl01 + "/selectUsTraderShoppingSort",
 							dataType: 'json',
 							data: {
-								usTraderId: localStorage.getItem('usTraderId')
+								usTraderStoresId: localStorage.getItem('usTraderStoresId')
 							},
 							success: function(res) {
-								console.log(res)
 								that.shopdata = res.data
 								if(that.shopdata != null && that.shopdata != '') {
 									that.num = res.data[0].usTraderShoppingSortId
 									that.mytab(that.num)
 								}
 
-								
 							}
 						});
 						//						获取店铺信息
@@ -476,35 +448,53 @@
 								that.havecart()
 							}
 						});
+
 						function plusReady() {
-									// 弹出系统等待对话框
-									plus.nativeUI.closeWaiting()
-								}
-								if(window.plus) {
-									plusReady();
-								} else {
-									document.addEventListener("plusready", plusReady, false);
-								}
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+					},
+					reduce: function(id,price) {
+						var that = this
+						var ajaxjson = {
+							usTraderShoppingId: id,
+							usUserId: localStorage.getItem('userid'),
+							usScdNum: 1,
+							usScdPrice: price,
+							usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+							usScdCreateName: localStorage.getItem('usNickname')
+						}
+						//						减少购物车
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/deleteUsShoppingCart",
+							dataType: 'json',
+							data: ajaxjson,
+							success: function(res) {
+								that.havecart()
+							}
+						});
 					},
 					havecart: function() {
-						var that=this
+						var that = this
 						//						获取购物车
 						$.ajax({
-							type: "get",
+							type: "post",
 							url: that.myurl + "/queryByUsShoppingCartPojo",
 							dataType: 'json',
 							data: {
-								usUserId: localStorage.getItem('userid')
+								usUserId: localStorage.getItem('userid'),
+								usTraderStoresId: localStorage.getItem('usTraderStoresId')
 							},
 							success: function(res) {
-								that.cartdata = res.data
-								that.mycartnum=0
-								that.allprice=0
-								for(var i = 0; i < res.data.length; i++) {
-									that.allprice += res.data[i].usTsPrice * res.data[i].usScNum;
-									if(res.data[i].usTraderStoresId == that.mydata[0][0].usTraderStoresId) {
-										that.mycartnum++
-									}
+								if(res.data != null) {
+									that.mycartnum = res.data.usShoppingCartPojos.length
+									that.cartdata = res.data
 								}
 
 								function plusReady() {
@@ -516,6 +506,9 @@
 								} else {
 									document.addEventListener("plusready", plusReady, false);
 								}
+							},
+							error: function(err) {
+								console.log(err)
 							}
 						});
 					}

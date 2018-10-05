@@ -96,6 +96,15 @@
 					gosubmit: function() {
 						var that = this
 						if(this.submittext == '登录') {
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.showWaiting("加载中...");
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
 							$.ajax({
 								type:"get",
 								url:localStorage.getItem('myurl')+"/queryLoginByUsPhone",
@@ -105,6 +114,15 @@
 								},
 								success:function(res){
 									console.log(res)
+									function plusReady() {
+										// 弹出系统等待对话框
+										plus.nativeUI.closeWaiting()
+									}
+									if(window.plus) {
+										plusReady();
+									} else {
+										document.addEventListener("plusready", plusReady, false);
+									}
 									if(res.status==200){
 										localStorage.setItem('userid',res.data.usUserId)
 //										localStorage.setItem('userid',1)
@@ -154,8 +172,8 @@
 					}
 				},
 				mounted() {
-//					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
-					localStorage.setItem('myurl', 'http://192.168.2.116/user')
+					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
+//					localStorage.setItem('myurl', 'http://192.168.2.116/user')
 				}
 			})
 		</script>

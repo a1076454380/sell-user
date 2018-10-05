@@ -64,7 +64,7 @@
 									<span>
 										
 									</span>
-									<span @click="layuiboo(val.usTmcLevelNumber,val.usTraderId,val.usTraderStoresId)">
+									<span @click="layuiboo(val.usMemberId,val.usTraderMemberCardId,val.usMePrice,val.usMeUpdateName,val.usMemberDetail,val.usTraderId,val.usTraderStoresId)">
 										升级会员卡
 									</span>
 								</p>
@@ -107,19 +107,76 @@
 					layui: false,
 					layuitext: '您确定要升级会员卡吗',
 					mySwiper: '',
-					myurl:localStorage.getItem('myurl'),
-					mydata:'',
-					usHeadImg:localStorage.getItem('usHeadImg'),
-					usTmcLevelNumber:'',
-					usTraderId:'',
-					usTraderStoresId:''
+					myurl: localStorage.getItem('myurl'),
+					mydata: '',
+					usHeadImg: localStorage.getItem('usHeadImg'),
+					usTmcLevelNumber: '',
+					usTraderId: '',
+					usTraderStoresId: '',
+					channel: ''
 				},
 				methods: {
-					layuiboo: function(usTmcLevelNumber,usTraderId,usTraderStoresId) {
-						this.usTmcLevelNumber=usTmcLevelNumber
-						this.usTraderId=usTraderId
-						this.usTraderStoresId=usTraderStoresId
-						this.layui = !this.layui
+					layuiboo: function(usMemberId, usTraderMemberCardId, usMePrice, usMeUpdateName, usMemberDetail, usTraderId, usTraderStoresId) {
+						var that = this
+						var buttons = []
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/updateMemeber",
+							dataType: 'json',
+							data: {
+								usTraderId: usTraderId,
+								usTraderStoresId: usTraderStoresId
+							},
+							success: function(res) {
+								console.log(res)
+								for(var i = 0; i < res.data.length; i++) {
+									buttons.push({
+										title: res.data[i].usTmcLevel
+									})
+								}
+								//								弹出会员等级选择
+								
+								
+								plus.nativeUI.actionSheet({
+									title: "请选择会员卡级别",
+									cancel: "取消",
+									buttons: buttons
+								}, function(e) {
+									console.log("User pressed: " + e.index);
+									var ajaxjson = {
+										usMdStatus: 1, //1.支付宝，，2.微信，，3.银行卡
+										usMdUpdateName: localStorage.getItem('usNickname'),
+										usMemberId: usMemberId,
+										usTraderMemberCardId: res.data[e.index-1].usTraderMemberCardId,
+										usMePrice: res.data[e.index-1].usTmcPrice,
+										usMeUpdateName: localStorage.getItem('usNickname')
+									}
+									console.log(JSON.stringify(ajaxjson))
+									$.ajax({
+										type: "post",
+										url: that.myurl + "/createAliPayMember",
+										data: ajaxjson,
+										dataType: 'json',
+										success: function(res) {
+											console.log(res)
+											plus.payment.request(that.channel[0], res.data[0], function(result) {
+												plus.nativeUI.alert("支付成功！", function() {
+													that.layuiboo()
+												});
+											}, function(error) {
+
+											});
+										},
+										error: function(err) {
+											console.log(JSON.stringify(err))
+										}
+									});
+								});
+							},
+							error: function(err) {
+								console.log(JSON.stringify(err))
+							}
+						});
 					},
 					opennew: function(target) {
 						mui.openWindow({
@@ -128,48 +185,73 @@
 						})
 					},
 					upvip: function() {
-						var that=this
+						var that = this
+
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						$.ajax({
-							type:"get",
-							url:that.myurl+"/queryUsMemberPojoDetail",
-							dataType:'json',
-							data:{
-								usTmcLevelNumber:that.usTmcLevelNumber,
-								usTraderId:that.usTraderId,
-								usTraderStoresId:that.usTraderStoresId
+							type: "get",
+							url: that.myurl + "/queryUsMemberPojoDetail",
+							dataType: 'json',
+							data: {
+								usTmcLevelNumber: that.usTmcLevelNumber,
+								usTraderId: that.usTraderId,
+								usTraderStoresId: that.usTraderStoresId
 							},
-							success:function(res){
-								console.log(res.data[0].usMemberId)
-								console.log(res.data[0].usMePrice)
-								$.ajax({
-									type:"post",
-									url:that.myurl+"/createAliPayMember",
-									data:{
-										usMemberId:res.data[0].usMemberId,
-										usMdPrice:res.data[0].usMePrice
-									},
-									dataType:'json',
-									success:function(res){
-										console.log(res)
-									},
-									error:function(err){
-										console.log(JSON.stringify(err))
-									}
-								});
+							success: function(res) {
+								console.log(res)
+
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+
 							}
 						})
 					},
-					myajax:function(){
-						var that=this
+					myajax: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that = this
 						$.ajax({
-							type:"get",
-							url:that.myurl+"/queryUsMemberPojoAll",
-							dataType:'json',
-							data:{
-								usUserId:localStorage.getItem('userid')
+							type: "get",
+							url: that.myurl + "/queryUsMemberPojoAll",
+							dataType: 'json',
+							data: {
+								usUserId: '1'
 							},
-							success:function(res){
-								that.mydata=res.data
+							success: function(res) {
+								console.log(res)
+								that.mydata = res.data
+
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 							}
 						});
 					}
@@ -179,12 +261,27 @@
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
 					this.myajax()
+					var that = this
+					// 1. 获取支付通道
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
 				},
 				update: function() {
 					mui.init()
 				},
-				filters:{
-					myimg:function(value){
+				filters: {
+					myimg: function(value) {
 						return 'http://27.54.248.14:8081/' + value.substring(value.indexOf("upload"))
 					}
 				}
