@@ -35,8 +35,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
-						<img src="img/backwhite.png"/>
+				<span class="header-back">
 					</span>
 				<span class="header-main">会员中心</span>
 				<span class="header-settings"></span>
@@ -45,8 +44,8 @@
 				<div class="mui-scroll">
 					<div class="vip-top"></div>
 					<div class="avatar-box">
-						<img :src="usHeadImg | myimg" />
-						<!--<img src="img/index.jpg"/>-->
+						<img :src="usHeadImg | myimg" v-if="usHeadImg!=null"/>
+						<img src="img/avatar.png" v-if="usHeadImg==null"/>
 					</div>
 					<div class="vip-title">
 						我的Power
@@ -242,8 +241,10 @@
 							success: function(res) {
 								console.log(res)
 								that.mydata = res.data
-
-								function plusReady() {
+								
+							}
+						});
+						function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
 								}
@@ -252,8 +253,6 @@
 								} else {
 									document.addEventListener("plusready", plusReady, false);
 								}
-							}
-						});
 					}
 				},
 				mounted: function() {
@@ -282,7 +281,9 @@
 				},
 				filters: {
 					myimg: function(value) {
-						return 'http://27.54.248.14:8081/' + value.substring(value.indexOf("upload"))
+						if(value!=null){
+							return 'http://27.54.248.14:8081/'+value.substring(value.indexOf('D:')+2)
+						}
 					}
 				}
 			})

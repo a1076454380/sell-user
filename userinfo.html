@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -12,6 +13,7 @@
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
+
 	<body>
 		<div id="app" class="wrapper userinfo">
 			<div class="layui" v-show="layui">
@@ -44,15 +46,16 @@
 						<div class="group-name">
 							头像
 						</div>
-						<img :src="avatar | muimg" class="avatar" @click="imgclick('img01','in01')" id="img01" />
-						<input type="hidden" id="in01" v-model="usHeadImg"/>
+						<img src="img/aboutus.png" class="avatar" @click="imgclick('img01','in01')" v-if="avatar=='null'" id="img01" />
+						<img :src="avatar | muimg" class="avatar" @click="imgclick('img01','in01')" id="img01" v-if="avatar!='null'" />
+						<input type="hidden" id="in01" v-model="usHeadImg" />
 						<img src="img/arrright.png" class="aright" />
 					</div>
 					<div class="info-group">
 						<div class="group-name">
 							昵称
 						</div>
-						<input type="text" placeholder="请输入新的用户名" v-model="usNickname"/>
+						<input type="text" placeholder="请输入新的用户名" v-model="usNickname" />
 						<img src="img/arrright.png" class="aright" />
 					</div>
 				</form>
@@ -67,14 +70,14 @@
 				data: {
 					layui: false,
 					layuitext: '未知错误',
-					server:localStorage.getItem('myurl')+'/imagePriaseImage',
+					server: localStorage.getItem('myurl') + '/imagePriaseImage',
 					imgid: '',
 					inputid: '',
 					files: [],
-					usHeadImg:'',
-					usNickname:localStorage.getItem('usNickname'),
-					avatar:localStorage.getItem('usHeadImg'),
-					myurl:localStorage.getItem('myurl')
+					usHeadImg: '',
+					usNickname: localStorage.getItem('usNickname'),
+					avatar: localStorage.getItem('usHeadImg'),
+					myurl: localStorage.getItem('myurl')
 				},
 				methods: {
 					layuiboo: function() {
@@ -88,6 +91,7 @@
 					},
 					mysub: function() {
 						var that = this
+
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("数据更新中...");
@@ -97,32 +101,38 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
+						var ajaxjson = {
+							usUserId: localStorage.getItem('userid'),
+							usNickname: that.usNickname,
+							usHeadImg: that.usHeadImg
+						}
+						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: 'post',
 							dataType: 'json',
-							url: that.myurl+'/updateHeadImg',
-							data:{
-								usUserId:localStorage.getItem('userid'),
-								usNickname:that.usNickname,
-								usHeadImg:that.usHeadImg
-							},
+							url: that.myurl + '/updateHeadImg',
+							data: ajaxjson,
 							success: function(res) {
-								if(res.status==200){
+								console.log(res)
+								if(res.status == 200) {
 									$.ajax({
-										type:"get",
-										url:localStorage.getItem('myurl')+"/queryLoginByUsPhone",
-										dataType:'json',
-										data:{
-											usPhone:localStorage.getItem('usPhone')
+										type: "get",
+										url: localStorage.getItem('myurl') + "/queryLoginByUsPhone",
+										dataType: 'json',
+										data: {
+											usPhone: localStorage.getItem('usPhone')
 										},
-										success:function(res){
-											if(res.status==200){
-												localStorage.setItem('userid',res.data.usUserId)
-												localStorage.setItem('usNickname',res.data.usNickname)
-												localStorage.setItem('usPhone',res.data.usPhone)
-												localStorage.setItem('usHeadImg',res.data.usHeadImg)
+										success: function(res) {
+											console.log(res)
+											if(res.status == 200) {
+												localStorage.setItem('userid', res.data.usUserId)
+												localStorage.setItem('usNickname', res.data.usNickname)
+												localStorage.setItem('usPhone', res.data.usPhone)
+												localStorage.setItem('usHeadImg', res.data.usHeadImg)
+
 												function plusReady() {
 													// 弹出系统等待对话框
+													plus.nativeUI.closeWaiting()
 													plus.nativeUI.toast("更新完成...");
 												}
 												if(window.plus) {
@@ -132,13 +142,13 @@
 												}
 											}
 										},
-										error:function(err){
+										error: function(err) {
 											console.log(JSON.stringify(err))
 										}
 									});
 								}
 							},
-							error:function(res){
+							error: function(res) {
 								console.log(res)
 							}
 						})
@@ -230,9 +240,7 @@
 									//转换成json
 									var json = eval('(' + responseText + ')');
 									//上传文件的信息
-									var files = json.data;
-									$("#" + that.inputid + "").val(files)
-									alert($("#" + that.inputid + "").val())
+									that.usHeadImg = json.data;
 									wt.close();
 								} else {
 									alert("上传失败：" + status);
@@ -259,9 +267,9 @@
 				update: function() {
 					mui.init()
 				},
-				filters:{
-					muimg:function(value){
-						return 'http://27.54.248.14:8081/user' + value.substring(value.indexOf('D:')+2)
+				filters: {
+					muimg: function(value) {
+						return 'http://27.54.248.14:8081/' + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})

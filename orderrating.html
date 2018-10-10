@@ -113,7 +113,7 @@
 					inputid: '',
 					server: localStorage.getItem('myurl') + '/imagePriaseImage',
 					files: [],
-					score: 4,
+					score: 5,
 					myurl: localStorage.getItem('myurl'),
 					usScImg1Url: '',
 					usScImg2Url: '',
@@ -123,6 +123,12 @@
 				methods: {
 					myajax: function() {
 						var that = this
+						var usSsOk
+						if(that.score>3){
+							usSsOk=1
+						}else{
+							0
+						}
 						var jsondata = {
 							usUserId: localStorage.getItem('userid'),
 							usOrderId: localStorage.getItem('usOrderId'),
@@ -132,16 +138,19 @@
 							usScImg3Url: that.usScImg3Url,
 							usScImg4Url: that.usScImg4Url,
 							usScStatus: 1,
-							usSsStar: that.score
+							usTraderName:localStorage.getItem('usNickname'),
+							usSsOk:usSsOk
 						}
+						console.log(JSON.stringify(jsondata))
 						$.ajax({
 							type: "post",
 							url: that.myurl + "/insertPriase",
 							dataType: 'json',
 							data: jsondata,
 							success: function(res) {
-								if(res.data.status == 200) {
-									
+								if(res.status == 200) {
+									plus.webview.getWebviewById('orderdetail').reload()
+									mui.back()
 								}
 							}
 						});
@@ -239,8 +248,16 @@
 									//转换成json
 									var json = eval('(' + responseText + ')');
 									//上传文件的信息
+									if(that.imgid=='im01'){
+										that.usScImg1Url=json.data
+									}else if(that.imgid=='im02'){
+										that.usScImg2Url=json.data
+									}else if(that.imgid=='im03'){
+										that.usScImg3Url=json.data
+									}else if(that.imgid=='im04'){
+										that.usScImg4Url=json.data
+									}
 									var files = json.data;
-									$("#" + that.inputid + "").val(files)
 									wt.close();
 								} else {
 									alert("上传失败：" + status);

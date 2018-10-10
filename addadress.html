@@ -36,7 +36,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
+				<span class="header-back" @click="back">
 					<img src="img/back.png"/>
 				</span>
 				<span class="header-main">添加收货地址</span>
@@ -106,7 +106,6 @@
 								usAdsDetailed:that.usAdsDetailed
 							},
 							success:function(res){
-								console.log(res)
 								if(res.status==200){
 									function plusReady() {
 										// 弹出系统等待对话框
@@ -120,6 +119,10 @@
 								}
 							}
 						});
+					},
+					back:function(){
+						plus.webview.getWebviewById('adresslist').reload()
+						mui.back() 
 					}
 				},
 				mounted: function() {

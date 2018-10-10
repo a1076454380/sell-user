@@ -38,8 +38,8 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
-					<img src="img/backwhite.png"/>
+				<span class="header-back">
+					
 				</span>
 				<span class="header-main">用户中心</span>
 				<span class="header-settings" @click="opennew('news')">
@@ -49,8 +49,8 @@
 			<div class="main mui-scroll-wrapper">
 				<div class="index-main mui-scroll">
 					<div class="head-top">
-						<!--<img :src="avatar" class="avatar" @click="opennew('userinfo')" />-->
-						<img src="img/index.jpg" class="avatar" @click="opennew('userinfo')" />
+						<img :src="avatar | myimg" class="avatar" @click="opennew('userinfo')" v-if="avatar!=null"/>
+						<img src="img/avatar.png" class="avatar" @click="opennew('userinfo')"  v-if="avatar==null"/>
 						<h2 class="user-name" @click="opennew('userinfo')">{{usNickname}}</h2>
 					</div>
 					<div class="user-title">
@@ -114,8 +114,8 @@
 					<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in tuidata02">
 							<div class="group-inner">
 								<div class="img-box">
-									<!--<img :src="val.usTsFacadeImg" />-->
-									<img src="img/index.jpg"/>
+									<img :src="val.usTsFacadeImg | myimg" />
+									<!--<img src="img/index.jpg"/>-->
 								</div>
 								<div class="index-detail">
 									<div class="index-h">
@@ -208,7 +208,7 @@
 						})
 					},
 					opendetail: function(id) {
-						//						localStorage.setItem('goodsid',id)
+						localStorage.setItem('usTraderStoresId',id)
 						this.opennew('shop')
 					},
 					myajax:function(){
@@ -236,8 +236,12 @@
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
 				},
-				update: function() {
-					
+				filters:{
+					myimg:function(value){
+						if(value!=null){
+							return 'http://27.54.248.14:8081/'+value.substring(value.indexOf('D:')+2)
+						}
+					}
 				}
 			})
 		</script>

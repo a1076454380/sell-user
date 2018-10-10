@@ -43,14 +43,14 @@
 					
 				</span>
 			</header>
-			<div class="main mui-scroll-wrapper main-big">
+			<div class="main mui-scroll-wrapper main-big" @scroll="myscroll" style="overflow-y: scroll;">
 				<div class="cart-top"></div>
-				<div class="mui-scroll">
+				<div class="main-inner">
 					<p v-if="cartdata.length==0" style="text-align: center;line-height: 1rem;color: #ffffff;">您的购物车是空的~</p>
-					<div class="cart-group" @click="opennew('shop')" v-for="val in cartdata" v-if="cartdata.length!=0">
+					<div class="cart-group" @click="opennew('shop',val.usTraderStoresId)" v-for="(val,index) in cartdata" v-if="cartdata.length!=0">
 						<div class="cart-title">
 							<div class="cart-name">
-								<img :src="val.usTsFacadeImg" />
+								<img :src="val.usTsFacadeImg | myimg" />
 								<div class="title">
 									{{val.usTsCompanyName}}
 								</div>
@@ -59,7 +59,7 @@
 						</div>
 						<div class="cart-main">
 							<div class="cart-tab" v-for="item in val.usShoppingCartPojos">
-								<img :src="item.usTsFacadeImg" />
+								<img :src="item.usTsImgUrl | myimg" />
 								<div class="tab-main">
 									<div class="cart-text">
 										{{item.usTsName}}
@@ -85,7 +85,7 @@
 								<strong>共计：</strong>
 								<span>{{val.usScPrice}}元</span>
 							</div>
-							<div class="cart-right">
+							<div class="cart-right" @click.stop="pay(index)">
 								立即支付
 							</div>
 						</div>
@@ -99,12 +99,12 @@
 					</div>
 					<div class="footerprint-box">
 						<div class="footerprint-tab" @click="opennew('shop')" v-for="val in record">
-							<img :src="val.usTsFacadeImg" />
+							<img :src="val.usTsFacadeImg | myimg" />
 							<h1>
 								{{val.usTsCompanyName}}
 							</h1>
 							<div class="print-box">
-								¥<strong>{{val.usTsActionPrice}}</strong>
+								¥<strong>{{val.usOrPrice}}</strong>
 							</div>
 						</div>
 					</div>
@@ -124,68 +124,26 @@
 				cartdata: [],
 				allprice: 0,
 				usShoppingCartId: '',
-				record: '',
+				record: [],
 				lorderList: [],
-				channel: ''
+				channel: '',
+				pageNum: 0,
+				ajaxmore: false,
+				size: 0
 			},
 			methods: {
-				pay: function() {
+				myscroll: function() {
 					var that = this
-					$.ajax({
-						type: "get",
-						url: that.myurl + "/queryUsAddressAll",
-						dataType: 'json',
-						data: {
-							usUserId: localStorage.getItem('userid')
-						},
-						success: function(res) {
-							//							for(var i = 0; i < res.data.length; i++) {
-							//								if(res.data[i].usAdsStatus == 1) {
-							//									for (var i=0;i<that.lorderList.length;i++) {
-							//										that.lorderList[i].usUserId=localStorage.getItem('userid')
-							//										that.lorderList[i].usAddressId=res.data[i].usAddressId
-							//									}
-							$.ajax({
-								type: "POST",
-								url: that.myurl + "/createAliPay",
-								data: {
-									usOrderId: 'uwnk328skd82j'
-								},
-								dataType: "json",
-								success: function(respon) {
-									console.log(respon.data[0])
-									plus.payment.request(that.channel[0], respon.data[0], function(result) {
-										plus.nativeUI.alert("支付成功！", function() {
-
-										});
-									}, function(error) {
-
-									});
-								}
-							});
-							//									$.ajax({  
-							//									    type: "POST",  
-							//									    url: that.myurl+"/createAliPayBefore",  
-							//									    data:{lorderList:JSON.stringify(that.lorderList)},//将对象序列化成JSON字符串  
-							//									    dataType:"json",  
-							//									    success: function(respon){  
-							//									       	localStorage.setItem('usOrderId',respon.data[0].usOrderId)
-							//											localStorage.setItem('usTraderStoresId',respon.data[0].usTraderStoresId)
-							//											localStorage.setItem('maMerchantsStyleId',respon.data[0].maMerchantsStyleId)
-							//											localStorage.setItem('usTraderId',respon.data[0].usTraderId)
-							//											that.opennew('orderdetail')
-							//									    } 
-							//									});  
-							//									break;
-							//								}
-							//								
-							//							}
-
-						},
-						error: function(res) {
-							console.log(err)
+					if(Math.abs($('.main-inner').offset().top) + $('.main').height() + 200 >= $('.main-inner').height()) {
+						if(that.ajaxmore == false) {
+							that.myajax()
 						}
-					});
+					}
+				},
+				pay: function(index) {
+					var that = this
+					localStorage.setItem('cartdata', JSON.stringify(that.cartdata[index]))
+					that.opennew('pay')
 				},
 				godelete: function() {
 					this.layuiboo()
@@ -198,9 +156,9 @@
 						},
 						dataType: 'json',
 						success: function(res) {
-							console.log(res)
 							if(res.status == 200) {
 								that.myajax()
+
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.toast('删除完成')
@@ -228,7 +186,6 @@
 					if(id != undefined) {
 						this.usShoppingCartId = id
 					}
-					this.layui = !this.layui
 				},
 				removenum: function(id, price) {
 					function plusReady() {
@@ -250,7 +207,6 @@
 						usTraderStoresId: localStorage.getItem('usTraderStoresId'),
 						usScdCreateName: localStorage.getItem('usNickname')
 					}
-					console.log(ajaxjson)
 					//						减少购物车
 					$.ajax({
 						type: "post",
@@ -293,7 +249,6 @@
 						usTraderStoresId: localStorage.getItem('usTraderStoresId'),
 						usScdCreateName: localStorage.getItem('usNickname')
 					}
-					console.log(ajaxjson)
 					$.ajax({
 						type: "post",
 						url: that.myurl + "/insertUsShoppingCart",
@@ -336,6 +291,7 @@
 						document.addEventListener("plusready", plusReady, false);
 					}
 					var that = this
+					this.ajaxmore = true
 					$.ajax({
 						type: "post",
 						url: that.myurl + "/queryByUsShoppingCartPojo",
@@ -344,11 +300,10 @@
 							usUserId: localStorage.getItem('userid')
 						},
 						success: function(res) {
-							console.log(res)
 							if(res.data != null) {
 								that.cartdata = res.data
-							}else{
-								that.cartdata =[]
+							} else {
+								that.cartdata = []
 							}
 						}
 					});
@@ -360,7 +315,12 @@
 							usUserId: localStorage.getItem('userid')
 						},
 						success: function(res) {
-							that.record = res.data[0]
+							console.log(res)
+							that.size = res.data.pages
+							that.ajaxmore = false
+							for(var i = 0; i < res.data.list.length; i++) {
+								that.record.push(res.data.list[i])
+							}
 						}
 					});
 
@@ -377,9 +337,6 @@
 			},
 			mounted() {
 				this.myajax()
-				mui('.mui-scroll-wrapper').scroll({
-					deceleration: 0.0006
-				});
 				var that = this
 				// 1. 获取支付通道
 				function plusReady() {
@@ -394,6 +351,11 @@
 					plusReady();
 				} else {
 					document.addEventListener('plusready', plusReady, false);
+				}
+			},
+			filters: {
+				myimg: function(value) {
+					return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:') + 1)
 				}
 			}
 		})

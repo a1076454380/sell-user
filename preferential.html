@@ -33,8 +33,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
-						<img src="img/back.png"/>
+				<span class="header-back">
 					</span>
 				<span class="header-main">同城惠</span>
 				<span class="header-settings">
@@ -50,8 +49,8 @@
 					</div>
 					<div class="per-main">
 						<div class="per-tab" v-for="(val,index) in tuidata"  @click="opendetail(val.usTraderStoresId)" v-if="index<6">
-							<!--<img :src="val.usTsFacadeImg" />-->
-									<img src="img/index02.png"/>
+							<img :src="val.usTsFacadeImg | myimg" />
+									<!--<img src="img/index02.png"/>-->
 							<p>
 								{{val.usTsCompanyName}}
 							</p>
@@ -65,8 +64,8 @@
 					</div>
 					<div class="per-main">
 						<div class="per-tab" v-for="(val,index) in tuidata02"  @click="opendetail(val.usTraderStoresId)" v-if="index<6">
-							<!--<img :src="val.usTsFacadeImg" />-->
-									<img src="img/index.jpg"/>
+							<img :src="val.usTsFacadeImg | myimg" />
+									<!--<img src="img/index.jpg"/>-->
 							<p>
 								{{val.usTsCompanyName}}
 							</p>
@@ -81,8 +80,8 @@
 						<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in tuidata02">
 							<div class="group-inner">
 								<div class="img-box">
-									<!--<img :src="val.usTsFacadeImg" />-->
-									<img src="img/index.jpg"/>
+									<img :src="val.usTsFacadeImg | myimg" />
+									<!--<img src="img/index.jpg"/>-->
 								</div>
 								<div class="index-detail">
 									<div class="index-h">
@@ -178,9 +177,8 @@
 							id: '' + target + ''
 						})
 					},
-					opendetail: function(id, usTraderId) {
-						localStorage.setItem('usTraderStoresId', id)
-						localStorage.setItem('usTraderId', usTraderId)
+					opendetail: function(id) {
+						localStorage.setItem('usTraderStoresId',id)
 						this.opennew('shop')
 					},
 					myajax:function(){
@@ -244,6 +242,11 @@
 				},
 				update: function() {
 
+				},
+				filters:{
+					myimg:function(value){
+						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:')+1)
+					}
 				}
 			})
 		</script>

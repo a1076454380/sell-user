@@ -27,10 +27,10 @@
 			</header>
 			<div class="main">
 				<form :action="[myurl+'/register']" method="post" enctype="multipart/form-data" name="form1" id="myform">
-					<div class="avatar-box">
+					<!--<div class="avatar-box">
 						<input type="file" name="picPath" id="file1" value="" data-title='请选择用户头像！' @change="change('img01','file1')" />
 						<img src="img/2.png" id="img01" />
-					</div>
+					</div>-->
 					<input type="text" placeholder="请输入用户名" name="usNickname" data-title='昵称不能为空！' />
 					<input type="text" name="usPhone" id="usPhone" placeholder="152XXXXXX775" data-title='手机号不能为空！' />
 					<div class="radio-box">
@@ -87,7 +87,6 @@
 							url: that.myurl + '/register',
 							dataType: 'json',
 							success: function(res) {
-								console.log(res)
 								if(res.status == 200) {
 									mui.openWindow({
 										url: 'login.html',
@@ -112,6 +111,7 @@
 							oFReader.onload = function(oFREvent) {
 								pic.src = oFREvent.target.result;
 							};
+							
 
 						} else if(document.all) { //IE8-
 							file.select();

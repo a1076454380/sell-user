@@ -81,7 +81,7 @@
 					<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in collectdata" v-if="collectdata.length!=0">
 						<div class="group-inner">
 							<div class="img-box">
-								<img :src="val.usTsFacadeImg" />
+								<img :src="val.usTsFacadeImg | myimg" />
 								<!--<img src="img/index.jpg"/>-->
 							</div>
 							<div class="index-detail">
@@ -237,6 +237,11 @@
 				},
 				update: function() {
 
+				},
+				filters:{
+					myimg:function(value){
+						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:')+1)
+					}
 				}
 			})
 		</script>

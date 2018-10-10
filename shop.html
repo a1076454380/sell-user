@@ -117,21 +117,20 @@
 				<span class="header-back mui-action-back">
 						<img src="img/backwhite.png"/>
 					</span>
-				<span class="header-main">商家</span>
+				<span class="header-main"></span>
 				<span class="header-settings"></span>
 			</header>
 			<transition name='fada'>
-				<div class="main shopdetail" v-show="headerboo" @click="headershow" v-if='false'>
-					<img src="img/index.jpg" class="shopback" />
+				<div class="main shopdetail" v-show="headerboo" @click="headershow">
+					<img :src="mydata.listUsTraderStoresInfo[0].usTsFacadeImg | myimg" class="shopback" />
 					<h2>
-						{{mydata[0][0].usTsCompanyName}}
+						{{mydata.listUsTraderStoresInfo[0].usTsCompanyName}}
 					</h2>
 					<h4>
-						红包
+						满减
 					</h4>
 					<p>
-						<span v-if="mydata[5].length==0&&mydata[4].length==0&&mydata[3].length==0&&mydata[2].length==0">对不起客官，本店暂无红包呢！</span>
-						<span v-if="mydata[5].length!=0">线上专享{{mydata[5][0].usTpPrice}}元红包，满{{mydata[5][0].usTpLimitPrice}}可用！</span>
+						<span v-for="val in mydata.listSubtract">线上专享{{val.usTsSubtractPrice}}元红包，满{{val.usTsFullPrice}}可用！</span>
 					</p>
 					<h4>
 						配送
@@ -140,64 +139,61 @@
 						配送时间10.00-21.00
 					</p>
 					<p>
-						起送价:¥{{mydata[0][0].usTsActionPrice}},配送费 ¥{{mydata[6].maDiPrice}}
+						包装费:¥{{mydata.listMaDistributionUsPackingFee.usPfPrice}},配送费 ¥{{mydata.listMaDistributionUsPackingFee.maDiPrice}}
 					</p>
 					<h4>
 						其他优惠
 					</h4>
-					<p v-if="mydata[4].length==0&&mydata[2].length==0&&mydata[5].length==0">
-						对不起客官，本店暂无其他优惠呢！
+					<p v-for="val in mydata.listDiscount">
+						<img src="img/discount.png" /> 折扣商品{{val.usTdDicsont/10}}折起
 					</p>
-					<p v-if="mydata[4].length!=0">
-						<img src="img/discount.png" /> 折扣商品{{mydata[4][0].usTdDicsont}}折起
+					<p v-for="val in mydata.listNewActivities">
+						<img src="img/freight.png" /> 新人减{{val.usTnaPrice}}
 					</p>
-					<p v-if="mydata[2].length!=0">
-						<img src="img/freight.png" /> 新人减{{mydata[2][0].usTnaPrice}}
-					</p>
-					<p v-if="mydata[5].length!=0">
-						<img src="img/reduction.png" /> 线上专享{{mydata[5][0].usTpPrice}}元红包，满{{mydata[5][0].usTpLimitPrice}}可用！
+					<p v-for="val in mydata.listPackage">
+						<img src="img/reduction.png" /> 线上专享{{val.usTpPrice}}元红包
 					</p>
 				</div>
 			</transition>
 			<div class="main" v-show="!headerboo">
 				<div class="index-main">
 					<div class="shop-header" @click="headershow">
-						<img src="img/index.jpg" class="shopback" />
+						<img :src="mydata.listUsTraderStoresInfo[0].usTsFacadeImg | myimg" class="shopback" />
 						<div class="img-box">
-							<img src="img/index.jpg" />
+							<img :src="mydata.listUsTraderStoresInfo[0].usTsFacadeImg | myimg" />
 						</div>
 						<div class="shop-name">
 							<h4>
-								{{mydata[0][0].usTsCompanyName}}
+								{{mydata.listUsTraderStoresInfo[0].usTsCompanyName}}
 							</h4>
 							<p>
 								优惠:
-								<span v-if="mydata[5].length==0&&mydata[4].length==0&&mydata[3].length==0&&mydata[2].length==0">对不起客官，本店暂无优惠呢！</span>
-								<span v-if="mydata[5].length!=0">线上专享{{mydata[5][0].usTpPrice}}元红包，满{{mydata[5][0].usTpLimitPrice}}可用！</span>
-								<span v-if="mydata[4].length!=0">线上专享{{mydata[4][0].usTdDicsont}}折优惠，满{{mydata[4][0].usTdNum}}可用！</span>
-								<span v-if="mydata[3].length!=0">线上专享满{{mydata[3][0].usTsFullPrice}}减{{mydata[3][0].usTsSubtractPrice}}</span>
-								<span v-if="mydata[2].length!=0">新用户立减{{mydata[2][0].usTnaPrice}}</span>
+								<span v-if="mydata.listPackage.length==0&&mydata.listDiscount.length==0&&mydata.listSubtract.length==0&&mydata.listNewActivities.length==0">对不起客官，本店暂无优惠呢！</span>
+								<span v-if="mydata.listPackage.length!=0">线上专享{{mydata.listPackage[mydata.listPackage.length-1].usTpPrice}}元红包</span>
+								<span v-if="mydata.listDiscountlength!=0">线上专享{{mydata.listDiscount.usTdDicsont/10}}折优惠</span>
+								<span v-if="mydata.listSubtract.length!=0">线上专享满{{mydata.listSubtract[mydata.listSubtract.length-1].usTsFullPrice}}减{{mydata.listSubtract[mydata.listSubtract.length-1].usTsSubtractPrice}}</span>
+								<span v-if="mydata.listNewActivities.length!=0">新用户立减{{mydata.listNewActivities[mydata.listNewActivities.length-1].usTnaPrice}}</span>
 							</p>
 							<div class="activity">
-								<div class="a-group" v-if="mydata[4].length!=0">
+								<div class="a-group" v-if="mydata.listDiscount.length!=0">
 									<img src="img/discount.png" />
 									<span>
-										{{mydata[4][0].usTdDicsont}}折
+										{{mydata.listDiscount[mydata.listDiscount.length-1].usTdDicsont/10}}折
 									</span>
 								</div>
-								<div class="a-group" v-if="mydata[2].length!=0">
+								<div class="a-group" v-if="mydata.listNewActivities.length!=0">
 									<img src="img/freight.png" />
 									<span>
-										新人减{{mydata[2][0].usTnaPrice}}
+										新人减{{mydata.listNewActivities[mydata.listNewActivities.length-1].usTnaPrice}}
 									</span>
 								</div>
-								<div class="a-group" v-if="mydata[3].length!=0">
+								<div class="a-group" v-if="mydata.listSubtract.length!=0">
 									<img src="img/reduction.png" />
 									<span>
-										满{{mydata[3][0].usTsFullPrice}}减{{mydata[3][0].usTsSubtractPrice}}
+										满{{mydata.listSubtract[mydata.listSubtract.length-1].usTsFullPrice}}减{{mydata.listSubtract[mydata.listSubtract.length-1].usTsSubtractPrice}}
 									</span>
 								</div>
-								<img src="img/rightwhite.png" style="height: .21rem;" v-if="mydata[5].length!=0&&mydata[3].length!=0&&mydata[2].length!=0" />
+								<img src="img/rightwhite.png" style="height: .21rem;" v-if="mydata.listDiscount.length!=0&&mydata.listNewActivities.length!=0&&mydata.listSubtract.length!=0" />
 							</div>
 						</div>
 					</div>
@@ -226,9 +222,9 @@
 												{{shopdetil[0].usTssResult}}
 											</div>
 											<div class="right-main">
-												<div class="rmain-group" v-for="(val,index) in shopdetil" @click="pay('goodsdetail',val.usTraderShoppingId)" v-if="index%2==0">
-													<!--<img :src="val.usTsImgUrl" class="img" />-->
-													<img src="img/index.jpg" class="img" />
+												<div class="rmain-group" v-for="(val,index) in shopdetil" @click="pay02('goodsdetail',val.usTraderShoppingId)" v-if="index%2==0">
+													<img :src="val.usTsImgUrl | myimg" class="img" />
+													<!--<img src="img/index.jpg" class="img" />-->
 													<div class="shoptext">
 														<h4>
 															{{val.usTsName}}
@@ -257,10 +253,9 @@
 									</div>
 								</div>
 								<div class="shop-content swiper-slide" style="flex-direction: column;" v-if="tabnum==1">
-									<div class="rating-group" v-for="val in mydata[1]">
+									<div class="rating-group" v-for="val in mydata.listUsShoppingComment">
 										<div class="img-box">
-											<!--<img :src="val.usHeadImg" />-->
-											<img src="img/index.jpg" class="avatar" />
+											<img :src="val.usHeadImg | myimg" />
 										</div>
 										<div class="rating-main">
 											<div class="rating-name">
@@ -271,14 +266,10 @@
 												{{val.usScContent}}
 											</div>
 											<div class="rating-img">
-												<!--<img :src="val.usScImg1Url" v-if="val.usScImg1Url!=''&&val.usScImg1Url!=null" />
-												<img :src="val.usScImg2Url" v-if="val.usScImg2Url!=''&&val.usScImg1Url!=null" />
-												<img :src="val.usScImg3Url" v-if="val.usScImg3Url!=''&&val.usScImg1Url!=null" />
-												<img :src="val.usScImg4Url" v-if="val.usScImg4Url!=''&&val.usScImg1Url!=null" />-->
-												<img src="img/index.jpg" />
-												<img src="img/index02.png" />
-												<img src="img/index.jpg" />
-												<img src="img/index02.png" />
+												<img :src="val.usScImg1Url | myimg" v-if="val.usScImg1Url!=''" />
+												<img :src="val.usScImg2Url | myimg" v-if="val.usScImg2Url!=''" />
+												<img :src="val.usScImg3Url | myimg" v-if="val.usScImg3Url!=''" />
+												<img :src="val.usScImg4Url | myimg" v-if="val.usScImg4Url!=''" />
 											</div>
 										</div>
 									</div>
@@ -400,8 +391,16 @@
 							this.cartboo = !this.cartboo
 						}
 					},
+					pay02: function(target, usTraderShoppingId) {
+						localStorage.setItem('usTraderShoppingId',usTraderShoppingId)
+						mui.openWindow({
+							url: '' + target + '.html',
+							id: target
+						})
+					},
 					pay: function(target, usTraderShoppingId) {
-						localStorage.setItem('usTraderShoppingId', usTraderShoppingId)
+						this.bottomtab()
+						localStorage.setItem('cartdata',JSON.stringify(this.cartdata))
 						mui.openWindow({
 							url: '' + target + '.html',
 							id: target
@@ -427,8 +426,9 @@
 								usTraderStoresId: localStorage.getItem('usTraderStoresId')
 							},
 							success: function(res) {
+								console.log(localStorage.getItem('usTraderStoresId'))
 								that.shopdata = res.data
-								if(that.shopdata != null && that.shopdata != '') {
+								if(that.shopdata.length!=0) {
 									that.num = res.data[0].usTraderShoppingSortId
 									that.mytab(that.num)
 								}
@@ -438,12 +438,13 @@
 						//						获取店铺信息
 						$.ajax({
 							type: "get",
-							url: that.myurl + "/queryUsTraderStoresRecommendPojoDetail",
+							url: that.myurl + "/selectUsTraderStoresIdInfo",
 							dataType: 'json',
 							data: {
 								usTraderStoresId: localStorage.getItem('usTraderStoresId')
 							},
 							success: function(res) {
+								console.log(res)
 								that.mydata = res.data
 								that.havecart()
 							}
@@ -520,6 +521,13 @@
 				},
 				updated() {
 					$('.rating-img img').css('height', $('.rating-img img').css('width'))
+				},
+				filters:{
+					myimg:function(value){
+						if(value!=null){
+							return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:')+1)
+						}
+					}
 				}
 			})
 		</script>

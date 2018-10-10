@@ -76,10 +76,10 @@
 						<div class="mui-slider">
 							<div class="mui-slider-group">
 								<!--第一个内容区容器-->
-								<div class="mui-slider-item" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in bannerdata" v-if="val.maApName=='用户首页的轮播图'">
+								<div class="mui-slider-item" @click="opendetail(val.usTraderStoresId)" v-for="val in bannerdata">
 									<!-- 具体内容 -->
-									<!--<img :src="val.usTsBannerImg" />-->
-									<img src="img/4.png" />
+									<img :src="val.usTsBannerImg | myimg" />
+									<!--<img src="img/4.png" />-->
 								</div>
 							</div>
 							<div class="mui-slider-indicator">
@@ -97,8 +97,8 @@
 								</div>
 								<div class="nav-group" @click="openlist(val.maMerchantsStyleId,val.maMsName)" v-for='val in navdata'>
 									<div class="img-box">
-										<!--<img :src="val.maMsImgUrl" />-->
-										<img src="img/index002.png" />
+										<img :src="val.maMsImgUrl | myimg" />
+										<!--<img src="img/index002.png" />-->
 									</div>
 									<span>{{val.maMsName}}</span>
 								</div>
@@ -112,16 +112,16 @@
 								</div>
 							</div>
 						</div>
-						<div class="index-top" v-if="mydata!='null'">
+						<div class="index-top" v-if="mydata.length!=0">
 							<span>
 								我的专属
 							</span>
 						</div>
 						<div class="index-main">
-							<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="(val,index) in mydata" v-if="mydata!='null'">
+							<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="(val,index) in mydata" v-if="mydata.length!=0">
 								<div class="group-inner">
 									<div class="img-box">
-										<img :src="val.usTsFacadeImg" />
+										<img :src="val.usTsFacadeImg | myimg" />
 										<!--<img src="img/index.jpg" />-->
 									</div>
 									<div class="index-detail">
@@ -143,7 +143,7 @@
 										</div>
 										<div class="index-money">
 											<span>
-												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{mydata[2].maDiPrice}}
+												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
 											</span>
 											<span>
 												月销量:
@@ -186,8 +186,7 @@
 						<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in tuidata">
 							<div class="group-inner">
 								<div class="img-box">
-									<img :src="val.usTsFacadeImg" />
-									<!--<img src="img/index02.png" />-->
+									<img :src="val.usTsFacadeImg | myimg" />
 								</div>
 								<div class="index-detail">
 									<div class="index-h">
@@ -400,10 +399,8 @@
 							url: localStorage.getItem('myurl') + "/queryIndexBannerImg",
 							dataType: 'json',
 							success: function(res) {
+								console.log(res)
 								that.bannerdata = res.data
-							},
-							error: function(err) {
-								alert('顶部轮播图获取失败！')
 							}
 						});
 						//						同城头条
@@ -417,21 +414,16 @@
 							error: function(err) {console.log(err)}
 						});
 						//						我的专属
-						var ajaxjson= {
-								usUserId: localStorage.getItem('userid')
-						}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/queryTUsTraderStoresRecommendPojoMySpecialtyY",
 							dataType: 'json',
-							data:ajaxjson,
+							data:{
+								usUserId: localStorage.getItem('userid')
+							},
 							success: function(res) {
-								console.log(res)
 								that.mydata = res.data
 								
-							},
-							error:function(err){
-								console.log(err)
 							}
 						});
 						//						分类查询
@@ -474,6 +466,9 @@
 					}
 				},
 				mounted: function() {
+					if(localStorage.getItem('historydata')==undefined){
+						localStorage.setItem('historydata','[]')
+					}
 					function plusReady() {
 						plus.navigator.setStatusBarBackground('#FFC408');
 					}
@@ -489,12 +484,12 @@
 						})
 						return false;
 					}
-//					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
-//					localStorage.setItem('myurl01', 'http://27.54.248.14:8081/trader')
+					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
+					localStorage.setItem('myurl01', 'http://27.54.248.14:8081/trader')
 //					localStorage.setItem('myurl', 'http://192.168.2.116/user') //老秦
-					localStorage.setItem('myurl', 'http://192.168.2.119/user') //祁雷
+//					localStorage.setItem('myurl', 'http://192.168.2.119/user') //祁雷
 //					localStorage.setItem('myurl', 'http://192.168.2.245/user') //琼瑶姐
-					localStorage.setItem('myurl01', 'http://192.168.2.119/trader') //琼瑶姐
+//					localStorage.setItem('myurl01', 'http://192.168.2.116/trader') //琼瑶姐
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006
 					})
@@ -549,7 +544,6 @@
 							});
 						});
 					}
-localStorage.setItem('userid','1')
 					localStorage.setItem('lng', '34.269544')
 					localStorage.setItem('lat', '117.273565')
 					this.myajax()
@@ -558,6 +552,11 @@ localStorage.setItem('userid','1')
 					mui(".mui-slider").slider({
 						interval: 3000 //如果你想自动3000ms滑动一下就写上这个。如果是拖拽才滑动就不写这个。就直接写sliderMuiObj.slider();
 					});
+				},
+				filters:{
+					myimg:function(value){
+						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:')+1)
+					}
 				}
 			})
 		</script>

@@ -35,7 +35,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
+				<span class="header-back" @click="back">
 						<img src="img/back.png"/>
 					</span>
 				<span class="header-main">选择收货地址</span>
@@ -78,6 +78,13 @@
 					usAddressId: ''
 				},
 				methods: {
+					back:function(){
+						if(plus.webview.getWebviewById('pay')!=null){
+							plus.webview.getWebviewById('pay').reload();
+						}
+						
+						mui.back()
+					},
 					change: function(id) {
 						var that = this
 						$.ajax({
@@ -111,6 +118,7 @@
 							localStorage.setItem('dist', that.adressdata[index].usAdsArea)
 							localStorage.setItem('usAdsDetailed', that.adressdata[index].usAdsDetailed)
 						}
+							
 						mui.openWindow({
 							url: '' + id + '.html',
 							id: id
@@ -139,7 +147,10 @@
 								console.log(res)
 								that.adressdata = res.data
 
-								function plusReady() {
+								
+							}
+						});
+						function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
 								}
@@ -148,8 +159,6 @@
 								} else {
 									document.addEventListener("plusready", plusReady, false);
 								}
-							}
-						});
 					}
 				},
 				mounted: function() {

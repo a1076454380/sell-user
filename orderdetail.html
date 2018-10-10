@@ -19,7 +19,12 @@
 		html,
 		.wrapper,
 		.main {
-			height: 100%;padding: 0;
+			height: 100%;
+			padding: 0;
+		}
+		
+		.shop-back {
+			margin: .1rem 0;
 		}
 	</style>
 
@@ -53,7 +58,7 @@
 				</div>-->
 				<div id="orderinform">
 					<div class="detail-group top">
-						<!--<img :src="mapboo==false?'img/mapshow.png':'img/maphide.png'" class="mapshow" @click="mapshow"/>-->	
+						<!--<img :src="mapboo==false?'img/mapshow.png':'img/maphide.png'" class="mapshow" @click="mapshow"/>-->
 						<div class="state-h">
 							订单{{mydata.usOrder.usOrIsPay==0?'未支付':'已支付'}}
 						</div>
@@ -74,14 +79,13 @@
 					</div>
 					<div class="detail-group content">
 						<div class="shop-name">
-							<img :src="mydata.usOrder.usTsFacadeImg" class="avatar" />
 							<span style="flex: 1;">
 							{{mydata.listUsTriderPojo[0].usTsCompanyName}}
 						</span>
 							<img src="img/arrright.png" class="arr" />
 						</div>
 						<div class="shop-group" v-for="val in mydata.usOrderDetaileUsTraderShoppingPojoList">
-							<img :src="val.usTsImgUrl" />
+							<img :src="val.usTsImgUrl | myimg" />
 							<div class="shop-main">
 								<div class="shop-name" style="margin: 0;">
 									<span>
@@ -92,7 +96,7 @@
 								</span>
 								</div>
 								<div class="shop-type">
-									
+
 								</div>
 								<div class="shop-type">
 									x {{val.usOdNum}}
@@ -106,12 +110,22 @@
 									配送费
 								</span>
 									<span>
-									¥{{mydata[6].maDiPrice}}
+									¥{{mydata.maDistribution}}
+								</span>
+								</div>
+							</div>
+							<div class="back-inner">
+								<div class="back-group">
+									<span>
+									包装
+								</span>
+									<span>
+									¥{{mydata.maDistribution}}
 								</span>
 								</div>
 							</div>
 						</div>
-						<div class="shop-back">
+						<div class="shop-back" style="height: auto;">
 							<div class="back-inner">
 								<div class="back-group" v-if="mydata.usTraderPackage!=undefined">
 									<span>
@@ -123,7 +137,7 @@
 									</span>
 									</span>
 									<span>
-										-  ¥{{mydata.usTraderPackage}}
+										{{mydata.usTraderPackage}}
 									</span>
 								</div>
 								<div class="back-group" v-if="mydata.usTraderNewActivities!=undefined">
@@ -136,7 +150,7 @@
 									</span>
 									</span>
 									<span>
-										-  ¥{{mydata.usTraderNewActivities}}
+										{{mydata.usTraderNewActivities}}
 									</span>
 								</div>
 								<div class="back-group" v-if="mydata.usTraderDiscount!=undefined">
@@ -149,7 +163,7 @@
 									</span>
 									</span>
 									<span>
-										-  ¥{{mydata.usTraderDiscount}}
+										{{mydata.usTraderDiscount}}
 									</span>
 								</div>
 								<div class="back-group" v-if="mydata.usTraderSubtract!=undefined">
@@ -162,7 +176,7 @@
 									</span>
 									</span>
 									<span>
-										-  ¥{{mydata.usTraderSubtract}}
+										{{mydata.usTraderSubtract}}
 									</span>
 								</div>
 								<div class="back-group" v-if="mydata[3]!=null">
@@ -175,7 +189,7 @@
 									</span>
 									</span>
 									<span>
-										-  ¥{{mydata[3].usTpPrice}}
+										{{mydata[3].usTpPrice}}
 									</span>
 								</div>
 							</div>
@@ -192,7 +206,7 @@
 										合计
 									</strong>
 									<span class="moneyred">
-										¥{{mydata.shoppingAllPrice}}
+										¥{{mydata.usOrPrice}}
 									</span>
 									</span>
 								</div>
@@ -232,10 +246,18 @@
 					<div class="detail-group inform" v-if="mydata.usOrder.usOrIsPay==1">
 						<div class="inform-group">
 							<span class="inform-name">
+							订单备注
+						</span>
+							<span class="inform-text">
+							{{mydata.usOrder.usOrNote}}
+						</span>
+						</div>
+						<div class="inform-group">
+							<span class="inform-name">
 							订单号码
 						</span>
 							<span class="inform-text">
-							{{mydata.usOrder.usOrNum}}
+							{{mydata.usOrder.usOrderId}}
 						</span>
 						</div>
 						<div class="inform-group">
@@ -243,7 +265,7 @@
 							订单时间
 						</span>
 							<span class="inform-text">
-							{{mydata.usOrder.createTime1}}
+							{{mydata.usOrder.usOrUpdateTime}}
 						</span>
 						</div>
 						<div class="inform-group">
@@ -251,7 +273,7 @@
 							支付方式
 						</span>
 							<span class="inform-text">
-							{{mydata.usOrder.usOpStatus==1?'支付宝':'微信'}}
+							{{mydata.usOrder.usOrIsPay==1?'支付宝':'微信'}}
 						</span>
 						</div>
 					</div>
@@ -264,22 +286,44 @@
 				data: {
 					layui: false,
 					layuitext: '错误',
-					mapboo:false,
-					myurl:localStorage.getItem('myurl01'),
-					mydata:'',
-					youhui:'',
-					zongjia:0
+					mapboo: false,
+					myurl: localStorage.getItem('myurl01'),
+					myurl01: localStorage.getItem('myurl'),
+					mydata: '',
+					youhui: '',
+					zongjia: 0,
+					channel:''
 				},
 				methods: {
-					gopay:function(){
-						
+					gopay: function() {
+						var that = this
+						var ajaxjons = {
+							price: that.mydata.usOrPrice,
+							orderId: that.mydata.usOrder.usOrderId
+						}
+						$.ajax({
+							type: "post",
+							url: that.myurl01 + "/continueAliPay",
+							dataType: 'json',
+							data: ajaxjons,
+							success: function(res) {
+								plus.payment.request(that.channel[0], res.data[0], function(result) {
+									plus.nativeUI.alert("支付成功！", function() {
+										plus.webview.getWebviewById('orderdetail').reload()
+										mui.back()
+									});
+								}, function(error) {
+
+								});
+							}
+						});
 					},
-					openrating:function(id){
-						localStorage.setItem('usOrderId',id)
+					openrating: function(id) {
+						localStorage.setItem('usOrderId', id)
 						this.opennew('orderrating')
 					},
-					openshop:function(id){
-						localStorage.setItem('usTraderStoresId',id)
+					openshop: function(id) {
+						localStorage.setItem('usTraderStoresId', id)
 						this.opennew('shop')
 					},
 					opennew: function(target) {
@@ -291,18 +335,18 @@
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
-					mapshow:function(){
-						if($('#orderinform').css('top')!='0px'){
+					mapshow: function() {
+						if($('#orderinform').css('top') != '0px') {
 							$('#container').height('50%')
-							$('#orderinform').css('top','0')
-							this.mapboo=true
-						}else{
+							$('#orderinform').css('top', '0')
+							this.mapboo = true
+						} else {
 							$('#container').height('4rem')
-							$('#orderinform').css('top','-2rem')
-							this.mapboo=false
+							$('#orderinform').css('top', '-2rem')
+							this.mapboo = false
 						}
 					},
-					myajax:function(){
+					myajax: function() {
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
@@ -312,18 +356,19 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
-						var that=this
-						var jsonData={
-							usOrderId:localStorage.getItem('usOrderId')
+						var that = this
+						var jsonData = {
+							usOrderId: localStorage.getItem('usOrderId')
 						}
 						$.ajax({
-							type:"post",
-							url:that.myurl+"/selectOrderDetailsEmployee",
-							dataType:'json',
-							data:jsonData,
-							success:function(res){
+							type: "post",
+							url: that.myurl + "/selectOrderDetailsEmployee",
+							dataType: 'json',
+							data: jsonData,
+							success: function(res) {
 								console.log(res)
-								that.mydata=res.data
+								that.mydata = res.data
+
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
@@ -339,90 +384,111 @@
 				},
 				mounted: function() {
 					this.myajax()
+					var that = this
+					// 1. 获取支付通道
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
 					//创建地图
-//					var map = new AMap.Map('container', {
-//						zoom: 15
-//					});
-//					//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
-//					AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
-//
-//						if(!PathSimplifier.supportCanvas) {
-//							alert('当前环境不支持 Canvas！');
-//							return;
-//						}
-//
-//						//启动页面
-//						initPage(PathSimplifier);
-//					});
-//
-//					function initPage(PathSimplifier) {
-//						//创建组件实例
-//						var pathSimplifierIns = new PathSimplifier({
-//							zIndex: 100,
-//							map: map, //所属的地图实例
-//							getPath: function(pathData, pathIndex) {
-//								//返回轨迹数据中的节点坐标信息，[AMap.LngLat, AMap.LngLat...] 或者 [[lng|number,lat|number],...]
-//								return pathData.path;
-//							},
-//							getHoverTitle: function(pathData, pathIndex, pointIndex) {
-//								//返回鼠标悬停时显示的信息
-//								if(pointIndex >= 0) {
-//									//鼠标悬停在某个轨迹节点上
-//									return pathData.name + '，点:' + pointIndex + '/' + pathData.path.length;
-//								}
-//								//鼠标悬停在节点之间的连线上
-//								return pathData.name + '，点数量' + pathData.path.length;
-//							},
-//							renderOptions: {
-//								//轨迹线的样式
-//								pathLineStyle: {
-//									strokeStyle: 'white',
-//									lineWidth: 4,
-//									dirArrowStyle: true
-//								}
-//							}
-//						});
-//
-//						//这里构建两条简单的轨迹，仅作示例
-//						pathSimplifierIns.setData([{
-//							name: '轨迹名称',
-//							path: [
-//								[117.471564, 34.366127],
-//								[117.471864, 34.356227],
-//								[117.474264, 34.354127],
-//								[117.471764, 34.355127]
-//							]
-//						}]);
-//
-//						//创建一个巡航器
-//						var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
-//							{
-//								loop: true,
-//								pathNavigatorStyle: {
-//									width: 24,
-//									height: 24,
-//									//使用图片
-//									content: PathSimplifier.Render.Canvas.getImageContent('./img/plane.png', onload, onerror),
-//									strokeStyle: null,
-//									fillStyle: null,
-//									//经过路径的样式
-//									pathLinePassedStyle: {
-//										lineWidth: 6,
-//										strokeStyle: 'rgb(236,94,74)',
-//										dirArrowStyle: {
-//											stepSpace: 15,
-//											strokeStyle: 'white'
-//										}
-//									}
-//								}
-//							});
-//
-//						navg0.start();
-						
-//					}
+					//					var map = new AMap.Map('container', {
+					//						zoom: 15
+					//					});
+					//					//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
+					//					AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
+					//
+					//						if(!PathSimplifier.supportCanvas) {
+					//							alert('当前环境不支持 Canvas！');
+					//							return;
+					//						}
+					//
+					//						//启动页面
+					//						initPage(PathSimplifier);
+					//					});
+					//
+					//					function initPage(PathSimplifier) {
+					//						//创建组件实例
+					//						var pathSimplifierIns = new PathSimplifier({
+					//							zIndex: 100,
+					//							map: map, //所属的地图实例
+					//							getPath: function(pathData, pathIndex) {
+					//								//返回轨迹数据中的节点坐标信息，[AMap.LngLat, AMap.LngLat...] 或者 [[lng|number,lat|number],...]
+					//								return pathData.path;
+					//							},
+					//							getHoverTitle: function(pathData, pathIndex, pointIndex) {
+					//								//返回鼠标悬停时显示的信息
+					//								if(pointIndex >= 0) {
+					//									//鼠标悬停在某个轨迹节点上
+					//									return pathData.name + '，点:' + pointIndex + '/' + pathData.path.length;
+					//								}
+					//								//鼠标悬停在节点之间的连线上
+					//								return pathData.name + '，点数量' + pathData.path.length;
+					//							},
+					//							renderOptions: {
+					//								//轨迹线的样式
+					//								pathLineStyle: {
+					//									strokeStyle: 'white',
+					//									lineWidth: 4,
+					//									dirArrowStyle: true
+					//								}
+					//							}
+					//						});
+					//
+					//						//这里构建两条简单的轨迹，仅作示例
+					//						pathSimplifierIns.setData([{
+					//							name: '轨迹名称',
+					//							path: [
+					//								[117.471564, 34.366127],
+					//								[117.471864, 34.356227],
+					//								[117.474264, 34.354127],
+					//								[117.471764, 34.355127]
+					//							]
+					//						}]);
+					//
+					//						//创建一个巡航器
+					//						var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
+					//							{
+					//								loop: true,
+					//								pathNavigatorStyle: {
+					//									width: 24,
+					//									height: 24,
+					//									//使用图片
+					//									content: PathSimplifier.Render.Canvas.getImageContent('./img/plane.png', onload, onerror),
+					//									strokeStyle: null,
+					//									fillStyle: null,
+					//									//经过路径的样式
+					//									pathLinePassedStyle: {
+					//										lineWidth: 6,
+					//										strokeStyle: 'rgb(236,94,74)',
+					//										dirArrowStyle: {
+					//											stepSpace: 15,
+					//											strokeStyle: 'white'
+					//										}
+					//									}
+					//								}
+					//							});
+					//
+					//						navg0.start();
+
+					//					}
 				},
 				update: function() {
 					mui.init()
+				},
+				filters: {
+					myimg: function(value) {
+						console.log(value)
+						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:') + 1)
+					}
 				}
 			})
 		</script>

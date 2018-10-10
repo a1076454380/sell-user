@@ -39,7 +39,7 @@
 						
 					</span>
 				</header>
-			<div class="main mui-scroll-wrapper main-big">	
+			<div class="main mui-scroll-wrapper main-big" v-if="">	
 				<div class="mui-scroll">
 					<div class="money-item" v-for="(val,index) in mydata01">
 						<div class="money-top">
@@ -115,7 +115,7 @@
 					layuitext:'确定领取卡卷吗?',
 					searchtype:localStorage.getItem('searchdpeata'),
 					myurl:localStorage.getItem('myurl'),
-					mydata:'',
+					mydata:[],
 					mydata01:[]
 				},
 				methods: {
@@ -161,10 +161,11 @@
 							async:true,
 							dataType:'json',
 							success:function(res){
-								console.log(res)
-								that.mydata=res.data
-								for(var i =0;i<that.mydata.length-2;i++){
-									that.mydata01.push(that.mydata[i])
+								if(res.data!=null){
+									that.mydata=res.data
+									for(var i =0;i<that.mydata.length-2;i++){
+										that.mydata01.push(that.mydata[i])
+									}
 								}
 							}
 						});

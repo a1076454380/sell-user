@@ -15,13 +15,8 @@
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<style type="text/css">
-		.index-detail {
-			margin-left: .2rem!important;
-		}
-		
-		.index-group {
-			flex-direction: row!important;
-		}
+		.index-detail {margin-left: .2rem!important;}
+		.index-group {flex-direction: row!important;}
 		.swiper-container{z-index: 22!important;}
 	</style>
 
@@ -147,8 +142,10 @@
 							dataType: 'json',
 							success: function(res) {
 								console.log(res)
-								that.newdata = res.data
-								that.shoptype = res.data[0].maMerchantsStyleId
+								if(res.data!=null){
+									that.newdata = res.data
+									that.shoptype = res.data[0].maMerchantsStyleId
+								}
 							}
 						});
 

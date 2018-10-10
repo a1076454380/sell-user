@@ -14,14 +14,6 @@
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
-	<style type="text/css">
-		body,
-		html,
-		.wrapper,
-		.main {
-			height: 100%;padding: 0;
-		}
-	</style>
 
 	<body>
 		<div id="app" class="wrapper orderdetail">
@@ -47,117 +39,153 @@
 				<span class="header-main">支付</span>
 				<span class="header-settings"></span>
 			</header>
-			<div class="main pay" style="padding-top: .15rem;">
-				<div class="pay-inner" @click="opennew('instead/adresslist')">
+			<div class="main pay" style="overflow-y: scroll;">
+				<div class="pay-inner" @click="opennew('adresslist')" v-if="adressdata.length!=0">
 					<div class="payh">
-						月星公寓
+						{{adressdata.usAdsProvince}}{{adressdata.usAdsCity}}{{adressdata.usAdsArea}}
 					</div>
 					<div class="paup">
-						枫林晚酒店a51214
+						{{adressdata.usAdsDetailed}}
 					</div>
 					<div class="paup">
-						董礼 17321713550
+						{{adressdata.usAdsCreateName}}
 					</div>
 				</div>
-					<div class="detail-group content">
-						<div class="shop-name">
-							<img src="img/index.jpg" class="avatar" />
-							<span style="flex: 1;">
-							老董家黄焖鸡
-						</span>
-							<img src="img/arrright.png" class="arr" />
-						</div>
-						<div class="shop-group">
-							<img src="img/index.jpg" />
-							<div class="shop-main">
-								<div class="shop-name" style="margin: 0;">
-									<span>
-									黄焖鸡
+				<div class="pay-inner" @click="opennew('adresslist')" v-if="adressdata.length==0">
+					<div class="payh">
+						点击选择收货地址
+					</div>
+				</div>
+				<div class="detail-group content">
+					<div class="shop-name" @click="opennew('shop',cartdata.usTraderStoresId)">
+						<img :src="cartdata.usTsFacadeImg | myimg" class="avatar" />
+						<span style="flex: 1;">
+								{{cartdata.usTsCompanyName}}
+							</span>
+						<img src="img/arrright.png" class="arr" />
+					</div>
+					<div class="shop-group" v-for="val in cartdata.usShoppingCartPojos" @click="opennew('shop',cartdata.usTraderStoresId)">
+						<img :src="val.usTsImgUrl | myimg" />
+						<div class="shop-main">
+							<div class="shop-name" style="margin: 0;">
+								<span>
+									{{val.usTsName}}
 								</span>
-									<span>
-									¥38
+								<span>
+									¥{{val.usScdPrice}}
 								</span>
-								</div>
-								<div class="shop-type">
-									大份
-								</div>
-								<div class="shop-type">
-									x 1
-								</div>
+							</div>
+							<div class="shop-type">
+
+							</div>
+							<div class="shop-type">
+								x {{val.usScdNum}}
 							</div>
 						</div>
-						<div class="shop-back">
-							<div class="back-inner">
-								<div class="back-group">
-									<span>
+					</div>
+					<div class="shop-back">
+						<div class="back-inner">
+							<div class="back-group">
+								<span>
 									包装费
 								</span>
-									<span>
-									¥6
+								<span>
+									¥{{discountdata.listMaDistributionUsPackingFee.usPfPrice}}
 								</span>
-								</div>
-								<div class="back-group">
-									<span>
+							</div>
+							<div class="back-group">
+								<span>
 									配送费
 								</span>
-									<span>
-									¥2
+								<span>
+									¥{{discountdata.listMaDistributionUsPackingFee.maDiPrice}}
 								</span>
-								</div>
 							</div>
 						</div>
-						<div class="shop-back">
-							<div class="back-inner">
-								<div class="back-group">
-									<span>
-									<span class="red">
-										¥
-									</span>
-									<span class="grey">
-										红包
-									</span>
-									</span>
-									<span>
-									-  ¥6
+					</div>
+					<div class="shop-back" style="height: auto;">
+						<div class="back-inner">
+							<div class="back-group" v-if="discountdata.listNewActivities!=[]">
+								<span>
+										<span class="red">
+											新
+										</span>
+								<span class="grey">
+											新人立减
+										</span>
 								</span>
-								</div>
-								<div class="back-group">
-									<span>
-									<span class="red">
-										减
+								<span>
+										-  ¥{{discountdata.listNewActivities[0].usTnaPrice}}
 									</span>
-									<span class="grey">
-										满减优惠
-									</span>
-									</span>
-									<span>
-									-  ¥2
+							</div>
+							<div class="back-group" v-if="discountdata.listDiscount!=[]">
+								<span>
+										<span class="red">
+											折
+										</span>
+								<span class="grey">
+											折扣优惠
+										</span>
 								</span>
-								</div>
+								<span>
+										{{discountdata.listDiscount[0].usTdDicsont/10}}折
+									</span>
+							</div>
+							<div class="back-group" v-if="discountdata.listPackage!=[]">
+								<span>
+										<span class="red">
+											红
+										</span>
+								<span class="grey">
+											红包优惠
+										</span>
+								</span>
+								<span>
+										-  ¥{{discountdata.listPackage[0].usTpPrice}}
+									</span>
+							</div>
+							<div class="back-group" v-if="listSubtract.length!=0">
+								<span>
+										<span class="red">
+											满
+										</span>
+								<span class="grey">
+											满减优惠
+										</span>
+								</span>
+								<span>
+										-  ¥{{listSubtract.usTsSubtractPrice}}
+									</span>
 							</div>
 						</div>
-						<div class="shop-back">
-							<div class="back-inner">
-								<div class="back-group">
-									<span></span>
-									<span>
+					</div>
+					<div class="shop-back">
+						<div class="back-inner">
+							<div class="back-group">
+								<span></span>
+								<span>
 									<span class="grey">
-										优惠¥6.6
+										<!--优惠¥6.6-->
 									</span>
-									<strong>
+								<strong>
 										合计
 									</strong>
-									<span class="moneyred">
-										¥48.4
+								<span class="moneyred">
+										¥{{allprice}}
 									</span>
-									</span>
-								</div>
+								</span>
 							</div>
 						</div>
 					</div>
-					<div class="paybtn">
-						去支付
+				</div>
+				<div class="pay-inner">
+					<div class="payh">
+						<textarea type="text" placeholder="请输入订单备注" v-model="note" style="font-size: .2rem;"></textarea>
 					</div>
+				</div>
+				<div class="paybtn" @click="pay">
+					去支付
+				</div>
 			</div>
 		</div>
 		<script type="text/javascript">
@@ -166,9 +194,47 @@
 				data: {
 					layui: false,
 					layuitext: '错误',
-					mapboo:false
+					mapboo: false,
+					cartdata: JSON.parse(localStorage.getItem('cartdata')),
+					adressdata: '',
+					discountdata: '',
+					listSubtract: [],
+					allprice: '',
+					note: '',
+					channel: ''
 				},
 				methods: {
+					pay: function() {
+						var that = this
+						//						创建订单
+						var ajaxjson = {
+							userId: localStorage.getItem('userid'),
+							shoppingCartId: that.cartdata.usShoppingCartId,
+							redPackageId: that.discountdata.listPackage[0].usTraderPackageId,
+							discontId: that.discountdata.listDiscount[0].usTraderDiscountId,
+							fullReduceId: that.listSubtract.usTraderSubtractId,
+							newPeopleId: that.discountdata.listNewActivities[0].usTraderNewActivitiesId,
+							note: that.note,
+							price:that.allprice
+						}
+						console.log(JSON.stringify(ajaxjson))
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/createAliPay",
+							dataType: 'json',
+							data: ajaxjson,
+							success: function(res) {
+								console.log(JSON.stringify(res))
+								plus.payment.request(that.channel[0], res.data[0], function(result) {
+									plus.nativeUI.alert("支付成功！", function() {
+										that.opennew('orderlist')
+									});
+								}, function(error) {
+
+								});
+							}
+						});
+					},
 					opennew: function(target) {
 						mui.openWindow({
 							url: '' + target + '.html',
@@ -178,23 +244,100 @@
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
-					mapshow:function(){
-						if($('#orderinform').css('top')!='0px'){
+					mapshow: function() {
+						if($('#orderinform').css('top') != '0px') {
 							$('#container').height('50%')
-							$('#orderinform').css('top','0')
-							this.mapboo=true
-						}else{
+							$('#orderinform').css('top', '0')
+							this.mapboo = true
+						} else {
 							$('#container').height('4rem')
-							$('#orderinform').css('top','-2rem')
-							this.mapboo=false
+							$('#orderinform').css('top', '-2rem')
+							this.mapboo = false
 						}
+					},
+					myajax: function() {
+						var that = this
+						//						获取收货地址
+						$.ajax({
+							type: "get",
+							url: localStorage.getItem('myurl') + "/queryUsAddressAll",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('userid')
+							},
+							success: function(res) {
+								for(var i = 0; i < res.data.length; i++) {
+									if(res.data[i].usAdsStatus == 1) {
+										that.adressdata = res.data[i]
+									}
+								}
+							}
+						});
+						//						获取优惠信息
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/selectRedEnvelopes",
+							dataType: 'json',
+							data: {
+								usTraderStoresId: that.cartdata.usTraderStoresId
+							},
+							success: function(res) {
+								that.discountdata = res.data
+								for(var i = 0; i < res.data.listSubtract.length; i++) {
+									if(res.data.listSubtract[i].usTsFullPrice <= that.cartdata.usScPrice) {
+										that.listSubtract = res.data.listSubtract[i]
+									}
+								}
+								
+								var allprice=that.cartdata.usScPrice
+								if(that.discountdata.listNewActivities.length!=0){
+									allprice=allprice-that.discountdata.listNewActivities[0].usTnaPrice
+								}
+								if(that.discountdata.listPackage.length!=0){
+									allprice=allprice-that.discountdata.listPackage[0].usTpPrice
+								}
+								if(that.listSubtract.length!=0){
+									allprice=allprice-that.listSubtract.usTsSubtractPrice
+								}
+								if(that.discountdata.listDiscount.length!=0){
+									allprice=allprice/that.discountdata.listDiscount[0].usTdDicsont / 100
+								}
+								
+								if(allprice < 0) {
+									allprice = 0
+								}
+								
+								that.allprice = allprice + that.discountdata.listMaDistributionUsPackingFee.usPfPrice + that.discountdata.listMaDistributionUsPackingFee.maDiPrice
+								
+							}
+						});
 					}
 				},
 				mounted: function() {
-
+					this.myajax()
+					var that = this
+					// 1. 获取支付通道
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
 				},
 				update: function() {
-					
+
+				},
+				filters: {
+					myimg: function(value) {
+						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:') + 1)
+					}
 				}
 			})
 		</script>

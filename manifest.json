@@ -209,14 +209,16 @@
 			"orderlist.html": {
 				"resources": [],
 				"refer": [
-					"orderdetail.html"
+					"orderdetail.html",
+					"user.html"
 				],
 				"priority": 0
 			},
 			"instead/adresslist.html": {
 				"resources": [],
 				"refer": [
-					"instead/map.html"
+					"instead/map.html",
+					"addadress.html"
 				],
 				"priority": 0
 			},
@@ -299,6 +301,22 @@
 				"resources": [],
 				"refer": [
 					"index.html"
+				],
+				"priority": 0
+			},
+			"shopcart.html": {
+				"resources": [],
+				"refer": [
+					"pay.html"
+				],
+				"priority": 0
+			},
+			"pay.html": {
+				"resources": [],
+				"refer": [
+					"instead/adresslist.html",
+					"adresslist.html",
+					"orderlist.html"
 				],
 				"priority": 0
 			}

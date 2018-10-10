@@ -35,7 +35,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
+				<span class="header-back" @click="opennew('user')">
 						<img src="img/back.png"/>
 					</span>
 				<span class="header-main">我的订单</span>
@@ -63,14 +63,14 @@
 								</p>
 							<div class="order-group" @click="opennew('orderdetail',val.usOrderId,val.usTraderStoresId,val.maMerchantsStyleId,val.usTraderId)" v-for="val in orderdata" v-if='tabnum==3?true:val.usOrIsPay==tabnum'>
 								
-								<img src="img/index.jpg"/>
+								<img :src="val.usTsFacadeImg | myimg"/>
 								<div class="order-main">
 									<div class="order-text">
 										<span class="order-name">
 											{{val.usTsCompanyName}}
 										</span>
 										<span class="order-state">
-											{{val.usOrIsPay==0?'代付款':'已付款'}}
+											{{val.usOrIsPay==0?'待付款':'已付款'}}
 										</span>
 									</div>
 									<div class="order-time">
@@ -140,6 +140,11 @@
 				},
 				update: function() {
 					mui.init()
+				},
+				filters:{
+					myimg:function(value){
+						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:')+1)
+					}
 				}
 			})
 		</script>

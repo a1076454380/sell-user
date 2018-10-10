@@ -43,10 +43,10 @@
 			<div class="main main-big mui-content mui-scroll-wrapper" id="pullrefresh" @scroll="myscroll" style="overflow-y: scroll;">
 				<img src="img/blank.png" class="blank" v-if="tuidata.length==0" />
 				<div class="main-inner">
-					<div class="index-group" @click="opendetail()" v-for="val in tuidata" v-if="tuidata!=''">
+					<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in tuidata" v-if="tuidata!=''">
 						<div class="group-inner">
 							<div class="img-box">
-								<img :src="val.usTsFacadeImg" />
+								<img :src="val.usTsFacadeImg | myimg" />
 							</div>
 							<div class="index-detail">
 								<div class="index-h">
@@ -125,7 +125,7 @@
 						})
 					},
 					opendetail: function(id) {
-						//						localStorage.setItem('goodsid',id)
+						localStorage.setItem('usTraderStoresId',id)
 						this.opennew('shop')
 					},
 					myajax: function() {
@@ -180,6 +180,11 @@
 				},
 				updated() {
 
+				},
+				filters:{
+					myimg:function(value){
+						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:')+1)
+					}
 				}
 			})
 		</script>

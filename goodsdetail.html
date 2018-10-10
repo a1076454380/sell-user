@@ -41,7 +41,7 @@
 			</header>
 			<div class="main" style="height: calc(100% - 1.6rem);overflow-y: scroll;">
 					<div class="slider">
-						<img src="img/index.jpg" />
+						<img :src="mydata[0][0].usTsImgUrl | myimg" />
 					</div>
 					<div class="index-main">
 						<h4>
@@ -66,7 +66,7 @@
 					<div class="index-main" v-if="mydata[0][0].usNickname!=null">
 						<div class="rating-group" v-for="val in mydata[0]">
 							<div class="img-box">
-								<img src="img/index02.png" />
+								<img :src="val.usTsImgUrl | myimg" />
 							</div>
 							<div class="rating-main">
 								<div class="rating-name">
@@ -77,10 +77,10 @@
 									{{val.usScContent}}
 								</div>
 								<div class="rating-img">
-									<img :src="val.usScImg1Url" v-if="val.usScImg1Url!=null&&val.usScImg1Url!=''"/>
-									<img :src="val.usScImg2Url" v-if="val.usScImg1Url!=null&&val.usScImg2Url!=''"/>
-									<img :src="val.usScImg3Url" v-if="val.usScImg1Url!=null&&val.usScImg3Url!=''"/>
-									<img :src="val.usScImg4Url" v-if="val.usScImg1Url!=null&&val.usScImg4Url!=''"/>
+									<img :src="val.usScImg1Url | myimg" v-if="val.usScImg1Url!=null&&val.usScImg1Url!=''"/>
+									<img :src="val.usScImg2Url | myimg" v-if="val.usScImg1Url!=null&&val.usScImg2Url!=''"/>
+									<img :src="val.usScImg3Url | myimg" v-if="val.usScImg1Url!=null&&val.usScImg3Url!=''"/>
+									<img :src="val.usScImg4Url | myimg" v-if="val.usScImg1Url!=null&&val.usScImg4Url!=''"/>
 								</div>
 							</div>
 						</div>
@@ -164,14 +164,16 @@
 					},
 					myajax:function(){
 						var that=this
+						var ajaxjson={
+								usTraderShoppingId:localStorage.getItem('usTraderShoppingId'),
+								usUserId:localStorage.getItem('userid')
+							}
+						console.log(ajaxjson)
 						$.ajax({
 							type:"get",
 							url:that.myurl+"/queryUsShoppingCommentPojoByUsTraderShoppingId",
 							dataType:'json',
-							data:{
-								usTraderShoppingId:localStorage.getItem('usTraderShoppingId'),
-								usUserId:localStorage.getItem('userid')
-							},
+							data:ajaxjson,
 							success:function(res){
 								that.mydata=res.data
 								console.log(that.mydata)
@@ -187,6 +189,11 @@
 				updated() {
 					mui.init()
 					$('.rating-img img').css('height', $('.rating-img img').width())
+				},
+				filters:{
+					myimg:function(value){
+						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:')+1)
+					}
 				}
 			})
 		</script>
