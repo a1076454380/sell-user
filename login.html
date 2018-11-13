@@ -28,7 +28,7 @@
 				<div class="form">
 					<div class="input-group" v-show="!code">
 						<img src="img/login_07.png" />
-						<input type="number" placeholder="请输入手机号" v-model="phone" />
+						<input type="number" placeholder="请输入手机号" v-model="phone" class="phone"/>
 						<img src="img/login_10.png" id="clear" @click="cleaar" />
 					</div>
 					<transition name='fade'>
@@ -172,8 +172,8 @@
 					}
 				},
 				mounted() {
-					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
-//					localStorage.setItem('myurl', 'http://192.168.2.116/user')
+//					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
+					localStorage.setItem('myurl', 'http://192.168.2.116/user')
 				}
 			})
 		</script>

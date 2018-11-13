@@ -43,7 +43,7 @@
         "popGesture": "hide",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
         "runmode": "normal",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
         "signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
-        "distribute": {"plugins":{"oauth":{"qq":{"appid":"1107053640"}},"payment":{"alipay":{"description":"阿里支付","scheme":""},"appleiap":{"description":"Apple应用内支付"}},"maps":{"baidu":{"appkey_ios":"a2bBtV8scDzDa2Z0ATkZawuoPNCZAn6j","appkey_android":"60Baq0TPjWwGHhNP63qHrzcrv4bDnLfR","appkey":"","description":""}}},
+        "distribute": {"plugins":{"oauth":{"qq":{"appid":"1107053640"}},"payment":{"alipay":{"description":"阿里支付","scheme":""},"appleiap":{"description":"Apple应用内支付"},"weixin":{"description":"微信支付","appid":"wxf20871cf9f9d2cf1"}},"maps":{"baidu":{"appkey_ios":"a2bBtV8scDzDa2Z0ATkZawuoPNCZAn6j","appkey_android":"60Baq0TPjWwGHhNP63qHrzcrv4bDnLfR","appkey":"","description":""}}},
             "apple": {
                 "appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
                 "mobileprovision": "",/*iOS应用打包配置文件*/
@@ -105,7 +105,7 @@
                 "ios": {
                     "iphone": {
                         "default": "", /*iPhone3启动图片选，分辨率：320x480*/
-                        "retina35": "logo/640x960.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+                        "retina35": "C:/Users/Shinelon/Desktop/emmmm.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
                         "retina40": "logo/640x1136.png",/*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
                         "retina47": "logo/750x1334.png",/*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
                         "retina55": "logo/1242x2208.png",/*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
@@ -124,10 +124,7 @@
                 },
                 "android": {
                     "mdpi": "", /*普通屏启动图片，分辨率：240x282*/
-                    "ldpi": "", /*大屏启动图片，分辨率：320x442*/
-                    "hdpi": "logo/480x762.png", /*高分屏启动图片，分辨率：480x762*/
-                    "xhdpi": "logo/720x1242.png", /*720P高分屏启动图片，分辨率：720x1242*/
-                    "xxhdpi": "logo/1080x1882.png"/*1080P高分屏启动图片，分辨率：1080x1882*/
+                    "ldpi": ""/*1080P高分屏启动图片，分辨率：1080x1882*/
                 }
             },"debug":true
         },"ads":{"rp":false,"splash":false,"push":false}
@@ -307,7 +304,8 @@
 			"shopcart.html": {
 				"resources": [],
 				"refer": [
-					"pay.html"
+					"pay.html",
+					"shop.html"
 				],
 				"priority": 0
 			},

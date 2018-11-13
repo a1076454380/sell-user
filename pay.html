@@ -83,7 +83,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="shop-back">
+					<div class="shop-back" v-if="discountdata!=''">
 						<div class="back-inner">
 							<div class="back-group">
 								<span>
@@ -103,7 +103,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="shop-back" style="height: auto;">
+					<div class="shop-back" style="height: auto;" v-if="discountdata!=''">
 						<div class="back-inner">
 							<div class="back-group" v-if="discountdata.listNewActivities!=[]">
 								<span>
@@ -183,8 +183,9 @@
 						<textarea type="text" placeholder="请输入订单备注" v-model="note" style="font-size: .2rem;"></textarea>
 					</div>
 				</div>
-				<div class="paybtn" @click="pay">
-					去支付
+				<div class="paybtn" style="display: flex;">
+					<span @click="pay" style="flex: 1;text-align: center;">支付宝</span>
+					<span @click="wpay" style="flex: 1;text-align: center;">微信</span>
 				</div>
 			</div>
 		</div>
@@ -204,6 +205,38 @@
 					channel: ''
 				},
 				methods: {
+					wpay:function(){
+						var that = this
+						//						创建订单
+						var ajaxjson = {
+							userId: localStorage.getItem('userid'),
+							shoppingCartId: that.cartdata.usShoppingCartId,
+							redPackageId: that.discountdata.listPackage[0].usTraderPackageId,
+							discontId:that.discountdata.listDiscount.length==0?'':that.discountdata.listDiscount[0].usTraderDiscountId,
+							fullReduceId: that.listSubtract.usTraderSubtractId,
+							newPeopleId: that.discountdata.listNewActivities[0].usTraderNewActivitiesId,
+							note: that.note,
+							price:that.allprice,
+							statusPay:2
+						}
+						console.log(JSON.stringify(ajaxjson))
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/createAliPay",
+							dataType: 'json',
+							data: ajaxjson,
+							success: function(res) {
+								console.log(JSON.stringify(res))
+								plus.payment.request(that.channel[1], res, function(result) {
+									plus.nativeUI.alert("支付成功！", function() {
+										that.opennew('orderlist')
+									});
+								}, function(error) {
+
+								});
+							}
+						});
+					},
 					pay: function() {
 						var that = this
 						//						创建订单
@@ -211,11 +244,12 @@
 							userId: localStorage.getItem('userid'),
 							shoppingCartId: that.cartdata.usShoppingCartId,
 							redPackageId: that.discountdata.listPackage[0].usTraderPackageId,
-							discontId: that.discountdata.listDiscount[0].usTraderDiscountId,
+							discontId:that.discountdata.listDiscount.length==0?'':that.discountdata.listDiscount[0].usTraderDiscountId,
 							fullReduceId: that.listSubtract.usTraderSubtractId,
 							newPeopleId: that.discountdata.listNewActivities[0].usTraderNewActivitiesId,
 							note: that.note,
-							price:that.allprice
+							price:that.allprice,
+							statusPay:1
 						}
 						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
@@ -282,6 +316,7 @@
 								usTraderStoresId: that.cartdata.usTraderStoresId
 							},
 							success: function(res) {
+								console.log(res)
 								that.discountdata = res.data
 								for(var i = 0; i < res.data.listSubtract.length; i++) {
 									if(res.data.listSubtract[i].usTsFullPrice <= that.cartdata.usScPrice) {
