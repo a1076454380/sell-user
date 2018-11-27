@@ -13,7 +13,19 @@
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
-
+	<style type="text/css">
+		.list-group{
+			background: #FFFFFF;
+			position: relative;
+			top: .1rem;
+			background-size: 100% 100%;
+			background-image: url(img/Rectangle.png);
+		}
+		.active{
+			background-size: 100% 100%;
+			background-image: url('img/Group 6.png');
+		}
+	</style>
 	<body>
 		<div id="app" class="wrapper adresslist">
 			<div class="layui" v-show="layui">
@@ -42,7 +54,7 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div class="list-group" v-for="(val,index) in adressdata" @click="change(val.usAddressId)">
+				<div class="list-group" v-for="(val,index) in adressdata" @click="change(val.usAddressId)" :class="val.usAdsStatus==1?'active':''">
 					<div class="group-main">
 						<h2>
 							{{val.usAdsProvince}}{{val.usAdsCity}}{{val.usAdsArea}}
@@ -63,7 +75,7 @@
 				</div>
 
 			</div>
-			<div class="list-bottom" @click="opennew('addadress','')">
+			<div class="list-bottom" @click="opennew02('addadress')">
 				<img src="img/add.png" />增加地址
 			</div>
 		</div>
@@ -78,26 +90,28 @@
 					usAddressId: ''
 				},
 				methods: {
-					back:function(){
-						if(plus.webview.getWebviewById('pay')!=null){
+					back: function() {
+						if(plus.webview.getWebviewById('pay') != null) {
 							plus.webview.getWebviewById('pay').reload();
 						}
-						
+
 						mui.back()
 					},
 					change: function(id) {
 						var that = this
 						$.ajax({
 							type: "post",
-							url: that.myurl + "/updateByUsAdsStatus",
+							url: that.myurl + "/updateUsAddressStauts",
 							dataType: 'json',
 							data: {
 								usAddressId: id,
 								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
+								that.myajax()
 								if(res.status == 200) {
 									plus.nativeUI.toast('默认地址修改完成')
+									
 								}
 							}
 						});
@@ -109,20 +123,24 @@
 						this.layuitext = text
 						this.layui = !this.layui
 					},
+					opennew02:function(id){
+						mui.openWindow({
+													url: '' + id + '.html',
+													id: id
+												})
+					},
 					opennew: function(id, index) {
 						var that = this
-						if(index!=''){
-							localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
-							localStorage.setItem('prov', that.adressdata[index].usAdsProvince)
-							localStorage.setItem('city', that.adressdata[index].usAdsCity)
-							localStorage.setItem('dist', that.adressdata[index].usAdsArea)
-							localStorage.setItem('usAdsDetailed', that.adressdata[index].usAdsDetailed)
-						}
-							
-						mui.openWindow({
-							url: '' + id + '.html',
-							id: id
-						})
+						localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
+						localStorage.setItem('prov', that.adressdata[index].usAdsProvince)
+						localStorage.setItem('city', that.adressdata[index].usAdsCity)
+						localStorage.setItem('dist', that.adressdata[index].usAdsArea)
+						localStorage.setItem('usAdsDetailed', that.adressdata[index].usAdsDetailed)
+
+												mui.openWindow({
+													url: '' + id + '.html',
+													id: id
+												})
 					},
 					myajax: function() {
 
@@ -147,18 +165,18 @@
 								console.log(res)
 								that.adressdata = res.data
 
-								
 							}
 						});
+
 						function plusReady() {
-									// 弹出系统等待对话框
-									plus.nativeUI.closeWaiting()
-								}
-								if(window.plus) {
-									plusReady();
-								} else {
-									document.addEventListener("plusready", plusReady, false);
-								}
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 					}
 				},
 				mounted: function() {

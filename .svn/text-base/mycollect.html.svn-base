@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
+	</head>
+	<style type="text/css">
+		.fade-enter-active,
+		.fade-leave-active {
+			transition: all .2s ease-in;
+		}
+		
+		.fade-enter,
+		.fade-leave-active {
+			opacity: 0;
+			transform: translateX(100%);
+		}
+		
+		.nocllect {
+			margin: 0!important;
+			padding: 0!important;
+		}
+		
+		.index .index-group {
+			flex-direction: row;
+			margin: .1rem 0;
+		}
+		
+		.delete {
+			width: .7rem;
+			display: flex;
+			align-items: center;
+			color: white;
+			background: rgb(236, 94, 74);
+			justify-content: center;
+		}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper index">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							取消
+						</div>
+						<div class="layui-setting" @click="deleted">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="img/back.png"/>
+					</span>
+				<span class="header-main">我的收藏</span>
+				<span class="header-settings" @click="setting">
+						{{nocollect==true?'完成':'编辑'}}
+					</span>
+			</header>
+			<div class="main main-big mui-scroll-wrapper" @scroll="myscroll" style="overflow-y: scroll;">
+				<div class="main-inner">
+					<img src="img/blank.png" class="blank" v-if="collectdata.length==0"/>
+					<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in collectdata" v-if="collectdata.length!=0">
+						<div class="group-inner">
+							<div class="img-box">
+								<img :src="val.usTsFacadeImg | myimg" />
+								<!--<img src="img/index.jpg"/>-->
+							</div>
+							<div class="index-detail">
+								<div class="index-h">
+									{{val.usTsName}}
+								</div>
+								<div class="index-x" style="align-items: flex-start;">
+									{{val.usTsCompanyName}}
+								</div>
+								<div class="index-x">
+									<span class="shop-type">
+									<img src="img/shopavatar.png"/>我的收藏
+								</span>
+								</div>
+							</div>
+						</div>
+						<transition name='fade'>
+							<div class="delete" v-show="nocollect" @click.stop="layuiboo(val.usCollectionId)">
+								删除
+							</div>
+						</transition>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '确定取消收藏吗',
+					nocollect: false,
+					noindex: 0,
+					collectdata: [],
+					myurl: localStorage.getItem('myurl'),
+					usCollectionId: [],
+					pageNum: 0,
+					ajaxmore: false,
+					size: 0
+				},
+				methods: {
+					myscroll: function() {
+						var that = this
+						if(Math.abs($('.main-inner').offset().top) + $('.main').height() + 200 >= $('.main-inner').height()) {
+							if(that.ajaxmore == false) {
+								that.myajax()
+							}
+						}
+					},
+					prefershow: function(index) {
+						if($('.prefer').eq(index).attr('class') == 'prefer') {
+							$('.prefer').eq(index).addClass('pauto')
+						} else {
+							$('.prefer').eq(index).removeClass('pauto')
+						}
+					},
+					layuiboo: function(id) {
+						this.layui = !this.layui
+						if(id!=''){
+							this.usCollectionId = id
+						}
+					},
+					opendetail: function(id,usTraderId) {
+						localStorage.setItem('usTraderStoresId',id)
+						localStorage.setItem('usTraderId',usTraderId)
+						this.opennew('shop')
+					},
+					setting: function() {
+						this.nocollect = !this.nocollect
+					},
+					no: function(index) {
+						this.noindex = index
+						this.layuiboo()
+					},
+					deleted: function() {
+						this.layuiboo('')
+						var that = this
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/deleteCollectionUs",
+							dataType:'json',
+							data: {
+								usCollectionId: that.usCollectionId
+							},
+							success: function(res) {
+								if(res.status==200){
+									plus.webview.getWebviewById("mycollect").reload(true)
+									function plusReady() {
+										// 弹出系统等待对话框
+										plus.nativeUI.toast('取消完成')
+									}	
+									if(window.plus) {
+										plusReady();
+									} else {
+										document.addEventListener("plusready", plusReady, false);
+									}
+								}
+							}
+						});
+					},
+					opennew: function(target) {
+						mui.openWindow({
+							url: '' + target + '.html',
+							id: '' + target + ''
+						})
+					},
+					myajax: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that = this
+						this.ajaxmore = true
+						this.pageNum++
+						$.ajax({
+							type: "get",
+							url: that.myurl + "/queryUsCollectionUsTraderStoresRecommendPojo",
+							data: {
+								usUserId: localStorage.getItem('userid'),
+								pageNum: that.pageNum,
+								pageSize:10
+							},
+							dataType: 'json',
+							success: function(res) {
+								
+								that.size = res.data.pages
+								that.ajaxmore = false
+								for(var i = 0; i < res.data.list.length; i++) {
+									that.collectdata.push(res.data.list[i])
+								}
+								console.log(that.collectdata)
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							}
+						});
+					}
+				},
+				mounted: function() {
+					this.myajax()
+				},
+				update: function() {
+
+				},
+				filters:{
+					myimg:function(value){
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

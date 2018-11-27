@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -14,7 +13,6 @@
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
 	</head>
-
 	<body>
 		<div id="app" class="wrapper addadress">
 			<div class="layui" v-show="layui">
@@ -44,12 +42,12 @@
 			</header>
 			<div class="main">
 				<div id="city">  
-				  <select class="prov" name="usAdsProvince" v-model="prove"></select>   
-				  <select class="city" disabled="disabled" name="usAdsCity" v-model="city"></select>  
-				  <select class="dist" disabled="disabled" name="usAdsArea" v-model="dist"></select>  
+				  <select class="prov" name="usAdsProvince"></select>   
+				  <select class="city" name="usAdsCity"></select>  
+				  <select class="dist" name="usAdsArea"></select>  
 				</div>
 				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址" v-model="usAdsDetailed"/>
-				<div class="submit" @click="submit">
+				<div class="submit" @click="gosubmit">
 					确定新增
 				</div>
 			</div>
@@ -80,18 +78,10 @@
 							id: id
 						})
 					},
-					submit:function(){
+					gosubmit:function(){
 						var that=this
-						if(that.prove==''||that.city==''||that.usAdsDetailed==''){
-							function plusReady() {
-								// 弹出系统等待对话框
-								plus.nativeUI.toast('请把信息填写完整！')
-							}
-							if(window.plus) {
-								plusReady();
-							} else {
-								document.addEventListener("plusready", plusReady, false);
-							}
+						if(that.usAdsDetailed==''){
+							plus.nativeUI.toast('请把信息填写完整！')
 							return false;
 						}
 						$.ajax({
@@ -100,12 +90,13 @@
 							dataType:'json',
 							data:{
 								usUserId:localStorage.getItem('userid'),
-								usAdsProvince:that.prove,
-								usAdsCity:that.city,
-								usAdsArea:that.dist,
+								usAdsProvince:$('.prov option:selected').text(),
+								usAdsCity:$('.city option:selected').text(),
+								usAdsArea:$('.dist option:selected').text(),
 								usAdsDetailed:that.usAdsDetailed
 							},
 							success:function(res){
+								console.log(res)
 								if(res.status==200){
 									function plusReady() {
 										// 弹出系统等待对话框
@@ -121,7 +112,7 @@
 						});
 					},
 					back:function(){
-						plus.webview.getWebviewById('adresslist').reload()
+						plus.webview.getWebviewById('adresslist').reload(true)
 						mui.back() 
 					}
 				},

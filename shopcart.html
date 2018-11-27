@@ -72,9 +72,9 @@
 											￥<span>{{item.usScdPrice}}</span>
 										</div>
 										<div class="num-box">
-											<img src="img/remove.png" @click.stop="removenum(item.usTraderShoppingId,item.usScdPrice)" class="remove1" />
+											<img src="img/remove.png" @click.stop="removenum(item.usTraderShoppingId,item.usScdPrice/item.usScdNum,val.usTraderStoresId)" class="remove1" />
 											<input type="number" v-model="item.usScdNum" />
-											<img src="img/add01.png" @click.stop="addnum(item.usTraderShoppingId,item.usScdPrice)" class="add1" />
+											<img src="img/add01.png" @click.stop="addnum(item.usTraderShoppingId,item.usScdPrice/item.usScdNum,val.usTraderStoresId)" class="add1" />
 										</div>
 									</div>
 								</div>
@@ -186,8 +186,9 @@
 					if(id != undefined) {
 						this.usShoppingCartId = id
 					}
+					this.layui=!this.layui
 				},
-				removenum: function(id, price) {
+				removenum: function(id, price,usTraderStoresId) {
 					function plusReady() {
 						// 弹出系统等待对话框
 						plus.nativeUI.showWaiting("加载中...");
@@ -204,7 +205,7 @@
 						usUserId: localStorage.getItem('userid'),
 						usScdNum: 1,
 						usScdPrice: price,
-						usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+						usTraderStoresId:usTraderStoresId,
 						usScdCreateName: localStorage.getItem('usNickname')
 					}
 					//						减少购物车
@@ -229,7 +230,7 @@
 						}
 					});
 				},
-				addnum: function(id, price) {
+				addnum: function(id, price,usTraderStoresId) {
 					var that = this
 
 					function plusReady() {
@@ -246,7 +247,7 @@
 						usUserId: localStorage.getItem('userid'),
 						usScdNum: 1,
 						usScdPrice: price,
-						usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+						usTraderStoresId: usTraderStoresId,
 						usScdCreateName: localStorage.getItem('usNickname')
 					}
 					$.ajax({
@@ -300,6 +301,7 @@
 							usUserId: localStorage.getItem('userid')
 						},
 						success: function(res) {
+							console.log(res)
 							if(res.data != null) {
 								that.cartdata = res.data
 							} else {

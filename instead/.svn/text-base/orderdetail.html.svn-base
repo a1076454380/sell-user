@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		.back-group span:last-of-type {
+			font-weight: 600;
+		}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper orderdetail">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="../img/back.png"/>
+					</span>
+				<span class="header-main">订单详情</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main" style="padding-top: .2rem;">
+				<div class="detail-group content">
+					<div class="shop-name">
+						<span style="flex: 1;color: rgb(254, 99, 91);text-align: right;">
+							{{myajax.usRtStatus | state}}
+						</span>
+					</div>
+					<div class="shop-back">
+						<div class="back-inner" style="border: 0;">
+							<div class="back-group">
+								<span>
+										起点
+									</span>
+								<span>
+										{{myajax.usAdsProvince}}{{myajax.usAdsCity}}{{myajax.usRtDetails}}
+									</span>
+							</div>
+							<div class="back-group">
+								<span>
+										终点
+									</span>
+								<span>
+										{{myajax.usRtProvince}}{{myajax.usRtCity}}{{myajax.usRtArea}}{{myajax.usAdsDetailed}}
+									</span>
+							</div>
+						</div>
+					</div>
+					<div class="shop-back" style="height: .8rem;">
+						<div class="back-inner">
+							<div class="back-group">
+								<span></span>
+								<span>
+									<span class="moneyred">
+										¥{{myajax.usRtPrice}}
+									</span>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="shop-back">
+						<div class="back-inner">
+							<div class="back-group" style="justify-content: center;">
+								<a href="tel:154565646">
+									<img src="../img/detail_03.png" class="phone" />
+								</a>
+								<a :href=["tel:"+myajax.usRiPhone+""]>
+									联系骑手
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="detail-group inform">
+					<div class="inform-group">
+						<span class="inform-name">
+							订单号码
+						</span>
+						<span class="inform-text">
+							{{myajax.usReplaceTakeId}}
+						</span>
+					</div>
+					<div class="inform-group">
+						<span class="inform-name">
+							订单时间
+						</span>
+						<span class="inform-text">
+							{{myajax.usRtCreateTime}}
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误',
+					mapboo: false,
+					myajax:''
+				},
+				methods: {
+					opennew: function(target) {
+						mui.openWindow({
+							url: '' + target + '.html',
+							id: target
+						})
+					},
+					layuiboo: function() {
+						this.layui = !this.layui
+					},
+					mapshow: function() {
+						if($('#orderinform').css('top') != '0px') {
+							$('#container').height('50%')
+							$('#orderinform').css('top', '0')
+							this.mapboo = true
+						} else {
+							$('#container').height('4rem')
+							$('#orderinform').css('top', '-2rem')
+							this.mapboo = false
+						}
+					}
+				},
+				mounted: function() {
+					var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/queryUsReplaceTakePojoByUsReplaceTakeId",
+							dataType: 'json',
+							data: {
+								usReplaceTakeId: localStorage.getItem('usReplaceTakeId')
+							},
+							success: function(res) {
+								console.log(res)
+								that.myajax=res.data
+							}
+						});
+				},
+				update: function() {
+					mui.init()
+				},
+				filters:{
+					state:function(value){
+						if (value==1) {
+							return '订单已完成'
+						} else if(value==2){
+							return '等待接单中'
+						}else if(value==3){
+							return '订单已接取'
+						}else{
+							return '物品已购买'
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -74,7 +74,7 @@
 								¥{{val.usScdPrice}}
 							</div>
 							<div class="bottom-setting">
-								<img src="img/reduce.png" @click.stop="reduce(val.usTraderShoppingId,val.usScdPrice/val.usScdNum)" v-show="val.usScdNum!=1" />
+								<img src="img/reduce.png" @click.stop="reduce(val.usTraderShoppingId,val.usScdPrice/val.usScdNum)" />
 								<input type="number" :value="val.usScdNum" id='a1' />
 								<img src="img/add.png" @click.stop="addcart(val.usTraderShoppingId,val.usScdPrice/val.usScdNum)" />
 							</div>
@@ -426,7 +426,6 @@
 								usTraderStoresId: localStorage.getItem('usTraderStoresId')
 							},
 							success: function(res) {
-								console.log(localStorage.getItem('usTraderStoresId'))
 								that.shopdata = res.data
 								if(that.shopdata.length!=0) {
 									that.num = res.data[0].usTraderShoppingSortId
@@ -496,6 +495,9 @@
 								if(res.data != null) {
 									that.mycartnum = res.data.usShoppingCartPojos.length
 									that.cartdata = res.data
+								}else{
+									that.mycartnum = res.data.usShoppingCartPojos.length
+									that.cartdata=[]
 								}
 
 								function plusReady() {
@@ -525,7 +527,7 @@
 				filters:{
 					myimg:function(value){
 						if(value!=null){
-							return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:')+1)
+							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
 						}
 					}
 				}

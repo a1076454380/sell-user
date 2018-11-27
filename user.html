@@ -239,7 +239,7 @@
 				filters:{
 					myimg:function(value){
 						if(value!=null){
-							return 'http://27.54.248.14:8081/'+value.substring(value.indexOf('D:')+2)
+							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+2)
 						}
 					}
 				}

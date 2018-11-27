@@ -214,6 +214,7 @@
 								userAddress:'江苏省徐州市'
 							},
 							success: function(res) {
+								console.log(res)
 								if(res.data!=null){
 									that.tuidata02 = res.data
 									that.tuidata02.sort(function(a, b) {
@@ -245,7 +246,7 @@
 				},
 				filters:{
 					myimg:function(value){
-						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:')+1)
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
 					}
 				}
 			})

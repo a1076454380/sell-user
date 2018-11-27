@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		body,
+		.main {
+			background: white;
+		}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper newdetail">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="img/back.png"/>
+					</span>
+				<span class="header-main">文章详情</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<h1>
+					{{mydata.maPnTitle}}
+				</h1>
+
+					<p>
+						{{mydata.maPnContent}}
+					</p>
+					<img :src="mydata.maPnImg1" v-if="mydata.maPnImg1!=''" />
+					<img :src="mydata.maPnImg2" v-if="mydata.maPnImg2!=''" />
+					<img :src="mydata.maPnImg3" v-if="mydata.maPnImg3!=''" />
+					<img :src="mydata.maPnImg4" v-if="mydata.maPnImg4!=''" />
+				</div>
+			</div>
+			<footer class="footer">
+				<span>
+						#{{mydata.maPnCreateName}}
+					</span>
+				<span>
+						{{mydata.createTime1}}
+					</span>
+			</footer>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误',
+					myurl: localStorage.getItem('myurl'),
+					mydata: ''
+				},
+				methods: {
+					layuiboo: function() {
+						this.layui = !this.layui
+					},
+					myajax: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting('加载中...')
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that = this
+						console.log(localStorage.getItem('maPublicNewsId'))
+						$.ajax({
+							type: "get",
+							url: that.myurl + "/queryByMaPublicNewsId",
+							async: true,
+							dataType: 'json',
+							data: {
+								maPublicNewsId: localStorage.getItem('maPublicNewsId')
+							},
+							success: function(res) {
+								that.mydata = res.data
+							}
+						});
+
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+					}
+				},
+				mounted: function() {
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
+					this.myajax()
+				},
+				update: function() {
+
+				}
+			})
+		</script>
+	</body>
+
+</html>

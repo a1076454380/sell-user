@@ -174,12 +174,16 @@
 								pageNum:that.pageNum
 							},
 							success:function(res){
-								console.log(res)
-								that.size=res.data.pages
-								that.ajaxmore=false
-								for (var i=0;i<res.data.list.length;i++) {
-									that.tuidata.push(res.data.list[i])
+								if(res.data.list!=null){
+									that.size=res.data.pages
+									that.ajaxmore=false
+									for (var i=0;i<res.data.list.length;i++) {
+										that.tuidata.push(res.data.list[i])
+									}
+								}else{
+									that.tuidata=[]
 								}
+								
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()

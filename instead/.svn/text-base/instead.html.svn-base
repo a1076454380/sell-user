@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+		<link rel="stylesheet" type="text/css" href="../css/date.css"/>
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/date.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="app" class="wrapper instead">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="../img/back.png"/>
+					</span>
+				<span class="header-main">跑腿代购</span>
+				<span class="header-settings" @click="opennew('order')">
+						<img src="../img/order.png"/>
+					</span>
+			</header>
+			<div class="main">
+				<div class="top-nav">
+					<div class="nav-tab" :class="insteadtype==1?'active':''" @click="tab(1)">
+						跑腿代购
+					</div>
+					<div class="nav-tab" :class="insteadtype==2?'active':''" @click="tab(2)">
+						急速取件
+					</div>
+					<div class="nav-tab" :class="insteadtype==3?'active':''" @click="tab(3)">
+						急速送件
+					</div>
+				</div>
+				<div class="instead-wrapper">
+					<div class="top-box">
+						<img src="../img/instead.png" class="top-img" />
+						<!--<span class="num">
+							您附近有<stong>20</stong>个骑手
+						</span>-->
+					</div>
+					<div class="instead-main">
+						<textarea v-model="dtext" placeholder="输入物品描述" style="margin: 0;box-sizing: border-box;"></textarea>
+						<div class="input-group">
+							<input type="number" name="price" id="price" placeholder="预估商品费用(骑手代付,收货时结算!)" v-model="yprice" />
+							<input type="number" name="price" id="price" placeholder="预估商品重量（KG）" v-model="usRtdWeight" />
+						</div>
+						<!--发货地址-->
+						<div class="input-group" style="margin-bottom: 0;">
+							<label for="madress">
+								<span v-show="insteadtype==1">购物</span>
+								<span v-show="insteadtype==2">取货</span>
+								<span v-show="insteadtype==3">取货</span>
+							</label>
+							<div class="input">
+								<div :class="adresstype==true?'inputactive':''" @click="adresstab">
+									购买地址
+								</div>
+							</div>
+						</div>
+						<div class="input-group" v-show="adresstype" style="align-items: center;">
+							<label for="madress">
+								
+							</label>
+							<div type="text" @click="opennew('fadresslist')" class="input">{{fdist}}-{{fdetail}}</div>
+							<img src="../img/arrright.png"/>
+						</div>
+						<!--收货地址-->
+						<div class="input-group" style="margin-bottom: 0;">
+							<label for="madress">
+								收货
+							</label>
+							<div class="input">
+								<div :class="adresstype==true?'inputactive':''" @click="adresstab">
+									收货地址
+								</div>
+							</div>
+						</div>
+						<div class="input-group">
+							<label for="madress">
+								
+							</label>
+							<div type="text" @click="opennew('adresslist')" class="input">{{sdist}}-{{sdetail}}</div>
+							<img src="../img/arrright.png"/>
+						</div>
+						<div class="input-group instead-yes">
+							<label for="" @click="yseno">
+								<img src="../img/yes.png" v-show="insteadyes"/>
+								<img src="../img/no.png" v-show="!insteadyes"/>
+							</label>
+							<div class="input">
+								同意并接受　<span>购买服务协议</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="datePlugin"></div>
+			<div class="instead-bottom">
+				<div class="instead-price">
+					1小时全程极速达
+				</div>
+				<div class="instead-shop" @click="mysub">
+					提交订单
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误',
+					insteadtype: 1,
+					dtext: '',
+					adresstype: true,
+					fprov: '',
+					sprov: '',
+					fcity: '',
+					fdetail: '',
+					fdist:'',
+					insteadyes: true,
+					yprice: '',
+					sdist:'',
+					sdetail:'',
+					sprov:'',
+					scity:'',
+					qsbeizhu:'',
+					qstime:'',
+					usRtdWeight:'',
+					channel:''
+				},
+				methods: {
+					layuiboo: function(text) {
+						this.layuitext = text
+						this.layui = !this.layui
+					},
+					opennew: function(id, type) {
+						localStorage.setItem('maptype',type)
+						mui.openWindow({
+							url: '' + id + '.html',
+							id: id
+						})
+					},
+					tab: function(boo) {
+						this.insteadtype = boo
+					},
+					adresstab: function() {
+						this.adresstype = !this.adresstype
+					},
+					yseno: function() {
+						this.insteadyes = !this.insteadyes
+					},
+					mysub: function() {
+						var that=this
+						if(that.dtext==''){
+							that.layuiboo('请输入物品描述')
+							return false;
+						}
+						if(that.yprice==''){
+							that.layuiboo('请输入物品预估 价格')
+							return false;
+						}
+						if(that.usRtdWeight==''){
+							that.layuiboo('请输入物品预估 重量')
+							return false;
+						}
+						var ajaxjson={
+							usUserId:localStorage.getItem('userid'),
+							usRtDescribe:that.dtext,
+							usRtForecastPrice:that.yprice,
+							usRtProvince:that.fprov,
+							usRtCity:that.fcity,
+							usRtArea:that.fdist,
+							usRtDetails:that.fdetail,
+							usAddressId:localStorage.getItem('usAddressId'),
+							usRtIsType:that.insteadtype,
+							usRtdWeight:that.usRtdWeight
+						}
+						console.log(ajaxjson)
+						$.ajax({
+							type:"post",
+							url:localStorage.getItem('myurl')+"/addReplaceOrder",
+							dataType:'json',
+							data:ajaxjson,
+							success:function(res){
+								console.log(res)
+								plus.payment.request(that.channel[0], res.data[0], function(result) {
+										plus.nativeUI.alert("支付成功！", function() {
+											
+										});
+									}, function(error) {
+										console.log(JSON.stringify(error))
+									});
+							}
+						});
+					}
+				},
+				mounted: function() {
+					var that=this
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
+					if(localStorage.getItem('fprov') == null) {
+						this.fprov = '点击选择发货地址'
+					} else {
+						this.fprov = localStorage.getItem('fprov')
+						this.fcity = localStorage.getItem('fcity')
+						this.fdist = localStorage.getItem('fdist')
+						this.fdetail = localStorage.getItem('fdetail')
+					}
+					if(localStorage.getItem('sprov') == null) {
+						this.sprov = '点击选择收货地址'
+					} else {
+						this.sprov = localStorage.getItem('sprov')
+						this.scity = localStorage.getItem('scity')
+						this.sdist = localStorage.getItem('sdist')
+						this.sdetail = localStorage.getItem('sdetail')
+					}
+					$(function(){
+						$('#appDateTime').date({theme:"datetime"})
+					})
+				},
+				update: function() {
+
+				}
+			})
+		</script>
+	</body>
+
+</html>

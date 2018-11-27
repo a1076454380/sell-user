@@ -52,7 +52,7 @@
 				<span class="header-main">订单详情</span>
 				<span class="header-settings"></span>
 			</header>
-			<div class="main">
+			<div class="main" v-if="mydata!=''">
 				<!--<div id="container">
 					
 				</div>-->
@@ -63,13 +63,13 @@
 							订单{{mydata.usOrder.usOrIsPay==0?'未支付':'已支付'}}
 						</div>
 						<div class="state-p">
-							{{mydata.usOrder.usOrTrStartus==2?'已接单':'未接单'}}
+							{{mydata.usOrder.usOrTrStartus==2?'等待接单':'已接单'}}
 						</div>
 						<div class="setting">
 							<div class="setting-btn" @click="openshop(mydata.usOrder.usTraderStoresId)">
 								{{mydata.usOrder.usOrIsPay==0?'重新购买':'再来一单'}}
 							</div>
-							<div class="setting-btn" @click="openrating(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay!=0&&mydata.usOrder.usOrOrderevaluatestatus==0'>
+							<div class="setting-btn" @click="openrating(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay!=0&&mydata.usOrder.usOrOrderEvaluateStatus==0'>
 								发表评价
 							</div>
 							<div class="setting-btn" @click="gopay(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay==0'>
@@ -215,7 +215,7 @@
 						<div class="shop-back">
 							<div class="back-inner">
 								<div class="back-group" style="justify-content: center;">
-									<a href="tel:154565646">
+									<a :href=["tel:"+mydata.listUsTriderPojo[0].usTsPhone+""]>
 										<img src="img/detail_03.png" class="phone" />
 									</a>
 									<a :href=["tel:"+mydata.listUsTriderPojo[0].usTsPhone+""]>
@@ -265,7 +265,7 @@
 							订单时间
 						</span>
 							<span class="inform-text">
-							{{mydata.usOrder.usOrUpdateTime}}
+							{{mydata.usOrder.usOrCreateTimeString}}
 						</span>
 						</div>
 						<div class="inform-group">
@@ -366,9 +366,7 @@
 							dataType: 'json',
 							data: jsonData,
 							success: function(res) {
-								console.log(res)
 								that.mydata = res.data
-
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
@@ -486,8 +484,7 @@
 				},
 				filters: {
 					myimg: function(value) {
-						console.log(value)
-						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:') + 1)
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="app" class="wrapper goodsdetail">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="img/back.png"/>
+					</span>
+				<span class="header-main">商品详情</span>
+				<span class="header-settings">
+						<img src="img/collect.png"/>
+					</span>
+			</header>
+			<div class="main" style="height: calc(100% - 1.6rem);overflow-y: scroll;">
+					<div class="slider">
+						<img :src="mydata[0][0].usTsImgUrl | myimg" />
+					</div>
+					<div class="index-main">
+						<h4>
+						{{mydata[0][0].usTsName}}
+					</h4>
+						<span>
+						月售:{{mydata[2]}}
+					</span>
+						<p>
+							{{mydata[0][0].usTsDetails}}
+						</p>
+					</div>
+					<div class="index-top" @click="opennew('ratingall')">
+						<span>
+						商品评价
+					</span>
+						<span>
+						{{mydata[1]}}条评论
+					</span>
+						<img src="img/rightarr.png" />
+					</div>
+					<div class="index-main" v-if="mydata[0][0].usNickname!=null">
+						<div class="rating-group" v-for="val in mydata[0]">
+							<div class="img-box">
+								<img :src="val.usTsImgUrl | myimg" />
+							</div>
+							<div class="rating-main">
+								<div class="rating-name">
+									<span>{{val.usNickname}}</span>
+									<span>{{val.crateTime1}}</span>
+								</div>
+								<div class="rating-text">
+									{{val.usScContent}}
+								</div>
+								<div class="rating-img">
+									<img :src="val.usScImg1Url | myimg" v-if="val.usScImg1Url!=null&&val.usScImg1Url!=''"/>
+									<img :src="val.usScImg2Url | myimg" v-if="val.usScImg1Url!=null&&val.usScImg2Url!=''"/>
+									<img :src="val.usScImg3Url | myimg" v-if="val.usScImg1Url!=null&&val.usScImg3Url!=''"/>
+									<img :src="val.usScImg4Url | myimg" v-if="val.usScImg1Url!=null&&val.usScImg4Url!=''"/>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+			<footer class="footer">
+				<div class="money">
+					<span class="discount">
+						￥{{mydata[0][0].usTsPrice}}
+					</span>
+				</div>
+				<div class="go" @click="addcart">
+					加入购物车
+				</div>
+				<!--<div class="go">
+					立即抢购
+				</div>-->
+			</footer>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误',
+					myurl:localStorage.getItem('myurl'),
+					mydata:''
+				},
+				methods: {
+					addcart:function(){
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that=this
+						var ajaxjson = {
+							usTraderShoppingId: that.mydata[0][0].usTraderShoppingId,
+							usUserId: localStorage.getItem('userid'),
+							usScdNum: 1,
+							usScdPrice: that.mydata[0][0].usTsPrice,
+							usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+							usScdCreateName: localStorage.getItem('usNickname')
+						}
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/insertUsShoppingCart",
+							dataType: 'json',
+							data:ajaxjson,
+							success: function(res) {
+								if(res.status == 200) {
+									that.layuiboo('加入购物车成功')
+								} else {
+									that.layuiboo('加入购物车失败')
+								}
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							}
+						});
+					},
+					layuiboo: function(text) {
+						this.layuitext=text
+						this.layui = !this.layui
+					},
+					opennew: function(target) {
+						mui.openWindow({
+							url: target + '.html',
+							name: target
+						})
+					},
+					myajax:function(){
+						var that=this
+						var ajaxjson={
+								usTraderShoppingId:localStorage.getItem('usTraderShoppingId'),
+								usUserId:localStorage.getItem('userid')
+							}
+						console.log(ajaxjson)
+						$.ajax({
+							type:"get",
+							url:that.myurl+"/queryUsShoppingCommentPojoByUsTraderShoppingId",
+							dataType:'json',
+							data:ajaxjson,
+							success:function(res){
+								that.mydata=res.data
+								console.log(that.mydata)
+							}
+						});
+					}
+				},
+				mounted: function() {
+					
+					$('.rating-img img').css('height', $('.rating-img img').width())
+					this.myajax()
+				},
+				updated() {
+					mui.init()
+					$('.rating-img img').css('height', $('.rating-img img').width())
+				},
+				filters:{
+					myimg:function(value){
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -131,7 +131,7 @@
 										{{discountdata.listDiscount[0].usTdDicsont/10}}折
 									</span>
 							</div>
-							<div class="back-group" v-if="discountdata.listPackage!=[]">
+							<div class="back-group" v-if="discountdata.listPackage.length!=0">
 								<span>
 										<span class="red">
 											红
@@ -207,6 +207,11 @@
 				methods: {
 					wpay:function(){
 						var that = this
+						if(that.adressdata==''){
+							that.opennew('adresslist')
+							return false;
+						}
+						plus.nativeUI.showWaiting('支付中')
 						//						创建订单
 						var ajaxjson = {
 							userId: localStorage.getItem('userid'),
@@ -219,52 +224,57 @@
 							price:that.allprice,
 							statusPay:2
 						}
-						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/createAliPay",
 							dataType: 'json',
 							data: ajaxjson,
 							success: function(res) {
-								console.log(JSON.stringify(res))
 								plus.payment.request(that.channel[1], res, function(result) {
 									plus.nativeUI.alert("支付成功！", function() {
+										plus.nativeUI.closeWaiting()
 										that.opennew('orderlist')
 									});
 								}, function(error) {
-
+									plus.nativeUI.closeWaiting()
+									plus.nativeUI.toast('支付失败！') 
 								});
 							}
 						});
 					},
 					pay: function() {
 						var that = this
+						if(that.adressdata==''){
+							that.opennew('adresslist')
+							return false;
+						}
+						plus.nativeUI.showWaiting('支付中')
 						//						创建订单
 						var ajaxjson = {
 							userId: localStorage.getItem('userid'),
 							shoppingCartId: that.cartdata.usShoppingCartId,
-							redPackageId: that.discountdata.listPackage[0].usTraderPackageId,
+							redPackageId: that.discountdata.listPackage.length!=0?that.discountdata.listPackage[0].usTraderPackageId:'',
 							discontId:that.discountdata.listDiscount.length==0?'':that.discountdata.listDiscount[0].usTraderDiscountId,
-							fullReduceId: that.listSubtract.usTraderSubtractId,
-							newPeopleId: that.discountdata.listNewActivities[0].usTraderNewActivitiesId,
+							fullReduceId: that.listSubtract.length!=0?that.listSubtract.usTraderSubtractId:'',
+							newPeopleId:that.discountdata.listNewActivities.length!=0?that.discountdata.listNewActivities[0].usTraderNewActivitiesId:'',
 							note: that.note,
 							price:that.allprice,
 							statusPay:1
 						}
-						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/createAliPay",
 							dataType: 'json',
 							data: ajaxjson,
 							success: function(res) {
-								console.log(JSON.stringify(res))
 								plus.payment.request(that.channel[0], res.data[0], function(result) {
 									plus.nativeUI.alert("支付成功！", function() {
+										plus.nativeUI.closeWaiting()
 										that.opennew('orderlist')
 									});
 								}, function(error) {
-
+									plus.nativeUI.closeWaiting()
+									plus.nativeUI.toast('支付失败！')
 								});
 							}
 						});
@@ -316,8 +326,10 @@
 								usTraderStoresId: that.cartdata.usTraderStoresId
 							},
 							success: function(res) {
-								console.log(res)
+
 								that.discountdata = res.data
+								console.log(that.discountdata)
+								
 								for(var i = 0; i < res.data.listSubtract.length; i++) {
 									if(res.data.listSubtract[i].usTsFullPrice <= that.cartdata.usScPrice) {
 										that.listSubtract = res.data.listSubtract[i]
@@ -325,25 +337,28 @@
 								}
 								
 								var allprice=that.cartdata.usScPrice
+//								新人满减
 								if(that.discountdata.listNewActivities.length!=0){
 									allprice=allprice-that.discountdata.listNewActivities[0].usTnaPrice
 								}
+//								满减
 								if(that.discountdata.listPackage.length!=0){
-									allprice=allprice-that.discountdata.listPackage[0].usTpPrice
+//									allprice=allprice-that.discountdata.listPackage[0].usTpPrice
 								}
+//								红包优惠
 								if(that.listSubtract.length!=0){
 									allprice=allprice-that.listSubtract.usTsSubtractPrice
 								}
+//								折扣优惠
 								if(that.discountdata.listDiscount.length!=0){
-									allprice=allprice/that.discountdata.listDiscount[0].usTdDicsont / 100
+									allprice=allprice*(that.discountdata.listDiscount[0].usTdDicsont/100)
 								}
-								
 								if(allprice < 0) {
 									allprice = 0
 								}
 								
-								that.allprice = allprice + that.discountdata.listMaDistributionUsPackingFee.usPfPrice + that.discountdata.listMaDistributionUsPackingFee.maDiPrice
-								
+//								that.allprice = allprice + that.discountdata.listMaDistributionUsPackingFee.usPfPrice + that.discountdata.listMaDistributionUsPackingFee.maDiPrice
+								that.allprice=0.01
 							}
 						});
 					}
@@ -371,7 +386,7 @@
 				},
 				filters: {
 					myimg: function(value) {
-						return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:') + 1)
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})

@@ -44,12 +44,12 @@
 			</header>
 			<div class="main">
 				<div id="city">
-					<select class="prov" name="usAdsProvince" v-model="usAdsProvince"></select>
-					<select class="city" disabled="disabled" name="usAdsCity" v-model="usAdsCity"></select>
-					<select class="dist" disabled="disabled" name="usAdsArea" v-model="usAdsArea"></select>
+					<select class="prov" name="usAdsProvince"></select>
+					<select class="city" disabled="disabled" name="usAdsCity"></select>
+					<select class="dist" disabled="disabled" name="usAdsArea"></select>
 				</div>
 				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址" v-model="usAdsDetailed" />
-				<div class="submit" @click="submit">
+				<div class="submit" @click="mysubmit">
 					确定修改
 				</div>
 			</div>
@@ -80,9 +80,9 @@
 							id: id
 						})
 					},
-					submit: function() {
+					mysubmit: function() {
 						var that = this
-						if(that.usAdsProvince == '' || that.usAdsProvince == '') {
+						if(that.usAdsDetailed == '') {
 							function plusReady() {
 								// 弹出系统等待对话框
 								plus.nativeUI.toast('请把信息填写完整！')
@@ -96,12 +96,11 @@
 						}
 						var ajaxjson = {
 							usAddressId: localStorage.getItem('usAddressId'),
-							usAdsProvince: that.usAdsProvince,
-							usAdsCity: that.usAdsCity,
-							usAdsArea: that.usAdsArea,
+							usAdsProvince: $('.prov option:selected').text(),
+							usAdsCity: $('.city option:selected').text(),
+							usAdsArea: $('.dist option:selected').text(),
 							usAdsDetailed: that.usAdsDetailed
 						}
-						console.log(ajaxjson)
 						$.ajax({
 							type: "post",
 							url: that.myurl + "/updateByUsAdress",
@@ -109,6 +108,7 @@
 							data: ajaxjson,
 							success: function(res) {
 								if(res.status == 200) {
+									plus.webview.getWebviewById('adresslist').reload(true)
 									mui.back()
 								}
 							}

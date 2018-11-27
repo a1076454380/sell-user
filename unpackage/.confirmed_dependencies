@@ -159,5 +159,10 @@
       "adresslist.html",
       "orderlist.html"
     ]
+  },
+  "gosearch.html": {
+    "refer": [
+      "shop.html"
+    ]
   }
 }

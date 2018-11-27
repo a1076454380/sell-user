@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="app" class="wrapper shopcart">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							取消
+						</div>
+						<div class="layui-setting" @click="godelete()">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+					<img src="img/backwhite.png"/>
+				</span>
+				<div class="header-main">
+					购物车
+				</div>
+				<span class="header-settings">
+					
+				</span>
+			</header>
+			<div class="main mui-scroll-wrapper main-big" @scroll="myscroll" style="overflow-y: scroll;">
+				<div class="cart-top"></div>
+				<div class="main-inner">
+					<p v-if="cartdata.length==0" style="text-align: center;line-height: 1rem;color: #ffffff;">您的购物车是空的~</p>
+					<div class="cart-group" @click="opennew('shop',val.usTraderStoresId)" v-for="(val,index) in cartdata" v-if="cartdata.length!=0">
+						<div class="cart-title">
+							<div class="cart-name">
+								<img :src="val.usTsFacadeImg | myimg" />
+								<div class="title">
+									{{val.usTsCompanyName}}
+								</div>
+							</div>
+							<img src="img/delete.png" class="cart-delete" @click.stop="layuiboo(val.usShoppingCartId)" />
+						</div>
+						<div class="cart-main">
+							<div class="cart-tab" v-for="item in val.usShoppingCartPojos">
+								<img :src="item.usTsImgUrl | myimg" />
+								<div class="tab-main">
+									<div class="cart-text">
+										{{item.usTsName}}
+									</div>
+									<div class="cart-config">
+										<!--<span>{{val.usTsNorm}}</span>-->
+									</div>
+									<div class="cart-price">
+										<div class="money">
+											￥<span>{{item.usScdPrice}}</span>
+										</div>
+										<div class="num-box">
+											<img src="img/remove.png" @click.stop="removenum(item.usTraderShoppingId,item.usScdPrice/item.usScdNum,val.usTraderStoresId)" class="remove1" />
+											<input type="number" v-model="item.usScdNum" />
+											<img src="img/add01.png" @click.stop="addnum(item.usTraderShoppingId,item.usScdPrice/item.usScdNum,val.usTraderStoresId)" class="add1" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="cart-bottom">
+							<div class="cart-left">
+								<strong>共计：</strong>
+								<span>{{val.usScPrice}}元</span>
+							</div>
+							<div class="cart-right" @click.stop="pay(index)">
+								立即支付
+							</div>
+						</div>
+					</div>
+					<div class="footprint-top">
+						<div class="footer-hr"></div>
+						<div class="footer-title">
+							消费记录
+						</div>
+						<div class="footer-hr"></div>
+					</div>
+					<div class="footerprint-box">
+						<div class="footerprint-tab" @click="opennew('shop')" v-for="val in record">
+							<img :src="val.usTsFacadeImg | myimg" />
+							<h1>
+								{{val.usTsCompanyName}}
+							</h1>
+							<div class="print-box">
+								¥<strong>{{val.usOrPrice}}</strong>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</body>
+	<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var myapp = new Vue({
+			el: '#app',
+			data: {
+				layui: false,
+				layuitext: '确定删除此商品吗？',
+				myurl: localStorage.getItem('myurl'),
+				cartdata: [],
+				allprice: 0,
+				usShoppingCartId: '',
+				record: [],
+				lorderList: [],
+				channel: '',
+				pageNum: 0,
+				ajaxmore: false,
+				size: 0
+			},
+			methods: {
+				myscroll: function() {
+					var that = this
+					if(Math.abs($('.main-inner').offset().top) + $('.main').height() + 200 >= $('.main-inner').height()) {
+						if(that.ajaxmore == false) {
+							that.myajax()
+						}
+					}
+				},
+				pay: function(index) {
+					var that = this
+					localStorage.setItem('cartdata', JSON.stringify(that.cartdata[index]))
+					that.opennew('pay')
+				},
+				godelete: function() {
+					this.layuiboo()
+					var that = this
+					$.ajax({
+						type: "post",
+						url: that.myurl + "/deleteCartDetail",
+						data: {
+							storesId: that.usShoppingCartId
+						},
+						dataType: 'json',
+						success: function(res) {
+							if(res.status == 200) {
+								that.myajax()
+
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.toast('删除完成')
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							} else {
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.toast('删除失败')
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							}
+						}
+					});
+				},
+				layuiboo: function(id) {
+					if(id != undefined) {
+						this.usShoppingCartId = id
+					}
+					this.layui=!this.layui
+				},
+				removenum: function(id, price,usTraderStoresId) {
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.nativeUI.showWaiting("加载中...");
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+					var that = this
+					var that = this
+					var ajaxjson = {
+						usTraderShoppingId: id,
+						usUserId: localStorage.getItem('userid'),
+						usScdNum: 1,
+						usScdPrice: price,
+						usTraderStoresId:usTraderStoresId,
+						usScdCreateName: localStorage.getItem('usNickname')
+					}
+					//						减少购物车
+					$.ajax({
+						type: "post",
+						url: that.myurl + "/deleteUsShoppingCart",
+						dataType: 'json',
+						data: ajaxjson,
+						success: function(res) {
+							console.log(res)
+							that.myajax()
+
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.closeWaiting()
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
+						}
+					});
+				},
+				addnum: function(id, price,usTraderStoresId) {
+					var that = this
+
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.nativeUI.showWaiting("加载中...");
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+					var ajaxjson = {
+						usTraderShoppingId: id,
+						usUserId: localStorage.getItem('userid'),
+						usScdNum: 1,
+						usScdPrice: price,
+						usTraderStoresId: usTraderStoresId,
+						usScdCreateName: localStorage.getItem('usNickname')
+					}
+					$.ajax({
+						type: "post",
+						url: that.myurl + "/insertUsShoppingCart",
+						dataType: 'json',
+						data: ajaxjson,
+						success: function(res) {
+							console.log(res)
+							if(res.status == 200) {
+								that.myajax()
+
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							} else {
+								that.layuiboo('加入购物车失败')
+							}
+						}
+					});
+				},
+				opennew: function(target) {
+					mui.openWindow({
+						url: '' + target + '.html',
+						id: '' + target + ''
+					})
+				},
+				myajax: function() {
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.nativeUI.showWaiting('加载中...')
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+					var that = this
+					this.ajaxmore = true
+					$.ajax({
+						type: "post",
+						url: that.myurl + "/queryByUsShoppingCartPojo",
+						dataType: 'json',
+						data: {
+							usUserId: localStorage.getItem('userid')
+						},
+						success: function(res) {
+							console.log(res)
+							if(res.data != null) {
+								that.cartdata = res.data
+							} else {
+								that.cartdata = []
+							}
+						}
+					});
+					$.ajax({
+						type: "get",
+						url: that.myurl + "/queryTUsTraderStoresRecommendPojoMySpecialtyCart",
+						dataType: 'json',
+						data: {
+							usUserId: localStorage.getItem('userid')
+						},
+						success: function(res) {
+							console.log(res)
+							that.size = res.data.pages
+							that.ajaxmore = false
+							for(var i = 0; i < res.data.list.length; i++) {
+								that.record.push(res.data.list[i])
+							}
+						}
+					});
+
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.nativeUI.closeWaiting()
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+				}
+			},
+			mounted() {
+				this.myajax()
+				var that = this
+				// 1. 获取支付通道
+				function plusReady() {
+					// 获取支付通道
+					plus.payment.getChannels(function(channels) {
+						that.channel = channels;
+					}, function(e) {
+						alert("获取支付通道失败：" + e.message);
+					});
+				}
+				if(window.plus) {
+					plusReady();
+				} else {
+					document.addEventListener('plusready', plusReady, false);
+				}
+			},
+			filters: {
+				myimg: function(value) {
+					return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:') + 1)
+				}
+			}
+		})
+	</script>
+
+</html>

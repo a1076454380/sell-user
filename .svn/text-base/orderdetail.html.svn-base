@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
+		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+	</head>
+	<style type="text/css">
+		body,
+		html,
+		.wrapper,
+		.main {
+			height: 100%;
+			padding: 0;
+		}
+		
+		.shop-back {
+			margin: .1rem 0;
+		}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper orderdetail">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="img/back.png"/>
+					</span>
+				<span class="header-main">订单详情</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main" v-if="mydata!=''">
+				<!--<div id="container">
+					
+				</div>-->
+				<div id="orderinform">
+					<div class="detail-group top">
+						<!--<img :src="mapboo==false?'img/mapshow.png':'img/maphide.png'" class="mapshow" @click="mapshow"/>-->
+						<div class="state-h">
+							订单{{mydata.usOrder.usOrIsPay==0?'未支付':'已支付'}}
+						</div>
+						<div class="state-p">
+							{{mydata.usOrder.usOrTrStartus==2?'等待接单':'已接单'}}
+						</div>
+						<div class="setting">
+							<div class="setting-btn" @click="openshop(mydata.usOrder.usTraderStoresId)">
+								{{mydata.usOrder.usOrIsPay==0?'重新购买':'再来一单'}}
+							</div>
+							<div class="setting-btn" @click="openrating(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay!=0&&mydata.usOrder.usOrOrderevaluatestatus==0'>
+								发表评价
+							</div>
+							<div class="setting-btn" @click="gopay(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay==0'>
+								我要支付
+							</div>
+						</div>
+					</div>
+					<div class="detail-group content">
+						<div class="shop-name">
+							<span style="flex: 1;">
+							{{mydata.listUsTriderPojo[0].usTsCompanyName}}
+						</span>
+							<img src="img/arrright.png" class="arr" />
+						</div>
+						<div class="shop-group" v-for="val in mydata.usOrderDetaileUsTraderShoppingPojoList">
+							<img :src="val.usTsImgUrl | myimg" />
+							<div class="shop-main">
+								<div class="shop-name" style="margin: 0;">
+									<span>
+									{{val.usTsName}}
+								</span>
+									<span>
+									¥{{val.usTsPrice*val.usOdNum}}
+								</span>
+								</div>
+								<div class="shop-type">
+
+								</div>
+								<div class="shop-type">
+									x {{val.usOdNum}}
+								</div>
+							</div>
+						</div>
+						<div class="shop-back">
+							<div class="back-inner">
+								<div class="back-group">
+									<span>
+									配送费
+								</span>
+									<span>
+									¥{{mydata.maDistribution}}
+								</span>
+								</div>
+							</div>
+							<div class="back-inner">
+								<div class="back-group">
+									<span>
+									包装
+								</span>
+									<span>
+									¥{{mydata.maDistribution}}
+								</span>
+								</div>
+							</div>
+						</div>
+						<div class="shop-back" style="height: auto;">
+							<div class="back-inner">
+								<div class="back-group" v-if="mydata.usTraderPackage!=undefined">
+									<span>
+									<span class="red">
+										¥
+									</span>
+									<span class="grey">
+										商户红包活动
+									</span>
+									</span>
+									<span>
+										{{mydata.usTraderPackage}}
+									</span>
+								</div>
+								<div class="back-group" v-if="mydata.usTraderNewActivities!=undefined">
+									<span>
+									<span class="red">
+										¥
+									</span>
+									<span class="grey">
+										商户新人活动
+									</span>
+									</span>
+									<span>
+										{{mydata.usTraderNewActivities}}
+									</span>
+								</div>
+								<div class="back-group" v-if="mydata.usTraderDiscount!=undefined">
+									<span>
+									<span class="red">
+										¥
+									</span>
+									<span class="grey">
+										商户折扣
+									</span>
+									</span>
+									<span>
+										{{mydata.usTraderDiscount}}
+									</span>
+								</div>
+								<div class="back-group" v-if="mydata.usTraderSubtract!=undefined">
+									<span>
+									<span class="red">
+										¥
+									</span>
+									<span class="grey">
+										商户满减
+									</span>
+									</span>
+									<span>
+										{{mydata.usTraderSubtract}}
+									</span>
+								</div>
+								<div class="back-group" v-if="mydata[3]!=null">
+									<span>
+									<span class="red">
+										¥
+									</span>
+									<span class="grey">
+										商户店铺红包
+									</span>
+									</span>
+									<span>
+										{{mydata[3].usTpPrice}}
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="shop-back">
+							<div class="back-inner">
+								<div class="back-group">
+									<span></span>
+									<span>
+									<span class="grey">
+										<!--优惠¥{{youhui}}-->
+									</span>
+									<strong>
+										合计
+									</strong>
+									<span class="moneyred">
+										¥{{mydata.usOrPrice}}
+									</span>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="shop-back">
+							<div class="back-inner">
+								<div class="back-group" style="justify-content: center;">
+									<a :href=["tel:"+mydata.listUsTriderPojo[0].usTsPhone+""]>
+										<img src="img/detail_03.png" class="phone" />
+									</a>
+									<a :href=["tel:"+mydata.listUsTriderPojo[0].usTsPhone+""]>
+										联系商家
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--<div class="detail-group inform">
+						<div class="inform-group">
+							<span class="inform-name">
+							期望时间
+						</span>
+							<span class="inform-text">
+							立即配送
+						</span>
+						</div>
+						<div class="inform-group">
+							<span class="inform-name">
+							配送地址
+						</span>
+							<span class="inform-text">
+							XXXXXXXXXXX
+						</span>
+						</div>
+					</div>-->
+					<div class="detail-group inform" v-if="mydata.usOrder.usOrIsPay==1">
+						<div class="inform-group">
+							<span class="inform-name">
+							订单备注
+						</span>
+							<span class="inform-text">
+							{{mydata.usOrder.usOrNote}}
+						</span>
+						</div>
+						<div class="inform-group">
+							<span class="inform-name">
+							订单号码
+						</span>
+							<span class="inform-text">
+							{{mydata.usOrder.usOrderId}}
+						</span>
+						</div>
+						<div class="inform-group">
+							<span class="inform-name">
+							订单时间
+						</span>
+							<span class="inform-text">
+							{{mydata.usOrder.usOrCreateTimeString}}
+						</span>
+						</div>
+						<div class="inform-group">
+							<span class="inform-name">
+							支付方式
+						</span>
+							<span class="inform-text">
+							{{mydata.usOrder.usOrIsPay==1?'支付宝':'微信'}}
+						</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误',
+					mapboo: false,
+					myurl: localStorage.getItem('myurl01'),
+					myurl01: localStorage.getItem('myurl'),
+					mydata: '',
+					youhui: '',
+					zongjia: 0,
+					channel:''
+				},
+				methods: {
+					gopay: function() {
+						var that = this
+						var ajaxjons = {
+							price: that.mydata.usOrPrice,
+							orderId: that.mydata.usOrder.usOrderId
+						}
+						$.ajax({
+							type: "post",
+							url: that.myurl01 + "/continueAliPay",
+							dataType: 'json',
+							data: ajaxjons,
+							success: function(res) {
+								plus.payment.request(that.channel[0], res.data[0], function(result) {
+									plus.nativeUI.alert("支付成功！", function() {
+										plus.webview.getWebviewById('orderdetail').reload()
+										mui.back()
+									});
+								}, function(error) {
+
+								});
+							}
+						});
+					},
+					openrating: function(id) {
+						localStorage.setItem('usOrderId', id)
+						this.opennew('orderrating')
+					},
+					openshop: function(id) {
+						localStorage.setItem('usTraderStoresId', id)
+						this.opennew('shop')
+					},
+					opennew: function(target) {
+						mui.openWindow({
+							url: '' + target + '.html',
+							id: target
+						})
+					},
+					layuiboo: function() {
+						this.layui = !this.layui
+					},
+					mapshow: function() {
+						if($('#orderinform').css('top') != '0px') {
+							$('#container').height('50%')
+							$('#orderinform').css('top', '0')
+							this.mapboo = true
+						} else {
+							$('#container').height('4rem')
+							$('#orderinform').css('top', '-2rem')
+							this.mapboo = false
+						}
+					},
+					myajax: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that = this
+						var jsonData = {
+							usOrderId: localStorage.getItem('usOrderId')
+						}
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/selectOrderDetailsEmployee",
+							dataType: 'json',
+							data: jsonData,
+							success: function(res) {
+								console.log(res)
+								that.mydata = res.data
+
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+							}
+						});
+					}
+				},
+				mounted: function() {
+					this.myajax()
+					var that = this
+					// 1. 获取支付通道
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
+					//创建地图
+					//					var map = new AMap.Map('container', {
+					//						zoom: 15
+					//					});
+					//					//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
+					//					AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
+					//
+					//						if(!PathSimplifier.supportCanvas) {
+					//							alert('当前环境不支持 Canvas！');
+					//							return;
+					//						}
+					//
+					//						//启动页面
+					//						initPage(PathSimplifier);
+					//					});
+					//
+					//					function initPage(PathSimplifier) {
+					//						//创建组件实例
+					//						var pathSimplifierIns = new PathSimplifier({
+					//							zIndex: 100,
+					//							map: map, //所属的地图实例
+					//							getPath: function(pathData, pathIndex) {
+					//								//返回轨迹数据中的节点坐标信息，[AMap.LngLat, AMap.LngLat...] 或者 [[lng|number,lat|number],...]
+					//								return pathData.path;
+					//							},
+					//							getHoverTitle: function(pathData, pathIndex, pointIndex) {
+					//								//返回鼠标悬停时显示的信息
+					//								if(pointIndex >= 0) {
+					//									//鼠标悬停在某个轨迹节点上
+					//									return pathData.name + '，点:' + pointIndex + '/' + pathData.path.length;
+					//								}
+					//								//鼠标悬停在节点之间的连线上
+					//								return pathData.name + '，点数量' + pathData.path.length;
+					//							},
+					//							renderOptions: {
+					//								//轨迹线的样式
+					//								pathLineStyle: {
+					//									strokeStyle: 'white',
+					//									lineWidth: 4,
+					//									dirArrowStyle: true
+					//								}
+					//							}
+					//						});
+					//
+					//						//这里构建两条简单的轨迹，仅作示例
+					//						pathSimplifierIns.setData([{
+					//							name: '轨迹名称',
+					//							path: [
+					//								[117.471564, 34.366127],
+					//								[117.471864, 34.356227],
+					//								[117.474264, 34.354127],
+					//								[117.471764, 34.355127]
+					//							]
+					//						}]);
+					//
+					//						//创建一个巡航器
+					//						var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
+					//							{
+					//								loop: true,
+					//								pathNavigatorStyle: {
+					//									width: 24,
+					//									height: 24,
+					//									//使用图片
+					//									content: PathSimplifier.Render.Canvas.getImageContent('./img/plane.png', onload, onerror),
+					//									strokeStyle: null,
+					//									fillStyle: null,
+					//									//经过路径的样式
+					//									pathLinePassedStyle: {
+					//										lineWidth: 6,
+					//										strokeStyle: 'rgb(236,94,74)',
+					//										dirArrowStyle: {
+					//											stepSpace: 15,
+					//											strokeStyle: 'white'
+					//										}
+					//									}
+					//								}
+					//							});
+					//
+					//						navg0.start();
+
+					//					}
+				},
+				update: function() {
+					mui.init()
+				},
+				filters: {
+					myimg: function(value) {
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

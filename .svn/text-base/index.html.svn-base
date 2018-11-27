@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">   
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
+		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+	</head>
+	<style type="text/css">
+		.header .header-back {
+			justify-content: flex-start;
+			margin-left: .2rem;
+		}
+		
+		.header .header-back img {
+			margin-right: .1rem;
+		}
+		
+		.fade-enter-active,
+		.fade-leave-active {
+			transform: translateY(0);
+			transition: all .3s;
+		}
+		
+		.fade-enter,
+		.fade-leave-active {
+			transform: translateY(100%);
+		}
+	</style>
+	<body>
+		<div id="app" class="wrapper index" @scroll="myscroll">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<header class="header" v-show="sarchboo">
+				<span class="header-back" @click="opennew('city')">
+							<img src="img/drame.png"/>
+							{{city}}  {{weather}}
+						</span>
+				<span class="header-main">易点外卖</span>
+				<span class="header-settings" @click="opennew('gosearch')">
+							<img src="img/search.png"/>
+					</span>
+			</header>
+			<div class="main mui-scroll-wrapper">
+				<div class="mycart">
+					<img src="img/mycart-active.png" @click="opennew('shopcart')" />
+				</div>
+				<div class="mycart" style="right: 1rem;">
+					<img src="img/redb.png" @click="opennew('redb')" />
+				</div>
+				<div class="mui-scroll">
+					<div id="topheight">
+						<div class="mui-slider">
+							<div class="mui-slider-group">
+								<!--第一个内容区容器-->
+								<div class="mui-slider-item" @click="opendetail(val.usTraderStoresId)" v-for="val in bannerdata">
+									<!-- 具体内容 -->
+									<img :src="val.usTsBannerImg | myimg" />
+									<!--<img src="img/4.png" />-->
+								</div>
+							</div>
+							<div class="mui-slider-indicator">
+								<div class="mui-indicator"></div>
+								<div class="mui-indicator"></div>
+							</div>
+						</div>
+						<div class="main-swiper">
+							<div class="nav">
+								<div class="nav-group" @click="opennew('instead/instead')">
+									<div class="img-box">
+										<img src="img/index00.png" />
+									</div>
+									<span>万能代购</span>
+								</div>
+								<div class="nav-group" @click="openlist(val.maMerchantsStyleId,val.maMsName)" v-for='val in navdata'>
+									<div class="img-box">
+										<img :src="val.maMsImgUrl | myimg" />
+										<!--<img src="img/index002.png" />-->
+									</div>
+									<span>{{val.maMsName}}</span>
+								</div>
+							</div>
+						</div>
+						<div class="news" @click="opennew('newslist')">
+							<img src="img/newindex.png" />
+							<div class="news-list">
+								<div class="new" v-for='(val,index) in newdata' v-if="index<2">
+									<span></span> {{val.maPnTitle}}
+								</div>
+							</div>
+						</div>
+						<div class="index-top" v-if="mydata.length!=0">
+							<span>
+								我的专属
+							</span>
+						</div>
+						<div class="index-main">
+							<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="(val,index) in mydata" v-if="mydata.length!=0">
+								<div class="group-inner">
+									<div class="img-box">
+										<img :src="val.usTsFacadeImg | myimg" />
+										<!--<img src="img/index.jpg" />-->
+									</div>
+									<div class="index-detail">
+										<div class="index-h">
+											{{val.usTsCompanyName}}
+										</div>
+										<div class="index-x" style="align-items: flex-start;">
+											<div class="x-group" v-for="item in val.starPercentage">
+											<img src="img/xactive.png" />
+										</div>
+										<div class="x-group"v-for="item in (5 - val.starPercentage)">
+											<img src="img/xhalf.png"/>
+										</div>
+										</div>
+										<div class="index-x">
+											<span class="shop-type">
+												<img src="img/shopavatar.png"/>我的专属
+											</span>
+										</div>
+										<div class="index-money">
+											<span>
+												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
+											</span>
+											<span>
+												月销量:
+												<strong>{{val.monthCount}}</strong>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="index-top">
+							<span>
+						小易推荐
+					</span>
+						</div>
+					</div>
+					<div class="index-top" style="margin-top: 0;" id="nav">
+						<div class="top-tab" @click="screening('starPercentage','j')" :class="screen=='starPercentage'?'img-active':''">
+							<span>好评优先</span>
+							<img src="img/shoplist_13.png" class="default" />
+							<img src="img/shoplist_10.png" class="active-img" />
+						</div>
+						<div class="top-tab" @click="screening('monthCount','j')" :class="screen=='monthCount'?'img-active':''">
+							<span>销量最高</span>
+							<img src="img/shoplist_13.png" class="default" />
+							<img src="img/shoplist_10.png" class="active-img" />
+						</div>
+						<div class="top-tab" @click="screening('juli','s')" :class="screen=='juli'?'img-active':''">
+							<span>离我最近</span>
+							<img src="img/shoplist_13.png" class="default" />
+							<img src="img/shoplist_10.png" class="active-img" />
+						</div>
+						<div class="top-tab" @click="screening('avgUsOrPrice','s')" :class="screen=='avgUsOrPrice'?'img-active':''">
+							<span>人均最低</span>
+							<img src="img/shoplist_13.png" class="default" />
+							<img src="img/shoplist_10.png" class="active-img" />
+						</div>
+					</div>
+					<div class="index-main">
+						<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in tuidata">
+							<div class="group-inner">
+								<div class="img-box">
+									<img :src="val.usTsFacadeImg | myimg" />
+								</div>
+								<div class="index-detail">
+									<div class="index-h">
+										{{val.usTsCompanyName}}
+									</div>
+									<div class="index-x" style="align-items: flex-start;">
+										<div class="x-group" v-for="item in val.starPercentage">
+											<img src="img/xactive.png" />
+										</div>
+										<div class="x-group"v-for="item in (5 - val.starPercentage)">
+											<img src="img/xhalf.png"/>
+										</div>
+									</div>
+									<div class="index-x">
+										<span class="shop-type">
+									<img src="img/shopavatar.png"/>{{val.maMsName}}
+								</span>
+									</div>
+									<div class="index-money">
+										<span>
+									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
+								</span>
+										<span>
+									月销量:
+									<strong>{{val.monthCount}}</strong>
+								</span>
+									</div>
+								</div>
+							</div>
+							<div class="prefer">
+								<div class="prefer-group" v-if="val.subtract!=0">
+									<span class="perer-name">
+										满减
+									</span>
+									<span class="prefer-text">
+										线上专享最高可减{{val.subtract}}元.
+									</span>
+								</div>
+								<div class="prefer-group" v-if="val.activities!=0">
+									<span class="perer-name">
+										新人
+									</span>
+									<span class="prefer-text">
+										新用户立减{{val.activities}}元.
+									</span>
+								</div>
+								<div class="prefer-group" v-if="val.discount!=0">
+									<span class="perer-name">
+										折扣
+									</span>
+									<span class="prefer-text">
+										线上专享最高{{val.discount}}折.
+									</span>
+								</div>
+								<div class="prefer-group" v-if="val.packagePrice!=0">
+									<span class="perer-name">
+										红包
+									</span>
+									<span class="prefer-text">
+										限时优惠，最高领取{{val.packagePrice}}元红包.
+									</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-group factive">
+					<img src="img/index-active.png" />
+					<span>
+						首页
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="img/found.png" @click="opennew('preferential')" />
+					<span>
+						同城惠
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="img/dvip.png" @click="opennew('vipcart')" />
+					<span>
+						会员中心
+					</span>
+				</div>
+				<div class="footer-group" @click="opennew('user')">
+					<img src="img/user.png" />
+					<span>
+						我的
+					</span>
+				</div>
+			</footer>
+			<div id="container" style="display: none;"></div>
+		</div>
+		<script src="js/url.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					city: '徐州',
+					sarchboo: true,
+					searchdata: '',
+					shoptype: true,
+					layuitext: '您输入的内容为空!!',
+					weather: '天气获取中。。。',
+					screen: 'usSsStar',
+					mycartnum: 0,
+					bannerdata: '',
+					newdata: '',
+					mydata: '',
+					navdata: '',
+					tuidata: ''
+				},
+				methods: {
+					openlist: function(id,maMsName) {
+						localStorage.setItem('maMerchantsStyleId', id)
+						localStorage.setItem('maMsName', maMsName)
+						this.opennew('shoplist')
+					},
+					myscroll: function() {
+						if($(".wrapper").scrollTop() >= $('#topheight').height()) {
+							$('#nav').css('position', 'fixed')
+						} else {
+							$('#nav').css('position', '')
+						}
+					},
+					screening: function(type, jiang) {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						$(".wrapper").animate({
+							scrollTop: $('#topheight').height() + "px"
+						}, {
+							duration: 300,
+							easing: "swing"
+						});
+						this.screen = type
+						if(jiang == 's') {
+							this.tuidata.sort(function(a, b) {
+								return parseFloat(a[type]) - parseFloat(b[type]);
+							})
+						} else {
+							this.tuidata.sort(function(a, b) {
+								return parseFloat(b[type]) - parseFloat(a[type]);
+							})
+						}
+
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+					},
+					layuiboo: function(text) {
+						this.layuitext = text
+						this.layui = !this.layui
+					},
+					change: function() {
+						this.shoptype = !this.shoptype
+					},
+					gosearch: function() {
+						if(this.searchdata == '') {
+							this.layui = !this.layui
+						} else {
+							localStorage.setItem('searchdpeata', this.shoptype)
+							localStorage.setItem('searchdata', this.searchdata)
+							mui.openWindow({
+								url: 'search.html',
+								id: 'search'
+							})
+						}
+					},
+					opennew: function(target, id) {
+						mui.openWindow({
+							url: '' + target + '.html',
+							id: '' + target + ''
+						})
+					},
+					opendetail: function(id, usTraderId) {
+						localStorage.setItem('usTraderStoresId', id)
+						localStorage.setItem('usTraderId', usTraderId)
+						this.opennew('shop')
+					},
+					myajax: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that = this
+						//						顶部轮播图
+						$.ajax({
+							type: "get",
+							url: localStorage.getItem('myurl') + "/queryIndexBannerImg",
+							dataType: 'json',
+							success: function(res) {
+								console.log(res)
+								that.bannerdata = res.data
+							}
+						});
+						//						同城头条
+						$.ajax({
+							type: "get",
+							url: localStorage.getItem('myurl') + "/queryByMaPublicAll",
+							dataType: 'json',
+							success: function(res) {
+								that.newdata = res.data
+							},
+							error: function(err) {console.log(err)}
+						});
+						//						我的专属
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/queryTUsTraderStoresRecommendPojoMySpecialtyY",
+							dataType: 'json',
+							data:{
+								usUserId: localStorage.getItem('userid')
+							},
+							success: function(res) {
+								that.mydata = res.data
+								
+							}
+						});
+						//						分类查询
+						$.ajax({
+							type: "get",
+							url: localStorage.getItem('myurl') + "/queryMaMerchantsStyleAll",
+							dataType: 'json',
+							success: function(res) {
+								that.navdata = res.data
+							}
+						});
+						//						小易推荐
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojoY",
+							dataType: 'json',
+							data: {
+								lng: localStorage.getItem('lng'),
+								lat: localStorage.getItem('lat')
+							},
+							success: function(res) {
+								that.tuidata = res.data
+								that.screening('starPercentage', 'j')
+
+							},
+							error: function(err) {
+								console.log(err)
+							}
+						});
+
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+					}
+				},
+				mounted: function() {
+					if(localStorage.getItem('historydata')==undefined){
+						localStorage.setItem('historydata','[]')
+					}
+					if(localStorage.getItem('userid') == null) {
+						mui.openWindow({
+							url: 'login.html',
+							id: 'login'
+						})
+						return false;
+					}
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006
+					})
+					var that = this
+					if(localStorage.getItem('city') == null) {
+						document.addEventListener('plusready', onPlusReady, false);
+						function onPlusReady() {
+							plus.navigator.setStatusBarBackground('#FFC408');
+							plus.geolocation.getCurrentPosition(function(p) {
+								localStorage.setItem('lng', p.coords.longitude)
+								localStorage.setItem('lat', p.coords.latitude)
+								var map = new AMap.Map('container', {
+									zoom: 15,
+									center: [p.coords.longitude, p.coords.latitude]
+								});
+								AMap.service('AMap.Geocoder', function() {
+									geocoder = new AMap.Geocoder({
+										city: ""
+									});
+									//		    根据经纬度查地址
+									var lnglatXY = [p.coords.longitude, p.coords.latitude]; //地图上所标点的坐标
+									geocoder.getAddress(lnglatXY, function(status, result) {
+										if(status === 'complete' && result.info === 'OK') {
+											localStorage.setItem('province',result.regeocode.addressComponent.province)
+											that.city = result.regeocode.addressComponent.city
+											localStorage.setItem('city', that.city)
+											AMap.plugin('AMap.Weather', function() {
+												//创建天气查询实例
+												var weather = new AMap.Weather();
+												//执行实时天气信息查询
+												weather.getLive(localStorage.getItem('city'), function(err, data) {
+													that.weather = data.weather
+												});
+											});
+										} else {
+											//获取地址失败
+											that.city = '获取失败'
+										}
+									});
+								})
+							}, function(e) {
+								that.city = '获取失败'
+							});
+						}
+					} else {
+						this.city = localStorage.getItem('city')
+						AMap.plugin('AMap.Weather', function() {
+							//创建天气查询实例
+							var weather = new AMap.Weather();
+							//执行实时天气信息查询
+							weather.getLive(localStorage.getItem('city'), function(err, data) {
+								that.weather = data.weather
+							});
+						});
+					}
+					localStorage.setItem('lng', '34.269544')
+					localStorage.setItem('lat', '117.273565')
+					this.myajax()
+				},
+				updated() {
+					mui(".mui-slider").slider({
+						interval: 3000 //如果你想自动3000ms滑动一下就写上这个。如果是拖拽才滑动就不写这个。就直接写sliderMuiObj.slider();
+					});
+				},
+				filters:{
+					myimg:function(value){
+						return 'http://47.104.101.165' + value.substring(value.indexOf('D:')+1)
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

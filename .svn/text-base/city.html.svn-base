@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		select{border:1px solid #DDD8CE!important;}
+	</style>
+	<script>
+		$(document).ready(function() {
+			$("#city").citySelect({
+				prov: "江苏",
+				city: "徐州",
+				dist: "鼓楼区",
+				nodata: "none"
+			});
+
+		});
+	</script>
+	<body>
+		<div id="app" class="wrapper city">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+					<img src="img/back.png"/>
+				</span>
+				<span class="header-main">城市选择</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main">
+				<div class="index-main">
+					<div class="city-group header-back mui-action-back">
+						当前城市:{{city}}
+					</div>
+					<div class="city-group" id="city">
+						<span>手动选择:</span>
+						<select name="city"  class="prov">
+							<option value=""></option>
+							<option value="0">北京</option>
+						</select>
+						<select name="city"  class="city" v-model="citynow" id="mycity">
+							<option value=""></option>
+							<option value="0">北京</option>
+						</select>
+						<div class="btn" @click="sub">
+							确认
+						</div>
+						<div style="clear: both;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '您输入的城市暂时没有开通服务!!',
+					city: '',
+					citynow: '请输入您所在的城市'
+				},
+				methods: {
+					layuiboo: function() {
+						this.layui = !this.layui
+					},
+					clear: function() {
+						this.citynow = ''
+					},
+					sub: function() {
+						localStorage.setItem('city',$('#mycity').val())
+						mui.openWindow({
+							url:'index.html',
+							id:'index'
+						})
+					}
+				},
+				mounted: function() {
+					if(localStorage.getItem('city') == null) {
+						this.city = '定位失败,请手动选择!!'
+					} else {
+						this.city = localStorage.getItem('city')
+					}
+				},
+				update: function() {
+					mui.init()
+				}
+			})
+		</script>
+	</body>
+
+</html>

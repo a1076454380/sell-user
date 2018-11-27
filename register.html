@@ -32,7 +32,7 @@
 						<img src="img/2.png" id="img01" />
 					</div>-->
 					<input type="text" placeholder="请输入用户名" name="usNickname" data-title='昵称不能为空！' />
-					<input type="text" name="usPhone" id="usPhone" placeholder="152XXXXXX775" data-title='手机号不能为空！' />
+					<input type="text" name="usPhone" id="usPhone" placeholder="请输入手机号" data-title='手机号不能为空！' />
 					<div class="radio-box">
 						<span>
 							<input type="radio" name="usSex" id="usSex" value="0" checked="checked"/>
@@ -88,6 +88,7 @@
 							dataType: 'json',
 							success: function(res) {
 								if(res.status == 200) {
+									plus.webview.getWebviewById('login').reload(true)
 									mui.openWindow({
 										url: 'login.html',
 										id: 'login'

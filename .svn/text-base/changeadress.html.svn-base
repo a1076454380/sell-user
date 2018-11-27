@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="app" class="wrapper addadress">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+						<div class="layui-setting" @click="layuiboo">
+							取消
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back mui-action-back">
+					<img src="img/back.png"/>
+				</span>
+				<span class="header-main">修改收货地址</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main">
+				<div id="city">
+					<select class="prov" name="usAdsProvince"></select>
+					<select class="city" disabled="disabled" name="usAdsCity"></select>
+					<select class="dist" disabled="disabled" name="usAdsArea"></select>
+				</div>
+				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址" v-model="usAdsDetailed" />
+				<div class="submit" @click="mysubmit">
+					确定修改
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误',
+					myurl: localStorage.getItem('myurl'),
+					usAdsProvince: '',
+					usAdsCity: '',
+					usAdsArea: '',
+					usAdsDetailed: localStorage.getItem('usAdsDetailed')
+				},
+				methods: {
+					layuiboo: function(text, id) {
+						if(id != '') {
+							this.usAddressId = id
+						}
+						this.layuitext = text
+						this.layui = !this.layui
+					},
+					opennew: function(id) {
+						mui.openWindow({
+							url: '' + id + '.html',
+							id: id
+						})
+					},
+					mysubmit: function() {
+						var that = this
+						if(that.usAdsDetailed == '') {
+							function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.toast('请把信息填写完整！')
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
+							return false;
+						}
+						var ajaxjson = {
+							usAddressId: localStorage.getItem('usAddressId'),
+							usAdsProvince: $('.prov option:selected').text(),
+							usAdsCity: $('.city option:selected').text(),
+							usAdsArea: $('.dist option:selected').text(),
+							usAdsDetailed: that.usAdsDetailed
+						}
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/updateByUsAdress",
+							dataType: 'json',
+							data: ajaxjson,
+							success: function(res) {
+								if(res.status == 200) {
+									plus.webview.getWebviewById('adresslist').reload(true)
+									mui.back()
+								}
+							}
+						});
+					}
+				},
+				mounted: function() {
+					$("#city").citySelect({
+						prov: localStorage.getItem('prov'),
+						city: localStorage.getItem('city'),
+						dist: localStorage.getItem('dist'),
+						nodata: "none"
+					});
+				}
+			})
+		</script>
+	</body>
+
+</html>

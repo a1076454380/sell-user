@@ -283,6 +283,7 @@
 			</footer>
 			<div id="container" style="display: none;"></div>
 		</div>
+		<script src="js/url.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -469,14 +470,6 @@
 					if(localStorage.getItem('historydata')==undefined){
 						localStorage.setItem('historydata','[]')
 					}
-					function plusReady() {
-						plus.navigator.setStatusBarBackground('#FFC408');
-					}
-					if(window.plus) {
-						plusReady();
-					} else {
-						document.addEventListener("plusready", plusReady, false);
-					}
 					if(localStorage.getItem('userid') == null) {
 						mui.openWindow({
 							url: 'login.html',
@@ -484,12 +477,6 @@
 						})
 						return false;
 					}
-//					localStorage.setItem('myurl', 'http://27.54.248.14:8081/user')
-//					localStorage.setItem('myurl01', 'http://27.54.248.14:8081/trader')
-					localStorage.setItem('myurl', 'http://47.104.101.165/user') //老秦
-//					localStorage.setItem('myurl', 'http://192.168.2.119/user') //祁雷
-//					localStorage.setItem('myurl', 'http://192.168.2.245/user') //琼瑶姐
-					localStorage.setItem('myurl01', 'http://47.104.101.165/user') //琼瑶姐
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006
 					})
@@ -497,6 +484,7 @@
 					if(localStorage.getItem('city') == null) {
 						document.addEventListener('plusready', onPlusReady, false);
 						function onPlusReady() {
+							plus.navigator.setStatusBarBackground('#FFC408');
 							plus.geolocation.getCurrentPosition(function(p) {
 								localStorage.setItem('lng', p.coords.longitude)
 								localStorage.setItem('lat', p.coords.latitude)

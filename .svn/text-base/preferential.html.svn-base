@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
+	</head>
+
+	<body>
+		<div id="app" class="wrapper index preferential">
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+			<header class="header">
+				<span class="header-back">
+					</span>
+				<span class="header-main">同城惠</span>
+				<span class="header-settings">
+						
+					</span>
+			</header>
+			<div class="main mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="index-top">
+						<span>
+						同城广告
+					</span>
+					</div>
+					<div class="per-main">
+						<div class="per-tab" v-for="(val,index) in tuidata"  @click="opendetail(val.usTraderStoresId)" v-if="index<6">
+							<img :src="val.usTsFacadeImg | myimg" />
+									<!--<img src="img/index02.png"/>-->
+							<p>
+								{{val.usTsCompanyName}}
+							</p>
+						</div>
+					</div>
+					<div class="index-top">
+						<span>
+						同城必点
+					</span>
+						
+					</div>
+					<div class="per-main">
+						<div class="per-tab" v-for="(val,index) in tuidata02"  @click="opendetail(val.usTraderStoresId)" v-if="index<6">
+							<img :src="val.usTsFacadeImg | myimg" />
+									<!--<img src="img/index.jpg"/>-->
+							<p>
+								{{val.usTsCompanyName}}
+							</p>
+						</div>
+					</div>
+					<div class="index-top">
+						<span>
+						人气商家
+					</span>
+					</div>
+					<div class="index-main">
+						<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in tuidata02">
+							<div class="group-inner">
+								<div class="img-box">
+									<img :src="val.usTsFacadeImg | myimg" />
+									<!--<img src="img/index.jpg"/>-->
+								</div>
+								<div class="index-detail">
+									<div class="index-h">
+										{{val.usTsCompanyName}}
+									</div>
+									<div class="index-x" style="align-items: flex-start;">
+										<div class="x-group" v-for="item in val.starPercentage">
+											<img src="img/xactive.png" />
+										</div>
+										<div class="x-group"v-for="item in (5 - val.starPercentage)">
+											<img src="img/xhalf.png"/>
+										</div>
+									</div>
+									<div class="index-x">
+										<span class="shop-type">
+									<img src="img/shopavatar.png"/>人气商家
+								</span>
+									</div>
+									<div class="index-money">
+										<span>
+									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
+								</span>
+										<span>
+									月销量:
+									<strong>{{val.monthCount}}</strong>
+								</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-group">
+					<img src="img/index.png" @click="opennew('index')" />
+					<span>
+						首页
+					</span>
+				</div>
+				<div class="footer-group factive">
+					<img src="img/found-active.png" />
+					<span>
+						同城惠
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="img/dvip.png" @click="opennew('vipcart')" />
+					<span>
+						会员中心
+					</span>
+				</div>
+				<div class="footer-group" @click="opennew('user')">
+					<img src="img/user.png" />
+					<span>
+						我的
+					</span>
+				</div>
+			</footer>
+			<div id="container" style="display: none;"></div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					city: '徐州',
+					sarchboo: true,
+					searchdata: '',
+					shoptype: true,
+					layuitext: '您输入的内容为空!!',
+					tuidata:[],
+					myurl:localStorage.getItem('myurl'),
+					tuidata02:[]
+				},
+				methods: {
+					prefershow: function(index) {
+						if($('.prefer').eq(index).attr('class') == 'prefer') {
+							$('.prefer').eq(index).addClass('pauto')
+						} else {
+							$('.prefer').eq(index).removeClass('pauto')
+						}
+					},
+					layuiboo: function() {
+						this.layui = !this.layui
+					},
+					searchboo: function() {
+						this.sarchboo = !this.sarchboo
+					},
+					opennew: function(target) {
+						mui.openWindow({
+							url: '' + target + '.html',
+							id: '' + target + ''
+						})
+					},
+					opendetail: function(id) {
+						localStorage.setItem('usTraderStoresId',id)
+						this.opennew('shop')
+					},
+					myajax:function(){
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("加载中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that=this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
+							dataType: 'json',
+							data: {
+								userAddress:'江苏省徐州市'
+							},
+							success: function(res) {
+								if(res.data!=null){
+									that.tuidata = res.data
+								}
+							}
+							
+						});
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
+							dataType: 'json',
+							data: {
+								userAddress:'江苏省徐州市'
+							},
+							success: function(res) {
+								console.log(res)
+								if(res.data!=null){
+									that.tuidata02 = res.data
+									that.tuidata02.sort(function(a, b) {
+										return parseFloat(b['monthCount']) - parseFloat(a['monthCount']);
+									})
+								}
+							}
+							
+						});
+						function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+					}
+				},
+				mounted: function() {
+					this.myajax()
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
+				},
+				update: function() {
+
+				},
+				filters:{
+					myimg:function(value){
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>
