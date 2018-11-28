@@ -218,7 +218,7 @@
 							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
 							dataType: 'json',
 							data: {
-								userAddress:'江苏省徐州市'
+								userAddress:localStorage.getItem('city')
 							},
 							success: function(res) {
 								if(res.data!=null){

@@ -157,16 +157,11 @@
 						var that=this
 						$.ajax({
 							type:"get",
-							url:that.myurl+"/queryMaRedEnvelopePojoAll",
+							url:that.myurl+"/collectionUserRedMaRedEnvelope",
 							async:true,
 							dataType:'json',
 							success:function(res){
-								if(res.data!=null){
-									that.mydata=res.data
-									for(var i =0;i<that.mydata.length-2;i++){
-										that.mydata01.push(that.mydata[i])
-									}
-								}
+								console.log(res)
 							}
 						});
 					}

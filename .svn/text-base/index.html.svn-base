@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">   
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<title></title>
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
@@ -36,6 +37,7 @@
 			transform: translateY(100%);
 		}
 	</style>
+
 	<body>
 		<div id="app" class="wrapper index" @scroll="myscroll">
 			<div class="layui" v-show="layui">
@@ -130,11 +132,11 @@
 										</div>
 										<div class="index-x" style="align-items: flex-start;">
 											<div class="x-group" v-for="item in val.starPercentage">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group"v-for="item in (5 - val.starPercentage)">
-											<img src="img/xhalf.png"/>
-										</div>
+												<img src="img/xactive.png" />
+											</div>
+											<div class="x-group" v-for="item in (5 - val.starPercentage)">
+												<img src="img/xhalf.png" />
+											</div>
 										</div>
 										<div class="index-x">
 											<span class="shop-type">
@@ -196,8 +198,8 @@
 										<div class="x-group" v-for="item in val.starPercentage">
 											<img src="img/xactive.png" />
 										</div>
-										<div class="x-group"v-for="item in (5 - val.starPercentage)">
-											<img src="img/xhalf.png"/>
+										<div class="x-group" v-for="item in (5 - val.starPercentage)">
+											<img src="img/xhalf.png" />
 										</div>
 									</div>
 									<div class="index-x">
@@ -304,7 +306,7 @@
 					tuidata: ''
 				},
 				methods: {
-					openlist: function(id,maMsName) {
+					openlist: function(id, maMsName) {
 						localStorage.setItem('maMerchantsStyleId', id)
 						localStorage.setItem('maMsName', maMsName)
 						this.opennew('shoplist')
@@ -412,19 +414,21 @@
 							success: function(res) {
 								that.newdata = res.data
 							},
-							error: function(err) {console.log(err)}
+							error: function(err) {
+								console.log(err)
+							}
 						});
 						//						我的专属
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/queryTUsTraderStoresRecommendPojoMySpecialtyY",
 							dataType: 'json',
-							data:{
+							data: {
 								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
 								that.mydata = res.data
-								
+
 							}
 						});
 						//						分类查询
@@ -467,8 +471,8 @@
 					}
 				},
 				mounted: function() {
-					if(localStorage.getItem('historydata')==undefined){
-						localStorage.setItem('historydata','[]')
+					if(localStorage.getItem('historydata') == undefined) {
+						localStorage.setItem('historydata', '[]')
 					}
 					if(localStorage.getItem('userid') == null) {
 						mui.openWindow({
@@ -481,69 +485,57 @@
 						deceleration: 0.0006
 					})
 					var that = this
-					if(localStorage.getItem('city') == null) {
-						document.addEventListener('plusready', onPlusReady, false);
-						function onPlusReady() {
-							plus.navigator.setStatusBarBackground('#FFC408');
-							plus.geolocation.getCurrentPosition(function(p) {
-								localStorage.setItem('lng', p.coords.longitude)
-								localStorage.setItem('lat', p.coords.latitude)
-								var map = new AMap.Map('container', {
-									zoom: 15,
-									center: [p.coords.longitude, p.coords.latitude]
+					document.addEventListener('plusready', onPlusReady, false);
+
+					function onPlusReady() {
+						plus.navigator.setStatusBarBackground('#FFC408');
+						plus.geolocation.getCurrentPosition(function(p) {
+							localStorage.setItem('lng', p.coords.latitude)
+							localStorage.setItem('lat', p.coords.longitude)
+							var map = new AMap.Map('container', {
+								zoom: 15,
+								center: [p.coords.longitude, p.coords.latitude]
+							});
+							AMap.service('AMap.Geocoder', function() {
+								geocoder = new AMap.Geocoder({
+									city: ""
 								});
-								AMap.service('AMap.Geocoder', function() {
-									geocoder = new AMap.Geocoder({
-										city: ""
-									});
-									//		    根据经纬度查地址
-									var lnglatXY = [p.coords.longitude, p.coords.latitude]; //地图上所标点的坐标
-									geocoder.getAddress(lnglatXY, function(status, result) {
-										if(status === 'complete' && result.info === 'OK') {
-											localStorage.setItem('province',result.regeocode.addressComponent.province)
-											that.city = result.regeocode.addressComponent.city
-											localStorage.setItem('city', that.city)
-											AMap.plugin('AMap.Weather', function() {
-												//创建天气查询实例
-												var weather = new AMap.Weather();
-												//执行实时天气信息查询
-												weather.getLive(localStorage.getItem('city'), function(err, data) {
-													that.weather = data.weather
-												});
+								//		    根据经纬度查地址
+								var lnglatXY = [p.coords.longitude, p.coords.latitude]; //地图上所标点的坐标
+								geocoder.getAddress(lnglatXY, function(status, result) {
+									if(status === 'complete' && result.info === 'OK') {
+										localStorage.setItem('province', result.regeocode.addressComponent.province)
+										that.city = result.regeocode.addressComponent.city
+										localStorage.setItem('city', that.city)
+										AMap.plugin('AMap.Weather', function() {
+											//创建天气查询实例
+											var weather = new AMap.Weather();
+											//执行实时天气信息查询
+											weather.getLive(localStorage.getItem('city'), function(err, data) {
+												that.weather = data.weather
 											});
-										} else {
-											//获取地址失败
-											that.city = '获取失败'
-										}
-									});
-								})
-							}, function(e) {
-								that.city = '获取失败'
-							});
-						}
-					} else {
-						this.city = localStorage.getItem('city')
-						AMap.plugin('AMap.Weather', function() {
-							//创建天气查询实例
-							var weather = new AMap.Weather();
-							//执行实时天气信息查询
-							weather.getLive(localStorage.getItem('city'), function(err, data) {
-								that.weather = data.weather
-							});
+										});
+									} else {
+										//获取地址失败
+										that.city = '获取失败'
+									}
+								});
+							})
+							that.myajax()
+						}, function(e) {
+							that.city = '获取失败'
 						});
 					}
-					localStorage.setItem('lng', '34.269544')
-					localStorage.setItem('lat', '117.273565')
-					this.myajax()
+
 				},
 				updated() {
 					mui(".mui-slider").slider({
 						interval: 3000 //如果你想自动3000ms滑动一下就写上这个。如果是拖拽才滑动就不写这个。就直接写sliderMuiObj.slider();
 					});
 				},
-				filters:{
-					myimg:function(value){
-						return 'http://47.104.101.165' + value.substring(value.indexOf('D:')+1)
+				filters: {
+					myimg: function(value) {
+						return 'http://47.104.101.165' + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})

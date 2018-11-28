@@ -1,7 +1,7 @@
 {
     "@platforms": ["android", "iPhone", "iPad"],
     "id": "H5929B52D",/*应用的标识，创建应用时自动生成，勿手动修改*/
-    "name": "联华外卖",/*应用名称，程序桌面图标名称*/
+    "name": "易点外卖",/*应用名称，程序桌面图标名称*/
     "version": {
         "name": "1.0",/*应用版本名称*/
         "code": ""
@@ -106,7 +106,7 @@
                     "iphone": {
                         "default": "", /*iPhone3启动图片选，分辨率：320x480*/
                         /*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
-                        "retina40": "logo/640x1136.png",/*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
+                        "retina40": "logo/640x960.png",/*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
                         "retina47": "logo/750x1334.png",/*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
                         "retina55": "logo/1242x2208.png",/*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
                         "retina55l": "","iphonex":"logo/1125x2436.png"/*5.5 英寸设备(iPhone6 Plus)横屏启动图片，分辨率：2208x1242*/
@@ -124,7 +124,7 @@
                 },
                 "android": {
                     "mdpi": "", /*普通屏启动图片，分辨率：240x282*/
-                    "ldpi": "","hdpi":"logo/480.png","xhdpi":"logo/720.png","xxhdpi":"logo/1080.png"/*1080P高分屏启动图片，分辨率：1080x1882*/
+                    "ldpi": "","hdpi":"logo/480x762.png","xhdpi":"logo/720x1242.png","xxhdpi":"logo/1080x1882.png"/*1080P高分屏启动图片，分辨率：1080x1882*/
                 }
             },"debug":true
         },"ads":{"rp":false,"splash":false,"push":false}

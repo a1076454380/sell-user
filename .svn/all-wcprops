@@ -6,8 +6,8 @@ END
 redb.html
 K 25
 svn:wc:ra_dav:version-url
-V 47
-/svn/waimai-User/!svn/ver/2/sell-user/redb.html
+V 48
+/svn/waimai-User/!svn/ver/11/sell-user/redb.html
 END
 news.html
 K 25
@@ -30,8 +30,8 @@ END
 shopcart.html
 K 25
 svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/3/sell-user/shopcart.html
+V 52
+/svn/waimai-User/!svn/ver/11/sell-user/shopcart.html
 END
 changeadress.html
 K 25
@@ -54,8 +54,8 @@ END
 gosearch.html
 K 25
 svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/4/sell-user/gosearch.html
+V 52
+/svn/waimai-User/!svn/ver/11/sell-user/gosearch.html
 END
 search.html
 K 25
@@ -78,8 +78,8 @@ END
 newslist.html
 K 25
 svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/2/sell-user/newslist.html
+V 52
+/svn/waimai-User/!svn/ver/11/sell-user/newslist.html
 END
 vipcart.html
 K 25
@@ -138,8 +138,8 @@ END
 rating.html
 K 25
 svn:wc:ra_dav:version-url
-V 49
-/svn/waimai-User/!svn/ver/4/sell-user/rating.html
+V 50
+/svn/waimai-User/!svn/ver/11/sell-user/rating.html
 END
 register.html
 K 25
@@ -162,8 +162,8 @@ END
 pay.html
 K 25
 svn:wc:ra_dav:version-url
-V 46
-/svn/waimai-User/!svn/ver/9/sell-user/pay.html
+V 47
+/svn/waimai-User/!svn/ver/11/sell-user/pay.html
 END
 userinfo.html
 K 25
@@ -186,14 +186,14 @@ END
 orderdetail.html
 K 25
 svn:wc:ra_dav:version-url
-V 54
-/svn/waimai-User/!svn/ver/5/sell-user/orderdetail.html
+V 55
+/svn/waimai-User/!svn/ver/11/sell-user/orderdetail.html
 END
 index.html
 K 25
 svn:wc:ra_dav:version-url
-V 48
-/svn/waimai-User/!svn/ver/2/sell-user/index.html
+V 49
+/svn/waimai-User/!svn/ver/11/sell-user/index.html
 END
 city.html
 K 25
@@ -216,6 +216,6 @@ END
 manifest.json
 K 25
 svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/4/sell-user/manifest.json
+V 52
+/svn/waimai-User/!svn/ver/10/sell-user/manifest.json
 END

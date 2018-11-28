@@ -69,7 +69,7 @@
 							<div class="setting-btn" @click="openshop(mydata.usOrder.usTraderStoresId)">
 								{{mydata.usOrder.usOrIsPay==0?'重新购买':'再来一单'}}
 							</div>
-							<div class="setting-btn" @click="openrating(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay!=0&&mydata.usOrder.usOrOrderevaluatestatus==0'>
+							<div class="setting-btn" @click="openrating(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay!=0&&mydata.usOrder.usOrOrderEvaluateStatus==0'>
 								发表评价
 							</div>
 							<div class="setting-btn" @click="gopay(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay==0'>
@@ -215,10 +215,10 @@
 						<div class="shop-back">
 							<div class="back-inner">
 								<div class="back-group" style="justify-content: center;">
-									<a :href=["tel:"+mydata.listUsTriderPojo[0].usTsPhone+""]>
+									<a :href="['tel:'+mydata.listUsTriderPojo[0].usTsPhone+'']">
 										<img src="img/detail_03.png" class="phone" />
 									</a>
-									<a :href=["tel:"+mydata.listUsTriderPojo[0].usTsPhone+""]>
+									<a :href="['tel:'+mydata.listUsTriderPojo[0].usTsPhone+'']">
 										联系商家
 									</a>
 								</div>
@@ -292,31 +292,69 @@
 					mydata: '',
 					youhui: '',
 					zongjia: 0,
-					channel:''
+					channel: ''
 				},
 				methods: {
 					gopay: function() {
-						var that = this
-						var ajaxjons = {
-							price: that.mydata.usOrPrice,
-							orderId: that.mydata.usOrder.usOrderId
-						}
-						$.ajax({
-							type: "post",
-							url: that.myurl01 + "/continueAliPay",
-							dataType: 'json',
-							data: ajaxjons,
-							success: function(res) {
-								plus.payment.request(that.channel[0], res.data[0], function(result) {
-									plus.nativeUI.alert("支付成功！", function() {
-										plus.webview.getWebviewById('orderdetail').reload()
-										mui.back()
-									});
-								}, function(error) {
+						var that = this,
+							ajaxjons,
+							index
+						plus.nativeUI.confirm("请选择您的支付方式！", function(e) {
+							if(e.index == 0) {
+								$.ajax({
+									type: "post",
+									url: that.myurl01 + "/continueAliPay",
+									dataType: 'json',
+									data: {
+										price: that.mydata.usOrPrice,
+										orderId: that.mydata.usOrder.usOrderId,
+										statusPay: 1
+									},
+									success: function(res) {
+										plus.payment.request(that.channel[0], res.data[0], function(result) {
+											plus.nativeUI.alert("支付成功！", function() {
+												plus.webview.getWebviewById('orderdetail').reload()
+												mui.back()
+											});
+										}, function(error) {
+											alert('支付失败')
+										});
 
+									},
+									error: function(err) {
+										alert(JSON.stringify(err))
+									}
+								});
+							} else {
+								$.ajax({
+									type: "post",
+									url: that.myurl01 + "/continueAliPay",
+									dataType: 'json',
+									data: {
+										price: that.mydata.usOrPrice,
+										orderId: that.mydata.usOrder.usOrderId,
+										statusPay: 2
+									},
+									success: function(res) {
+										plus.payment.request(that.channel[1], res, function(result) {
+											plus.nativeUI.alert("支付成功！", function() {
+												plus.webview.getWebviewById('orderdetail').reload()
+												mui.back()
+											});
+										}, function(error) {
+											alert('支付失败')
+										});
+									},
+									error: function(err) {
+										alert(JSON.stringify(err))
+									}
 								});
 							}
+						}, {
+							"title": "支付方式",
+							"buttons": ["支付宝", "微信"]
 						});
+
 					},
 					openrating: function(id) {
 						localStorage.setItem('usOrderId', id)
@@ -366,7 +404,6 @@
 							dataType: 'json',
 							data: jsonData,
 							success: function(res) {
-								console.log(res)
 								that.mydata = res.data
 
 								function plusReady() {

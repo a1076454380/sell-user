@@ -15,9 +15,17 @@
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<style type="text/css">
-		.index-detail {margin-left: .2rem!important;}
-		.index-group {flex-direction: row!important;}
-		.swiper-container{z-index: 22!important;}
+		.index-detail {
+			margin-left: .2rem!important;
+		}
+		
+		.index-group {
+			flex-direction: row!important;
+		}
+		
+		.swiper-container {
+			z-index: 22!important;
+		}
 	</style>
 
 	<body>
@@ -49,7 +57,7 @@
 			<div class="main">
 				<div class="newnav">
 					<div class="swiper-container">
-						<div class="swiper-wrapper">
+						<div class="swiper-wrapper" style="overflow-x: scroll;">
 							<div class="swiper-slide" v-for="(val,index) in navdata" :class="shoptype==val.maMerchantsStyleId?'active':''" @click="change(val.maMerchantsStyleId)">
 								{{val.maMsName}}
 							</div>
@@ -142,7 +150,7 @@
 							dataType: 'json',
 							success: function(res) {
 								console.log(res)
-								if(res.data!=null){
+								if(res.data != null) {
 									that.newdata = res.data
 									that.shoptype = res.data[0].maMerchantsStyleId
 								}
@@ -165,10 +173,7 @@
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
 					var that = this
-					var myswiper = new Swiper('.swiper-container', {
-						slidesPerView: 3,
-						spaceBetween: 30,
-					});
+
 					this.mySwiper = new Swiper('.swiper-container02', {
 						nested: true,
 						on: {

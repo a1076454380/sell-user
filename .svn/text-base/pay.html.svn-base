@@ -232,6 +232,7 @@
 							success: function(res) {
 								plus.payment.request(that.channel[1], res, function(result) {
 									plus.nativeUI.alert("支付成功！", function() {
+										plus.webview.getWebviewById('shop').reload('true')
 										plus.nativeUI.closeWaiting()
 										that.opennew('orderlist')
 									});
@@ -269,6 +270,7 @@
 							success: function(res) {
 								plus.payment.request(that.channel[0], res.data[0], function(result) {
 									plus.nativeUI.alert("支付成功！", function() {
+										plus.webview.getWebviewById('shop').reload('true')
 										plus.nativeUI.closeWaiting()
 										that.opennew('orderlist')
 									});
