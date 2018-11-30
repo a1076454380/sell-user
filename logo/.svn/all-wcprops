@@ -51,6 +51,12 @@ svn:wc:ra_dav:version-url
 V 54
 /svn/waimai-User/!svn/ver/2/sell-user/logo/480x762.png
 END
+logo02.png
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/waimai-User/!svn/ver/12/sell-user/logo/logo02.png
+END
 1080x1882.png
 K 25
 svn:wc:ra_dav:version-url
@@ -74,12 +80,6 @@ K 25
 svn:wc:ra_dav:version-url
 V 55
 /svn/waimai-User/!svn/ver/2/sell-user/logo/720x1242.png
-END
-微信图片.png
-K 25
-svn:wc:ra_dav:version-url
-V 84
-/svn/waimai-User/!svn/ver/10/sell-user/logo/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87.png
 END
 480.png
 K 25

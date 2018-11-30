@@ -5,4 +5,4 @@
 					localStorage.setItem('myurl', 'http://192.168.2.245/user') //琼瑶姐
 //					localStorage.setItem('myurl01', 'http://47.104.101.165/user') //琼瑶姐
 //					localStorage.setItem('myimg','http://47.104.101.165')
-					localStorage.setItem('myimg','http://192.168.2.245/')
+					localStorage.setItem('myimg','http://192.168.2.245')

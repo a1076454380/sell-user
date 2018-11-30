@@ -49,8 +49,8 @@
 			<div class="main mui-scroll-wrapper">
 				<div class="index-main mui-scroll">
 					<div class="head-top">
-						<img :src="avatar | myimg" class="avatar" @click="opennew('userinfo')" v-if="avatar!=null"/>
-						<img src="img/avatar.png" class="avatar" @click="opennew('userinfo')"  v-if="avatar==null"/>
+						<img :src="avatar | myimg" class="avatar" @click="opennew('userinfo')" v-if="avatar!=null" />
+						<img src="img/avatar.png" class="avatar" @click="opennew('userinfo')" v-if="avatar==null" />
 						<h2 class="user-name" @click="opennew('userinfo')">{{usNickname}}</h2>
 					</div>
 					<div class="user-title">
@@ -111,41 +111,41 @@
 					<div class="user-title">
 						今日推荐
 					</div>
-					<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in tuidata02">
-							<div class="group-inner">
-								<div class="img-box">
-									<img :src="val.usTsFacadeImg | myimg" />
-									<!--<img src="img/index.jpg"/>-->
+					<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in tuidata02">
+						<div class="group-inner">
+							<div class="img-box">
+								<img :src="val.usTsFacadeImg | myimg" />
+								<!--<img src="img/index.jpg"/>-->
+							</div>
+							<div class="index-detail">
+								<div class="index-h">
+									{{val.usTsCompanyName}}
 								</div>
-								<div class="index-detail">
-									<div class="index-h">
-										{{val.usTsCompanyName}}
+								<div class="index-x" style="align-items: flex-start;">
+									<div class="x-group" v-for="item in val.starPercentage">
+										<img src="img/xactive.png" />
 									</div>
-									<div class="index-x" style="align-items: flex-start;">
-										<div class="x-group" v-for="item in val.starPercentage">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group"v-for="item in (5 - val.starPercentage)">
-											<img src="img/xhalf.png"/>
-										</div>
+									<div class="x-group" v-for="item in (5 - val.starPercentage)">
+										<img src="img/xhalf.png" />
 									</div>
-									<div class="index-x">
-										<span class="shop-type">
+								</div>
+								<div class="index-x">
+									<span class="shop-type">
 									<img src="img/shopavatar.png"/>人气商家
 								</span>
-									</div>
-									<div class="index-money">
-										<span>
+								</div>
+								<div class="index-money">
+									<span>
 									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
 								</span>
-										<span>
+									<span>
 									月销量:
 									<strong>{{val.monthCount}}</strong>
 								</span>
-									</div>
 								</div>
 							</div>
 						</div>
+					</div>
 				</div>
 			</div>
 			<footer class="footer">
@@ -181,20 +181,20 @@
 				data: {
 					layui: false,
 					layuitext: '此功能正在加紧完善',
-					weather:'天气获取中...',
-					avatar:localStorage.getItem('usHeadImg'),
-					usNickname:localStorage.getItem('usNickname'),
-					tuidata02:[]
+					weather: '天气获取中...',
+					avatar: localStorage.getItem('usHeadImg'),
+					usNickname: localStorage.getItem('usNickname'),
+					tuidata02: []
 				},
 				methods: {
-					exit:function(){
+					exit: function() {
 						localStorage.clear()
 						this.opennew('login')
 					},
-					prefershow:function(index){
-						if($('.prefer').eq(index).attr('class')=='prefer'){
+					prefershow: function(index) {
+						if($('.prefer').eq(index).attr('class') == 'prefer') {
 							$('.prefer').eq(index).addClass('pauto')
-						}else{
+						} else {
 							$('.prefer').eq(index).removeClass('pauto')
 						}
 					},
@@ -207,39 +207,56 @@
 							id: '' + adr + ''
 						})
 					},
-					opendetail: function(id) {
-						localStorage.setItem('usTraderStoresId',id)
-						this.opennew('shop')
-					},
-					myajax:function(){
+					opendetail: function(id,usTraderId) {
 						var that=this
+						localStorage.setItem('usTraderStoresId', id)
 						$.ajax({
 							type: "post",
-							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
+							url: localStorage.getItem('myurl') + "/changeAdPrice",
 							dataType: 'json',
-							data: {
-								userAddress:localStorage.getItem('city')
+							data:{
+								storesId:id,
+								title:'今日推荐'
 							},
 							success: function(res) {
-								if(res.data!=null){
-									that.tuidata02 = res.data
-								}
+								console.log(JSON.stringify(res))
+								that.opennew('shop')
+							},
+							error:function(err){
+								console.log(JSON.stringify(err))
 							}
-							
+						});
+					},
+					myajax: function() {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojoY",
+							dataType: 'json',
+							data: {
+								lng: localStorage.getItem('lng'),
+								lat: localStorage.getItem('lat'),
+								maApName: '今日推荐',
+								usAddress: localStorage.getItem('city02')
+							},
+							success: function(res) {
+								that.tuidata02 = res.data
+
+							}
 						});
 					}
 				},
 				mounted: function() {
-					var that=this
+					var that = this
 					this.myajax()
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
 				},
-				filters:{
-					myimg:function(value){
-						if(value!=null){
-							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+2)
+				filters: {
+					myimg: function(value) {
+						if(value != null) {
+							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 2)
 						}
 					}
 				}

@@ -48,7 +48,7 @@
 					</span>
 					</div>
 					<div class="per-main">
-						<div class="per-tab" v-for="(val,index) in tuidata"  @click="opendetail(val.usTraderStoresId)" v-if="index<6">
+						<div class="per-tab" v-for="(val,index) in tuidata"  @click="opendetail(val.usTraderStoresId,'同城广告')" v-if="index<6">
 							<img :src="val.usTsFacadeImg | myimg" />
 									<!--<img src="img/index02.png"/>-->
 							<p>
@@ -63,7 +63,7 @@
 						
 					</div>
 					<div class="per-main">
-						<div class="per-tab" v-for="(val,index) in tuidata02"  @click="opendetail(val.usTraderStoresId)" v-if="index<6">
+						<div class="per-tab" v-for="(val,index) in tuidata02"  @click="opendetail(val.usTraderStoresId,'同城必点')" v-if="index<6">
 							<img :src="val.usTsFacadeImg | myimg" />
 									<!--<img src="img/index.jpg"/>-->
 							<p>
@@ -77,7 +77,7 @@
 					</span>
 					</div>
 					<div class="index-main">
-						<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in tuidata02">
+						<div class="index-group" @click="opendetail(val.usTraderStoresId,'人气商家')" v-for="val in tuidata03">
 							<div class="group-inner">
 								<div class="img-box">
 									<img :src="val.usTsFacadeImg | myimg" />
@@ -155,7 +155,8 @@
 					layuitext: '您输入的内容为空!!',
 					tuidata:[],
 					myurl:localStorage.getItem('myurl'),
-					tuidata02:[]
+					tuidata02:[],
+					tuidata03:[]
 				},
 				methods: {
 					prefershow: function(index) {
@@ -177,9 +178,25 @@
 							id: '' + target + ''
 						})
 					},
-					opendetail: function(id) {
+					opendetail: function(id,text) {
+						var that=this
 						localStorage.setItem('usTraderStoresId',id)
-						this.opennew('shop')
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/changeAdPrice",
+							dataType: 'json',
+							data:{
+								storesId:id,
+								title:text
+							},
+							success: function(res) {
+								console.log(JSON.stringify(res))
+								that.opennew('shop')
+							},
+							error:function(err){
+								console.log(JSON.stringify(err))
+							}
+						});
 					},
 					myajax:function(){
 						function plusReady() {
@@ -197,7 +214,8 @@
 							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
 							dataType: 'json',
 							data: {
-								userAddress:'江苏省徐州市'
+								userAddress:localStorage.getItem('city02'),
+								maApName:'同城广告'
 							},
 							success: function(res) {
 								if(res.data!=null){
@@ -211,18 +229,32 @@
 							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
 							dataType: 'json',
 							data: {
-								userAddress:'江苏省徐州市'
+								userAddress:localStorage.getItem('city02'),
+								maApName:'同城必点'
 							},
 							success: function(res) {
-								console.log(res)
 								if(res.data!=null){
 									that.tuidata02 = res.data
-									that.tuidata02.sort(function(a, b) {
-										return parseFloat(b['monthCount']) - parseFloat(a['monthCount']);
-									})
 								}
 							}
 							
+						});
+//						人气商家
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojoY",
+							dataType: 'json',
+							data: {
+								lng: localStorage.getItem('lng'),
+								lat: localStorage.getItem('lat'),
+								maApName:'人气商家',
+								usAddress:localStorage.getItem('city02')
+							},
+							success: function(res) {
+								console.log(res)
+								that.tuidata03 = res.data
+
+							}
 						});
 						function plusReady() {
 									// 弹出系统等待对话框

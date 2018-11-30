@@ -141,7 +141,6 @@
 							usTraderName:localStorage.getItem('usNickname'),
 							usSsOk:usSsOk
 						}
-						console.log(JSON.stringify(jsondata))
 						$.ajax({
 							type: "post",
 							url: that.myurl + "/insertPriase",
