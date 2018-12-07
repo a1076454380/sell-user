@@ -49,8 +49,8 @@
 			<div class="main mui-scroll-wrapper">
 				<div class="index-main mui-scroll">
 					<div class="head-top">
-						<img :src="avatar | myimg" class="avatar" @click="opennew('userinfo')" v-if="avatar!=null" />
-						<img src="img/avatar.png" class="avatar" @click="opennew('userinfo')" v-if="avatar==null" />
+						<img :src="avatar | myimg" class="avatar" @click="opennew('userinfo')" v-if="avatar!='null'" />
+						<img src="img/avatar.png" class="avatar" @click="opennew('userinfo')" v-if="avatar=='null'" />
 						<h2 class="user-name" @click="opennew('userinfo')">{{usNickname}}</h2>
 					</div>
 					<div class="user-title">
@@ -204,7 +204,8 @@
 					opennew: function(adr) {
 						mui.openWindow({
 							url: '' + adr + '.html',
-							id: '' + adr + ''
+							id: '' + adr + '',
+							createNew: true
 						})
 					},
 					opendetail: function(id,usTraderId) {
@@ -256,7 +257,7 @@
 				filters: {
 					myimg: function(value) {
 						if(value != null) {
-							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 2)
+							return localStorage.getItem('myimg') +'/' +value.substring(value.indexOf('D:') + 2)
 						}
 					}
 				}

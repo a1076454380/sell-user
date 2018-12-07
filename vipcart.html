@@ -44,8 +44,8 @@
 				<div class="mui-scroll">
 					<div class="vip-top"></div>
 					<div class="avatar-box">
-						<img :src="usHeadImg | myimg" v-if="usHeadImg!=null"/>
-						<img src="img/avatar.png" v-if="usHeadImg==null"/>
+						<img :src="usHeadImg | myimg" v-if="usHeadImg!='null'"/>
+						<img src="img/avatar.png" v-if="usHeadImg=='null'"/>
 					</div>
 					<div class="vip-title">
 						我的Power
@@ -123,47 +123,51 @@
 							url: that.myurl + "/updateMemeber",
 							dataType: 'json',
 							data: {
-								usTraderId: usTraderId,
+								usTraderMemberCardId: usTraderMemberCardId,
 								usTraderStoresId: usTraderStoresId
 							},
 							success: function(res) {
-								console.log(res)
 								for(var i = 0; i < res.data.length; i++) {
 									buttons.push({
-										title: res.data[i].usTmcLevel
+										title: res.data[i].usTmcLevel  +'-'+ res.data[i].usTmcPrice+'元  - '+ res.data[i].usTmcDiscount/10 +'折'
 									})
 								}
 								//								弹出会员等级选择
-								
-								
 								plus.nativeUI.actionSheet({
 									title: "请选择会员卡级别",
 									cancel: "取消",
 									buttons: buttons
 								}, function(e) {
-									console.log("User pressed: " + e.index);
 									var ajaxjson = {
-										usMdStatus: 1, //1.支付宝，，2.微信，，3.银行卡
-										usMdUpdateName: localStorage.getItem('usNickname'),
+										statusPay: 1, //1.支付宝，，2.微信，，3.银行卡
 										usMemberId: usMemberId,
 										usTraderMemberCardId: res.data[e.index-1].usTraderMemberCardId,
-										usMePrice: res.data[e.index-1].usTmcPrice,
-										usMeUpdateName: localStorage.getItem('usNickname')
+										usCardPrice: res.data[e.index-1].usTmcPrice
 									}
-									console.log(JSON.stringify(ajaxjson))
 									$.ajax({
 										type: "post",
 										url: that.myurl + "/createAliPayMember",
 										data: ajaxjson,
 										dataType: 'json',
 										success: function(res) {
-											console.log(res)
+											console.log(JSON.stringify(res))
 											plus.payment.request(that.channel[0], res.data[0], function(result) {
 												plus.nativeUI.alert("支付成功！", function() {
+													that.myajax()
 													that.layuiboo()
 												});
 											}, function(error) {
-
+												$.ajax({
+													type: "post",
+													url: that.myurl + "/removeMember",
+													data: {
+														id:res.data[1]
+													},
+													dataType: 'json',
+													success: function(res) {
+														
+													}
+												});
 											});
 										},
 										error: function(err) {
@@ -185,7 +189,6 @@
 					},
 					upvip: function() {
 						var that = this
-
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
@@ -195,6 +198,7 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
+//						查询店铺详情
 						$.ajax({
 							type: "get",
 							url: that.myurl + "/queryUsMemberPojoDetail",
@@ -205,8 +209,6 @@
 								usTraderStoresId: that.usTraderStoresId
 							},
 							success: function(res) {
-								console.log(res)
-
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
@@ -236,10 +238,9 @@
 							url: that.myurl + "/queryUsMemberPojoAll",
 							dataType: 'json',
 							data: {
-								usUserId: '1'
+								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
-								console.log(res)
 								that.mydata = res.data
 								
 							}
@@ -282,7 +283,7 @@
 				filters: {
 					myimg: function(value) {
 						if(value!=null){
-							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+2)
+							return localStorage.getItem('myimg') +'/' +value.substring(value.indexOf('D:')+2)
 						}
 					}
 				}

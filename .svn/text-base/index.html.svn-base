@@ -10,6 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/url.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
@@ -120,7 +121,7 @@
 							</span>
 						</div>
 						<div class="index-main">
-							<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="(val,index) in mydata" v-if="mydata.length!=0">
+							<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId,'')" v-for="(val,index) in mydata" v-if="mydata.length!=0">
 								<div class="group-inner">
 									<div class="img-box">
 										<img :src="val.usTsFacadeImg | myimg" />
@@ -375,15 +376,34 @@
 						}
 					},
 					opennew: function(target, id) {
-						mui.openWindow({
-							url: '' + target + '.html',
-							id: '' + target + ''
-						})
+						if(localStorage.getItem('userid')==null){
+							plus.nativeUI.toast('请先进行登陆')
+							mui.openWindow({
+								url: 'login.html',
+								id: 'login'
+							})
+						}else{
+							mui.openWindow({
+								url: '' + target + '.html',
+								id: '' + target + ''
+							})
+						}
 					},
 					opendetail: function(id, usTraderId,title) {
+						if(localStorage.getItem('userid')==null){
+							plus.nativeUI.toast('请先进行登陆')
+							mui.openWindow({
+								url: 'login.html',
+								id: 'login'
+							})
+						}
 						var that=this
 						localStorage.setItem('usTraderStoresId', id)
 						localStorage.setItem('usTraderId', usTraderId)
+						if(title==''){
+							that.opennew('shop')
+							return false;
+						}
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/changeAdPrice",
@@ -422,7 +442,6 @@
 								maApName:'首页轮播图'
 							},
 							success: function(res) {
-								console.log(JSON.stringify(res))
 								that.bannerdata = res.data
 							},
 							error:function(err){
@@ -496,14 +515,10 @@
 					if(localStorage.getItem('historydata') == undefined) {
 						localStorage.setItem('historydata', '[]')
 					}
-					if(localStorage.getItem('userid') == null) {
-						Window.location.href='login.html'
-					}
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006
 					})
 					var that = this
-
 					function plusReady() {
 						plus.navigator.setStatusBarBackground('#FFC408');
 						plus.runtime.getProperty(plus.runtime.appid, function(inf) {
@@ -512,7 +527,7 @@
 								url: localStorage.getItem('myimg') + "/showVersion",
 								dataType: 'json',
 								success: function(res) {
-									if(res.data.bpAvUserNum != inf.version) {
+									if(res.data!=null?res.data.bpAvUserNum != inf.version:false) {
 										//										版本更新
 										plus.nativeUI.showWaiting("下载更新资源包,请勿关闭页面！");
 										plus.downloader.createDownload(localStorage.getItem('myimg') + res.data.bpAvUserAppUrl, {
@@ -535,7 +550,6 @@
 										}).start();
 									} else {
 										//										没有版本更新
-
 										plus.geolocation.getCurrentPosition(function(p) {
 											localStorage.setItem('lng', p.coords.latitude)
 											localStorage.setItem('lat', p.coords.longitude)
@@ -550,10 +564,11 @@
 												//		    根据经纬度查地址
 												var lnglatXY = [p.coords.longitude, p.coords.latitude]; //地图上所标点的坐标
 												geocoder.getAddress(lnglatXY, function(status, result) {
+													
 													if(status === 'complete' && result.info === 'OK') {
 														localStorage.setItem('province', result.regeocode.addressComponent.province)
 														localStorage.setItem('city01', result.regeocode.addressComponent.city)
-														localStorage.setItem('province', result.regeocode.addressComponent.district)
+														localStorage.setItem('area', result.regeocode.addressComponent.district)
 														localStorage.setItem('city', result.regeocode.addressComponent.province + result.regeocode.addressComponent.city)
 														localStorage.setItem('city02', result.regeocode.addressComponent.province + result.regeocode.addressComponent.city+result.regeocode.addressComponent.district)
 														AMap.plugin('AMap.Weather', function() {
@@ -564,14 +579,15 @@
 																that.weather = data.weather
 															});
 														});
-														that.myajax()
+														
 													} else {
 														//获取地址失败
 														that.city = '获取失败'
+														alert(JSON.stringify(result))
 													}
 												});
 											})
-											
+											that.myajax()
 										}, function(e) {
 											that.city = '获取失败'
 										});
@@ -582,12 +598,14 @@
 								}
 							});
 						});
+						
 					}
 					if(window.plus) {
 						plusReady();
 					} else {
 						document.addEventListener("plusready", plusReady, false);
 					}
+					that.myajax()
 				},
 				updated() {
 					mui(".mui-slider").slider({

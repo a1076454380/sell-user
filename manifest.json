@@ -1,7 +1,7 @@
 {
     "@platforms": ["android", "iPhone", "iPad"],
     "id": "H5929B52D",/*应用的标识，创建应用时自动生成，勿手动修改*/
-    "name": "易点外卖",/*应用名称，程序桌面图标名称*/
+    "name": "联华外卖",/*应用名称，程序桌面图标名称*/
     "version": {
         "name": "1.0",/*应用版本名称*/
         "code": ""
@@ -43,7 +43,7 @@
         "popGesture": "hide",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
         "runmode": "normal",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
         "signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
-        "distribute": {"plugins":{"oauth":{"qq":{"appid":"1107053640"}},"payment":{"alipay":{"description":"阿里支付","scheme":""},"appleiap":{"description":"Apple应用内支付"},"weixin":{"description":"微信支付","appid":"wxf20871cf9f9d2cf1"}},"maps":{"baidu":{"appkey_ios":"a2bBtV8scDzDa2Z0ATkZawuoPNCZAn6j","appkey_android":"60Baq0TPjWwGHhNP63qHrzcrv4bDnLfR","appkey":"","description":""}}},
+        "distribute": {"plugins":{"oauth":{"qq":{"appid":"1107053640"}},"payment":{"alipay":{"description":"阿里支付","scheme":""},"appleiap":{"description":"Apple应用内支付"},"weixin":{"description":"微信支付","appid":"wxf20871cf9f9d2cf1"}},"maps":{"amap":{"appkey_ios":"517fe75d5a9e7a3073aa65f933f39ff5","appkey_android":"470d82c78453795008a2fe229f1f913c","description":""}}},
             "apple": {
                 "appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
                 "mobileprovision": "",/*iOS应用打包配置文件*/
@@ -58,7 +58,7 @@
                 "keystore": "",/*Android应用打包使用的密钥库文件*/
                 "password": "",/*Android应用打包使用密钥库中证书的密码*/
                 "aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
-               "permissions": ["<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>","<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.SEND_SMS\"/>","<uses-permission android:name=\"android.permission.INTERNET\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>","<uses-permission android:name=\"android.permission.WRITE_SMS\"/>","<uses-permission android:name=\"android.permission.READ_SMS\"/>"]
+               "permissions": ["<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>","<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>","<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.SEND_SMS\"/>","<uses-permission android:name=\"android.permission.INTERNET\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>","<uses-permission android:name=\"android.permission.WRITE_SMS\"/>","<uses-permission android:name=\"android.permission.READ_SMS\"/>"]
 				/*使用Native.js调用原生安卓API需要使用到的系统权限*/
             },
             "orientation": [
@@ -124,15 +124,39 @@
                 },
                 "android": {
                     "mdpi": "", /*普通屏启动图片，分辨率：240x282*/
-                    "ldpi": "","hdpi":"logo/480x762.png","xhdpi":"logo/720x1242.png","xxhdpi":"logo/1080x1882.png"/*1080P高分屏启动图片，分辨率：1080x1882*/
+                    "ldpi": "","hdpi":"logo/480.png","xhdpi":"logo/720.png","xxhdpi":"logo/1080.png"/*1080P高分屏启动图片，分辨率：1080x1882*/
                 }
             },"debug":true
-        },"ads":{"rp":false,"splash":false,"push":false}
+        },"ads":{"rp":false,"splash":false,"push":false},"adid":"128592240505"
     },
 	"dependencies": {
 		"pages": {
 			"index.html": {
-				"resources": [],
+				"resources": [
+					"js/url.js",
+					"img/shopavatar.png",
+					"css/main.css",
+					"js/jquery.min.js",
+					"img/index-active.png",
+					"js/rem.js",
+					"img/drame.png",
+					"img/xhalf.png",
+					"img/user.png",
+					"img/search.png",
+					"img/newindex.png",
+					"img/mycart-active.png",
+					"img/index00.png",
+					"img/shoplist_13.png",
+					"js/vue.js",
+					"js/mui.min.js",
+					"img/shoplist_10.png",
+					"img/xactive.png",
+					"img/dvip.png",
+					"css/mui.min.css",
+					"img/found.png",
+					"img/redb.png",
+					"css/reset.css"
+				],
 				"refer": [
 					"shop.html",
 					"city.html",
@@ -230,7 +254,8 @@
 			"orderdetail.html": {
 				"resources": [],
 				"refer": [
-					"orderrating.html"
+					"orderrating.html",
+					"shop.html"
 				],
 				"priority": 0
 			},
@@ -324,6 +349,13 @@
 					"shop.html"
 				],
 				"priority": 0
+			},
+			"redb.html": {
+				"resources": [],
+				"refer": [
+					"login.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {
@@ -333,30 +365,21 @@
 				"img/user-active.png",
 				"img/freight.png",
 				"img/cart.png",
-				"img/index-active.png",
 				"img/rightwhite.png",
 				"img/back.png",
 				"img/nav04.png",
-				"js/mui.min.js",
 				"img/index.jpg",
 				"img/rightarr.png",
 				"img/nav02.png",
 				"img/index.png",
-				"css/main.css",
 				"img/discount.png",
 				"img/reduction.png",
 				"img/nav03.png",
 				"search.html",
-				"js/rem.js",
 				"img/found-actice.png",
-				"img/user.png",
-				"img/search.png",
 				"img/collect.png",
-				"css/mui.min.css",
-				"img/found.png",
 				"img/order.png",
-				"img/nav01.png",
-				"css/reset.css"
+				"img/nav01.png"
 			]
 		}
 	}

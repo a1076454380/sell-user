@@ -77,6 +77,15 @@
 				},
 				methods: {
 					submit: function() {
+						function plusReady() {
+								// 弹出系统等待对话框
+								plus.nativeUI.showWaiting("注册中...");
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
 						var that = this
 						if($('input').val() == '') {
 							that.layuiboo($('input').attr('data-title'))
@@ -87,6 +96,15 @@
 							url: that.myurl + '/register',
 							dataType: 'json',
 							success: function(res) {
+								function plusReady() {
+										// 弹出系统等待对话框
+										plus.nativeUI.closeWaiting()
+									}
+									if(window.plus) {
+										plusReady();
+									} else {
+										document.addEventListener("plusready", plusReady, false);
+									}
 								if(res.status == 200) {
 									plus.webview.getWebviewById('login').reload(true)
 									mui.openWindow({

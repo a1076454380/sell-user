@@ -14,7 +14,31 @@
       "vipcart.html",
       "redb.html"
     ],
-    "resources": []
+    "resources": [
+      "js/url.js",
+      "img/shopavatar.png",
+      "css/main.css",
+      "js/jquery.min.js",
+      "img/index-active.png",
+      "js/rem.js",
+      "img/drame.png",
+      "img/xhalf.png",
+      "img/user.png",
+      "img/search.png",
+      "img/newindex.png",
+      "img/mycart-active.png",
+      "img/index00.png",
+      "img/shoplist_13.png",
+      "js/vue.js",
+      "js/mui.min.js",
+      "img/shoplist_10.png",
+      "img/xactive.png",
+      "img/dvip.png",
+      "css/mui.min.css",
+      "img/found.png",
+      "img/redb.png",
+      "css/reset.css"
+    ]
   },
   "login.html": {
     "refer": [
@@ -88,7 +112,8 @@
   },
   "orderdetail.html": {
     "refer": [
-      "orderrating.html"
+      "orderrating.html",
+      "shop.html"
     ],
     "resources": []
   },
@@ -163,6 +188,11 @@
   "gosearch.html": {
     "refer": [
       "shop.html"
+    ]
+  },
+  "redb.html": {
+    "refer": [
+      "login.html"
     ]
   }
 }

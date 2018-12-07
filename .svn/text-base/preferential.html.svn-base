@@ -251,7 +251,6 @@
 								usAddress:localStorage.getItem('city02')
 							},
 							success: function(res) {
-								console.log(res)
 								that.tuidata03 = res.data
 
 							}

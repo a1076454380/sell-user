@@ -7,7 +7,7 @@ redb.html
 K 25
 svn:wc:ra_dav:version-url
 V 48
-/svn/waimai-User/!svn/ver/11/sell-user/redb.html
+/svn/waimai-User/!svn/ver/18/sell-user/redb.html
 END
 news.html
 K 25
@@ -48,8 +48,8 @@ END
 addadress.html
 K 25
 svn:wc:ra_dav:version-url
-V 52
-/svn/waimai-User/!svn/ver/3/sell-user/addadress.html
+V 53
+/svn/waimai-User/!svn/ver/34/sell-user/addadress.html
 END
 gosearch.html
 K 25
@@ -66,8 +66,8 @@ END
 shoplist.html
 K 25
 svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/4/sell-user/shoplist.html
+V 52
+/svn/waimai-User/!svn/ver/32/sell-user/shoplist.html
 END
 orderlist.html
 K 25
@@ -79,25 +79,25 @@ newslist.html
 K 25
 svn:wc:ra_dav:version-url
 V 52
-/svn/waimai-User/!svn/ver/11/sell-user/newslist.html
+/svn/waimai-User/!svn/ver/36/sell-user/newslist.html
 END
 vipcart.html
 K 25
 svn:wc:ra_dav:version-url
-V 50
-/svn/waimai-User/!svn/ver/2/sell-user/vipcart.html
+V 51
+/svn/waimai-User/!svn/ver/37/sell-user/vipcart.html
 END
 newdetail.html
 K 25
 svn:wc:ra_dav:version-url
-V 52
-/svn/waimai-User/!svn/ver/2/sell-user/newdetail.html
+V 53
+/svn/waimai-User/!svn/ver/36/sell-user/newdetail.html
 END
-ratingall.html
+myfoot.html
 K 25
 svn:wc:ra_dav:version-url
-V 52
-/svn/waimai-User/!svn/ver/2/sell-user/ratingall.html
+V 50
+/svn/waimai-User/!svn/ver/36/sell-user/myfoot.html
 END
 adresslist.html
 K 25
@@ -105,17 +105,17 @@ svn:wc:ra_dav:version-url
 V 53
 /svn/waimai-User/!svn/ver/6/sell-user/adresslist.html
 END
-myfoot.html
+ratingall.html
 K 25
 svn:wc:ra_dav:version-url
-V 49
-/svn/waimai-User/!svn/ver/2/sell-user/myfoot.html
+V 53
+/svn/waimai-User/!svn/ver/34/sell-user/ratingall.html
 END
 user.html
 K 25
 svn:wc:ra_dav:version-url
 V 48
-/svn/waimai-User/!svn/ver/13/sell-user/user.html
+/svn/waimai-User/!svn/ver/32/sell-user/user.html
 END
 test.html
 K 25
@@ -123,29 +123,29 @@ svn:wc:ra_dav:version-url
 V 47
 /svn/waimai-User/!svn/ver/2/sell-user/test.html
 END
-preferential.html
-K 25
-svn:wc:ra_dav:version-url
-V 56
-/svn/waimai-User/!svn/ver/14/sell-user/preferential.html
-END
 orderrating.html
 K 25
 svn:wc:ra_dav:version-url
 V 55
 /svn/waimai-User/!svn/ver/12/sell-user/orderrating.html
 END
-register.html
+preferential.html
 K 25
 svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/4/sell-user/register.html
+V 56
+/svn/waimai-User/!svn/ver/37/sell-user/preferential.html
 END
 rating.html
 K 25
 svn:wc:ra_dav:version-url
 V 50
-/svn/waimai-User/!svn/ver/11/sell-user/rating.html
+/svn/waimai-User/!svn/ver/36/sell-user/rating.html
+END
+register.html
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/waimai-User/!svn/ver/32/sell-user/register.html
 END
 money.html
 K 25
@@ -163,13 +163,13 @@ pay.html
 K 25
 svn:wc:ra_dav:version-url
 V 47
-/svn/waimai-User/!svn/ver/12/sell-user/pay.html
+/svn/waimai-User/!svn/ver/35/sell-user/pay.html
 END
 userinfo.html
 K 25
 svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/2/sell-user/userinfo.html
+V 52
+/svn/waimai-User/!svn/ver/34/sell-user/userinfo.html
 END
 mycollect.html
 K 25
@@ -177,23 +177,23 @@ svn:wc:ra_dav:version-url
 V 52
 /svn/waimai-User/!svn/ver/2/sell-user/mycollect.html
 END
-orderdetail.html
-K 25
-svn:wc:ra_dav:version-url
-V 55
-/svn/waimai-User/!svn/ver/12/sell-user/orderdetail.html
-END
 goodsdetail.html
 K 25
 svn:wc:ra_dav:version-url
 V 54
 /svn/waimai-User/!svn/ver/2/sell-user/goodsdetail.html
 END
+orderdetail.html
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/waimai-User/!svn/ver/12/sell-user/orderdetail.html
+END
 index.html
 K 25
 svn:wc:ra_dav:version-url
 V 49
-/svn/waimai-User/!svn/ver/16/sell-user/index.html
+/svn/waimai-User/!svn/ver/28/sell-user/index.html
 END
 city.html
 K 25
@@ -204,18 +204,18 @@ END
 login.html
 K 25
 svn:wc:ra_dav:version-url
-V 48
-/svn/waimai-User/!svn/ver/4/sell-user/login.html
+V 49
+/svn/waimai-User/!svn/ver/35/sell-user/login.html
 END
 shop.html
 K 25
 svn:wc:ra_dav:version-url
-V 47
-/svn/waimai-User/!svn/ver/7/sell-user/shop.html
+V 48
+/svn/waimai-User/!svn/ver/36/sell-user/shop.html
 END
 manifest.json
 K 25
 svn:wc:ra_dav:version-url
 V 52
-/svn/waimai-User/!svn/ver/10/sell-user/manifest.json
+/svn/waimai-User/!svn/ver/36/sell-user/manifest.json
 END

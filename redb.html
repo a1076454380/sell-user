@@ -13,6 +13,7 @@
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
+
 	<body>
 		<div id="app" class="wrapper money">
 			<div class="layui" v-show="layui">
@@ -30,76 +31,118 @@
 					</div>
 				</div>
 			</div>
-				<header class="header">
-					<span class="header-back mui-action-back">
+			<header class="header">
+				<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
-					<span class="header-main">我的优惠</span>
-					<span class="header-settings">
+				<span class="header-main">我的优惠</span>
+				<span class="header-settings">
 						
 					</span>
-				</header>
-			<div class="main mui-scroll-wrapper main-big" v-if="">	
+			</header>
+			<div class="main mui-scroll-wrapper main-big" v-if="">
 				<div class="mui-scroll">
-					<div class="money-item" v-for="(val,index) in mydata01">
+					<div class="money-item" v-for="(val,index) in mydata.MaRedEnvelopelist">
 						<div class="money-top">
 							<div class="money-price">
 								¥<span>{{val.maRePrice==undefined?val.usApPrice:val.maRePrice}}</span>
 							</div>
 							<div class="money-main">
 								<h1>
-									红包
+									满减红包
 								</h1>
 								<p>
-									{{val.createTime1}}到期
+									{{val.maReLimitTimeString}}到期
 								</p>
 							</div>
 						</div>
 						<div class="money-time">
 							<span>满{{val.maReLimit==undefined?val.usApPriceLimit:val.maReLimit}}可用,限最新版本客户端使用</span>
-							<div class="join" @click="havecollect(1,val.maRedEnvelopeId==undefined?val.usAgentPackageId:val.maRedEnvelopeId)">
+							<div class="join" @click="havecollect(8,val.maRedEnvelopeId)">
 								立即领取
 							</div>
 						</div>
 					</div>
-					<div class="money-item" v-for="(val,index) in mydata[mydata.length-2]">
+					<div class="money-item" v-for="(val,index) in mydata.UsTraderDiscountList">
 						<div class="money-top">
 							<div class="money-price">
-								¥<span>{{val.usTpPrice}}</span>
+								<span>{{val.usTdDicsont/10}}</span>折
 							</div>
 							<div class="money-main">
 								<h1>
-									红包
+									折扣红包
 								</h1>
 								<p>
-									{{val.usTpAbortTime1}}到期
+									{{val.usTdAbortTimeString}}到期
 								</p>
 							</div>
 						</div>
 						<div class="money-time">
-							<span>满{{val.usTpLimitPrice}}可用,限最新版本客户端使用</span>
+							<span>限最新版本客户端使用</span>
+							<div class="join" @click="havecollect(2,val.usTraderDiscountId)">
+								立即领取
+							</div>
+						</div>
+					</div>
+					<div class="money-item" v-for="(val,index) in mydata.UsTraderNewActivitiesList">
+						<div class="money-top">
+							<div class="money-price">
+								¥<span>{{val.usTnaPrice}}</span>元
+							</div>
+							<div class="money-main">
+								<h1>
+									新人红包
+								</h1>
+								<p>
+									{{val.usTnaAbortTimeString}}到期
+								</p>
+							</div>
+						</div>
+						<div class="money-time">
+							<span>限最新版本客户端使用</span>
+							<div class="join" @click="havecollect(4,val.usTraderNewActivitiesId)">
+								立即领取
+							</div>
+						</div>
+					</div>
+					<div class="money-item" v-for="(val,index) in mydata.UsTraderPackageList">
+						<div class="money-top">
+							<div class="money-price">
+								¥<span>{{val.usTpPrice}}</span>元
+							</div>
+							<div class="money-main">
+								<h1>
+									满减红包
+								</h1>
+								<p>
+									{{val.usTpAbortTimeString}}到期
+								</p>
+							</div>
+						</div>
+						<div class="money-time">
+							<span>满{{val.usTpLimitPrice}}可用,每人限领{{val.usTpLimitNum}}张。</span>
 							<div class="join" @click="havecollect(1,val.usTraderPackageId)">
 								立即领取
 							</div>
 						</div>
 					</div>
-					<div class="money-item" v-for="(val,index) in mydata[mydata.length-1]">
+					<div class="money-item" v-for="(val,index) in mydata.UsTraderSubtractList">
 						<div class="money-top">
 							<div class="money-price">
-								<span>{{val.usTdDicsont}}</span>折
+								¥<span>{{val.usTsSubtractPrice}}</span>元
 							</div>
 							<div class="money-main">
 								<h1>
-									折扣卷
+									满减红包
 								</h1>
 								<p>
-									{{val.usTdAbortTime1}}到期
+									{{val.usTsCreateTimeString}}到期
 								</p>
 							</div>
 						</div>
 						<div class="money-time">
-							<span>剩余{{val.usTdNum}}张,限最新版本客户端使用</span>
-							<div class="join" @click="havecollect(2,val.usTraderDiscountId )">
+							<span>满{{val.usTsFullPrice}}可用,限最新版本客户端使用</span>
+							<div class="join" @click="havecollect(3,val.usTraderSubtractId)">
 								立即领取
 							</div>
 						</div>
@@ -112,56 +155,56 @@
 				el: '#app',
 				data: {
 					layui: false,
-					layuitext:'确定领取卡卷吗?',
-					searchtype:localStorage.getItem('searchdpeata'),
-					myurl:localStorage.getItem('myurl'),
-					mydata:[],
-					mydata01:[]
+					layuitext: '确定领取卡卷吗?',
+					searchtype: localStorage.getItem('searchdpeata'),
+					myurl: localStorage.getItem('myurl'),
+					mydata: []
 				},
 				methods: {
-					havecollect:function(type,id){
-						var that=this
+					havecollect: function(type, id) {
+						var that = this
 						$.ajax({
-							type:"post",
-							url:that.myurl+"/insertByMaRedMiddleUser",
-							async:true,
-							dataType:'json',
-							data:{
-								usUserId:localStorage.getItem('userid'),
-								maRmuStatus:type,
-								maRmuId:id
+							type: "post",
+							url: that.myurl + "/collectionUserRedPackage ",
+							async: true,
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('userid'),
+								usPmStyle: type,
+								usPackageId  : id
 							},
-							success:function(res){
-								if(res.status==200){
+							success: function(res) {
+								console.log(JSON.stringify(res))
+								if(res.status == 200) {
 									that.layuiboo('领取成功！')
-								}else{
-									that.layuiboo('领取失败！')
+								} else {
+									that.layuiboo(res.msg)
 								}
 							}
 						});
 					},
-					layuitrue:function(){
+					layuitrue: function() {
 						this.layuiboo()
 					},
 					layuiboo: function(text) {
-						this.layuitext=text
+						this.layuitext = text
 						this.layui = !this.layui
 					},
-					opennew:function(){
+					opennew: function() {
 						mui.openWindow({
-							url:'shop.html',
-							id:'shop'
+							url: 'shop.html',
+							id: 'shop'
 						})
 					},
-					myajax:function(){
-						var that=this
+					myajax: function() {
+						var that = this
 						$.ajax({
-							type:"get",
-							url:that.myurl+"/collectionUserRedMaRedEnvelope",
-							async:true,
-							dataType:'json',
-							success:function(res){
-								console.log(res)
+							type: "post",
+							url: that.myurl + "/collectionUserRedMaRedEnvelope",
+							async: true,
+							dataType: 'json',
+							success: function(res) {
+								that.mydata=res.data
 							}
 						});
 					}
@@ -173,7 +216,7 @@
 					this.myajax()
 				},
 				update: function() {
-					
+
 				}
 			})
 		</script>

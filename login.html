@@ -99,7 +99,7 @@
 						if(this.submittext == '登录') {
 							function plusReady() {
 								// 弹出系统等待对话框
-								plus.nativeUI.showWaiting("加载中...");
+								plus.nativeUI.showWaiting("登陆中...");
 							}
 							if(window.plus) {
 								plusReady();
@@ -114,8 +114,6 @@
 									usPhone: that.phone
 								},
 								success: function(res) {
-									console.log(res)
-
 									function plusReady() {
 										// 弹出系统等待对话框
 										plus.nativeUI.closeWaiting()
@@ -127,10 +125,10 @@
 									}
 									if(res.status == 200) {
 										localStorage.setItem('userid', res.data.usUserId)
-										//										localStorage.setItem('userid',1)
 										localStorage.setItem('usNickname', res.data.usNickname)
 										localStorage.setItem('usPhone', res.data.usPhone)
 										localStorage.setItem('usHeadImg', res.data.usHeadImg)
+										localStorage.setItem('usIsFirst', res.data.usIsFirst)
 										that.opennew('index')
 									} else {
 										that.layuiboo(res.msg)
@@ -138,6 +136,15 @@
 									}
 								},
 								error: function(err) {
+									function plusReady() {
+										// 弹出系统等待对话框
+										plus.nativeUI.closeWaiting()
+									}
+									if(window.plus) {
+										plusReady();
+									} else {
+										document.addEventListener("plusready", plusReady, false);
+									}
 									console.log(JSON.stringify(err))
 									that.layuiboo(err.msg)
 								}
@@ -166,7 +173,7 @@
 						var that = this
 						if(this.codenum == '获取验证码') {
 							var set = setInterval(function() {
-								if(that.codenum != 1) {
+								if(that.codenum > 1) {
 									that.codenum = that.codenum - 1
 								} else {
 									clearInterval(set)
@@ -176,7 +183,20 @@
 						}
 					}
 				},
-				mounted() {}
+				mounted() {
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.key.addEventListener("backbutton", function() {
+							plus.nativeUI.toast('请先进行登陆')
+						})
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+
+				}
 			})
 		</script>
 	</body>

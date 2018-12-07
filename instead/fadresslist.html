@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -13,7 +12,6 @@
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
-
 	<body>
 		<div id="app" class="wrapper adresslist">
 			<div class="layui" v-show="layui">
@@ -42,7 +40,7 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div class="list-group" v-for="(val,index) in adressdata" @click="change(val.usAddressId,index)">
+				<div class="list-group" v-for="(val,index) in adressdata" @click="change(val.usAddressId,index)" style="background: #FFFFFF;">
 					<div class="group-main">
 						<h2>
 							{{val.usAdsProvince}}{{val.usAdsCity}}{{val.usAdsArea}}
@@ -59,7 +57,7 @@
 							</span>
 						</p>
 					</div>
-					<img src="../img/change.png" @click.stop="opennew('changeadress',index)" />
+					<img src="../img/change.png" @click.stop="dedetail(index)" />
 				</div>
 
 			</div>
@@ -110,15 +108,17 @@
 						this.layuitext = text
 						this.layui = !this.layui
 					},
-					opennew: function(id, index) {
-						var that = this
-						if(index!=''){
+					dedetail:function(index){
+						var that=this
 							localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
 							localStorage.setItem('prov', that.adressdata[index].usAdsProvince)
 							localStorage.setItem('city', that.adressdata[index].usAdsCity)
 							localStorage.setItem('dist', that.adressdata[index].usAdsArea)
 							localStorage.setItem('usAdsDetailed', that.adressdata[index].usAdsDetailed)
-						}
+							this.opennew('changeadress')
+					},
+					opennew: function(id, myindex) {
+						var that = this
 						mui.openWindow({
 							url: '../' + id + '.html',
 							id: id

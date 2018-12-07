@@ -70,7 +70,6 @@
 						<div class="group-inner">
 							<div class="img-box">
 								<img :src="val.usTsFacadeImg | myimg" />
-								<!--<img src="img/index.jpg"/>-->
 							</div>
 							<div class="index-detail">
 								<div class="index-h">
@@ -143,7 +142,6 @@
 								usUserId: localStorage.getItem('userid')						
 							},
 							success: function(res) {
-								console.log(res)
 								that.collectdata = res.data
 								function plusReady() {
 									// 弹出系统等待对话框

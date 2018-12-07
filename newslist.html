@@ -81,7 +81,7 @@
 								</div>
 							</div>
 							<div class="img-box" v-if="val.maPnImg1!=null&&val.maPnImg1!=''">
-								<img :src="val.maPnImg1" />
+								<img :src="val.maPnImg1 | myimg" />
 							</div>
 						</div>
 
@@ -184,8 +184,10 @@
 					})
 					this.myajax()
 				},
-				update: function() {
-
+				filters: {
+					myimg: function(value) {
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
+					}
 				}
 			})
 		</script>

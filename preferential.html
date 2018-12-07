@@ -175,7 +175,8 @@
 					opennew: function(target) {
 						mui.openWindow({
 							url: '' + target + '.html',
-							id: '' + target + ''
+							id: '' + target + '',
+							createNew: true
 						})
 					},
 					opendetail: function(id,text) {
@@ -218,6 +219,7 @@
 								maApName:'同城广告'
 							},
 							success: function(res) {
+								console.log(JSON.stringify(res))
 								if(res.data!=null){
 									that.tuidata = res.data
 								}
@@ -251,7 +253,6 @@
 								usAddress:localStorage.getItem('city02')
 							},
 							success: function(res) {
-								console.log(res)
 								that.tuidata03 = res.data
 
 							}

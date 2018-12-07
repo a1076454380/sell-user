@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -13,6 +14,7 @@
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
 	</head>
+
 	<body>
 		<div id="app" class="wrapper addadress">
 			<div class="layui" v-show="layui">
@@ -41,12 +43,12 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div id="city">  
-				  <select class="prov" name="usAdsProvince"></select>   
-				  <select class="city" name="usAdsCity"></select>  
-				  <select class="dist" name="usAdsArea"></select>  
+				<div id="city">
+					<select class="prov" name="usAdsProvince"></select>
+					<select class="city" name="usAdsCity"></select>
+					<select class="dist" name="usAdsArea"></select>
 				</div>
-				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址" v-model="usAdsDetailed"/>
+				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址" v-model="usAdsDetailed" />
 				<div class="submit" @click="gosubmit">
 					确定新增
 				</div>
@@ -58,16 +60,16 @@
 				data: {
 					layui: false,
 					layuitext: '错误',
-					myurl:localStorage.getItem('myurl'),
-					prove:'',
-					city:'',
-					dist:'',
-					usAdsDetailed:''
+					myurl: localStorage.getItem('myurl'),
+					prove: '',
+					city: '',
+					dist: '',
+					usAdsDetailed: ''
 				},
 				methods: {
-					layuiboo: function(text,id) {
-						if(id!=''){
-							this.usAddressId=id
+					layuiboo: function(text, id) {
+						if(id != '') {
+							this.usAddressId = id
 						}
 						this.layuitext = text
 						this.layui = !this.layui
@@ -78,29 +80,40 @@
 							id: id
 						})
 					},
-					gosubmit:function(){
-						var that=this
-						if(that.usAdsDetailed==''){
+					gosubmit: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that = this
+						if(that.usAdsDetailed == '') {
 							plus.nativeUI.toast('请把信息填写完整！')
 							return false;
 						}
 						$.ajax({
-							type:"post",
-							url:that.myurl+"/insertAddress",
-							dataType:'json',
-							data:{
-								usUserId:localStorage.getItem('userid'),
-								usAdsProvince:$('.prov option:selected').text(),
-								usAdsCity:$('.city option:selected').text(),
-								usAdsArea:$('.dist option:selected').text(),
-								usAdsDetailed:that.usAdsDetailed
+							type: "post",
+							url: that.myurl + "/insertAddress",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('userid'),
+								usAdsProvince: $('.prov option:selected').text()+'省',
+								usAdsCity: $('.city option:selected').text()+'市',
+								usAdsArea: $('.dist option:selected').text(),
+								usAdsDetailed: that.usAdsDetailed
 							},
-							success:function(res){
-								console.log(res)
-								if(res.status==200){
+							success: function(res) {
+								if(res.status == 200) {
 									function plusReady() {
 										// 弹出系统等待对话框
 										plus.nativeUI.toast('新增完成！')
+										plus.nativeUI.closeWaiting()
+										plus.webview.getWebviewById('adresslist').reload(true)
+										mui.back()
 									}
 									if(window.plus) {
 										plusReady();
@@ -111,9 +124,9 @@
 							}
 						});
 					},
-					back:function(){
+					back: function() {
 						plus.webview.getWebviewById('adresslist').reload(true)
-						mui.back() 
+						mui.back()
 					}
 				},
 				mounted: function() {

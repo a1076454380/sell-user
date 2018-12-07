@@ -197,9 +197,8 @@
 							usRtDetails:that.fdetail,
 							usAddressId:localStorage.getItem('usAddressId'),
 							usRtIsType:that.insteadtype,
-							usRtdWeight:that.usRtdWeight
+							usRtWeight:that.usRtdWeight
 						}
-						console.log(ajaxjson)
 						$.ajax({
 							type:"post",
 							url:localStorage.getItem('myurl')+"/addReplaceOrder",
@@ -209,7 +208,7 @@
 								console.log(res)
 								plus.payment.request(that.channel[0], res.data[0], function(result) {
 										plus.nativeUI.alert("支付成功！", function() {
-											
+											that.opennew('order')
 										});
 									}, function(error) {
 										console.log(JSON.stringify(error))

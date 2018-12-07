@@ -106,14 +106,12 @@
 							usNickname: that.usNickname,
 							usHeadImg: that.usHeadImg
 						}
-						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: 'post',
 							dataType: 'json',
 							url: that.myurl + '/updateHeadImg',
 							data: ajaxjson,
 							success: function(res) {
-								console.log(res)
 								if(res.status == 200) {
 									$.ajax({
 										type: "get",
@@ -123,7 +121,6 @@
 											usPhone: localStorage.getItem('usPhone')
 										},
 										success: function(res) {
-											console.log(res)
 											if(res.status == 200) {
 												localStorage.setItem('userid', res.data.usUserId)
 												localStorage.setItem('usNickname', res.data.usNickname)
@@ -132,6 +129,8 @@
 
 												function plusReady() {
 													// 弹出系统等待对话框
+													plus.webview.getWebviewById('user').reload(true)
+													plus.webview.getWebviewById('vipcart').reload(true)
 													plus.nativeUI.closeWaiting()
 													plus.nativeUI.toast("更新完成...");
 												}

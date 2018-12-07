@@ -170,7 +170,7 @@
 								优惠:
 								<span v-if="mydata.listPackage.length==0&&mydata.listDiscount.length==0&&mydata.listSubtract.length==0&&mydata.listNewActivities.length==0">对不起客官，本店暂无优惠呢！</span>
 								<span v-if="mydata.listPackage.length!=0">线上专享{{mydata.listPackage[mydata.listPackage.length-1].usTpPrice}}元红包</span>
-								<span v-if="mydata.listDiscountlength!=0">线上专享{{mydata.listDiscount.usTdDicsont/10}}折优惠</span>
+								<span v-if="mydata.listDiscount.length!=0">线上专享{{mydata.listDiscount[0].usTdDicsont/10}}折优惠</span>
 								<span v-if="mydata.listSubtract.length!=0">线上专享满{{mydata.listSubtract[mydata.listSubtract.length-1].usTsFullPrice}}减{{mydata.listSubtract[mydata.listSubtract.length-1].usTsSubtractPrice}}</span>
 								<span v-if="mydata.listNewActivities.length!=0">新用户立减{{mydata.listNewActivities[mydata.listNewActivities.length-1].usTnaPrice}}</span>
 							</p>
@@ -322,6 +322,15 @@
 						});
 					},
 					addcart: function(id, price) {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting();
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						var that = this
 						$('.mycart').addClass('cartanimate')
 						setTimeout(function() {
@@ -341,6 +350,15 @@
 							dataType: 'json',
 							data: ajaxjson,
 							success: function(res) {
+								function plusReady() {
+									// 弹出系统等待对话框
+									var w = plus.nativeUI.closeWaiting();
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 								if(res.status == 200) {
 									that.havecart()
 								} else {
@@ -400,11 +418,21 @@
 					},
 					pay: function(target, usTraderShoppingId) {
 						this.bottomtab()
-						localStorage.setItem('cartdata',JSON.stringify(this.cartdata))
-						mui.openWindow({
-							url: '' + target + '.html',
-							id: target
-						})
+//						判断是否营业
+						if(this.mydata.listUsTraderOperate[0].usToIsOpen!=1){
+							plus.nativeUI.toast('该店铺正在休息呢,换一家逛逛吧~~')
+						}else{
+							//						判断起送价
+							if(this.cartdata.usScPrice>=this.mydata.listUsTraderStoresInfo[0].usTsActionPrice){
+								localStorage.setItem('cartdata',JSON.stringify(this.cartdata))
+								mui.openWindow({
+									url: '' + target + '.html',
+									id: target
+								})
+							}else{
+								plus.nativeUI.toast('该店铺起送价为'+this.mydata.listUsTraderStoresInfo[0].usTsActionPrice+'元')
+							}
+						}
 					},
 					myajax: function() {
 						function plusReady() {
@@ -460,6 +488,15 @@
 						}
 					},
 					reduce: function(id,price) {
+						function plusReady() {
+							// 弹出系统等待对话框
+							var w = plus.nativeUI.showWaiting("订单查询中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						var that = this
 						var ajaxjson = {
 							usTraderShoppingId: id,
@@ -496,7 +533,7 @@
 									that.mycartnum = res.data.usShoppingCartPojos.length
 									that.cartdata = res.data
 								}else{
-									that.mycartnum = res.data.usShoppingCartPojos.length
+									that.mycartnum = 0
 									that.cartdata=[]
 								}
 

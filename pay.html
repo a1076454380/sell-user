@@ -105,57 +105,45 @@
 					</div>
 					<div class="shop-back" style="height: auto;" v-if="discountdata!=''">
 						<div class="back-inner">
-							<div class="back-group" v-if="discountdata.listNewActivities!=[]">
-								<span>
-										<span class="red">
-											新
-										</span>
+							<div class="back-group" v-if="discountdata.listsNewActivities!=null" @click="achange('x')">
+								<img src="img/xin.png" class="logo" />
 								<span class="grey">
-											新人立减
-										</span>
+									新人立减
 								</span>
 								<span>
-										-  ¥{{discountdata.listNewActivities[0].usTnaPrice}}
-									</span>
+									-  ¥{{discountdata.listsNewActivities[xindex][0].usTnaPrice}}
+								</span>
+								<img src="img/arrright.png" class="arr" />
 							</div>
-							<div class="back-group" v-if="discountdata.listDiscount!=[]">
-								<span>
-										<span class="red">
-											折
-										</span>
+							<div class="back-group" v-if="discountdata.listsDiscount!=null" @click="achange('z')">
+								<img src="img/zhe.png" class="logo" />
 								<span class="grey">
-											折扣优惠
-										</span>
+									折扣优惠
 								</span>
 								<span>
-										{{discountdata.listDiscount[0].usTdDicsont/10}}折
-									</span>
+									{{discountdata.listsDiscount[zindex][0].usTdDicsont/10}}折
+								</span>
+								<img src="img/arrright.png" class="arr" />
 							</div>
-							<div class="back-group" v-if="listSubtract.length!=0">
-								<span>
-										<span class="red">
-											满
-										</span>
+							<div class="back-group" v-if="listSubtract.length!=0" @click="achange('m')">
+								<img src="img/man.png" class="logo" />
 								<span class="grey">
-											满减优惠
-										</span>
+									满减优惠
 								</span>
 								<span>
-										-  ¥{{listSubtract.usTsSubtractPrice}}
-									</span>
+									-  ¥{{listSubtract[mindex][0].usTsSubtractPrice}}
+								</span>
+								<img src="img/arrright.png" class="arr" />
 							</div>
-							<div class="back-group" v-if="discountdata.listPackage.length!=0">
-								<span>
-										<span class="red">
-											红
-										</span>
+							<div class="back-group" v-if="hdata.length!=0" @click="achange('h')">
+								<img src="img/hong.png" class="logo" />
 								<span class="grey">
-											红包优惠
-										</span>
+									红包优惠
 								</span>
 								<span>
-										-  ¥{{discountdata.listPackage[0].usTpPrice}}
-									</span>
+									-  ¥{{hdata[hindex][0].usTpPrice}}
+								</span>
+								<img src="img/arrright.png" class="arr" />
 							</div>
 						</div>
 					</div>
@@ -164,14 +152,11 @@
 							<div class="back-group">
 								<span></span>
 								<span>
-									<span class="grey">
-										<!--优惠¥6.6-->
-									</span>
-								<strong>
-										合计
+									<strong>
+											合计
 									</strong>
-								<span class="moneyred">
-										¥{{allprice}}
+									<span class="moneyred">
+										¥{{allprice | foprice}}
 									</span>
 								</span>
 							</div>
@@ -188,6 +173,34 @@
 					<span @click="wpay" style="flex: 1;text-align: center;">微信</span>
 				</div>
 			</div>
+			<!--新人-->
+			<div class="myalert" v-if="aboo" @click="achange">
+				<div class="main-top">
+					{{atype | mytype}}
+				</div>
+				<div class="myalert-inner">
+					<!--新人红包-->
+					<div class="mytab" v-for='(val,index) in discountdata.listsNewActivities' v-if="atype=='x'&&val.length!=0">
+						￥<strong>{{val[0].usTnaPrice}}</strong>(新人立减，线上用户专享！)
+						<div class="btn" @click.stop="changeindex('x',index)">立即使用</div>
+					</div>
+					<!--折扣-->
+					<div class="mytab" v-for='(val,index) in discountdata.listsDiscount' v-if="atype=='z'&&val.length!=0">
+						<strong>{{val[0].usTdDicsont/10}}折</strong>(限时折扣，线上用户专享！)
+						<div class="btn" @click.stop="changeindex('z',index)">立即使用</div>
+					</div>
+					<!--优惠红包-->
+					<div class="mytab" v-for='(val,index) in hdata' v-if="atype=='h'&&val.length!=0">
+						￥<strong>{{val[0].usTpPrice}}</strong>(满{{val[0].usTpLimitPrice}}可用，线上用户专享！)
+						<div class="btn" @click.stop="changeindex('h',index)">立即使用</div>
+					</div>
+					<!--满减-->
+					<div class="mytab" v-for='(val,index) in listSubtract' v-if="atype=='m'&&val.length!=0">
+						￥<strong>{{val[0].usTsSubtractPrice}}</strong>(满{{val[0].usTsFullPrice}}可用，线上用户专享！)
+						<div class="btn" @click.stop="changeindex('m',index)">立即使用</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
@@ -202,24 +215,72 @@
 					listSubtract: [],
 					allprice: '',
 					note: '',
-					channel: ''
+					channel: '',
+					xindex: 0,
+					mindex: 0,
+					zindex: 0,
+					hindex: 0,
+					hdata: [],
+					aboo: false,
+					atype: ''
 				},
 				methods: {
+					achange: function(type) {
+						this.atype = type
+						this.aboo = !this.aboo
+					},
+					changeindex: function(type, index) {
+						if(type == 'x') {
+							this.xindex = index
+						} else if(type == 'm') {
+							this.mindex = index
+						} else if(type == 'z') {
+							this.zindex = index
+						} else if(type == 'h') {
+							this.hindex = index
+						}
+						this.aboo = false
+						this.myprice()
+					},
 					wpay: function() {
 						var that = this
 						if(that.adressdata == '') {
 							that.opennew('adresslist')
 							return false;
 						}
-						plus.nativeUI.showWaiting('支付中')
+
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting();
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						if(localStorage.getItem('usIsFirst') == 1) {
+							//							更改新人状态
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + "/updateUsUserFirst    ",
+								dataType: 'json',
+								data: {
+									usUserId: localStorage.getItem('userid')
+								},
+								success: function(res) {
+									console.log(JSON.stringify(res))
+									localStorage.setItem('usIsFirst', 2)
+								}
+							});
+						}
 						//						创建订单
 						var ajaxjson = {
 							userId: localStorage.getItem('userid'),
 							shoppingCartId: that.cartdata.usShoppingCartId,
-							redPackageId: that.discountdata.listPackage[0].usTraderPackageId,
-							discontId: that.discountdata.listDiscount.length == 0 ? '' : that.discountdata.listDiscount[0].usTraderDiscountId,
-							fullReduceId: that.listSubtract.usTraderSubtractId,
-							newPeopleId: that.discountdata.listNewActivities[0].usTraderNewActivitiesId,
+							redPackageId: that.hdata.length != 0 ? that.hdata[that.hindex][0].usTraderPackageId : '',
+							discontId: that.discountdata.listsDiscount.length == 0 ? '' : that.discountdata.listsDiscount[that.zindex][0].usTraderDiscountId,
+							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract[that.mindex][0].usTraderSubtractId : '',
+							newPeopleId: that.discountdata.listsNewActivities[that.xindex][0].usTraderNewActivitiesId,
 							note: that.note,
 							price: that.allprice,
 							statusPay: 2
@@ -249,17 +310,40 @@
 							that.opennew('adresslist')
 							return false;
 						}
-						plus.nativeUI.showWaiting('支付中')
+
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting();
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						if(localStorage.getItem('usIsFirst') == 1) {
+							//							更改新人状态
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + "/updateUsUserFirst    ",
+								dataType: 'json',
+								data: {
+									usUserId: localStorage.getItem('userid')
+								},
+								success: function(res) {
+									localStorage.setItem('usIsFirst', 2)
+								}
+							});
+						}
 						//						创建订单
 						var ajaxjson = {
 							userId: localStorage.getItem('userid'),
 							shoppingCartId: that.cartdata.usShoppingCartId,
-							redPackageId: that.discountdata.listPackage.length != 0 ? that.discountdata.listPackage[0].usTraderPackageId : '',
-							discontId: that.discountdata.listDiscount.length == 0 ? '' : that.discountdata.listDiscount[0].usTraderDiscountId,
-							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract.usTraderSubtractId : '',
-							newPeopleId: that.discountdata.listNewActivities.length != 0 ? that.discountdata.listNewActivities[0].usTraderNewActivitiesId : '',
+							redPackageId: that.hdata.length != 0 ? that.hdata[that.hindex][0].usTraderPackageId : '',
+							discontId: that.discountdata.listsDiscount == null ? '' : that.discountdata.listsDiscount[that.zindex][0].usTraderDiscountId,
+							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract[that.mindex][0].usTraderSubtractId : '',
+							newPeopleId:that.discountdata.listsNewActivities != null ?that.discountdata.listsNewActivities[that.xindex][0].usTraderNewActivitiesId:'',
 							note: that.note,
-							price: that.allprice,
+							price: 0.01,
 							statusPay: 1
 						}
 						$.ajax({
@@ -268,16 +352,19 @@
 							dataType: 'json',
 							data: ajaxjson,
 							success: function(res) {
+								console.log(JSON.stringify(res))
 								plus.payment.request(that.channel[0], res.data[0], function(result) {
 									plus.nativeUI.alert("支付成功！", function() {
 										plus.webview.getWebviewById('shop').reload('true')
 										plus.nativeUI.closeWaiting()
-										that.opennew('orderlist')
+										mui.back()
 									});
 								}, function(error) {
 									plus.nativeUI.closeWaiting()
 									plus.nativeUI.toast('支付失败！')
 								});
+							},error:function(err){
+								console.log(JSON.stringify(err))
 							}
 						});
 					},
@@ -302,6 +389,15 @@
 						}
 					},
 					myajax: function() {
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 						var that = this
 						//						获取收货地址
 						$.ajax({
@@ -312,11 +408,16 @@
 								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
-								for(var i = 0; i < res.data.length; i++) {
-									if(res.data[i].usAdsStatus == 1) {
-										that.adressdata = res.data[i]
+								if(res.data != null) {
+									for(var i = 0; i < res.data.length; i++) {
+										if(res.data[i].usAdsStatus == 1) {
+											that.adressdata = res.data[i]
+										}
 									}
+								} else {
+									that.adressdata = []
 								}
+
 							}
 						});
 						//						获取优惠信息
@@ -325,55 +426,69 @@
 							url: localStorage.getItem('myurl') + "/selectRedEnvelopes",
 							dataType: 'json',
 							data: {
-								usTraderStoresId: that.cartdata.usTraderStoresId
+								usTraderStoresId: that.cartdata.usTraderStoresId,
+								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
-
 								that.discountdata = res.data
-
-								for(var i = 0; i < res.data.listSubtract.length; i++) {
-									if(res.data.listSubtract[i].usTsFullPrice <= that.cartdata.usScPrice) {
-										that.listSubtract = res.data.listSubtract[i]
+								//								满减筛选
+								if(res.data.listsSubject!=null){
+									for(var i = 0; i < res.data.listsSubject.length; i++) {
+										if(res.data.listsSubject[i][0] != undefined) {
+											if(res.data.listsSubject[i][0].usTsFullPrice <= that.cartdata.usScPrice) {
+												that.listSubtract.push(res.data.listsSubject[i])
+											}
+										}
 									}
 								}
-
-								var allprice = that.cartdata.usScPrice
-								//								新人满减
-								if(that.discountdata.listNewActivities.length != 0) {
-									allprice = allprice - that.discountdata.listNewActivities[0].usTnaPrice
+								
+								//								红包筛选
+								if(res.data.listsPackage!=null){
+									for(var i = 0; i < res.data.listsPackage.length; i++) {
+										if(res.data.listsPackage[i].length != 0) {
+											if(res.data.listsPackage[i][0].usTpLimitPrice <= that.cartdata.usScPrice) {
+												that.hdata.push(res.data.listsPackage[i])
+											}
+										}
+									}
 								}
-								//								满减
-								if(that.discountdata.listPackage.length != 0) {
-									//									allprice=allprice-that.discountdata.listPackage[0].usTpPrice
-								}
-								//								红包优惠
-								if(that.listSubtract.length != 0) {
-									allprice = allprice - that.listSubtract.usTsSubtractPrice
-								}
-								//								折扣优惠
-								if(that.discountdata.listDiscount.length != 0) {
-									allprice = allprice * (that.discountdata.listDiscount[0].usTdDicsont / 100)
-								}
-								if(allprice < 0) {
-									allprice = 0
-								}
-
-								//								that.allprice = allprice + that.discountdata.listMaDistributionUsPackingFee.usPfPrice + that.discountdata.listMaDistributionUsPackingFee.maDiPrice
-								that.allprice = 0.01
+								that.myprice()
 							}
 						});
-						//						获取我的红包
-						$.ajax({
-							type: "post",
-							url: localStorage.getItem('myurl') + "/collectionUserRedMaRedEnvelope",
-							dataType: 'json',
-							data: {
-								usTraderStoresId: that.cartdata.usTraderStoresId
-							},
-							success: function(res) {
+					},
+					myprice: function() {
+						var that = this
+						var allprice = that.cartdata.usScPrice
+						//新人满减
+						if(that.discountdata.listsNewActivities != null) {
+							allprice = allprice - that.discountdata.listsNewActivities[that.xindex][0].usTnaPrice
+						}
+						//红包
+						if(that.hdata.length != 0) {
+							allprice = allprice - that.hdata[that.hindex][0].usTpPrice
+						}
+						//满减
+						if(that.listSubtract.length != 0) {
+							allprice = allprice - that.listSubtract[that.mindex][0].usTsSubtractPrice
+						}
+						//折扣优惠
+						if(that.discountdata.listsDiscount != null) {
+							allprice = allprice * (that.discountdata.listsDiscount[that.zindex][0].usTdDicsont / 100)
+						}
+						if(allprice < 0) {
+							allprice = 0
+						}
+						that.allprice = allprice + that.discountdata.listMaDistributionUsPackingFee.usPfPrice + that.discountdata.listMaDistributionUsPackingFee.maDiPrice
 
-							}
-						});
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 					}
 				},
 				mounted: function() {
@@ -400,6 +515,28 @@
 				filters: {
 					myimg: function(value) {
 						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
+					},
+					mytype: function(value) {
+						switch(value) {
+							case 'x':
+								return '新人红包'
+								break;
+							case 'm':
+								return '满减红包'
+								break;
+							case 'z':
+								return '折扣红包'
+								break;
+							default:
+								return '优惠红包'
+								break;
+						}
+					},
+					foprice: function(value) {
+						if(value != '') {
+							return value.toFixed(2)
+						}
+
 					}
 				}
 			})

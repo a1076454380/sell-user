@@ -140,6 +140,7 @@
 						}
 						var that = this
 						this.ajaxmore = true
+						that.pageNum++
 						$.ajax({
 							type: "post",
 							url: that.myurl + "/queryUsTraderStoresRecommendPojoByMaMerchantsStyleId",

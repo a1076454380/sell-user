@@ -53,10 +53,10 @@
 					<p>
 						{{mydata.maPnContent}}
 					</p>
-					<img :src="mydata.maPnImg1" v-if="mydata.maPnImg1!=''" />
-					<img :src="mydata.maPnImg2" v-if="mydata.maPnImg2!=''" />
-					<img :src="mydata.maPnImg3" v-if="mydata.maPnImg3!=''" />
-					<img :src="mydata.maPnImg4" v-if="mydata.maPnImg4!=''" />
+					<img :src="mydata.maPnImg1 | myimg" v-if="mydata.maPnImg1!=''" />
+					<img :src="mydata.maPnImg2 | myimg" v-if="mydata.maPnImg2!=''" />
+					<img :src="mydata.maPnImg3 | myimg" v-if="mydata.maPnImg3!=''" />
+					<img :src="mydata.maPnImg4 | myimg" v-if="mydata.maPnImg4!=''" />
 				</div>
 			</div>
 			<footer class="footer">
@@ -123,8 +123,10 @@
 					});
 					this.myajax()
 				},
-				update: function() {
-
+				filters: {
+					myimg: function(value) {
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
+					}
 				}
 			})
 		</script>

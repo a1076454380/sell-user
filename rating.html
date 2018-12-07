@@ -41,13 +41,13 @@
 			<div class="main">
 					<input type="text" name="" v-model="title" placeholder="请输入发布标题" />
 					<input type="text" name="" v-model="navtext" readonly="readonly" @click="bottomshow" placeholder="请选择分类" />
-					<textarea name="" v-model="text" placeholder="请输入发布内容">
+					<textarea name="" v-model="mytext" placeholder="请输入发布内容">
 						
 					</textarea>
-					<input type="hidden" name="" id="in01" v-model="maPnImg1"/>
-					<input type="hidden" name="" id="in02"  v-model="maPnImg2"/>
-					<input type="hidden" name="" id="in03"  v-model="maPnImg3"/>
-					<input type="hidden" name="" id="in04"  v-model="maPnImg4"/>
+					<input type="hidden" name="" id="in01"/>
+					<input type="hidden" name="" id="in02"/>
+					<input type="hidden" name="" id="in03"/>
+					<input type="hidden" name="" id="in04"/>
 				<div class="img-box">
 					<div class="img-main">
 						<img src="img/addrating.png" @click="imgclick('maPnImg1','in01')" id="maPnImg1" />
@@ -84,7 +84,7 @@
 					layui: false,
 					layuitext: '发送成功',
 					title: '',
-					text: '',
+					mytext: '',
 					imgid: '',
 					inputid: '',
 					server: localStorage.getItem('myurl') + '/imageNewsImage',
@@ -94,10 +94,6 @@
 					navdata:'',
 					myurl:localStorage.getItem('myurl'),
 					maMerchantsStyleId:'',
-					maPnImg1:'',
-					maPnImg2:"",
-					maPnImg3:"",
-					maPnImg4:''
 				},
 				methods: {
 					myajax:function(){
@@ -151,18 +147,30 @@
 								usUserId:localStorage.getItem('userid'),
 								maMerchantsStyleId:that.maMerchantsStyleId,
 								maPnTitle:that.title,
-								maPnContent:that.text,
+								maPnContent:that.mytext,
+								maPnImg1:$('#in01').val(),
+								maPnImg2:$('#in02').val(),
+								maPnImg3:$('#in03').val(),
+								maPnImg4:$('#in04').val(),
+								maPnCreateName:localStorage.getItem('usNickname')
+							},
+							success: function(res) {
+								console.log(JSON.stringify({
+								usUserId:localStorage.getItem('userid'),
+								maMerchantsStyleId:that.maMerchantsStyleId,
+								maPnTitle:that.title,
+								maPnContent:that.mytext,
 								maPnImg1:that.maPnImg1,
 								maPnImg2:that.maPnImg2,
 								maPnImg3:that.maPnImg3,
 								maPnImg4:that.maPnImg4,
 								maPnCreateName:localStorage.getItem('usNickname')
-							},
-							success: function(res) {
+							}))
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
-									plus.nativeUI.toast('发送成功')
+									plus.webview.getWebviewById('newslist').reload(true)
+									mui.back()
 								}
 								if(window.plus) {
 									plusReady();
