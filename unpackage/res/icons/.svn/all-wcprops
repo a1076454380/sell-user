@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
-V 57
-/svn/waimai-User/!svn/ver/2/sell-user/unpackage/res/icons
+V 58
+/svn/waimai-User/!svn/ver/19/sell-user/unpackage/res/icons
 END
 29x29.png
 K 25
@@ -21,6 +21,12 @@ svn:wc:ra_dav:version-url
 V 70
 /svn/waimai-User/!svn/ver/19/sell-user/unpackage/res/icons/192x192.png
 END
+76x76.png
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/waimai-User/!svn/ver/19/sell-user/unpackage/res/icons/76x76.png
+END
 58x58.png
 K 25
 svn:wc:ra_dav:version-url
@@ -32,12 +38,6 @@ K 25
 svn:wc:ra_dav:version-url
 V 70
 /svn/waimai-User/!svn/ver/19/sell-user/unpackage/res/icons/256x256.png
-END
-76x76.png
-K 25
-svn:wc:ra_dav:version-url
-V 68
-/svn/waimai-User/!svn/ver/19/sell-user/unpackage/res/icons/76x76.png
 END
 167x167.png
 K 25

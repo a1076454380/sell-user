@@ -75,7 +75,7 @@
 								<span v-show="insteadtype==3">取货</span>
 							</label>
 							<div class="input">
-								<div :class="adresstype==true?'inputactive':''" @click="adresstab">
+								<div :class="adresstype==true?'inputactive':''">
 									购买地址
 								</div>
 							</div>
@@ -93,7 +93,7 @@
 								收货
 							</label>
 							<div class="input">
-								<div :class="adresstype==true?'inputactive':''" @click="adresstab">
+								<div :class="adresstype==true?'inputactive':''">
 									收货地址
 								</div>
 							</div>
@@ -134,7 +134,7 @@
 					layui: false,
 					layuitext: '错误',
 					insteadtype: 1,
-					dtext: '',
+					dtext: localStorage.getItem('dtext')||'',
 					adresstype: true,
 					fprov: '',
 					sprov: '',
@@ -142,14 +142,14 @@
 					fdetail: '',
 					fdist:'',
 					insteadyes: true,
-					yprice: '',
+					yprice: localStorage.getItem('yprice')||'',
 					sdist:'',
 					sdetail:'',
 					sprov:'',
 					scity:'',
 					qsbeizhu:'',
 					qstime:'',
-					usRtdWeight:'',
+					usRtdWeight:localStorage.getItem('usRtdWeight')||'',
 					channel:''
 				},
 				methods: {
@@ -158,6 +158,9 @@
 						this.layui = !this.layui
 					},
 					opennew: function(id, type) {
+						localStorage.setItem('dtext',this.dtext)
+						localStorage.setItem('yprice',this.yprice)
+						localStorage.setItem('usRtdWeight',this.usRtdWeight)
 						localStorage.setItem('maptype',type)
 						mui.openWindow({
 							url: '' + id + '.html',
@@ -205,7 +208,7 @@
 							dataType:'json',
 							data:ajaxjson,
 							success:function(res){
-								console.log(res)
+								alert(JSON.stringify(ajaxjson))
 								plus.payment.request(that.channel[0], res.data[0], function(result) {
 										plus.nativeUI.alert("支付成功！", function() {
 											that.opennew('order')

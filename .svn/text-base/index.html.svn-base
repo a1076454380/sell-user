@@ -380,12 +380,14 @@
 							plus.nativeUI.toast('请先进行登陆')
 							mui.openWindow({
 								url: 'login.html',
-								id: 'login'
+								id: 'login',
+								createNew: true
 							})
 						}else{
 							mui.openWindow({
 								url: '' + target + '.html',
-								id: '' + target + ''
+								id: '' + target + '',
+								createNew: true
 							})
 						}
 					},

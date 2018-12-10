@@ -101,8 +101,8 @@
 							dataType: 'json',
 							data: {
 								usUserId: localStorage.getItem('userid'),
-								usAdsProvince: $('.prov option:selected').text(),
-								usAdsCity: $('.city option:selected').text(),
+								usAdsProvince: $('.prov option:selected').text()+'省',
+								usAdsCity: $('.city option:selected').text()+'市',
 								usAdsArea: $('.dist option:selected').text(),
 								usAdsDetailed: that.usAdsDetailed
 							},

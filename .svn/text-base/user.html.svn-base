@@ -205,7 +205,7 @@
 						mui.openWindow({
 							url: '' + adr + '.html',
 							id: '' + adr + '',
-							createNew:'true'
+							createNew: true
 						})
 					},
 					opendetail: function(id,usTraderId) {

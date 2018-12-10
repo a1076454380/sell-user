@@ -339,7 +339,7 @@
 							userId: localStorage.getItem('userid'),
 							shoppingCartId: that.cartdata.usShoppingCartId,
 							redPackageId: that.hdata.length != 0 ? that.hdata[that.hindex][0].usTraderPackageId : '',
-							discontId: that.discountdata.listsDiscount != null ? '' : that.discountdata.listsDiscount[that.zindex][0].usTraderDiscountId,
+							discontId: that.discountdata.listsDiscount == null ? '' : that.discountdata.listsDiscount[that.zindex][0].usTraderDiscountId,
 							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract[that.mindex][0].usTraderSubtractId : '',
 							newPeopleId:that.discountdata.listsNewActivities != null ?that.discountdata.listsNewActivities[that.xindex][0].usTraderNewActivitiesId:'',
 							note: that.note,

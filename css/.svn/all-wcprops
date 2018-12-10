@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
-V 41
-/svn/waimai-User/!svn/ver/2/sell-user/css
+V 42
+/svn/waimai-User/!svn/ver/34/sell-user/css
 END
 mui.min.css
 K 25
@@ -36,6 +36,6 @@ END
 taoyibao.css
 K 25
 svn:wc:ra_dav:version-url
-V 54
-/svn/waimai-User/!svn/ver/2/sell-user/css/taoyibao.css
+V 55
+/svn/waimai-User/!svn/ver/40/sell-user/css/taoyibao.css
 END

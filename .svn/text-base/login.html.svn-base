@@ -18,13 +18,16 @@
 			background: #fff;
 			position: relative;
 		}
+		.backimg{
+			position: absolute;top: 0;left: 0;width: 100%;height: 100%;
+		}
 	</style>
 
 	<body>
 		<div class="wrapper login" id="app">
-			<video src="img/loginback.mp4" autoplay="" loop=""></video>
+			<img src="img/backimg.png" class="backimg"/>
 			<div class="main">
-				<img src="img/logo.png" class="logo" />
+				<img src="logo/logo.png" class="logo"/>
 				<div class="form">
 					<div class="input-group" v-show="!code">
 						<img src="img/login_07.png" />
@@ -128,7 +131,7 @@
 										localStorage.setItem('usNickname', res.data.usNickname)
 										localStorage.setItem('usPhone', res.data.usPhone)
 										localStorage.setItem('usHeadImg', res.data.usHeadImg)
-										localStorage.setItem('usIsFirst',res.data.usIsFirst)
+										localStorage.setItem('usIsFirst', res.data.usIsFirst)
 										that.opennew('index')
 									} else {
 										that.layuiboo(res.msg)
@@ -173,7 +176,7 @@
 						var that = this
 						if(this.codenum == '获取验证码') {
 							var set = setInterval(function() {
-								if(that.codenum >1) {
+								if(that.codenum > 1) {
 									that.codenum = that.codenum - 1
 								} else {
 									clearInterval(set)
@@ -183,7 +186,20 @@
 						}
 					}
 				},
-				mounted() {}
+				mounted() {
+					function plusReady() {
+						// 弹出系统等待对话框
+						plus.key.addEventListener("backbutton", function() {
+							plus.nativeUI.toast('请先进行登陆')
+						})
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
+
+				}
 			})
 		</script>
 	</body>

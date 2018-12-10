@@ -96,8 +96,8 @@
 						}
 						var ajaxjson = {
 							usAddressId: localStorage.getItem('usAddressId'),
-							usAdsProvince: $('.prov option:selected').text(),
-							usAdsCity: $('.city option:selected').text(),
+							usAdsProvince: $('.prov option:selected').text()+'省',
+							usAdsCity: $('.city option:selected').text()+'市',
 							usAdsArea: $('.dist option:selected').text(),
 							usAdsDetailed: that.usAdsDetailed
 						}

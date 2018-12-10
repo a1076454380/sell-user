@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
-V 42
-/svn/waimai-User/!svn/ver/2/sell-user/logo
+V 43
+/svn/waimai-User/!svn/ver/12/sell-user/logo
 END
 1242x2208.png
 K 25
@@ -42,20 +42,20 @@ END
 logo.png
 K 25
 svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/2/sell-user/logo/logo.png
-END
-480x762.png
-K 25
-svn:wc:ra_dav:version-url
-V 54
-/svn/waimai-User/!svn/ver/2/sell-user/logo/480x762.png
+V 52
+/svn/waimai-User/!svn/ver/40/sell-user/logo/logo.png
 END
 logo02.png
 K 25
 svn:wc:ra_dav:version-url
 V 54
 /svn/waimai-User/!svn/ver/12/sell-user/logo/logo02.png
+END
+480x762.png
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/waimai-User/!svn/ver/2/sell-user/logo/480x762.png
 END
 1080x1882.png
 K 25
