@@ -173,9 +173,9 @@
 						} else if(value==2){
 							return '等待接单中'
 						}else if(value==3){
-							return '订单已接取'
+							return '骑手已结单'
 						}else{
-							return '物品已购买'
+							return '骑手已取件'
 						}
 					}
 				}

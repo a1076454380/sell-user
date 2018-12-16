@@ -262,13 +262,12 @@
 							//							更改新人状态
 							$.ajax({
 								type: "post",
-								url: localStorage.getItem('myurl') + "/updateUsUserFirst    ",
+								url: localStorage.getItem('myurl') + "/updateUsUserFirst",
 								dataType: 'json',
 								data: {
 									usUserId: localStorage.getItem('userid')
 								},
 								success: function(res) {
-									console.log(JSON.stringify(res))
 									localStorage.setItem('usIsFirst', 2)
 								}
 							});
@@ -278,19 +277,21 @@
 							userId: localStorage.getItem('userid'),
 							shoppingCartId: that.cartdata.usShoppingCartId,
 							redPackageId: that.hdata.length != 0 ? that.hdata[that.hindex][0].usTraderPackageId : '',
-							discontId: that.discountdata.listsDiscount.length == 0 ? '' : that.discountdata.listsDiscount[that.zindex][0].usTraderDiscountId,
+							discontId: that.discountdata.listsDiscount == null ? '' : that.discountdata.listsDiscount[that.zindex][0].usTraderDiscountId,
 							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract[that.mindex][0].usTraderSubtractId : '',
-							newPeopleId: that.discountdata.listsNewActivities[that.xindex][0].usTraderNewActivitiesId,
+							newPeopleId:that.discountdata.listsNewActivities != null ?that.discountdata.listsNewActivities[that.xindex][0].usTraderNewActivitiesId:'',
 							note: that.note,
 							price: that.allprice,
 							statusPay: 2
 						}
+						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/createAliPay",
 							dataType: 'json',
 							data: ajaxjson,
 							success: function(res) {
+								console.log(JSON.stringify(res))
 								plus.payment.request(that.channel[1], res, function(result) {
 									plus.nativeUI.alert("支付成功！", function() {
 										plus.webview.getWebviewById('shop').reload('true')
@@ -301,6 +302,9 @@
 									plus.nativeUI.closeWaiting()
 									plus.nativeUI.toast('支付失败！')
 								});
+							},
+							error:function(err){
+								console.log(JSON.stringify(err))
 							}
 						});
 					},

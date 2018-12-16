@@ -75,12 +75,12 @@
 								足迹
 							</span>
 						</div>
-						<div class="user-tab" @click="opennew('count')">
+						<!--<div class="user-tab" @click="opennew('count')">
 							<img src="img/card.png" />
 							<span>
 								折扣券
 							</span>
-						</div>
+						</div>-->
 						<div class="user-tab">
 							<img src="img/user-order.png" @click="opennew('orderlist')" />
 							<span>

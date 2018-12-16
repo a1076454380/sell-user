@@ -1,198 +1,203 @@
 {
-  "index.html": {
-    "refer": [
-      "shop.html",
-      "city.html",
-      "instead/instead.html",
-      "user.html",
-      "preferential.html",
-      "newslist.html",
-      "shoplist.html",
-      "shopcart.html",
-      "gosearch.html",
-      "login.html",
-      "vipcart.html",
-      "redb.html"
-    ],
-    "resources": [
-      "js/url.js",
-      "img/shopavatar.png",
-      "css/main.css",
-      "js/jquery.min.js",
-      "img/index-active.png",
-      "js/rem.js",
-      "img/drame.png",
-      "img/xhalf.png",
-      "img/user.png",
-      "img/search.png",
-      "img/newindex.png",
-      "img/mycart-active.png",
-      "img/index00.png",
-      "img/shoplist_13.png",
-      "js/vue.js",
-      "js/mui.min.js",
-      "img/shoplist_10.png",
-      "img/xactive.png",
-      "img/dvip.png",
-      "css/mui.min.css",
-      "img/found.png",
-      "img/redb.png",
-      "css/reset.css"
-    ]
-  },
-  "login.html": {
-    "refer": [
-      "index.html",
-      "register.html"
-    ],
-    "resources": []
-  },
-  "instead/instead.html": {
-    "refer": [
-      "instead/fadresslist.html",
-      "instead/map02.html",
-      "instead/adresslist.html",
-      "instead/order.html"
-    ],
-    "resources": []
-  },
-  "instead/fadresslist.html": {
-    "refer": [
-      "instead/map.html"
-    ],
-    "resources": []
-  },
-  "user.html": {
-    "refer": [
-      "userinfo.html",
-      "index.html",
-      "myfoot.html",
-      "mycollect.html",
-      "money.html",
-      "orderlist.html",
-      "instead/adresslist.html",
-      "vipcart.html",
-      "adresslist.html",
-      "preferential.html",
-      "login.html",
-      "shop.html",
-      "news.html"
-    ],
-    "resources": []
-  },
-  "preferential.html": {
-    "refer": [
-      "shop.html",
-      "user.html",
-      "vipcart.html",
-      "index.html"
-    ],
-    "resources": []
-  },
-  "orderlist.html": {
-    "refer": [
-      "orderdetail.html",
-      "user.html"
-    ],
-    "resources": []
-  },
-  "instead/adresslist.html": {
-    "refer": [
-      "instead/map.html",
-      "addadress.html"
-    ],
-    "resources": []
-  },
-  "newslist.html": {
-    "refer": [
-      "rating.html",
-      "newdetail.html"
-    ],
-    "resources": []
-  },
-  "orderdetail.html": {
-    "refer": [
-      "orderrating.html",
-      "shop.html"
-    ],
-    "resources": []
-  },
-  "instead/map02.html": {
-    "refer": [
-      "instead/instead.html"
-    ],
-    "resources": []
-  },
-  "instead/map.html": {
-    "refer": [
-      "instead/instead.html"
-    ],
-    "resources": []
-  },
-  "shop.html": {
-    "refer": [
-      "pay.html",
-      "goodsdetail.html"
-    ],
-    "resources": []
-  },
-  "instead/order.html": {
-    "refer": [
-      "instead/orderdetail.html"
-    ],
-    "resources": []
-  },
-  "vipcart.html": {
-    "refer": [
-      "preferential.html",
-      "index.html",
-      "user.html"
-    ],
-    "resources": []
-  },
-  "adresslist.html": {
-    "refer": [
-      "addadress.html",
-      "changeadress.html"
-    ],
-    "resources": []
-  },
-  "shoplist.html": {
-    "refer": [
-      "shop.html"
-    ]
-  },
-  "goodsdetail.html": {
-    "refer": [
-      "ratingall.html"
-    ]
-  },
-  "city.html": {
-    "refer": [
-      "index.html"
-    ]
-  },
-  "shopcart.html": {
-    "refer": [
-      "pay.html",
-      "shop.html"
-    ]
-  },
-  "pay.html": {
-    "refer": [
-      "instead/adresslist.html",
-      "adresslist.html",
-      "orderlist.html"
-    ]
-  },
-  "gosearch.html": {
-    "refer": [
-      "shop.html"
-    ]
-  },
-  "redb.html": {
-    "refer": [
-      "login.html"
-    ]
-  }
+	"index.html": {
+		"refer": [
+			"shop.html",
+			"city.html",
+			"instead/instead.html",
+			"user.html",
+			"preferential.html",
+			"newslist.html",
+			"shoplist.html",
+			"shopcart.html",
+			"gosearch.html",
+			"login.html",
+			"vipcart.html",
+			"redb.html"
+		],
+		"resources": [
+			"js/url.js",
+			"img/shopavatar.png",
+			"css/main.css",
+			"js/jquery.min.js",
+			"img/index-active.png",
+			"js/rem.js",
+			"img/drame.png",
+			"img/xhalf.png",
+			"img/user.png",
+			"img/search.png",
+			"img/newindex.png",
+			"img/mycart-active.png",
+			"img/index00.png",
+			"img/shoplist_13.png",
+			"js/vue.js",
+			"js/mui.min.js",
+			"img/shoplist_10.png",
+			"img/xactive.png",
+			"img/dvip.png",
+			"css/mui.min.css",
+			"img/found.png",
+			"img/redb.png",
+			"css/reset.css"
+		]
+	},
+	"login.html": {
+		"refer": [
+			"index.html",
+			"register.html"
+		],
+		"resources": []
+	},
+	"instead/instead.html": {
+		"refer": [
+			"instead/fadresslist.html",
+			"instead/map02.html",
+			"instead/adresslist.html",
+			"instead/order.html"
+		],
+		"resources": []
+	},
+	"instead/fadresslist.html": {
+		"refer": [
+			"instead/map.html"
+		],
+		"resources": []
+	},
+	"user.html": {
+		"refer": [
+			"userinfo.html",
+			"index.html",
+			"myfoot.html",
+			"mycollect.html",
+			"money.html",
+			"orderlist.html",
+			"instead/adresslist.html",
+			"vipcart.html",
+			"adresslist.html",
+			"preferential.html",
+			"login.html",
+			"shop.html",
+			"news.html"
+		],
+		"resources": []
+	},
+	"preferential.html": {
+		"refer": [
+			"shop.html",
+			"user.html",
+			"vipcart.html",
+			"index.html"
+		],
+		"resources": []
+	},
+	"orderlist.html": {
+		"refer": [
+			"orderdetail.html",
+			"user.html"
+		],
+		"resources": []
+	},
+	"instead/adresslist.html": {
+		"refer": [
+			"instead/map.html",
+			"addadress.html"
+		],
+		"resources": []
+	},
+	"newslist.html": {
+		"refer": [
+			"rating.html",
+			"newdetail.html"
+		],
+		"resources": []
+	},
+	"orderdetail.html": {
+		"refer": [
+			"orderrating.html",
+			"shop.html"
+		],
+		"resources": []
+	},
+	"instead/map02.html": {
+		"refer": [
+			"instead/instead.html"
+		],
+		"resources": []
+	},
+	"instead/map.html": {
+		"refer": [
+			"instead/instead.html"
+		],
+		"resources": []
+	},
+	"shop.html": {
+		"refer": [
+			"pay.html",
+			"goodsdetail.html"
+		],
+		"resources": []
+	},
+	"instead/order.html": {
+		"refer": [
+			"instead/orderdetail.html"
+		],
+		"resources": []
+	},
+	"vipcart.html": {
+		"refer": [
+			"preferential.html",
+			"index.html",
+			"user.html"
+		],
+		"resources": []
+	},
+	"adresslist.html": {
+		"refer": [
+			"addadress.html",
+			"changeadress.html"
+		],
+		"resources": []
+	},
+	"shoplist.html": {
+		"refer": [
+			"shop.html"
+		]
+	},
+	"goodsdetail.html": {
+		"refer": [
+			"ratingall.html"
+		]
+	},
+	"city.html": {
+		"refer": [
+			"index.html"
+		]
+	},
+	"shopcart.html": {
+		"refer": [
+			"pay.html",
+			"shop.html"
+		]
+	},
+	"pay.html": {
+		"refer": [
+			"instead/adresslist.html",
+			"adresslist.html",
+			"orderlist.html"
+		]
+	},
+	"gosearch.html": {
+		"refer": [
+			"shop.html"
+		]
+	},
+	"redb.html": {
+		"refer": [
+			"login.html"
+		]
+	},
+	"instead/orderdetail.html": {
+		"refer": [
+			"instead/orderrating02.html"
+		]
+	}
 }

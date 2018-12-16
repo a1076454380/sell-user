@@ -24,14 +24,20 @@ END
 orderdetail.html
 K 25
 svn:wc:ra_dav:version-url
-V 62
-/svn/waimai-User/!svn/ver/2/sell-user/instead/orderdetail.html
+V 63
+/svn/waimai-User/!svn/ver/43/sell-user/instead/orderdetail.html
 END
 map02.html
 K 25
 svn:wc:ra_dav:version-url
 V 56
 /svn/waimai-User/!svn/ver/2/sell-user/instead/map02.html
+END
+orderrating02.html
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/waimai-User/!svn/ver/44/sell-user/instead/orderrating02.html
 END
 fadresslist.html
 K 25
@@ -54,6 +60,6 @@ END
 order.html
 K 25
 svn:wc:ra_dav:version-url
-V 56
-/svn/waimai-User/!svn/ver/2/sell-user/instead/order.html
+V 57
+/svn/waimai-User/!svn/ver/42/sell-user/instead/order.html
 END

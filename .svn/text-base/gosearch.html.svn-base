@@ -62,7 +62,7 @@
 				<div class="index-group">
 						<div class="group-inner" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-if="history" v-for="val in tuidata">
 							<div class="img-box">
-								<img :src="val.usTsFacadeImg" />
+								<img :src="val.usTsFacadeImg | myimg" />
 							</div>
 							<div class="index-detail">
 								<div class="index-h">
@@ -174,13 +174,6 @@
 								pageNum:that.pageNum
 							},
 							success:function(res){
-								console.log(JSON.stringify({
-								lng:localStorage.getItem('lng'),
-								lat:localStorage.getItem('lat'),
-								usTsName:that.searchtext,
-								pageNum:that.pageNum
-							}))
-								console.log(JSON.stringify(res))
 								if(res.data.list!=null){
 									that.size=res.data.pages
 									that.ajaxmore=false
@@ -224,6 +217,11 @@
 					}
 				},
 				mounted: function() {
+				},
+				filters: {
+					myimg: function(value) {
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
+					}
 				}
 			})
 	</script>

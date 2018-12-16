@@ -83,12 +83,20 @@
 					</div>
 					<div class="shop-back">
 						<div class="back-inner">
-							<div class="back-group" style="justify-content: center;">
-								<a href="tel:154565646">
+							<div class="back-group" style="justify-content: center;" v-if="myajax.usRtStatus!=1">
+								<a href=["tel:"+myajax.usRiPhone+""]>
 									<img src="../img/detail_03.png" class="phone" />
 								</a>
 								<a :href=["tel:"+myajax.usRiPhone+""]>
 									联系骑手
+								</a>
+							</div>
+							<div class="back-group" style="justify-content: center;" v-if="myajax.usRtStatus==1" @click="opennew('orderrating02')">
+								<a href="javascript:void(0)">
+									<img src="../img/change.png" class="phone" />
+								</a>
+								<a href="javascript:void(0)">
+									评价订单
 								</a>
 							</div>
 						</div>
@@ -155,7 +163,6 @@
 								usReplaceTakeId: localStorage.getItem('usReplaceTakeId')
 							},
 							success: function(res) {
-								console.log(res)
 								that.myajax=res.data
 							}
 						});
@@ -170,9 +177,9 @@
 						} else if(value==2){
 							return '等待接单中'
 						}else if(value==3){
-							return '订单已接取'
+							return '骑手已结单'
 						}else{
-							return '物品已购买'
+							return '骑手已取件'
 						}
 					}
 				}

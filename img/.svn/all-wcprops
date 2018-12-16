@@ -87,23 +87,17 @@ svn:wc:ra_dav:version-url
 V 53
 /svn/waimai-User/!svn/ver/2/sell-user/img/collect.png
 END
-pay_03.png
-K 25
-svn:wc:ra_dav:version-url
-V 52
-/svn/waimai-User/!svn/ver/2/sell-user/img/pay_03.png
-END
 shalou.png
 K 25
 svn:wc:ra_dav:version-url
 V 52
 /svn/waimai-User/!svn/ver/2/sell-user/img/shalou.png
 END
-backblack.png
+pay_03.png
 K 25
 svn:wc:ra_dav:version-url
-V 55
-/svn/waimai-User/!svn/ver/2/sell-user/img/backblack.png
+V 52
+/svn/waimai-User/!svn/ver/2/sell-user/img/pay_03.png
 END
 remove.png
 K 25
@@ -111,17 +105,23 @@ svn:wc:ra_dav:version-url
 V 52
 /svn/waimai-User/!svn/ver/2/sell-user/img/remove.png
 END
+backblack.png
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/waimai-User/!svn/ver/2/sell-user/img/backblack.png
+END
 pay_07.png
 K 25
 svn:wc:ra_dav:version-url
 V 52
 /svn/waimai-User/!svn/ver/2/sell-user/img/pay_07.png
 END
-yes.png
+service.png
 K 25
 svn:wc:ra_dav:version-url
-V 49
-/svn/waimai-User/!svn/ver/2/sell-user/img/yes.png
+V 53
+/svn/waimai-User/!svn/ver/2/sell-user/img/service.png
 END
 1.png
 K 25
@@ -129,11 +129,11 @@ svn:wc:ra_dav:version-url
 V 47
 /svn/waimai-User/!svn/ver/2/sell-user/img/1.png
 END
-service.png
+yes.png
 K 25
 svn:wc:ra_dav:version-url
-V 53
-/svn/waimai-User/!svn/ver/2/sell-user/img/service.png
+V 49
+/svn/waimai-User/!svn/ver/2/sell-user/img/yes.png
 END
 pay_09.png
 K 25
@@ -159,17 +159,17 @@ svn:wc:ra_dav:version-url
 V 49
 /svn/waimai-User/!svn/ver/2/sell-user/img/out.png
 END
-exit.png
-K 25
-svn:wc:ra_dav:version-url
-V 50
-/svn/waimai-User/!svn/ver/2/sell-user/img/exit.png
-END
 orderright.png
 K 25
 svn:wc:ra_dav:version-url
 V 56
 /svn/waimai-User/!svn/ver/2/sell-user/img/orderright.png
+END
+exit.png
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/waimai-User/!svn/ver/2/sell-user/img/exit.png
 END
 found.png
 K 25
@@ -206,12 +206,6 @@ K 25
 svn:wc:ra_dav:version-url
 V 58
 /svn/waimai-User/!svn/ver/2/sell-user/img/found-active.png
-END
-loginback.jpg
-K 25
-svn:wc:ra_dav:version-url
-V 55
-/svn/waimai-User/!svn/ver/2/sell-user/img/loginback.jpg
 END
 instead.png
 K 25
@@ -254,12 +248,6 @@ K 25
 svn:wc:ra_dav:version-url
 V 53
 /svn/waimai-User/!svn/ver/2/sell-user/img/index00.png
-END
-index02.png
-K 25
-svn:wc:ra_dav:version-url
-V 53
-/svn/waimai-User/!svn/ver/2/sell-user/img/index02.png
 END
 rightwhite.png
 K 25
@@ -423,29 +411,29 @@ svn:wc:ra_dav:version-url
 V 52
 /svn/waimai-User/!svn/ver/2/sell-user/img/active.png
 END
-login_14.png
-K 25
-svn:wc:ra_dav:version-url
-V 55
-/svn/waimai-User/!svn/ver/40/sell-user/img/login_14.png
-END
 no.png
 K 25
 svn:wc:ra_dav:version-url
 V 48
 /svn/waimai-User/!svn/ver/2/sell-user/img/no.png
 END
-avatar.png
+login_14.png
 K 25
 svn:wc:ra_dav:version-url
-V 52
-/svn/waimai-User/!svn/ver/2/sell-user/img/avatar.png
+V 55
+/svn/waimai-User/!svn/ver/40/sell-user/img/login_14.png
 END
 login_16.png
 K 25
 svn:wc:ra_dav:version-url
 V 54
 /svn/waimai-User/!svn/ver/2/sell-user/img/login_16.png
+END
+avatar.png
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/waimai-User/!svn/ver/2/sell-user/img/avatar.png
 END
 newindex.png
 K 25
@@ -477,17 +465,17 @@ svn:wc:ra_dav:version-url
 V 57
 /svn/waimai-User/!svn/ver/2/sell-user/img/user-active.png
 END
-drame.png
-K 25
-svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/2/sell-user/img/drame.png
-END
 discount.png
 K 25
 svn:wc:ra_dav:version-url
 V 54
 /svn/waimai-User/!svn/ver/2/sell-user/img/discount.png
+END
+drame.png
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/waimai-User/!svn/ver/2/sell-user/img/drame.png
 END
 kuai.png
 K 25
@@ -501,17 +489,17 @@ svn:wc:ra_dav:version-url
 V 51
 /svn/waimai-User/!svn/ver/19/sell-user/img/hong.png
 END
-2.png
-K 25
-svn:wc:ra_dav:version-url
-V 47
-/svn/waimai-User/!svn/ver/2/sell-user/img/2.png
-END
 user-collect.png
 K 25
 svn:wc:ra_dav:version-url
 V 58
 /svn/waimai-User/!svn/ver/2/sell-user/img/user-collect.png
+END
+2.png
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/waimai-User/!svn/ver/2/sell-user/img/2.png
 END
 delete.png
 K 25
@@ -519,23 +507,11 @@ svn:wc:ra_dav:version-url
 V 52
 /svn/waimai-User/!svn/ver/2/sell-user/img/delete.png
 END
-index.jpg
-K 25
-svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/2/sell-user/img/index.jpg
-END
 4.png
 K 25
 svn:wc:ra_dav:version-url
 V 47
 /svn/waimai-User/!svn/ver/2/sell-user/img/4.png
-END
-Rectangle.png
-K 25
-svn:wc:ra_dav:version-url
-V 55
-/svn/waimai-User/!svn/ver/4/sell-user/img/Rectangle.png
 END
 wait.png
 K 25
@@ -543,11 +519,17 @@ svn:wc:ra_dav:version-url
 V 50
 /svn/waimai-User/!svn/ver/2/sell-user/img/wait.png
 END
-hbao.png
+Rectangle.png
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/waimai-User/!svn/ver/4/sell-user/img/Rectangle.png
+END
+card.png
 K 25
 svn:wc:ra_dav:version-url
 V 50
-/svn/waimai-User/!svn/ver/2/sell-user/img/hbao.png
+/svn/waimai-User/!svn/ver/2/sell-user/img/card.png
 END
 arrbottom.png
 K 25
@@ -555,11 +537,11 @@ svn:wc:ra_dav:version-url
 V 55
 /svn/waimai-User/!svn/ver/2/sell-user/img/arrbottom.png
 END
-card.png
+hbao.png
 K 25
 svn:wc:ra_dav:version-url
 V 50
-/svn/waimai-User/!svn/ver/2/sell-user/img/card.png
+/svn/waimai-User/!svn/ver/2/sell-user/img/hbao.png
 END
 zhe.png
 K 25
@@ -579,23 +561,11 @@ svn:wc:ra_dav:version-url
 V 49
 /svn/waimai-User/!svn/ver/2/sell-user/img/dai.png
 END
-logo.png
-K 25
-svn:wc:ra_dav:version-url
-V 50
-/svn/waimai-User/!svn/ver/2/sell-user/img/logo.png
-END
 user-rating.png
 K 25
 svn:wc:ra_dav:version-url
 V 57
 /svn/waimai-User/!svn/ver/2/sell-user/img/user-rating.png
-END
-xhalf.png
-K 25
-svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/2/sell-user/img/xhalf.png
 END
 dvip.png
 K 25
@@ -603,11 +573,11 @@ svn:wc:ra_dav:version-url
 V 50
 /svn/waimai-User/!svn/ver/2/sell-user/img/dvip.png
 END
-loginback.mp4
+xhalf.png
 K 25
 svn:wc:ra_dav:version-url
-V 55
-/svn/waimai-User/!svn/ver/2/sell-user/img/loginback.mp4
+V 51
+/svn/waimai-User/!svn/ver/2/sell-user/img/xhalf.png
 END
 reduce.png
 K 25
@@ -615,17 +585,17 @@ svn:wc:ra_dav:version-url
 V 52
 /svn/waimai-User/!svn/ver/2/sell-user/img/reduce.png
 END
-mycart-active.png
-K 25
-svn:wc:ra_dav:version-url
-V 59
-/svn/waimai-User/!svn/ver/2/sell-user/img/mycart-active.png
-END
 shopavatar.png
 K 25
 svn:wc:ra_dav:version-url
 V 56
 /svn/waimai-User/!svn/ver/2/sell-user/img/shopavatar.png
+END
+mycart-active.png
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/waimai-User/!svn/ver/2/sell-user/img/mycart-active.png
 END
 guoshu.png
 K 25
@@ -639,29 +609,29 @@ svn:wc:ra_dav:version-url
 V 51
 /svn/waimai-User/!svn/ver/2/sell-user/img/wucan.png
 END
-add.png
-K 25
-svn:wc:ra_dav:version-url
-V 49
-/svn/waimai-User/!svn/ver/2/sell-user/img/add.png
-END
 next-no.png
 K 25
 svn:wc:ra_dav:version-url
 V 53
 /svn/waimai-User/!svn/ver/2/sell-user/img/next-no.png
 END
-addrating.png
+add.png
 K 25
 svn:wc:ra_dav:version-url
-V 55
-/svn/waimai-User/!svn/ver/2/sell-user/img/addrating.png
+V 49
+/svn/waimai-User/!svn/ver/2/sell-user/img/add.png
 END
 backimg.png
 K 25
 svn:wc:ra_dav:version-url
 V 54
 /svn/waimai-User/!svn/ver/40/sell-user/img/backimg.png
+END
+addrating.png
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/waimai-User/!svn/ver/2/sell-user/img/addrating.png
 END
 vip.png
 K 25
@@ -687,17 +657,17 @@ svn:wc:ra_dav:version-url
 V 57
 /svn/waimai-User/!svn/ver/2/sell-user/img/shoplist_10.png
 END
-index.png
-K 25
-svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/2/sell-user/img/index.png
-END
 wancan.png
 K 25
 svn:wc:ra_dav:version-url
 V 52
 /svn/waimai-User/!svn/ver/2/sell-user/img/wancan.png
+END
+index.png
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/waimai-User/!svn/ver/2/sell-user/img/index.png
 END
 dvip-active.png
 K 25
@@ -705,11 +675,11 @@ svn:wc:ra_dav:version-url
 V 57
 /svn/waimai-User/!svn/ver/2/sell-user/img/dvip-active.png
 END
-chaoshi.png
+user.png
 K 25
 svn:wc:ra_dav:version-url
-V 53
-/svn/waimai-User/!svn/ver/2/sell-user/img/chaoshi.png
+V 50
+/svn/waimai-User/!svn/ver/2/sell-user/img/user.png
 END
 shoprating.png
 K 25
@@ -717,11 +687,11 @@ svn:wc:ra_dav:version-url
 V 56
 /svn/waimai-User/!svn/ver/2/sell-user/img/shoprating.png
 END
-user.png
+chaoshi.png
 K 25
 svn:wc:ra_dav:version-url
-V 50
-/svn/waimai-User/!svn/ver/2/sell-user/img/user.png
+V 53
+/svn/waimai-User/!svn/ver/2/sell-user/img/chaoshi.png
 END
 adress.png
 K 25
@@ -741,29 +711,29 @@ svn:wc:ra_dav:version-url
 V 51
 /svn/waimai-User/!svn/ver/2/sell-user/img/ok-no.png
 END
-nav01.png
-K 25
-svn:wc:ra_dav:version-url
-V 51
-/svn/waimai-User/!svn/ver/2/sell-user/img/nav01.png
-END
 wxin.png
 K 25
 svn:wc:ra_dav:version-url
 V 50
 /svn/waimai-User/!svn/ver/2/sell-user/img/wxin.png
 END
-blank.png
+nav01.png
 K 25
 svn:wc:ra_dav:version-url
 V 51
-/svn/waimai-User/!svn/ver/2/sell-user/img/blank.png
+/svn/waimai-User/!svn/ver/2/sell-user/img/nav01.png
 END
 nav03.png
 K 25
 svn:wc:ra_dav:version-url
 V 51
 /svn/waimai-User/!svn/ver/2/sell-user/img/nav03.png
+END
+blank.png
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/waimai-User/!svn/ver/2/sell-user/img/blank.png
 END
 user-order.png
 K 25

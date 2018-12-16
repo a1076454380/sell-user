@@ -356,6 +356,13 @@
 					"login.html"
 				],
 				"priority": 0
+			},
+			"instead/orderdetail.html": {
+				"resources": [],
+				"refer": [
+					"instead/orderrating02.html"
+				],
+				"priority": 0
 			}
 		},
 		"idle": {

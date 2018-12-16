@@ -79,7 +79,7 @@
 						</div>
 						<div class="money-time">
 							<span>限最新版本客户端使用</span>
-							<div class="join" @click="havecollect(2,val.usTraderDiscountId)">
+							<div class="join" @click="havecollect(72,val.usTraderDiscountId)">
 								立即领取
 							</div>
 						</div>
@@ -100,7 +100,7 @@
 						</div>
 						<div class="money-time">
 							<span>限最新版本客户端使用</span>
-							<div class="join" @click="havecollect(4,val.usTraderNewActivitiesId)">
+							<div class="join" @click="havecollect(74,val.usTraderNewActivitiesId)">
 								立即领取
 							</div>
 						</div>
@@ -121,7 +121,7 @@
 						</div>
 						<div class="money-time">
 							<span>满{{val.usTpLimitPrice}}可用,每人限领{{val.usTpLimitNum}}张。</span>
-							<div class="join" @click="havecollect(1,val.usTraderPackageId)">
+							<div class="join" @click="havecollect(71,val.usTraderPackageId)">
 								立即领取
 							</div>
 						</div>
@@ -142,7 +142,7 @@
 						</div>
 						<div class="money-time">
 							<span>满{{val.usTsFullPrice}}可用,限最新版本客户端使用</span>
-							<div class="join" @click="havecollect(3,val.usTraderSubtractId)">
+							<div class="join" @click="havecollect(73,val.usTraderSubtractId)">
 								立即领取
 							</div>
 						</div>
@@ -165,7 +165,7 @@
 						var that = this
 						$.ajax({
 							type: "post",
-							url: that.myurl + "/collectionUserRedPackage ",
+							url: that.myurl + "/collectionUserRedPackage",
 							async: true,
 							dataType: 'json',
 							data: {

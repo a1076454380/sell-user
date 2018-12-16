@@ -41,7 +41,7 @@
 				<span class="header-main">我的订单</span>
 				<span class="header-settings"></span>
 			</header>
-			<div class="main">
+			<div class="main" style="height: calc(100% - .8rem);">
 				<div class="list-group" @click="opennew('orderdetail',val.usReplaceTakeId)" v-for="val in mydata">
 					<div class="list-top">
 						<div class="list-title">
@@ -173,9 +173,9 @@
 						} else if(value==2){
 							return '等待接单中'
 						}else if(value==3){
-							return '订单已接取'
+							return '骑手已结单'
 						}else{
-							return '物品已购买'
+							return '骑手已取件'
 						}
 					}
 				}

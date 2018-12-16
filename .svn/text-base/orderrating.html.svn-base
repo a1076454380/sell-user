@@ -52,6 +52,7 @@
 						您对这一单用餐体验还满意吗？
 					</h1>
 					<div class="star-box">
+						<span>商品星级</span>
 						<div class="star-group" @click="goscore(1)">
 							<img src="img/xactive.png" v-show="score>=1" />
 							<img src="img/xhalf.png" v-show="score<1" />
@@ -71,6 +72,29 @@
 						<div class="star-group" @click="goscore(5)">
 							<img src="img/xactive.png" v-show="score>=5" />
 							<img src="img/xhalf.png" v-show="score<5" />
+						</div>
+					</div>
+					<div class="star-box">
+						<span>骑手星级</span>
+						<div class="star-group" @click="goscore02(1)">
+							<img src="img/xactive.png" v-show="score02>=1" />
+							<img src="img/xhalf.png" v-show="score02<1" />
+						</div>
+						<div class="star-group" @click="goscore02(2)">
+							<img src="img/xactive.png" v-show="score02>=2" />
+							<img src="img/xhalf.png" v-show="score02<2" />
+						</div>
+						<div class="star-group" @click="goscore02(3)">
+							<img src="img/xactive.png" v-show="score02>=3" />
+							<img src="img/xhalf.png" v-show="score02<3" />
+						</div>
+						<div class="star-group" @click="goscore02(4)">
+							<img src="img/xactive.png" v-show="score02>=4" />
+							<img src="img/xhalf.png" v-show="score02<4" />
+						</div>
+						<div class="star-group" @click="goscore02(5)">
+							<img src="img/xactive.png" v-show="score02>=5" />
+							<img src="img/xhalf.png" v-show="score02<5" />
 						</div>
 					</div>
 					<textarea name="" v-model="text" placeholder="请输入评价内容">
@@ -118,16 +142,23 @@
 					usScImg1Url: '',
 					usScImg2Url: '',
 					usScImg3Url: '',
-					usScImg4Url: ''
+					usScImg4Url: '',
+					score02:5
 				},
 				methods: {
 					myajax: function() {
 						var that = this
-						var usSsOk
+						var usSsOk,
+							usSsOk02
 						if(that.score>3){
 							usSsOk=1
 						}else{
-							0
+							usSsOk=0
+						}
+						if(that.score02>3){
+							usSsOk02=1
+						}else{
+							usSsOk02=0
 						}
 						var jsondata = {
 							usUserId: localStorage.getItem('userid'),
@@ -139,7 +170,9 @@
 							usScImg4Url: that.usScImg4Url,
 							usScStatus: 1,
 							usTraderName:localStorage.getItem('usNickname'),
-							usSsOk:usSsOk
+							usSsOk:usSsOk,
+							usRiderEvaluate:usSsOk02,
+							orderOrTakeStatus:1
 						}
 						$.ajax({
 							type: "post",
@@ -156,6 +189,9 @@
 					},
 					goscore: function(res) {
 						this.score = res
+					},
+					goscore02:function(res){
+						this.score02 = res
 					},
 					layuiboo: function() {
 						this.layui = !this.layui

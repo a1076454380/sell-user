@@ -15,11 +15,8 @@
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
 	<style type="text/css">
-		body,
-		html,
-		.wrapper,
 		.main {
-			height:100%;
+			height:calc(100% - .8rem);
 			padding: 0;
 		}
 		

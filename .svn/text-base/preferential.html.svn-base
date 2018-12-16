@@ -48,9 +48,9 @@
 					</span>
 					</div>
 					<div class="per-main">
-						<div class="per-tab" v-for="(val,index) in tuidata"  @click="opendetail(val.usTraderStoresId,'同城广告')" v-if="index<6">
+						<div class="per-tab" v-for="(val,index) in tuidata" @click="opendetail(val.usTraderStoresId,'同城广告')" v-if="index<6">
 							<img :src="val.usTsFacadeImg | myimg" />
-									<!--<img src="img/index02.png"/>-->
+							<!--<img src="img/index02.png"/>-->
 							<p>
 								{{val.usTsCompanyName}}
 							</p>
@@ -60,12 +60,12 @@
 						<span>
 						同城必点
 					</span>
-						
+
 					</div>
 					<div class="per-main">
-						<div class="per-tab" v-for="(val,index) in tuidata02"  @click="opendetail(val.usTraderStoresId,'同城必点')" v-if="index<6">
+						<div class="per-tab" v-for="(val,index) in tuidata02" @click="opendetail(val.usTraderStoresId,'同城必点')" v-if="index<6">
 							<img :src="val.usTsFacadeImg | myimg" />
-									<!--<img src="img/index.jpg"/>-->
+							<!--<img src="img/index.jpg"/>-->
 							<p>
 								{{val.usTsCompanyName}}
 							</p>
@@ -91,8 +91,8 @@
 										<div class="x-group" v-for="item in val.starPercentage">
 											<img src="img/xactive.png" />
 										</div>
-										<div class="x-group"v-for="item in (5 - val.starPercentage)">
-											<img src="img/xhalf.png"/>
+										<div class="x-group" v-for="item in (5 - val.starPercentage)">
+											<img src="img/xhalf.png" />
 										</div>
 									</div>
 									<div class="index-x">
@@ -153,10 +153,10 @@
 					searchdata: '',
 					shoptype: true,
 					layuitext: '您输入的内容为空!!',
-					tuidata:[],
-					myurl:localStorage.getItem('myurl'),
-					tuidata02:[],
-					tuidata03:[]
+					tuidata: [],
+					myurl: localStorage.getItem('myurl'),
+					tuidata02: [],
+					tuidata03: []
 				},
 				methods: {
 					prefershow: function(index) {
@@ -179,27 +179,27 @@
 							createNew: true
 						})
 					},
-					opendetail: function(id,text) {
-						var that=this
-						localStorage.setItem('usTraderStoresId',id)
+					opendetail: function(id, text) {
+						var that = this
+						localStorage.setItem('usTraderStoresId', id)
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/changeAdPrice",
 							dataType: 'json',
-							data:{
-								storesId:id,
-								title:text
+							data: {
+								storesId: id,
+								title: text
 							},
 							success: function(res) {
 								console.log(JSON.stringify(res))
 								that.opennew('shop')
 							},
-							error:function(err){
+							error: function(err) {
 								console.log(JSON.stringify(err))
 							}
 						});
 					},
-					myajax:function(){
+					myajax: function() {
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
@@ -209,39 +209,39 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
-						var that=this
+						var that = this
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
 							dataType: 'json',
 							data: {
-								userAddress:localStorage.getItem('city02'),
-								maApName:'同城广告'
+								userAddress: localStorage.getItem('city02'),
+								maApName: '同城广告'
 							},
 							success: function(res) {
 								console.log(JSON.stringify(res))
-								if(res.data!=null){
+								if(res.data != null) {
 									that.tuidata = res.data
 								}
 							}
-							
+
 						});
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
 							dataType: 'json',
 							data: {
-								userAddress:localStorage.getItem('city02'),
-								maApName:'同城必点'
+								userAddress: localStorage.getItem('city02'),
+								maApName: '同城必点'
 							},
 							success: function(res) {
-								if(res.data!=null){
+								if(res.data != null) {
 									that.tuidata02 = res.data
 								}
 							}
-							
+
 						});
-//						人气商家
+						//						人气商家
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojoY",
@@ -249,23 +249,24 @@
 							data: {
 								lng: localStorage.getItem('lng'),
 								lat: localStorage.getItem('lat'),
-								maApName:'人气商家',
-								usAddress:localStorage.getItem('city02')
+								maApName: '人气商家',
+								usAddress: localStorage.getItem('city02')
 							},
 							success: function(res) {
 								that.tuidata03 = res.data
 
 							}
 						});
+
 						function plusReady() {
-									// 弹出系统等待对话框
-									plus.nativeUI.closeWaiting()
-								}
-								if(window.plus) {
-									plusReady();
-								} else {
-									document.addEventListener("plusready", plusReady, false);
-								}
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 					}
 				},
 				mounted: function() {
@@ -277,9 +278,9 @@
 				update: function() {
 
 				},
-				filters:{
-					myimg:function(value){
-						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+				filters: {
+					myimg: function(value) {
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})

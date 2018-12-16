@@ -31,8 +31,8 @@
 						<input type="file" name="picPath" id="file1" value="" data-title='请选择用户头像！' @change="change('img01','file1')" />
 						<img src="img/2.png" id="img01" />
 					</div>-->
-					<input type="text" placeholder="请输入用户名" name="usNickname" data-title='昵称不能为空！' />
-					<input type="text" name="usPhone" id="usPhone" placeholder="请输入手机号" data-title='手机号不能为空！' />
+					<input type="text" placeholder="请输入用户名" name="usNickname" data-title='昵称不能为空！' id="usNickname"/>
+					<input type="number" name="usPhone" id="usPhone" placeholder="请输入手机号" data-title='手机号不能为空！' />
 					<div class="radio-box">
 						<span>
 							<input type="radio" name="usSex" id="usSex" value="0" checked="checked"/>
@@ -76,20 +76,27 @@
 					myurl: localStorage.getItem('myurl')
 				},
 				methods: {
+					textblur:function(){
+						$('#usNickname').val($('#usNickname').val().replace(/[^\d\.]/g,''))
+					},
 					submit: function() {
-						function plusReady() {
-								// 弹出系统等待对话框
-								plus.nativeUI.showWaiting("注册中...");
-							}
-							if(window.plus) {
-								plusReady();
-							} else {
-								document.addEventListener("plusready", plusReady, false);
-							}
 						var that = this
 						if($('input').val() == '') {
 							that.layuiboo($('input').attr('data-title'))
 							return false;
+						}
+						if(!(/^1[3|4|5|8|9|7][0-9]\d{4,8}$/.test($('input').val()))) {
+							alert("不是完整的11位手机号或者正确的手机号前七位");
+							return false;
+						}
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting("注册中...");
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
 						}
 						$('form').ajaxSubmit({
 							type: 'post',
@@ -97,21 +104,21 @@
 							dataType: 'json',
 							success: function(res) {
 								function plusReady() {
-										// 弹出系统等待对话框
-										plus.nativeUI.closeWaiting()
-									}
-									if(window.plus) {
-										plusReady();
-									} else {
-										document.addEventListener("plusready", plusReady, false);
-									}
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
 								if(res.status == 200) {
 									plus.webview.getWebviewById('login').reload(true)
 									mui.openWindow({
 										url: 'login.html',
 										id: 'login'
 									})
-								}else{
+								} else {
 									that.layuiboo(res.msg)
 								}
 							}
@@ -130,7 +137,6 @@
 							oFReader.onload = function(oFREvent) {
 								pic.src = oFREvent.target.result;
 							};
-							
 
 						} else if(document.all) { //IE8-
 							file.select();
@@ -150,6 +156,9 @@
 				},
 				mounted() {
 					var that = this
+					$('input').on('keypress',function () {
+					　　if(event.keyCode == 32)event.returnValue = false;
+					})
 					try {
 						$('#usBirthday').date({
 							theme: "date"

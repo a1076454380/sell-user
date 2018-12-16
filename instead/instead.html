@@ -208,7 +208,6 @@
 							dataType:'json',
 							data:ajaxjson,
 							success:function(res){
-								alert(JSON.stringify(ajaxjson))
 								plus.payment.request(that.channel[0], res.data[0], function(result) {
 										plus.nativeUI.alert("支付成功！", function() {
 											that.opennew('order')

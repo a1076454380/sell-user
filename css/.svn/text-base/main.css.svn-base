@@ -2710,7 +2710,9 @@ input::-webkit-input-placeholder {
 .orderrating .star-box {
 	display: flex;
 	align-items: center;
-	justify-content: center
+	/*padding-left: .3rem;*/
+	font-size: .22rem;
+	justify-content: center;
 }
 
 .orderrating .star-box img {
