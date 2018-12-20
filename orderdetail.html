@@ -60,7 +60,7 @@
 							订单{{mydata.usOrder.usOrIsPay==0?'未支付':'已支付'}}
 						</div>
 						<div class="state-p">
-							{{mydata.usOrder.usOrTrStartus==2?'等待接单':'已接单'}}
+							{{mydata.usOrder.usOrIsCancel | mytype}}
 						</div>
 						<div class="setting">
 							<div class="setting-btn" @click="openshop(mydata.usOrder.usTraderStoresId)">
@@ -75,7 +75,7 @@
 						</div>
 					</div>
 					<div class="detail-group content">
-						<div class="shop-name">
+						<div class="shop-name" @click="openshop(mydata.usOrder.usTraderStoresId)">
 							<span style="flex: 1;">
 							{{mydata.listUsTriderPojo[0].usTsCompanyName}}
 						</span>
@@ -521,6 +521,34 @@
 				filters: {
 					myimg: function(value) {
 						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
+					},
+					mytype:function(value){
+						switch (value){
+							case 0:
+							return '等待接单'
+								break;
+							case 1:
+							return '等待配送'
+								break;	
+							case 2:
+							return '配送中'
+								break;
+							case 3:
+							return '已完成'
+								break;	
+							case 4:
+							return '取消订单'
+								break;
+							case 5:
+							return '等待退款'
+								break;
+							case 6:
+							return '退款成功'
+								break;
+							default:
+							return '异常订单'
+								break;
+						}
 					}
 				}
 			})

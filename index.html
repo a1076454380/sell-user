@@ -7,9 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<title></title>
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
-		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/reset.css" />
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
 		<script src="js/url.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
@@ -17,28 +15,6 @@
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
-	<style type="text/css">
-		.header .header-back {
-			justify-content: flex-start;
-			margin-left: .2rem;
-		}
-		
-		.header .header-back img {
-			margin-right: .1rem;
-		}
-		
-		.fade-enter-active,
-		.fade-leave-active {
-			transform: translateY(0);
-			transition: all .3s;
-		}
-		
-		.fade-enter,
-		.fade-leave-active {
-			transform: translateY(100%);
-		}
-	</style>
-
 	<body>
 		<div id="app" class="wrapper index" @scroll="myscroll">
 			<div class="layui" v-show="layui">
@@ -81,7 +57,7 @@
 								<!--第一个内容区容器-->
 								<div class="mui-slider-item" @click="opendetail(val.usTraderStoresId,val.usTraderId,'首页轮播图')" v-for="val in bannerdata">
 									<!-- 具体内容 -->
-									<img :src="val.usTsCardFrontImgUrl | myimg" />
+									<img :src="val.usTsBannerImg | myimg" />
 									<!--<img src="img/4.png" />-->
 								</div>
 							</div>
@@ -286,7 +262,7 @@
 			</footer>
 			<div id="container" style="display: none;"></div>
 		</div>
-		<script src="js/url.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -537,22 +513,19 @@
 								success: function(res) {
 									if(res.data != null ? res.data.bpAvUserNum != inf.version : false) {
 										//										版本更新
-										plus.nativeUI.showWaiting("下载更新资源包,请勿关闭页面！");
+										plus.nativeUI.toast("正在为您更新版本~");
 										plus.downloader.createDownload(localStorage.getItem('myimg') + res.data.bpAvUserAppUrl, {
 											filename: "_doc/update/"
 										}, function(d, status) {
 											if(status == 200) {
 												plus.runtime.install(d.filename, {}, function() {
-													plus.nativeUI.closeWaiting();
 													plus.nativeUI.alert("应用资源更新完成！点击重启！", function() {
 														plus.runtime.restart();
 													});
 												}, function(e) {
-													plus.nativeUI.closeWaiting();
 													plus.nativeUI.alert("安装更新包失败[" + e.code + "]：" + e.message);
 												});
 											} else {
-												plus.nativeUI.closeWaiting();
 												plus.nativeUI.alert("下载更新包失败！");
 											}
 										}).start();

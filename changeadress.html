@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -14,7 +13,6 @@
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
 	</head>
-
 	<body>
 		<div id="app" class="wrapper addadress">
 			<div class="layui" v-show="layui">
@@ -117,9 +115,9 @@
 				},
 				mounted: function() {
 					$("#city").citySelect({
-						prov: localStorage.getItem('prov'),
-						city: localStorage.getItem('city'),
-						dist: localStorage.getItem('dist'),
+						prov: "湖南",
+						city: "长沙",
+						dist: "雨花区",
 						nodata: "none"
 					});
 				}

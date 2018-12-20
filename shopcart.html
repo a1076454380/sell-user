@@ -5,7 +5,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/shopcart.css" />
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
@@ -317,7 +317,6 @@
 							usUserId: localStorage.getItem('userid')
 						},
 						success: function(res) {
-							console.log(res)
 							that.size = res.data.pages
 							that.ajaxmore = false
 							for(var i = 0; i < res.data.list.length; i++) {
@@ -357,7 +356,7 @@
 			},
 			filters: {
 				myimg: function(value) {
-					return 'http://27.54.248.14:8081' + value.substring(value.indexOf('D:') + 1)
+					return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
 				}
 			}
 		})

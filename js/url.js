@@ -1,5 +1,6 @@
-					localStorage.setItem('myurl01', 'http://192.168.2.245/trader')
-					localStorage.setItem('myurl', 'http://192.168.2.245/user')
-					localStorage.setItem('myimg','http://192.168.2.245')
-//					27.54.248.14:8081
+					localStorage.setItem('myurl01', 'http://yidianwm.com/trader')
+					localStorage.setItem('myurl', 'http://yidianwm.com/user')
+					localStorage.setItem('myimg','http://yidianwm.com')
 //					47.104.101.165
+//					yidianwm.com
+//					39.107.70.18

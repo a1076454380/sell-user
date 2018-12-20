@@ -39,15 +39,15 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-					<input type="text" name="" v-model="title" placeholder="请输入发布标题" />
-					<input type="text" name="" v-model="navtext" readonly="readonly" @click="bottomshow" placeholder="请选择分类" />
-					<textarea name="" v-model="mytext" placeholder="请输入发布内容">
+				<input type="text" name="" v-model="title" placeholder="请输入发布标题" />
+				<input type="text" name="" v-model="navtext" readonly="readonly" @click="bottomshow" placeholder="请选择分类" />
+				<textarea name="" v-model="mytext" placeholder="请输入发布内容">
 						
 					</textarea>
-					<input type="hidden" name="" id="in01"/>
-					<input type="hidden" name="" id="in02"/>
-					<input type="hidden" name="" id="in03"/>
-					<input type="hidden" name="" id="in04"/>
+				<input type="hidden" name="" id="in01" />
+				<input type="hidden" name="" id="in02" />
+				<input type="hidden" name="" id="in03" />
+				<input type="hidden" name="" id="in04" />
 				<div class="img-box">
 					<div class="img-main">
 						<img src="img/addrating.png" @click="imgclick('maPnImg1','in01')" id="maPnImg1" />
@@ -91,13 +91,13 @@
 					files: [],
 					navtext: '',
 					bottomboo: false,
-					navdata:'',
-					myurl:localStorage.getItem('myurl'),
-					maMerchantsStyleId:'',
+					navdata: '',
+					myurl: localStorage.getItem('myurl'),
+					maMerchantsStyleId: '',
 				},
 				methods: {
-					myajax:function(){
-						var that=this
+					myajax: function() {
+						var that = this
 						$.ajax({
 							type: "get",
 							url: that.myurl + "/queryMaMerchantsStyleAll",
@@ -107,17 +107,18 @@
 							}
 						});
 					},
-					bottomshow: function(text,id) {
-						this.maMerchantsStyleId=id
+					bottomshow: function(text, id) {
+						this.maMerchantsStyleId = id
 						this.navtext = text
 						this.bottomboo = !this.bottomboo
 					},
 					layuiboo: function(text) {
-						this.layuitext=text
+						this.layuitext = text
 						this.layui = !this.layui
 					},
 					mysub: function() {
 						var that = this
+
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
@@ -127,45 +128,34 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
-						if(that.title==''){
+						if(that.title == '') {
 							this.layuiboo('标题不能为空！')
 							return false;
 						}
-						if(that.text==''){
+						if(that.text == '') {
 							this.layuiboo('内容不能为空！')
 							return false;
 						}
-						if(that.maMerchantsStyleId==''){
+						if(that.maMerchantsStyleId == '') {
 							this.layuiboo('分类不能为空！')
 							return false;
 						}
 						$.ajax({
 							type: 'post',
 							dataType: 'json',
-							url: that.myurl+'/insertReport',
-							data:{
-								usUserId:localStorage.getItem('userid'),
-								maMerchantsStyleId:that.maMerchantsStyleId,
-								maPnTitle:that.title,
-								maPnContent:that.mytext,
-								maPnImg1:$('#in01').val(),
-								maPnImg2:$('#in02').val(),
-								maPnImg3:$('#in03').val(),
-								maPnImg4:$('#in04').val(),
-								maPnCreateName:localStorage.getItem('usNickname')
+							url: that.myurl + '/insertReport',
+							data: {
+								usUserId: localStorage.getItem('userid'),
+								maMerchantsStyleId: that.maMerchantsStyleId,
+								maPnTitle: that.title,
+								maPnContent: that.mytext,
+								maPnImg1: $('#in01').val(),
+								maPnImg2: $('#in02').val(),
+								maPnImg3: $('#in03').val(),
+								maPnImg4: $('#in04').val(),
+								maPnCreateName: localStorage.getItem('usNickname')
 							},
 							success: function(res) {
-								console.log(JSON.stringify({
-								usUserId:localStorage.getItem('userid'),
-								maMerchantsStyleId:that.maMerchantsStyleId,
-								maPnTitle:that.title,
-								maPnContent:that.mytext,
-								maPnImg1:that.maPnImg1,
-								maPnImg2:that.maPnImg2,
-								maPnImg3:that.maPnImg3,
-								maPnImg4:that.maPnImg4,
-								maPnCreateName:localStorage.getItem('usNickname')
-							}))
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
@@ -240,54 +230,36 @@
 						});
 					},
 					upload_img: function(p) {
-						var that = this
-						var n = p.substr(p.lastIndexOf('/') + 1);
-						that.files.push({
-							name: "uploadkey",
-							path: p
-						});
-						//开始上传
-						that.start_upload();
-					},
-					start_upload: function() {
-						var that = this
-						if(that.files.length <= 0) {
-							plus.nativeUI.alert("没有添加上传文件！");
-							return;
-						}
-						//原生的转圈等待框
-						var wt = plus.nativeUI.showWaiting();
-						var task = plus.uploader.createUpload(that.server, {
-								method: "POST"
-							},
-							function(t, status) { //上传完成
-								if(status == 200) {
-									//资源
-									var responseText = t.responseText;
-									//转换成json
-									var json = eval('(' + responseText + ')');
-									//上传文件的信息
-									var files = json.data;
-									$("#" + that.inputid + "").val(files)
-									wt.close();
-								} else {
-									alert(JSON.stringify(t))
-									alert("上传失败：" + status);
-									//关闭原生的转圈等待框
-									wt.close();
+						var img = new Image();
+						img.src = p; // 传过来的图片路径在这里用。
+						img.onload = function() {
+							var that = this;
+							//生成比例 
+							var w = that.width,
+								h = that.height,
+								scale = w / h;
+							w = 280 || w; //480  你想压缩到多大，改这里
+							h = w / scale;
+							//生成canvas
+							var canvas = document.createElement('canvas');
+							var ctx = canvas.getContext('2d');
+							$(canvas).attr({
+								width: w,
+								height: h
+							});
+							ctx.drawImage(that, 0, 0, w, h);
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + '/imageNewsImage',
+								dataType: 'json',
+								data:{
+									imgStr: canvas.toDataURL('image/jpeg', 1 || 0.8)
+								},
+								success: function(res) {
+									$("#"+that.inputid+"").val(res.data)
 								}
 							});
-						task.addData("uid", that.getUid());
-						for(var i = 0; i < that.files.length; i++) {
-							var f = that.files[i];
-							task.addFile(f.path, {
-								key: f.name
-							});
 						}
-						task.start();
-					},
-					getUid: function() {
-						return Math.floor(Math.random() * 100000000 + 10000000).toString();
 					}
 				},
 				mounted: function() {

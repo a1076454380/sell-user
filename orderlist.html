@@ -45,24 +45,26 @@
 			</header>
 			<div class="main" style="height: calc(100% - .8rem);">
 				<div class="nav">
-					<div class="nav-tab" :class="tabnum==3?'active':''" @click="tab(3)">
+					<div class="nav-tab" :class="tabnum==10?'active':''" @click="tab(10)">
 						全部
 					</div>
 					<div class="nav-tab" :class="tabnum==0?'active':''" @click="tab(0)">
-						待付款
+						等待接单
 					</div>
-					<div class="nav-tab" :class="tabnum==1?'active':''" @click="tab(1)">
-						已付款
+					<div class="nav-tab" :class="tabnum==2?'active':''" @click="tab(2)">
+						配送中
+					</div>
+					<div class="nav-tab" :class="tabnum==3?'active':''" @click="tab(3)">
+						已完成
 					</div>
 				</div>
 				<div class="swiper-container" style="height: calc(100% - 1rem);overflow-y: scroll;">
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
 							<p>
-									暂无订单
-								</p>
-							<div class="order-group" @click="opennew('orderdetail',val.usOrderId,val.usTraderStoresId,val.maMerchantsStyleId,val.usTraderId)" v-for="val in orderdata" v-if='tabnum==3?true:val.usOrIsPay==tabnum'>
-								
+								暂无订单
+							</p>
+							<div class="order-group" @click="opennew('orderdetail',val.usOrderId,val.usTraderStoresId,val.maMerchantsStyleId,val.usTraderId)" v-for="val in orderdata" v-if='tabnum==10?true:val.usOrIsCancel==tabnum'>
 								<img :src="val.usTsFacadeImg | myimg"/>
 								<div class="order-main">
 									<div class="order-text">
@@ -70,7 +72,7 @@
 											{{val.usTsCompanyName}}
 										</span>
 										<span class="order-state">
-											{{val.usOrIsPay==0?'待付款':'已付款'}}
+											{{val.usOrIsCancel | mytype}}
 										</span>
 									</div>
 									<div class="order-time">
@@ -98,7 +100,7 @@
 					layuitext: '错误',
 					searchtype: localStorage.getItem('searchdpeata'),
 					mySwiper:'',
-					tabnum:3,
+					tabnum:10,
 					orderdata:'',
 					myurl:localStorage.getItem('myurl')
 				},
@@ -144,6 +146,34 @@
 				filters:{
 					myimg:function(value){
 						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+					},
+					mytype:function(value){
+						switch (value){
+							case 0:
+							return '等待接单'
+								break;
+							case 1:
+							return '等待配送'
+								break;	
+							case 2:
+							return '配送中'
+								break;
+							case 3:
+							return '已完成'
+								break;	
+							case 4:
+							return '取消订单'
+								break;
+							case 5:
+							return '等待退款'
+								break;
+							case 6:
+							return '退款成功'
+								break;
+							default:
+							return '异常订单'
+								break;
+						}
 					}
 				}
 			})
