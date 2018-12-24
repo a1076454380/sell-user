@@ -71,7 +71,10 @@
 										<span class="order-name">
 											{{val.usTsCompanyName}}
 										</span>
-										<span class="order-state">
+										<span class="order-state" v-if='val.usOrIsPay==0'>
+											待付款
+										</span>
+										<span class="order-state" v-if='val.usOrIsPay==1'>
 											{{val.usOrIsCancel | mytype}}
 										</span>
 									</div>

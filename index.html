@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -32,7 +31,6 @@
 					</div>
 				</div>
 			</div>
-
 			<header class="header" v-show="sarchboo">
 				<span class="header-back" @click="opennew('city')">
 							<img src="img/drame.png"/>
@@ -472,11 +470,11 @@
 							},
 							success: function(res) {
 								console.log(JSON.stringify({
-								lng: localStorage.getItem('lng'),
-								lat: localStorage.getItem('lat'),
-								maApName: '小易推荐',
-								usAddress: localStorage.getItem('city02')
-							}))
+									lng: localStorage.getItem('lng'),
+									lat: localStorage.getItem('lat'),
+									maApName: '小易推荐',
+									usAddress: localStorage.getItem('city02')
+								}))
 								that.tuidata = res.data
 								that.screening('starPercentage', 'j')
 

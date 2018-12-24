@@ -3,7 +3,7 @@
     "id": "H5929B52D",/*应用的标识，创建应用时自动生成，勿手动修改*/
     "name": "联华外卖",/*应用名称，程序桌面图标名称*/
     "version": {
-        "name": "2.2.0",/*应用版本名称*/
+        "name": "2.2.3",/*应用版本名称*/
         "code": ""
     },
     "description": "",/*应用描述信息*/
@@ -124,7 +124,7 @@
                 },
                 "android": {
                     "mdpi": "", /*普通屏启动图片，分辨率：240x282*/
-                    "ldpi": "","hdpi":"logo/yidian.png","xhdpi":"logo/yidian.png","xxhdpi":"logo/yidian.png"/*1080P高分屏启动图片，分辨率：1080x1882*/
+                    "ldpi": "","hdpi":"logo/480.png","xhdpi":"logo/720.png","xxhdpi":"logo/1080.png"/*1080P高分屏启动图片，分辨率：1080x1882*/
                 }
             },"debug":true
         },"ads":{"rp":false,"splash":false,"push":false},"adid":"128592240505"
@@ -275,7 +275,22 @@
 				"priority": 0
 			},
 			"shop.html": {
-				"resources": [],
+				"resources": [
+					"img/backwhite.png",
+					"css/main.css",
+					"img/reduce.png",
+					"img/freight.png",
+					"img/discount.png",
+					"img/reduction.png",
+					"img/cart.png",
+					"img/mycart.png",
+					"js/rem.js",
+					"img/rightwhite.png",
+					"img/collect.png",
+					"img/add.png",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
 				"refer": [
 					"pay.html",
 					"goodsdetail.html"
@@ -371,21 +386,15 @@
 				"img/index02.png",
 				"img/order-active.png",
 				"img/user-active.png",
-				"img/freight.png",
-				"img/cart.png",
-				"img/rightwhite.png",
 				"img/back.png",
 				"img/nav04.png",
 				"img/index.jpg",
 				"img/rightarr.png",
 				"img/nav02.png",
 				"img/index.png",
-				"img/discount.png",
-				"img/reduction.png",
 				"img/nav03.png",
 				"search.html",
 				"img/found-actice.png",
-				"img/collect.png",
 				"img/order.png",
 				"img/nav01.png"
 			]

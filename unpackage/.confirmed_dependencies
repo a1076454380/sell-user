@@ -135,7 +135,22 @@
       "pay.html",
       "goodsdetail.html"
     ],
-    "resources": []
+    "resources": [
+      "img/backwhite.png",
+      "css/main.css",
+      "img/reduce.png",
+      "img/freight.png",
+      "img/discount.png",
+      "img/reduction.png",
+      "img/cart.png",
+      "img/mycart.png",
+      "js/rem.js",
+      "img/rightwhite.png",
+      "img/collect.png",
+      "img/add.png",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ]
   },
   "instead/order.html": {
     "refer": [

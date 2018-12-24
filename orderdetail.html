@@ -16,12 +16,15 @@
 	</head>
 	<style type="text/css">
 		.main {
-			height:calc(100% - .8rem);
+			height: calc(100% - .8rem);
 			padding: 0;
 		}
 		
 		.shop-back {
 			margin: .1rem 0;
+		}
+		.orderdetail #orderinform{
+			top:-2rem
 		}
 	</style>
 
@@ -49,13 +52,13 @@
 				<span class="header-main">订单详情</span>
 				<span class="header-settings"></span>
 			</header>
-			<div class="main" v-if="mydata!=''">
-				<!--<div id="container">
-					
-				</div>-->
-				<div id="orderinform">
+			<div class="main">
+				<div id="container">
+
+				</div>
+				<div id="orderinform"  v-if="mydata!=''">
 					<div class="detail-group top">
-						<!--<img :src="mapboo==false?'img/mapshow.png':'img/maphide.png'" class="mapshow" @click="mapshow"/>-->
+						<img :src="mapboo==false?'img/mapshow.png':'img/maphide.png'" class="mapshow" @click="mapshow" />
 						<div class="state-h">
 							订单{{mydata.usOrder.usOrIsPay==0?'未支付':'已支付'}}
 						</div>
@@ -382,6 +385,7 @@
 						}
 					},
 					myajax: function() {
+						var that = this
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
@@ -391,7 +395,7 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
-						var that = this
+						
 						var jsonData = {
 							usOrderId: localStorage.getItem('usOrderId')
 						}
@@ -402,7 +406,39 @@
 							data: jsonData,
 							success: function(res) {
 								that.mydata = res.data
-
+								var map = new AMap.Map('container', {
+									zoom: 14,
+									center: [that.mydata.storeLon,that.mydata.storeLat]
+								});
+	//							//						骑手
+								if(that.mydata.riderLonLat!=undefined){
+									new AMap.Marker({
+										map: map,
+										position: JSON.parse(that.mydata.riderLonLat),
+										icon: new AMap.Icon({
+											size: new AMap.Size(27, 33),
+											image: "./img/che.png"
+										})
+									});
+								}
+								//						用户
+								new AMap.Marker({
+									map: map,
+									position: [res.data.userLon, res.data.userLat],
+									icon: new AMap.Icon({
+										size: new AMap.Size(27, 33),
+										image: "./img/ren.png"
+									})
+								});
+								//						店铺
+								new AMap.Marker({
+									map: map,
+									position: [that.mydata.storeLon,that.mydata.storeLat],
+									icon: new AMap.Icon({
+										size: new AMap.Size(27, 33),
+										image: "./img/dian.png"
+									})
+								});
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
@@ -417,13 +453,14 @@
 					}
 				},
 				mounted: function() {
-					this.myajax()
 					var that = this
+					that.myajax()
 					// 1. 获取支付通道
 					function plusReady() {
 						// 获取支付通道
 						plus.payment.getChannels(function(channels) {
 							that.channel = channels;
+							that.myajax()
 						}, function(e) {
 							alert("获取支付通道失败：" + e.message);
 						});
@@ -433,87 +470,6 @@
 					} else {
 						document.addEventListener('plusready', plusReady, false);
 					}
-					//创建地图
-					//					var map = new AMap.Map('container', {
-					//						zoom: 15
-					//					});
-					//					//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
-					//					AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
-					//
-					//						if(!PathSimplifier.supportCanvas) {
-					//							alert('当前环境不支持 Canvas！');
-					//							return;
-					//						}
-					//
-					//						//启动页面
-					//						initPage(PathSimplifier);
-					//					});
-					//
-					//					function initPage(PathSimplifier) {
-					//						//创建组件实例
-					//						var pathSimplifierIns = new PathSimplifier({
-					//							zIndex: 100,
-					//							map: map, //所属的地图实例
-					//							getPath: function(pathData, pathIndex) {
-					//								//返回轨迹数据中的节点坐标信息，[AMap.LngLat, AMap.LngLat...] 或者 [[lng|number,lat|number],...]
-					//								return pathData.path;
-					//							},
-					//							getHoverTitle: function(pathData, pathIndex, pointIndex) {
-					//								//返回鼠标悬停时显示的信息
-					//								if(pointIndex >= 0) {
-					//									//鼠标悬停在某个轨迹节点上
-					//									return pathData.name + '，点:' + pointIndex + '/' + pathData.path.length;
-					//								}
-					//								//鼠标悬停在节点之间的连线上
-					//								return pathData.name + '，点数量' + pathData.path.length;
-					//							},
-					//							renderOptions: {
-					//								//轨迹线的样式
-					//								pathLineStyle: {
-					//									strokeStyle: 'white',
-					//									lineWidth: 4,
-					//									dirArrowStyle: true
-					//								}
-					//							}
-					//						});
-					//
-					//						//这里构建两条简单的轨迹，仅作示例
-					//						pathSimplifierIns.setData([{
-					//							name: '轨迹名称',
-					//							path: [
-					//								[117.471564, 34.366127],
-					//								[117.471864, 34.356227],
-					//								[117.474264, 34.354127],
-					//								[117.471764, 34.355127]
-					//							]
-					//						}]);
-					//
-					//						//创建一个巡航器
-					//						var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
-					//							{
-					//								loop: true,
-					//								pathNavigatorStyle: {
-					//									width: 24,
-					//									height: 24,
-					//									//使用图片
-					//									content: PathSimplifier.Render.Canvas.getImageContent('./img/plane.png', onload, onerror),
-					//									strokeStyle: null,
-					//									fillStyle: null,
-					//									//经过路径的样式
-					//									pathLinePassedStyle: {
-					//										lineWidth: 6,
-					//										strokeStyle: 'rgb(236,94,74)',
-					//										dirArrowStyle: {
-					//											stepSpace: 15,
-					//											strokeStyle: 'white'
-					//										}
-					//									}
-					//								}
-					//							});
-					//
-					//						navg0.start();
-
-					//					}
 				},
 				update: function() {
 					mui.init()
@@ -522,31 +478,31 @@
 					myimg: function(value) {
 						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
 					},
-					mytype:function(value){
-						switch (value){
+					mytype: function(value) {
+						switch(value) {
 							case 0:
-							return '等待接单'
+								return '等待接单'
 								break;
 							case 1:
-							return '等待配送'
-								break;	
+								return '等待配送'
+								break;
 							case 2:
-							return '配送中'
+								return '配送中'
 								break;
 							case 3:
-							return '已完成'
-								break;	
+								return '已完成'
+								break;
 							case 4:
-							return '取消订单'
+								return '取消订单'
 								break;
 							case 5:
-							return '等待退款'
+								return '等待退款'
 								break;
 							case 6:
-							return '退款成功'
+								return '退款成功'
 								break;
 							default:
-							return '异常订单'
+								return '异常订单'
 								break;
 						}
 					}
