@@ -253,7 +253,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="shop-content swiper-slide" style="flex-direction: column;" v-if="tabnum==1">
+								<div class="shop-content swiper-slide" style="flex-direction: column;display: block;" v-if="tabnum==1">
 									<div class="rating-group" v-for="val in mydata.listUsShoppingComment">
 										<div class="img-box">
 											<img :src="val.usHeadImg | myimg" />
@@ -560,7 +560,7 @@
 					this.myajax()
 				},
 				updated() {
-					$('.rating-img img').css('height', $('.rating-img img').css('width'))
+//					$('.rating-img img').css('height', $('.rating-img img').css('width'))
 				},
 				filters:{
 					myimg:function(value){

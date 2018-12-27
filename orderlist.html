@@ -64,7 +64,7 @@
 							<p>
 								暂无订单
 							</p>
-							<div class="order-group" @click="opennew('orderdetail',val.usOrderId,val.usTraderStoresId,val.maMerchantsStyleId,val.usTraderId)" v-for="val in orderdata" v-if='tabnum==10?true:val.usOrIsCancel==tabnum'>
+							<div class="order-group" @click="opennew('orderdetail',val.usOrderId,val.usTraderStoresId,val.maMerchantsStyleId,val.usTraderId)" v-for="val in orderdata" v-if='(tabnum==10?true:val.usOrIsCancel==tabnum)&&val.usTsFacadeImg!=null'>
 								<img :src="val.usTsFacadeImg | myimg"/>
 								<div class="order-main">
 									<div class="order-text">
@@ -148,7 +148,9 @@
 				},
 				filters:{
 					myimg:function(value){
-						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+						if(value!=null){
+							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+						}
 					},
 					mytype:function(value){
 						switch (value){

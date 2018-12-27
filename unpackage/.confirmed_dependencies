@@ -37,7 +37,8 @@
       "css/mui.min.css",
       "img/found.png",
       "img/redb.png",
-      "css/reset.css"
+      "css/reset.css",
+      "css/index.css"
     ]
   },
   "login.html": {
@@ -176,44 +177,52 @@
   "shoplist.html": {
     "refer": [
       "shop.html"
-    ]
+    ],
+    "resources": []
   },
   "goodsdetail.html": {
     "refer": [
       "ratingall.html"
-    ]
+    ],
+    "resources": []
   },
   "city.html": {
     "refer": [
       "index.html"
-    ]
+    ],
+    "resources": []
   },
   "shopcart.html": {
     "refer": [
       "pay.html",
       "shop.html"
-    ]
+    ],
+    "resources": []
   },
   "pay.html": {
     "refer": [
       "instead/adresslist.html",
       "adresslist.html",
       "orderlist.html"
-    ]
+    ],
+    "resources": []
   },
   "gosearch.html": {
     "refer": [
       "shop.html"
-    ]
+    ],
+    "resources": []
   },
   "redb.html": {
     "refer": [
       "login.html"
-    ]
+    ],
+    "resources": []
   },
   "instead/orderdetail.html": {
     "refer": [
       "instead/orderrating02.html"
-    ]
+    ],
+    "resources": []
   }
 }

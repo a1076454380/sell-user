@@ -288,7 +288,6 @@
 							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTdBelong == 1 ? '3' : '73') : '',
 							newPeopleStyle: that.discountdata.listNewActivities != null ? (that.discountdata.listNewActivities[that.xindex].usTdBelong == 1 ? '4' : '74') : ''
 						}
-						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/createAliPay",
@@ -297,15 +296,13 @@
 							success: function(res) {
 								plus.payment.request(that.channel[1], res, function(result) {
 									plus.nativeUI.alert("支付成功！", function() {
-										plus.webview.getWebviewById('shop').reload('true')
 										plus.nativeUI.closeWaiting()
 										that.opennew('orderlist')
 									});
 								}, function(error) {
 									plus.nativeUI.closeWaiting()
 									plus.nativeUI.toast('支付失败！')
-									plus.webview.getWebviewById('shop').reload('true')
-									mui.back()
+									that.opennew('orderlist')
 								});
 							},
 							error: function(err) {
@@ -359,24 +356,21 @@
 							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTdBelong == 1 ? '3' : '73') : '',
 							newPeopleStyle: that.discountdata.listNewActivities != null ? (that.discountdata.listNewActivities[that.xindex].usTdBelong == 1 ? '4' : '74') : ''
 						}
-						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/createAliPay",
 							dataType: 'json',
 							data: ajaxjson,
 							success: function(res) {
-								console.log(JSON.stringify(res))
 								plus.payment.request(that.channel[0], res.data[0], function(result) {
 									plus.nativeUI.alert("支付成功！", function() {
-										plus.webview.getWebviewById('shop').reload('true')
 										plus.nativeUI.closeWaiting()
-										mui.back()
+										that.opennew('orderlist')
 									});
 								}, function(error) {
 									plus.nativeUI.closeWaiting()
-									plus.webview.getWebviewById('shop').reload('true')
-									mui.back()
+									plus.nativeUI.toast('支付失败！')
+									that.opennew('orderlist')
 								});
 							},
 							error: function(err) {
@@ -387,7 +381,8 @@
 					opennew: function(target) {
 						mui.openWindow({
 							url: '' + target + '.html',
-							id: target
+							id: target,
+							createNew: true
 						})
 					},
 					layuiboo: function() {
@@ -404,12 +399,8 @@
 							this.mapboo = false
 						}
 					},
-					myajax: function() {
+					haveadress:function(){
 						var that = this
-						//						function plusReady() {
-						// 弹出系统等待对话框
-						//							plus.nativeUI.showWaiting()
-						//						获取收货地址
 						$.ajax({
 							type: "get",
 							url: localStorage.getItem('myurl') + "/queryUsAddressAll",
@@ -430,6 +421,15 @@
 
 							}
 						});
+					},
+					myajax: function() {
+						var that = this
+						that.haveadress()
+						//						function plusReady() {
+						// 弹出系统等待对话框
+						//							plus.nativeUI.showWaiting()
+						//						获取收货地址
+						
 						//						获取优惠信息
 						$.ajax({
 							type: "post",
@@ -526,6 +526,9 @@
 					} else {
 						document.addEventListener('plusready', plusReady, false);
 					}
+					document.addEventListener("haveOrder", function() {
+						that.haveadress()
+					})
 				},
 				update: function() {
 

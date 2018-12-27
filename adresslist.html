@@ -91,10 +91,6 @@
 				},
 				methods: {
 					back: function() {
-						if(plus.webview.getWebviewById('pay') != null) {
-							plus.webview.getWebviewById('pay').reload();
-						}
-
 						mui.back()
 					},
 					change: function(id) {
@@ -108,6 +104,8 @@
 								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
+								var Order = plus.webview.getWebviewById('pay')
+								mui.fire(Order, 'haveOrder', {});
 								that.myajax()
 								if(res.status == 200) {
 									plus.nativeUI.toast('默认地址修改完成')
