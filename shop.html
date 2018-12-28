@@ -404,17 +404,14 @@
 						this.headerboo = !this.headerboo
 					},
 					bottomtab: function() {
-						if(this.mycartnum == 0) {
-							this.layuiboo('您的购物车是空的')
-						} else {
-							this.cartboo = !this.cartboo
-						}
+						this.cartboo = !this.cartboo
 					},
 					pay02: function(target, usTraderShoppingId) {
 						localStorage.setItem('usTraderShoppingId',usTraderShoppingId)
 						mui.openWindow({
 							url: '' + target + '.html',
-							id: target
+							id: target,
+							createNew: true
 						})
 					},
 					pay: function(target, usTraderShoppingId) {
@@ -428,7 +425,8 @@
 								localStorage.setItem('cartdata',JSON.stringify(this.cartdata))
 								mui.openWindow({
 									url: '' + target + '.html',
-									id: target
+									id: target,
+									createNew: true
 								})
 							}else{
 								plus.nativeUI.toast('该店铺起送价为'+this.mydata.listUsTraderStoresInfo[0].usTsActionPrice+'元')

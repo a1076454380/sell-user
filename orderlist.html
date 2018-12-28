@@ -134,14 +134,27 @@
 								usUserId:localStorage.getItem('userid')
 							},
 							success:function(res){
-								console.log(res)
 								that.orderdata=res.data
 							}
 						});
 					}
 				},
 				mounted: function() {
+					var that=this
 					this.myajax()
+					function plusReady() {
+						plus.key.addEventListener("backbutton", function() {
+							mui.openWindow({
+								url: 'user.html',
+								id: 'user'
+							})
+						})
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
 				},
 				update: function() {
 					mui.init()
