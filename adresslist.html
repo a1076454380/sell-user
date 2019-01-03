@@ -104,12 +104,10 @@
 								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
-								var Order = plus.webview.getWebviewById('pay')
-								mui.fire(Order, 'haveOrder', {});
 								that.myajax()
 								if(res.status == 200) {
 									plus.nativeUI.toast('默认地址修改完成')
-									
+									that.opennew02('pay')
 								}
 							}
 						});
@@ -124,7 +122,8 @@
 					opennew02:function(id){
 						mui.openWindow({
 													url: '' + id + '.html',
-													id: id
+													id: id,
+							createNew: true
 												})
 					},
 					opennew: function(id, index) {

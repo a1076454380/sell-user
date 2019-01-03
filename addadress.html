@@ -93,11 +93,12 @@
 						var that = this
 						if(that.usAdsDetailed == '') {
 							plus.nativeUI.toast('请把信息填写完整！')
+							plus.nativeUI.closeWaiting()
 							return false;
 						}
 						$.ajax({
 							type: "post",
-							url: that.myurl + "/insertAddress",
+							url: that.myurl + "/addUserUsAddress",
 							dataType: 'json',
 							data: {
 								usUserId: localStorage.getItem('userid'),
@@ -112,8 +113,14 @@
 										// 弹出系统等待对话框
 										plus.nativeUI.toast('新增完成！')
 										plus.nativeUI.closeWaiting()
-										plus.webview.getWebviewById('adresslist').reload(true)
-										mui.back()
+										if(localStorage.getItem('addsta')==1){
+											var Order = plus.webview.getWebviewById('pay')
+											mui.fire(Order, 'haveOrder', {});
+											that.opennew('pay')
+										}else{
+											plus.webview.getWebviewById('adresslist').reload(true)
+											mui.back()
+										}
 									}
 									if(window.plus) {
 										plusReady();

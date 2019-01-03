@@ -3,7 +3,7 @@
     "id": "H5929B52D",/*应用的标识，创建应用时自动生成，勿手动修改*/
     "name": "联华外卖",/*应用名称，程序桌面图标名称*/
     "version": {
-        "name": "3.0.3",/*应用版本名称*/
+        "name": "3.1.5",/*应用版本名称*/
         "code": ""
     },
     "description": "",/*应用描述信息*/
@@ -294,7 +294,8 @@
 				],
 				"refer": [
 					"pay.html",
-					"goodsdetail.html"
+					"goodsdetail.html",
+					"index.html"
 				],
 				"priority": 0
 			},
@@ -315,10 +316,14 @@
 				"priority": 0
 			},
 			"adresslist.html": {
-				"resources": [],
+				"resources": [
+					"img/Rectangle.png",
+					"img/Group 6.png"
+				],
 				"refer": [
 					"addadress.html",
-					"changeadress.html"
+					"changeadress.html",
+					"pay.html"
 				],
 				"priority": 0
 			},
@@ -344,7 +349,13 @@
 				"priority": 0
 			},
 			"shopcart.html": {
-				"resources": [],
+				"resources": [
+					"img/backwhite.png",
+					"css/shopcart.css",
+					"img/add01.png",
+					"css/mui.min.css",
+					"img/delete.png"
+				],
 				"refer": [
 					"pay.html",
 					"shop.html"
@@ -356,7 +367,8 @@
 				"refer": [
 					"instead/adresslist.html",
 					"adresslist.html",
-					"orderlist.html"
+					"orderlist.html",
+					"shop.html"
 				],
 				"priority": 0
 			},

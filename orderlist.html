@@ -141,6 +141,7 @@
 				},
 				mounted: function() {
 					var that=this
+					localStorage.setItem('addsta',0)
 					this.myajax()
 					function plusReady() {
 						plus.key.addEventListener("backbutton", function() {

@@ -23,8 +23,9 @@
 		.shop-back {
 			margin: .1rem 0;
 		}
-		.orderdetail #orderinform{
-			top:-2rem
+		
+		.orderdetail #orderinform {
+			top: -2rem
 		}
 	</style>
 
@@ -50,13 +51,15 @@
 						<img src="img/back.png"/>
 					</span>
 				<span class="header-main">订单详情</span>
-				<span class="header-settings"></span>
+				<span class="header-settings" @click="cuidan" v-if="mydata.usOrder.usOrRiStartus==3">
+					催单
+				</span>
 			</header>
 			<div class="main">
 				<div id="container">
 
 				</div>
-				<div id="orderinform"  v-if="mydata!=''">
+				<div id="orderinform" v-if="mydata!=''">
 					<div class="detail-group top">
 						<img :src="mapboo==false?'img/mapshow.png':'img/maphide.png'" class="mapshow" @click="mapshow" />
 						<div class="state-h">
@@ -295,6 +298,22 @@
 					channel: ''
 				},
 				methods: {
+					cuidan: function() {
+						var that=this
+						$.ajax({
+							type: "post",
+							url: that.myurl01 + "/updateUsOrIsUrgent",
+							dataType: 'json',
+							data: {
+								cuserId : that.mydata.usTraderStoresId,
+								usOrderId: that.mydata.usOrder.usOrderId,
+								usOrIsUrgent:  1
+							},
+							success: function(res) {
+								plus.nativeUI.toast('已催单')
+							}
+						});
+					},
 					gopay: function() {
 						var that = this,
 							ajaxjons,
@@ -387,6 +406,7 @@
 					},
 					myajax: function() {
 						var that = this
+
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
@@ -396,7 +416,7 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
-						
+
 						var jsonData = {
 							usOrderId: localStorage.getItem('usOrderId')
 						}
@@ -409,10 +429,10 @@
 								that.mydata = res.data
 								var map = new AMap.Map('container', {
 									zoom: 14,
-									center: [that.mydata.storeLon,that.mydata.storeLat]
+									center: [that.mydata.storeLon, that.mydata.storeLat]
 								});
-	//							//						骑手
-								if(that.mydata.riderLonLat!=undefined){
+								//							//						骑手
+								if(that.mydata.riderLonLat != undefined) {
 									new AMap.Marker({
 										map: map,
 										position: JSON.parse(that.mydata.riderLonLat),
@@ -434,12 +454,13 @@
 								//						店铺
 								new AMap.Marker({
 									map: map,
-									position: [that.mydata.storeLon,that.mydata.storeLat],
+									position: [that.mydata.storeLon, that.mydata.storeLat],
 									icon: new AMap.Icon({
 										size: new AMap.Size(27, 33),
 										image: "./img/dian.png"
 									})
 								});
+
 								function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()

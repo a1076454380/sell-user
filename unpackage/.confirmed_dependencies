@@ -134,7 +134,8 @@
   "shop.html": {
     "refer": [
       "pay.html",
-      "goodsdetail.html"
+      "goodsdetail.html",
+      "index.html"
     ],
     "resources": [
       "img/backwhite.png",
@@ -170,9 +171,13 @@
   "adresslist.html": {
     "refer": [
       "addadress.html",
-      "changeadress.html"
+      "changeadress.html",
+      "pay.html"
     ],
-    "resources": []
+    "resources": [
+      "img/Rectangle.png",
+      "img/Group 6.png"
+    ]
   },
   "shoplist.html": {
     "refer": [
@@ -197,13 +202,20 @@
       "pay.html",
       "shop.html"
     ],
-    "resources": []
+    "resources": [
+      "img/backwhite.png",
+      "css/shopcart.css",
+      "img/add01.png",
+      "css/mui.min.css",
+      "img/delete.png"
+    ]
   },
   "pay.html": {
     "refer": [
       "instead/adresslist.html",
       "adresslist.html",
-      "orderlist.html"
+      "orderlist.html",
+      "shop.html"
     ],
     "resources": []
   },

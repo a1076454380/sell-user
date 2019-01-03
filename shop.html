@@ -20,6 +20,15 @@
 			overflow: hidden;
 		}
 		
+		.change006 {
+			display: flex;
+			align-items: center;
+		}
+		
+		.change006 span {
+			margin: 0 .2rem;
+		}
+		
 		.fada-enter-active,
 		.fada-leave-active {
 			transition: .3s all;
@@ -58,7 +67,15 @@
 			opacity: 0;
 			transform: translateY(-100%);
 		}
-		.shop .shopback{-webkit-filter: blur(.15rem)}
+		
+		.shop .shopback {
+			-webkit-filter: blur(.15rem)
+		}
+		
+		.changeimg {
+			height: .4rem;
+			width: .4rem;
+		}
 	</style>
 
 	<body>
@@ -66,7 +83,9 @@
 			<transition name='donghua'>
 				<div class="bottom-wrapper" v-show="!cartboo" @click="bottomtab">
 					<div class="bottom-main">
-
+						<div class="bottom-tab" style="align-items: center;justify-content: flex-end;padding-right: .2rem">
+							<img src="img/delete.png" @click.stop="clear()"/>
+						</div>
 						<div class="bottom-tab" v-for='(val,index) in cartdata.usShoppingCartPojos'>
 							<div class="bottom-name">
 								{{val.usTsName}}
@@ -115,7 +134,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
+				<span class="header-back" @click="pay02('index','')">
 						<img src="img/backwhite.png"/>
 					</span>
 				<span class="header-main"></span>
@@ -243,8 +262,13 @@
 															<span class="addcart addcollect" @click.stop="addcollect(val.usTraderShoppingId)" style="margin-right: .1rem;">
 																<img src="img/collect.png"/>
 															</span>
-															<span class="addcart" @click.stop="addcart(val.usTraderShoppingId,val.usTsPrice)">
+															<span class="addcart" @click.stop="addcart(val.usTraderShoppingId,val.usTsPrice)" v-if="val.gnum==0">
 																<img src="img/cart.png"/>
+															</span>
+															<span class="change006" v-if="val.gnum!=0">
+																<img src="img/reduce.png" class="changeimg" @click.stop="reduce(val.usTraderShoppingId,val.usTsPrice)" />
+																<span>{{val.gnum}}</span>
+																<img src="img/add.png" class="changeimg" @click.stop="addcart(val.usTraderShoppingId,val.usTsPrice)" />
 															</span>
 														</div>
 													</div>
@@ -303,6 +327,39 @@
 					allprice: 0
 				},
 				methods: {
+					clear:function(){
+						function plusReady() {
+							// 弹出系统等待对话框
+							plus.nativeUI.showWaiting();
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
+						var that = this
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/deleteUsShoppingCartById",
+							dataType: 'json',
+							data: {
+								usShoppingCartId: that.cartdata.usShoppingCartId
+							},
+							success: function(res) {
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
+								}
+								that.myajax()
+								that.bottomtab()
+							}
+						});
+					}, 
 					addcollect: function(id) {
 						var that = this
 						$.ajax({
@@ -372,31 +429,6 @@
 						this.layui = !this.layui
 						this.layuitext = text
 					},
-					mytab: function(index) {
-						//						获取分类下商品
-						var that = this
-						this.num = index
-						$.ajax({
-							type: "get",
-							url: that.myurl + "/queryUsTraderShoppingSortByUsTraderIdDetails",
-							dataType: 'json',
-							data: {
-								usTraderStoresId: localStorage.getItem('usTraderStoresId'),
-								usTraderShoppingSortId: index
-							},
-							success: function(res) {
-								if(res.data[0] != null) {
-									that.shopdetil = res.data
-									for(var i = 0; i < res.data.length; i = i + 2) {
-										that.shopdetil[i].xiaoliang = that.shopdetil[i + 1]
-									}
-								} else {
-									that.shopdetil = ''
-								}
-
-							}
-						});
-					},
 					topnav: function(index) {
 						this.tabnum = index
 					},
@@ -407,7 +439,7 @@
 						this.cartboo = !this.cartboo
 					},
 					pay02: function(target, usTraderShoppingId) {
-						localStorage.setItem('usTraderShoppingId',usTraderShoppingId)
+						localStorage.setItem('usTraderShoppingId', usTraderShoppingId)
 						mui.openWindow({
 							url: '' + target + '.html',
 							id: target,
@@ -416,20 +448,20 @@
 					},
 					pay: function(target, usTraderShoppingId) {
 						this.bottomtab()
-//						判断是否营业
-						if(this.mydata.listUsTraderOperate[0].usToIsOpen!=1){
+						//						判断是否营业
+						if(this.mydata.listUsTraderOperate[0].usToIsOpen != 1) {
 							plus.nativeUI.toast('该店铺正在休息呢,换一家逛逛吧~~')
-						}else{
+						} else {
 							//						判断起送价
-							if(this.cartdata.usScPrice>=this.mydata.listUsTraderStoresInfo[0].usTsActionPrice){
-								localStorage.setItem('cartdata',JSON.stringify(this.cartdata))
+							if(this.cartdata.usScPrice >= this.mydata.listUsTraderStoresInfo[0].usTsActionPrice) {
+								localStorage.setItem('cartdata', JSON.stringify(this.cartdata))
 								mui.openWindow({
 									url: '' + target + '.html',
 									id: target,
 									createNew: true
 								})
-							}else{
-								plus.nativeUI.toast('该店铺起送价为'+this.mydata.listUsTraderStoresInfo[0].usTsActionPrice+'元')
+							} else {
+								plus.nativeUI.toast('该店铺起送价为' + this.mydata.listUsTraderStoresInfo[0].usTsActionPrice + '元')
 							}
 						}
 					},
@@ -454,7 +486,7 @@
 							},
 							success: function(res) {
 								that.shopdata = res.data
-								if(that.shopdata.length!=0) {
+								if(that.shopdata.length != 0) {
 									that.num = res.data[0].usTraderShoppingSortId
 									that.mytab(that.num)
 								}
@@ -470,7 +502,6 @@
 								usTraderStoresId: localStorage.getItem('usTraderStoresId')
 							},
 							success: function(res) {
-								console.log(res)
 								that.mydata = res.data
 								that.havecart()
 							}
@@ -486,7 +517,7 @@
 							document.addEventListener("plusready", plusReady, false);
 						}
 					},
-					reduce: function(id,price) {
+					reduce: function(id, price) {
 						function plusReady() {
 							// 弹出系统等待对话框
 							var w = plus.nativeUI.showWaiting("订单查询中...");
@@ -512,7 +543,13 @@
 							dataType: 'json',
 							data: ajaxjson,
 							success: function(res) {
-								that.havecart()
+								plus.nativeUI.closeWaiting()
+								if(res.status==200){
+									that.myajax()
+								}else{
+									plus.nativeUI.toast('删除失败！')
+								}
+								
 							}
 						});
 					},
@@ -531,9 +568,11 @@
 								if(res.data != null) {
 									that.mycartnum = res.data.usShoppingCartPojos.length
 									that.cartdata = res.data
-								}else{
+									that.changegnum()
+								} else {
 									that.mycartnum = 0
-									that.cartdata=[]
+									that.cartdata = []
+									that.changegnum()
 								}
 
 								function plusReady() {
@@ -550,20 +589,69 @@
 								console.log(err)
 							}
 						});
+					},
+					mytab: function(index) {
+						//						获取分类下商品
+						var that = this
+						this.num = index
+						$.ajax({
+							type: "get",
+							url: that.myurl + "/queryUsTraderShoppingSortByUsTraderIdDetails",
+							dataType: 'json',
+							data: {
+								usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+								usTraderShoppingSortId: index
+							},
+							success: function(res) {
+								if(res.data[0] != null) {
+									that.shopdetil = res.data
+									for(var i = 0; i < res.data.length; i = i + 2) {
+										that.shopdetil[i].xiaoliang = that.shopdetil[i + 1]
+										that.shopdetil[i].gnum = 0
+									}
+								} else {
+									that.shopdetil = []
+								}
+								that.changegnum()
+							}
+						});
+					},
+					changegnum: function() {
+						var that = this
+							for(var i = 0; i < that.shopdetil.length; i += 2) {
+								that.shopdetil[i].gnum = 0
+							}
+							for(var i = 0; i < that.shopdetil.length; i += 2) {
+								for(var j = 0; j < that.cartdata.usShoppingCartPojos.length; j++) {
+									if(that.cartdata.usShoppingCartPojos[j].usTraderShoppingId == that.shopdetil[i].usTraderShoppingId) {
+										that.shopdetil[i].gnum = that.cartdata.usShoppingCartPojos[j].usScdNum
+									}
+								}
+							}
 					}
 				},
 				mounted: function() {
 					var that = this
 					var height = 0;
 					this.myajax()
+					function plusReady() {
+						plus.key.addEventListener("backbutton", function() {
+							that.opennew('index')
+						})
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
 				},
 				updated() {
-//					$('.rating-img img').css('height', $('.rating-img img').css('width'))
+					//					$('.rating-img img').css('height', $('.rating-img img').css('width'))
 				},
-				filters:{
-					myimg:function(value){
-						if(value!=null){
-							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+				filters: {
+					myimg: function(value) {
+						if(value != null) {
+							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
 						}
 					}
 				}

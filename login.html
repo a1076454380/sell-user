@@ -80,11 +80,11 @@
 					pwd: '',
 					code: false,
 					submittext: '下一步',
-					codenum: 60,
+					codenum: '获取验证码',
 					auths: null,
 					layui: false,
 					layuitext: '',
-					myurl: localStorage.getItem('myurl')
+					pwd02:''
 				},
 				methods: {
 					layuiboo: function(text) {
@@ -100,6 +100,10 @@
 					gosubmit: function() {
 						var that = this
 						if(this.submittext == '登录') {
+//							if(that.pwd!=that.pwd02){
+//								plus.nativeUI.toast('验证码错误~')
+//								return false;
+//							}
 							function plusReady() {
 								// 弹出系统等待对话框
 								plus.nativeUI.showWaiting("登陆中...");
@@ -159,15 +163,7 @@
 						}
 						this.code = true
 						this.submittext = '登录'
-						var that = this
-						var set = setInterval(function() {
-							if(that.codenum != 1) {
-								that.codenum = that.codenum - 1
-							} else {
-								clearInterval(set)
-								that.codenum = '获取验证码'
-							}
-						}, 1000)
+						that.addcode()
 					},
 					cleaar: function() {
 						this.phone = ''
@@ -175,14 +171,30 @@
 					addcode: function() {
 						var that = this
 						if(this.codenum == '获取验证码') {
-							var set = setInterval(function() {
-								if(that.codenum > 1) {
-									that.codenum = that.codenum - 1
-								} else {
-									clearInterval(set)
-									that.codenum = '获取验证码'
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myimg') + "/shortMessage/getShortCode",
+								dataType: 'json',
+								data: {
+									phone: that.phone
+								},
+								success: function(res) {
+									that.codenum=60
+									that.pwd02=res.data
+									var set = setInterval(function() {
+										if(that.codenum > 1) {
+											that.codenum = that.codenum - 1
+										} else {
+											clearInterval(set)
+											that.codenum = '获取验证码'
+										}
+									}, 1000)
+								},
+								error:function(){
+									
 								}
-							}, 1000)
+							});
+							
 						}
 					}
 				},

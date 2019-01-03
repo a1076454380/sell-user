@@ -59,7 +59,7 @@
 					</div>
 					<div class="user-group02">
 						<div class="user-tab" @click="opennew('mycollect')">
-							<img src="img/user-collect.png" />
+							<img src="img/collect.png" />
 							<span>
 								收藏
 							</span>
@@ -250,6 +250,16 @@
 				},
 				mounted: function() {
 					var that = this
+					function plusReady() {
+						plus.key.addEventListener("backbutton", function() {
+							that.opennew('index')
+						})
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
 					this.myajax()
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006

@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
+				<span class="header-back" @click="opennew('shop')">
 						<img src="img/back.png"/>
 					</span>
 				<span class="header-main">支付</span>
@@ -381,6 +381,9 @@
 						});
 					},
 					opennew: function(target) {
+						if(target=='adresslist'){
+							localStorage.setItem('addsta',1)
+						}
 						mui.openWindow({
 							url: '' + target + '.html',
 							id: target,

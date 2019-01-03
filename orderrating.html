@@ -160,6 +160,10 @@
 						}else{
 							usSsOk02=0
 						}
+						if(that.text.length>100){
+							alert('最大可输入100字')
+							return false;
+						}
 						var jsondata = {
 							usUserId: localStorage.getItem('userid'),
 							usOrderId: localStorage.getItem('usOrderId'),
