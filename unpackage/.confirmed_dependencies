@@ -80,7 +80,12 @@
       "shop.html",
       "news.html"
     ],
-    "resources": []
+    "resources": [
+      "css/main.css",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/rem.js"
+    ]
   },
   "preferential.html": {
     "refer": [

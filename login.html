@@ -100,10 +100,10 @@
 					gosubmit: function() {
 						var that = this
 						if(this.submittext == '登录') {
-//							if(that.pwd!=that.pwd02){
-//								plus.nativeUI.toast('验证码错误~')
-//								return false;
-//							}
+							if(that.pwd!=that.pwd02){
+								plus.nativeUI.toast('验证码错误~')
+								return false;
+							}
 							function plusReady() {
 								// 弹出系统等待对话框
 								plus.nativeUI.showWaiting("登陆中...");

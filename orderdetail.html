@@ -51,7 +51,7 @@
 						<img src="img/back.png"/>
 					</span>
 				<span class="header-main">订单详情</span>
-				<span class="header-settings" @click="cuidan" v-if="mydata.usOrder.usOrRiStartus==3">
+				<span class="header-settings" @click="cuidan" v-if="mydata.usOrder.usOrRiStartus==1||mydata.usOrder.usOrRiStartus==2||mydata.usOrder.usOrRiStartus==3" style="font-size: .3rem;color: #FFC408;font-weight: 600;">
 					催单
 				</span>
 			</header>
@@ -72,11 +72,14 @@
 							<div class="setting-btn" @click="openshop(mydata.usOrder.usTraderStoresId)">
 								{{mydata.usOrder.usOrIsPay==0?'重新购买':'再来一单'}}
 							</div>
-							<div class="setting-btn" @click="openrating(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay!=0&&mydata.usOrder.usOrOrderEvaluateStatus==0'>
+							<div class="setting-btn" @click="openrating(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrOrderEvaluateStatus==0&&mydata.usOrder.usOrIsCancel==3' style="background: #FFC408;color: #FFFFFF;border: 0;">
 								发表评价
 							</div>
 							<div class="setting-btn" @click="gopay(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay==0'>
 								我要支付
+							</div>
+							<div class="setting-btn" style="background: #FFC408;color: #FFFFFF;border: 0;"v-if='mydata.usOrder.usOrIsCancel==0&&mydata.usOrder.usOrIsPay!=0' @click="canael(mydata.usOrder.usOrderId,mydata.usOrder.usOrPrice)">
+								取消订单
 							</div>
 						</div>
 					</div>
@@ -298,6 +301,34 @@
 					channel: ''
 				},
 				methods: {
+					canael:function(id,price){
+						plus.nativeUI.showWaiting()
+						var that=this
+						$.ajax({
+							type: "post",
+							url: that.myurl01 + "/userRefund",
+							dataType: 'json',
+							data: {
+								traderNo : id,
+								refundAmount: price
+							},
+							success: function(res) {
+								plus.nativeUI.closeWaiting()
+								if(res.status==400){
+									plus.nativeUI.toast('商家已接单，无法取消')
+									that.myajax()
+								}else{
+									if(res.data==1){
+										plus.nativeUI.toast('已取消')
+										that.myajax()
+									}else{
+										plus.nativeUI.toast('取消失败')
+									}
+								}
+								
+							}
+						});
+					},
 					cuidan: function() {
 						var that=this
 						$.ajax({
@@ -305,9 +336,8 @@
 							url: that.myurl01 + "/updateUsOrIsUrgent",
 							dataType: 'json',
 							data: {
-								cuserId : that.mydata.usTraderStoresId,
-								usOrderId: that.mydata.usOrder.usOrderId,
-								usOrIsUrgent:  1
+								cuserId : that.mydata.usOrder.usTraderStoresId,
+								usOrderId: that.mydata.usOrder.usOrderId
 							},
 							success: function(res) {
 								plus.nativeUI.toast('已催单')

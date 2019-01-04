@@ -271,6 +271,18 @@
 							return localStorage.getItem('myimg') +'/' +value.substring(value.indexOf('D:') + 2)
 						}
 					}
+				},
+				updated:function(){
+					function plusReady() {
+						plus.key.addEventListener("backbutton", function() {
+							that.opennew('index')
+						})
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
+					}
 				}
 			})
 		</script>

@@ -3,7 +3,7 @@
     "id": "H5929B52D",/*应用的标识，创建应用时自动生成，勿手动修改*/
     "name": "联华外卖",/*应用名称，程序桌面图标名称*/
     "version": {
-        "name": "3.1.5",/*应用版本名称*/
+        "name": "3.2.1",/*应用版本名称*/
         "code": ""
     },
     "description": "",/*应用描述信息*/
@@ -201,7 +201,12 @@
 				"priority": 0
 			},
 			"user.html": {
-				"resources": [],
+				"resources": [
+					"css/main.css",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/rem.js"
+				],
 				"refer": [
 					"userinfo.html",
 					"index.html",
