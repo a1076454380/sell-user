@@ -15,18 +15,9 @@
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
 	<style type="text/css">
-		.main {
-			height: calc(100% - .8rem);
-			padding: 0;
-		}
-		
-		.shop-back {
-			margin: .1rem 0;
-		}
-		
-		.orderdetail #orderinform {
-			top: -2rem
-		}
+		.main {height: calc(100% - .8rem);padding: 0;}
+		.shop-back {margin: .1rem 0;}
+		.orderdetail #orderinform {top: -2rem}
 	</style>
 
 	<body>
@@ -132,7 +123,7 @@
 							</div>
 						</div>
 						<div class="shop-back" style="height: auto;">
-							<div class="back-inner">
+							<div class="back-inner" style="flex-direction: column;">
 								<div class="back-group" v-if="mydata.usTraderPackage!=undefined">
 									<span>
 									<span class="red">
@@ -220,12 +211,14 @@
 						</div>
 						<div class="shop-back">
 							<div class="back-inner">
-								<div class="back-group" style="justify-content: center;">
-									<a :href="['tel:'+mydata.listUsTriderPojo[0].usTsPhone+'']">
-										<img src="img/detail_03.png" class="phone" />
-									</a>
+								<div class="back-group" style="justify-content: center;border-right: 1px solid #999999;">
 									<a :href="['tel:'+mydata.listUsTriderPojo[0].usTsPhone+'']">
 										联系商家
+									</a>
+								</div>
+								<div class="back-group" style="justify-content: center;">
+									<a :href="['tel:'+mydata.usRiPhone+'']">
+										联系骑手
 									</a>
 								</div>
 							</div>
@@ -251,34 +244,34 @@
 					</div>-->
 					<div class="detail-group inform" v-if="mydata.usOrder.usOrIsPay==1">
 						<div class="inform-group">
-							<span class="inform-name">
+						<span class="inform-name">
 							订单备注
 						</span>
-							<span class="inform-text">
+						<span class="inform-text">
 							{{mydata.usOrder.usOrNote}}
 						</span>
 						</div>
 						<div class="inform-group">
-							<span class="inform-name">
+						<span class="inform-name">
 							订单号码
 						</span>
-							<span class="inform-text">
+						<span class="inform-text">
 							{{mydata.usOrder.usOrderId}}
 						</span>
 						</div>
 						<div class="inform-group">
-							<span class="inform-name">
+						<span class="inform-name">
 							订单时间
 						</span>
-							<span class="inform-text">
+						<span class="inform-text">
 							{{mydata.usOrder.usOrCreateTimeString}}
 						</span>
 						</div>
 						<div class="inform-group">
-							<span class="inform-name">
+						<span class="inform-name">
 							支付方式
 						</span>
-							<span class="inform-text">
+						<span class="inform-text" v-if="mydata.usOrder.usOrIsPay!=null">
 							{{mydata.usOrder.usOrIsPay==1?'支付宝':'微信'}}
 						</span>
 						</div>
@@ -314,15 +307,18 @@
 							},
 							success: function(res) {
 								plus.nativeUI.closeWaiting()
-								if(res.status==400){
-									plus.nativeUI.toast('商家已接单，无法取消')
+								if(res.status==500){
+									plus.nativeUI.toast('商家已取消订单，无法再次取消！')
+									that.myajax()
+								}else if(res.status==400){
+									plus.nativeUI.toast('商家已接单，无法取消！')
 									that.myajax()
 								}else{
 									if(res.data==1){
-										plus.nativeUI.toast('已取消')
+										plus.nativeUI.toast('已取消！')
 										that.myajax()
 									}else{
-										plus.nativeUI.toast('取消失败')
+										plus.nativeUI.toast('取消失败！')
 									}
 								}
 								
@@ -385,6 +381,7 @@
 										statusPay: 2
 									},
 									success: function(res) {
+										alert(JSON.stringify(res))
 										plus.payment.request(that.channel[1], res, function(result) {
 											plus.nativeUI.alert("支付成功！", function() {
 												plus.webview.getWebviewById('orderdetail').reload()

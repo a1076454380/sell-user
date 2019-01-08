@@ -35,7 +35,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back" @click="opennew('user')">
+				<span class="header-back" @click="opennew('index')">
 						<img src="img/back.png"/>
 					</span>
 				<span class="header-main">我的订单</span>
@@ -145,10 +145,13 @@
 					localStorage.setItem('addsta',0)
 					this.myajax()
 					function plusReady() {
+						if(plus.webview.getWebviewById('pay')!=null){
+							plus.webview.close('pay')
+						}
 						plus.key.addEventListener("backbutton", function() {
 							mui.openWindow({
-								url: 'user.html',
-								id: 'user'
+								url: 'index.html',
+								id: 'index'
 							})
 						})
 					}

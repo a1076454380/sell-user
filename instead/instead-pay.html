@@ -60,39 +60,7 @@
 		</div>
 	</body>
 	<script type="text/javascript">
-		function opennew(target) {
-				mui.openWindow({
-					url: '' + target + '.html',
-					id: '' + target + ''
-				})
-			}
-		$(function() {
-			function plusReady() {
-				// 弹出系统等待对话框
-				var w = plus.nativeUI.showWaiting("数据加载中...");
-			}
-			if(window.plus) {
-				plusReady();
-			} else {
-				document.addEventListener("plusready", plusReady, false);
-			}
-			setTimeout(function() {
-				plus.nativeUI.closeWaiting()
-			}, 1000)
-			$('.bottom-tab').click(function() {
-				opennew($(this).attr('data-target'))
-			})
-			function opennew(target) {
-				mui.openWindow({
-					url: '' + target + '.html',
-					id: '' + target + ''
-				})
-			}
-			$('.pay-circle').click(function(){
-				$('.pay-circle').removeClass('active')
-				$(this).addClass('active')
-			})
-		})
+		
 	</script>
 
 </html>

@@ -44,7 +44,8 @@
   "login.html": {
     "refer": [
       "index.html",
-      "register.html"
+      "register.html",
+      "newindex.html"
     ],
     "resources": []
   },
@@ -99,7 +100,9 @@
   "orderlist.html": {
     "refer": [
       "orderdetail.html",
-      "user.html"
+      "user.html",
+      "newindex.html",
+      "index.html"
     ],
     "resources": []
   },
@@ -140,7 +143,8 @@
     "refer": [
       "pay.html",
       "goodsdetail.html",
-      "index.html"
+      "index.html",
+      "newindex.html"
     ],
     "resources": [
       "img/backwhite.png",
@@ -241,5 +245,17 @@
       "instead/orderrating02.html"
     ],
     "resources": []
+  },
+  "newindex.html": {
+    "refer": [
+      "login.html",
+      "orderlist.html",
+      "shop.html",
+      "shoplist.html",
+      "redb.html",
+      "shopcart.html",
+      "gosearch.html",
+      "index.html"
+    ]
   }
 }

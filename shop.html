@@ -134,7 +134,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back" @click="pay02('index','')">
+				<span class="header-back mui-action-back">
 						<img src="img/backwhite.png"/>
 					</span>
 				<span class="header-main"></span>
@@ -280,7 +280,8 @@
 								<div class="shop-content swiper-slide" style="flex-direction: column;display: block;" v-if="tabnum==1">
 									<div class="rating-group" v-for="val in mydata.listUsShoppingComment">
 										<div class="img-box">
-											<img :src="val.usHeadImg | myimg" />
+											<img :src="val.usHeadImg | myimg" v-if="val.usHeadImg!=null"/>
+											<img src="img/dvip-active.png" v-if="val.usHeadImg==null"/>
 										</div>
 										<div class="rating-main">
 											<div class="rating-name">

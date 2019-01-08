@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	</head>
 	<style type="text/css">
@@ -47,7 +47,7 @@
 					<img src="img/news.png"/>
 				</span>
 			</header>
-			<div class="main mui-scroll-wrapper">
+			<div class="main mui-scroll-wrapper" style="height:calc(100% - .8rem);">
 				<div class="index-main mui-scroll">
 					<div class="head-top">
 						<img :src="avatar | myimg" class="avatar" @click="opennew('userinfo')" v-if="avatar!='null'" />
@@ -149,7 +149,7 @@
 					</div>
 				</div>
 			</div>
-			<footer class="footer">
+			<!--<footer class="footer">
 				<div class="footer-group">
 					<img src="img/index.png" @click="opennew('index')" />
 					<span>
@@ -174,7 +174,7 @@
 						我的
 					</span>
 				</div>
-			</footer>
+			</footer>-->
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
@@ -249,6 +249,16 @@
 					}
 				},
 				mounted: function() {
+					$(document).ready(function() {
+						if(window.history && window.history.pushState) {
+							$(window).on('popstate', function() {
+								window.history.pushState('forward', null, '#');
+								window.history.forward(1);
+							});
+						}
+						window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+						window.history.forward(1);
+					});
 					var that = this
 					function plusReady() {
 						plus.key.addEventListener("backbutton", function() {

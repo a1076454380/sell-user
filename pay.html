@@ -104,7 +104,7 @@
 						</div>
 					</div>
 					<div class="shop-back" style="height: auto;" v-if="discountdata!=''">
-						<div class="back-inner">
+						<div class="back-inner" style="flex-direction: column;">
 							<div class="back-group" v-if="discountdata.listNewActivities!=null" @click="achange('x')">
 								<img src="img/xin.png" class="logo" />
 								<span class="grey">
@@ -295,11 +295,10 @@
 							data: ajaxjson,
 							success: function(res) {
 								plus.payment.request(that.channel[1], res, function(result) {
-									plus.nativeUI.alert("支付成功！", function() {
-										plus.nativeUI.closeWaiting()
-										that.opennew('orderlist')
-									});
+									plus.nativeUI.closeWaiting()
+									that.opennew('orderlist')
 								}, function(error) {
+									alert(JSON.stringify(error))
 									plus.nativeUI.closeWaiting()
 									plus.nativeUI.toast('支付失败！')
 									that.opennew('orderlist')
@@ -364,10 +363,8 @@
 							data: ajaxjson,
 							success: function(res) {
 								plus.payment.request(that.channel[0], res.data[0], function(result) {
-									plus.nativeUI.alert("支付成功！", function() {
-										plus.nativeUI.closeWaiting()
-										that.opennew('orderlist')
-									});
+									plus.nativeUI.closeWaiting()
+									that.opennew('orderlist')
 								}, function(error) {
 									plus.nativeUI.closeWaiting()
 									plus.nativeUI.toast('支付失败！')
@@ -381,8 +378,8 @@
 						});
 					},
 					opennew: function(target) {
-						if(target=='adresslist'){
-							localStorage.setItem('addsta',1)
+						if(target == 'adresslist') {
+							localStorage.setItem('addsta', 1)
 						}
 						mui.openWindow({
 							url: '' + target + '.html',

@@ -10,8 +10,8 @@
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -40,7 +40,7 @@
 				<span class="header-main">会员中心</span>
 				<span class="header-settings"></span>
 			</header>
-			<div class="main mui-scroll-wrapper">
+			<div class="main mui-scroll-wrapper" style="height:calc(100% - .8rem);">
 				<div class="mui-scroll">
 					<div class="vip-top"></div>
 					<div class="avatar-box">
@@ -72,7 +72,7 @@
 					</div>
 				</div>
 			</div>
-			<footer class="footer">
+			<!--<footer class="footer">
 				<div class="footer-group">
 					<img src="img/index.png" @click="opennew('index')" />
 					<span>
@@ -97,7 +97,7 @@
 						我的
 					</span>
 				</div>
-			</footer>
+			</footer>-->
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
@@ -257,6 +257,16 @@
 					}
 				},
 				mounted: function() {
+					$(document).ready(function() {
+						if(window.history && window.history.pushState) {
+							$(window).on('popstate', function() {
+								window.history.pushState('forward', null, '#');
+								window.history.forward(1);
+							});
+						}
+						window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+						window.history.forward(1);
+					});
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});

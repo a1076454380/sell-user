@@ -3,7 +3,7 @@
     "id": "H5929B52D",/*应用的标识，创建应用时自动生成，勿手动修改*/
     "name": "联华外卖",/*应用名称，程序桌面图标名称*/
     "version": {
-        "name": "3.2.1",/*应用版本名称*/
+        "name": "3.3.5",/*应用版本名称*/
         "code": ""
     },
     "description": "",/*应用描述信息*/
@@ -106,10 +106,10 @@
                     "iphone": {
                         "default": "", /*iPhone3启动图片选，分辨率：320x480*/
                         /*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
-                        "retina40": "logo/640x960.png",/*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
-                        "retina47": "logo/750x1334.png",/*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
-                        "retina55": "logo/1242x2208.png",/*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
-                        "retina55l": "","iphonex":"logo/1125x2436.png"/*5.5 英寸设备(iPhone6 Plus)横屏启动图片，分辨率：2208x1242*/
+                        "retina40": "logo/480.png",/*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
+                        "retina47": "logo/720.png",/*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
+                        "retina55": "logo/1080.png",/*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
+                        "retina55l": "","iphonex":"logo/1080.png"/*5.5 英寸设备(iPhone6 Plus)横屏启动图片，分辨率：2208x1242*/
                     },
                     "ipad": {
                         "portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
@@ -178,7 +178,8 @@
 				"resources": [],
 				"refer": [
 					"index.html",
-					"register.html"
+					"register.html",
+					"newindex.html"
 				],
 				"priority": 0
 			},
@@ -238,7 +239,9 @@
 				"resources": [],
 				"refer": [
 					"orderdetail.html",
-					"user.html"
+					"user.html",
+					"newindex.html",
+					"index.html"
 				],
 				"priority": 0
 			},
@@ -300,7 +303,8 @@
 				"refer": [
 					"pay.html",
 					"goodsdetail.html",
-					"index.html"
+					"index.html",
+					"newindex.html"
 				],
 				"priority": 0
 			},
@@ -395,6 +399,20 @@
 				"resources": [],
 				"refer": [
 					"instead/orderrating02.html"
+				],
+				"priority": 0
+			},
+			"newindex.html": {
+				"resources": [],
+				"refer": [
+					"login.html",
+					"orderlist.html",
+					"shop.html",
+					"shoplist.html",
+					"redb.html",
+					"shopcart.html",
+					"gosearch.html",
+					"index.html"
 				],
 				"priority": 0
 			}

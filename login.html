@@ -10,7 +10,7 @@
 		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<style type="text/css">
 		body,
@@ -18,16 +18,21 @@
 			background: #fff;
 			position: relative;
 		}
-		.backimg{
-			position: absolute;top: 0;left: 0;width: 100%;height: 100%;
+		
+		.backimg {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
 		}
 	</style>
 
 	<body>
 		<div class="wrapper login" id="app">
-			<img src="img/backimg.png" class="backimg"/>
+			<img src="img/backimg.png" class="backimg" />
 			<div class="main">
-				<img src="logo/logo.png" class="logo"/>
+				<img src="logo/logo.png" class="logo" />
 				<div class="form">
 					<div class="input-group" v-show="!code">
 						<img src="img/login_07.png" />
@@ -84,7 +89,7 @@
 					auths: null,
 					layui: false,
 					layuitext: '',
-					pwd02:''
+					pwd02: ''
 				},
 				methods: {
 					layuiboo: function(text) {
@@ -100,10 +105,11 @@
 					gosubmit: function() {
 						var that = this
 						if(this.submittext == '登录') {
-							if(that.pwd!=that.pwd02){
+							if(that.pwd != that.pwd02) {
 								plus.nativeUI.toast('验证码错误~')
 								return false;
 							}
+
 							function plusReady() {
 								// 弹出系统等待对话框
 								plus.nativeUI.showWaiting("登陆中...");
@@ -169,48 +175,46 @@
 						this.phone = ''
 					},
 					addcode: function() {
-						var that = this
-						if(this.codenum == '获取验证码') {
-							$.ajax({
-								type: "post",
-								url: localStorage.getItem('myimg') + "/shortMessage/getShortCode",
-								dataType: 'json',
-								data: {
-									phone: that.phone
-								},
-								success: function(res) {
-									that.codenum=60
-									that.pwd02=res.data
-									var set = setInterval(function() {
-										if(that.codenum > 1) {
-											that.codenum = that.codenum - 1
-										} else {
-											clearInterval(set)
-											that.codenum = '获取验证码'
-										}
-									}, 1000)
-								},
-								error:function(){
-									
-								}
-							});
-							
-						}
+//						var that = this
+//						if(this.codenum == '获取验证码') {
+//							$.ajax({
+//								type: "post",
+//								url: localStorage.getItem('myimg') + "/shortMessage/getShortCode",
+//								dataType: 'json',
+//								data: {
+//									phone: that.phone
+//								},
+//								success: function(res) {
+//									that.codenum = 60
+//									that.pwd02 = res.data
+//									var set = setInterval(function() {
+//										if(that.codenum > 1) {
+//											that.codenum = that.codenum - 1
+//										} else {
+//											clearInterval(set)
+//											that.codenum = '获取验证码'
+//										}
+//									}, 1000)
+//								},
+//								error: function() {
+//
+//								}
+//							});
+//
+//						}
 					}
 				},
 				mounted() {
-					function plusReady() {
-						// 弹出系统等待对话框
-						plus.key.addEventListener("backbutton", function() {
-							plus.nativeUI.toast('请先进行登陆')
-						})
-					}
-					if(window.plus) {
-						plusReady();
-					} else {
-						document.addEventListener("plusready", plusReady, false);
-					}
-
+					$(document).ready(function() {
+						if(window.history && window.history.pushState) {
+							$(window).on('popstate', function() {
+								window.history.pushState('forward', null, '#');
+								window.history.forward(1);
+							});
+						}
+						window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+						window.history.forward(1);
+					});
 				}
 			})
 		</script>
