@@ -42,7 +42,7 @@
 						<img src="img/back.png"/>
 					</span>
 				<span class="header-main">订单详情</span>
-				<span class="header-settings" @click="cuidan" v-if="mydata.usOrder.usOrRiStartus==1||mydata.usOrder.usOrRiStartus==2||mydata.usOrder.usOrRiStartus==3" style="font-size: .3rem;color: #FFC408;font-weight: 600;">
+				<span class="header-settings" @click="cuidan" v-if="(mydata.usOrder.usOrRiStartus==1||mydata.usOrder.usOrRiStartus==2||mydata.usOrder.usOrRiStartus==3)&&mydata.usOrder.usOrIsPay==1&&mydata.usOrder.usOrIsCancel!=6" style="font-size: .3rem;color: #FFC408;font-weight: 600;">
 					催单
 				</span>
 			</header>

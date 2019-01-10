@@ -175,33 +175,33 @@
 						this.phone = ''
 					},
 					addcode: function() {
-//						var that = this
-//						if(this.codenum == '获取验证码') {
-//							$.ajax({
-//								type: "post",
-//								url: localStorage.getItem('myimg') + "/shortMessage/getShortCode",
-//								dataType: 'json',
-//								data: {
-//									phone: that.phone
-//								},
-//								success: function(res) {
-//									that.codenum = 60
-//									that.pwd02 = res.data
-//									var set = setInterval(function() {
-//										if(that.codenum > 1) {
-//											that.codenum = that.codenum - 1
-//										} else {
-//											clearInterval(set)
-//											that.codenum = '获取验证码'
-//										}
-//									}, 1000)
-//								},
-//								error: function() {
-//
-//								}
-//							});
-//
-//						}
+						var that = this
+						if(this.codenum == '获取验证码') {
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myimg') + "/shortMessage/getShortCode",
+								dataType: 'json',
+								data: {
+									phone: that.phone
+								},
+								success: function(res) {
+									that.codenum = 60
+									that.pwd02 = res.data
+									var set = setInterval(function() {
+										if(that.codenum > 1) {
+											that.codenum = that.codenum - 1
+										} else {
+											clearInterval(set)
+											that.codenum = '获取验证码'
+										}
+									}, 1000)
+								},
+								error: function() {
+
+								}
+							});
+
+						}
 					}
 				},
 				mounted() {

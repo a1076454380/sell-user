@@ -44,8 +44,8 @@
 				<div class="mui-scroll">
 					<div class="vip-top"></div>
 					<div class="avatar-box">
-						<img :src="usHeadImg | myimg" v-if="usHeadImg!='null'"/>
-						<img src="img/avatar.png" v-if="usHeadImg=='null'"/>
+						<img :src="usHeadImg | myimg" v-if="usHeadImg!='null'" />
+						<img src="img/avatar.png" v-if="usHeadImg=='null'" />
 					</div>
 					<div class="vip-title">
 						我的Power
@@ -129,7 +129,7 @@
 							success: function(res) {
 								for(var i = 0; i < res.data.length; i++) {
 									buttons.push({
-										title: res.data[i].usTmcLevel  +'-'+ res.data[i].usTmcPrice+'元  - '+ res.data[i].usTmcDiscount/10 +'折'
+										title: res.data[i].usTmcLevel + '-' + res.data[i].usTmcPrice + '元  - ' + res.data[i].usTmcDiscount / 10 + '折'
 									})
 								}
 								//								弹出会员等级选择
@@ -138,42 +138,85 @@
 									cancel: "取消",
 									buttons: buttons
 								}, function(e) {
-									var ajaxjson = {
-										statusPay: 1, //1.支付宝，，2.微信，，3.银行卡
-										usMemberId: usMemberId,
-										usTraderMemberCardId: res.data[e.index-1].usTraderMemberCardId,
-										usCardPrice: res.data[e.index-1].usTmcPrice
-									}
-									$.ajax({
-										type: "post",
-										url: that.myurl + "/createAliPayMember",
-										data: ajaxjson,
-										dataType: 'json',
-										success: function(res) {
-											console.log(JSON.stringify(res))
-											plus.payment.request(that.channel[0], res.data[0], function(result) {
-												plus.nativeUI.alert("支付成功！", function() {
-													that.myajax()
-													that.layuiboo()
-												});
-											}, function(error) {
-												$.ajax({
-													type: "post",
-													url: that.myurl + "/removeMember",
-													data: {
-														id:res.data[1]
-													},
-													dataType: 'json',
-													success: function(res) {
-														
-													}
-												});
+									plus.nativeUI.confirm("请选择您的支付方式！", function(mye) {
+										if(mye.index == 0) {
+											var ajaxjson = {
+												statusPay: 1, //1.支付宝，，2.微信，，3.银行卡
+												usMemberId: usMemberId,
+												usTraderMemberCardId: res.data[e.index - 1].usTraderMemberCardId,
+												usCardPrice: res.data[e.index - 1].usTmcPrice
+											}
+											$.ajax({
+												type: "post",
+												url: that.myurl + "/createAliPayMember",
+												data: ajaxjson,
+												dataType: 'json',
+												success: function(res) {
+													plus.payment.request(that.channel[0], res.data[0], function(result) {
+														plus.nativeUI.toast("支付成功！")
+														that.myajax()
+														that.layuiboo()
+													}, function(error) {
+														plus.nativeUI.toast("支付失败！")
+														$.ajax({
+															type: "post",
+															url: that.myurl + "/removeMember",
+															data: {
+																id: res.data[1]
+															},
+															dataType: 'json',
+															success: function(res) {
+
+															}
+														});
+													});
+												},
+												error: function(err) {
+													console.log(JSON.stringify(err))
+												}
 											});
-										},
-										error: function(err) {
-											console.log(JSON.stringify(err))
+										} else {
+											var ajaxjson = {
+												statusPay: 2, //1.支付宝，，2.微信，，3.银行卡
+												usMemberId: usMemberId,
+												usTraderMemberCardId: res.data[e.index - 1].usTraderMemberCardId,
+												usCardPrice: res.data[e.index - 1].usTmcPrice
+											}
+											$.ajax({
+												type: "post",
+												url: that.myurl + "/createAliPayMember",
+												data: ajaxjson,
+												dataType: 'json',
+												success: function(res) {
+													plus.payment.request(that.channel[1], res, function(result) {
+														plus.nativeUI.toast("支付成功！")
+														that.myajax()
+														that.layuiboo()
+													}, function(error) {
+														plus.nativeUI.toast("支付失败！")
+														$.ajax({
+															type: "post",
+															url: that.myurl + "/removeMember",
+															data: {
+																id: res.orderId
+															},
+															dataType: 'json',
+															success: function(res) {
+
+															}
+														});
+													});
+												},
+												error: function(err) {
+													console.log(JSON.stringify(err))
+												}
+											});
 										}
+									}, {
+										"title": "支付方式",
+										"buttons": ["支付宝", "微信"]
 									});
+
 								});
 							},
 							error: function(err) {
@@ -189,6 +232,7 @@
 					},
 					upvip: function() {
 						var that = this
+
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
@@ -198,7 +242,7 @@
 						} else {
 							document.addEventListener("plusready", plusReady, false);
 						}
-//						查询店铺详情
+						//						查询店铺详情
 						$.ajax({
 							type: "get",
 							url: that.myurl + "/queryUsMemberPojoDetail",
@@ -242,18 +286,19 @@
 							},
 							success: function(res) {
 								that.mydata = res.data
-								
+
 							}
 						});
+
 						function plusReady() {
-									// 弹出系统等待对话框
-									plus.nativeUI.closeWaiting()
-								}
-								if(window.plus) {
-									plusReady();
-								} else {
-									document.addEventListener("plusready", plusReady, false);
-								}
+							// 弹出系统等待对话框
+							plus.nativeUI.closeWaiting()
+						}
+						if(window.plus) {
+							plusReady();
+						} else {
+							document.addEventListener("plusready", plusReady, false);
+						}
 					}
 				},
 				mounted: function() {
@@ -292,8 +337,8 @@
 				},
 				filters: {
 					myimg: function(value) {
-						if(value!=null){
-							return localStorage.getItem('myimg') +'/' +value.substring(value.indexOf('D:')+2)
+						if(value != null) {
+							return localStorage.getItem('myimg') + '/' + value.substring(value.indexOf('D:') + 2)
 						}
 					}
 				}
