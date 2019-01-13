@@ -242,7 +242,7 @@
 												{{shopdetil[0].usTssResult}}
 											</div>
 											<div class="right-main">
-												<div class="rmain-group" v-for="(val,index) in shopdetil" @click="pay02('goodsdetail',val.usTraderShoppingId)" v-if="index%2==0">
+												<div class="rmain-group" v-for="(val,index) in shopdetil" @click="pay02('goodsdetail',val.usTraderShoppingId)" v-if="index%2==0&&val.usTsStatus==1">
 													<img :src="val.usTsImgUrl | myimg" class="img" />
 													<!--<img src="img/index.jpg" class="img" />-->
 													<div class="shoptext">

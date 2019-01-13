@@ -47,7 +47,7 @@
 					<img src="img/news.png"/>
 				</span>
 			</header>
-			<div class="main mui-scroll-wrapper" style="height:calc(100% - .8rem);">
+			<div class="main mui-scroll-wrapper">
 				<div class="index-main mui-scroll">
 					<div class="head-top">
 						<img :src="avatar | myimg" class="avatar" @click="opennew('userinfo')" v-if="avatar!='null'" />
@@ -149,7 +149,7 @@
 					</div>
 				</div>
 			</div>
-			<!--<footer class="footer">
+			<footer class="footer">
 				<div class="footer-group">
 					<img src="img/index.png" @click="opennew('index')" />
 					<span>
@@ -174,7 +174,7 @@
 						我的
 					</span>
 				</div>
-			</footer>-->
+			</footer>
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
@@ -203,11 +203,18 @@
 						this.layui = !this.layui
 					},
 					opennew: function(adr) {
-						mui.openWindow({
-							url: '' + adr + '.html',
-							id: '' + adr + '',
-							createNew: true
-						})
+						if(adr=='orderlist'){
+							mui.openWindow({
+								url: '' + adr + '.html',
+								id: '' + adr + '',
+								createNew: true
+							})
+						}else{
+							mui.openWindow({
+								url: '' + adr + '.html',
+								id: '' + adr + ''
+							})
+						}
 					},
 					opendetail: function(id,usTraderId) {
 						var that=this
@@ -221,8 +228,11 @@
 								title:'今日推荐'
 							},
 							success: function(res) {
-								console.log(JSON.stringify(res))
-								that.opennew('shop')
+								mui.openWindow({
+									url: 'shop.html',
+									id: 'shop',
+									createNew: true
+								})
 							},
 							error:function(err){
 								console.log(JSON.stringify(err))

@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back" @click="opennew('shop')">
+				<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
 				<span class="header-main">支付</span>
@@ -84,13 +84,13 @@
 						</div>
 					</div>
 					<div class="shop-back" v-if="discountdata!=''">
-						<div class="back-inner">
+						<div class="back-inner" style="flex-direction: column;">
 							<div class="back-group">
 								<span>
 									包装费
 								</span>
 								<span>
-									¥{{discountdata.listMaDistributionUsPackingFee.usPfPrice}}
+									¥{{allfee}}
 								</span>
 							</div>
 							<div class="back-group">
@@ -105,7 +105,7 @@
 					</div>
 					<div class="shop-back" style="height: auto;" v-if="discountdata!=''">
 						<div class="back-inner" style="flex-direction: column;">
-							<div class="back-group" v-if="discountdata.listNewActivities!=null" @click="achange('x')">
+							<div class="back-group" v-if="discountdata.listNewActivities.length!=0" @click="achange('x')">
 								<img src="img/xin.png" class="logo" />
 								<span class="grey">
 									新人立减
@@ -222,7 +222,8 @@
 					hindex: 0,
 					hdata: [],
 					aboo: false,
-					atype: ''
+					atype: '',
+					allfee:0
 				},
 				methods: {
 					achange: function(type) {
@@ -279,14 +280,15 @@
 							redPackageId: that.hdata.length != 0 ? that.hdata[that.hindex].usTraderPackageId : '',
 							discontId: that.discountdata.listDiscount.length != 0 ? that.discountdata.listDiscount[that.zindex].usTraderDiscountId : '',
 							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract[that.mindex].usTraderSubtractId : '',
-							newPeopleId: that.discountdata.listNewActivities != null ? that.discountdata.listNewActivities[that.xindex].usTraderNewActivitiesId : '',
+							newPeopleId: that.discountdata.listNewActivities.length!=0 ? that.discountdata.listNewActivities[that.xindex].usTraderNewActivitiesId : '',
 							note: that.note,
-							price: 0.01,
+							price: that.allprice,
 							statusPay: 2,
 							redPackageStyle: that.hdata.length != 0 ? (that.hdata[that.hindex].usTpBelong == 1 ? '1' : '71') : '',
 							discontStyle: that.discountdata.listDiscount.length == 0 ? '' : (that.discountdata.listDiscount[that.zindex].usTdBelong == 1 ? '2' : '72'),
-							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTdBelong == 1 ? '3' : '73') : '',
-							newPeopleStyle: that.discountdata.listNewActivities != null ? (that.discountdata.listNewActivities[that.xindex].usTdBelong == 1 ? '4' : '74') : ''
+							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTsBelong == 1 ? '3' : '73') : '',
+							newPeopleStyle: that.discountdata.listNewActivities .length != 0 ? (that.discountdata.listNewActivities[that.xindex].usTdBelong == 1 ? '4' : '74') : '',
+							usOrPackingFee:that.allfee
 						}
 						$.ajax({
 							type: "post",
@@ -346,14 +348,15 @@
 							redPackageId: that.hdata.length != 0 ? that.hdata[that.hindex].usTraderPackageId : '',
 							discontId: that.discountdata.listDiscount.length != 0 ? that.discountdata.listDiscount[that.zindex].usTraderDiscountId : '',
 							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract[that.mindex].usTraderSubtractId : '',
-							newPeopleId: that.discountdata.listNewActivities != null ? that.discountdata.listNewActivities[that.xindex].usTraderNewActivitiesId : '',
+							newPeopleId: that.discountdata.listNewActivities.length!=0? that.discountdata.listNewActivities[that.xindex].usTraderNewActivitiesId : '',
 							note: that.note,
-							price: 0.01,
+							price:that.allprice,
 							statusPay: 1,
 							redPackageStyle: that.hdata.length != 0 ? (that.hdata[that.hindex].usTpBelong == 1 ? '1' : '71') : '',
 							discontStyle: that.discountdata.listDiscount.length == 0 ? '' : (that.discountdata.listDiscount[that.zindex].usTdBelong == 1 ? '2' : '72'),
-							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTdBelong == 1 ? '3' : '73') : '',
-							newPeopleStyle: that.discountdata.listNewActivities != null ? (that.discountdata.listNewActivities[that.xindex].usTdBelong == 1 ? '4' : '74') : ''
+							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTsBelong == 1 ? '3' : '73') : '',
+							newPeopleStyle: that.discountdata.listNewActivities .length != 0 ? (that.discountdata.listNewActivities[that.xindex].usTdBelong == 1 ? '4' : '74') : '',
+							usOrPackingFee:that.allfee
 						}
 						$.ajax({
 							type: "post",
@@ -477,9 +480,12 @@
 					},
 					myprice: function() {
 						var that = this
+						for (var i in that.cartdata.usShoppingCartPojos) {
+							that.allfee+=that.cartdata.usShoppingCartPojos[i].usTsPackingFee*that.cartdata.usShoppingCartPojos[i].usScdNum
+						}
 						var allprice = that.cartdata.usScPrice
 						//新人满减
-						if(that.discountdata.listNewActivities != null) {
+						if(that.discountdata.listNewActivities.length!=0) {
 							allprice = allprice - that.discountdata.listNewActivities[that.xindex].usTnaPrice
 						}
 						//红包
@@ -497,7 +503,7 @@
 						if(allprice < 0) {
 							allprice = 0
 						}
-						that.allprice = allprice + that.discountdata.listMaDistributionUsPackingFee.usPfPrice + that.discountdata.listMaDistributionUsPackingFee.maDiPrice
+						that.allprice = allprice + that.allfee + that.discountdata.listMaDistributionUsPackingFee.maDiPrice
 
 						function plusReady() {
 							plus.nativeUI.closeWaiting()

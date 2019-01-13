@@ -120,6 +120,7 @@
 											usPhone: localStorage.getItem('usPhone')
 										},
 										success: function(res) {
+											plus.nativeUI.closeWaiting()
 											if(res.status == 200) {
 												localStorage.setItem('userid', res.data.usUserId)
 												localStorage.setItem('usNickname', res.data.usNickname)

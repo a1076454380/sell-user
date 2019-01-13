@@ -43,7 +43,7 @@
 					</span>
 				<span class="header-main">订单详情</span>
 				<span class="header-settings" @click="cuidan" v-if="(mydata.usOrder.usOrRiStartus==1||mydata.usOrder.usOrRiStartus==2||mydata.usOrder.usOrRiStartus==3)&&mydata.usOrder.usOrIsPay==1&&mydata.usOrder.usOrIsCancel!=6" style="font-size: .3rem;color: #FFC408;font-weight: 600;">
-					催单
+					{{cuidantext<=40?'':'催单'}}
 				</span>
 			</header>
 			<div class="main">
@@ -117,7 +117,7 @@
 									包装
 								</span>
 									<span>
-									¥{{mydata.maDistribution}}
+									¥{{mydata.usOrder.usOrPackingFee}}
 								</span>
 								</div>
 							</div>
@@ -134,7 +134,7 @@
 									</span>
 									</span>
 									<span>
-										{{mydata.usTraderPackage}}
+										- {{mydata.usTraderPackage}}
 									</span>
 								</div>
 								<div class="back-group" v-if="mydata.usTraderNewActivities!=undefined">
@@ -147,7 +147,7 @@
 									</span>
 									</span>
 									<span>
-										{{mydata.usTraderNewActivities}}
+										- {{mydata.usTraderNewActivities}}
 									</span>
 								</div>
 								<div class="back-group" v-if="mydata.usTraderDiscount!=undefined">
@@ -160,7 +160,7 @@
 									</span>
 									</span>
 									<span>
-										{{mydata.usTraderDiscount}}
+										- {{mydata.usTraderDiscount}}
 									</span>
 								</div>
 								<div class="back-group" v-if="mydata.usTraderSubtract!=undefined">
@@ -173,7 +173,7 @@
 									</span>
 									</span>
 									<span>
-										{{mydata.usTraderSubtract}}
+										- {{mydata.usTraderSubtract}}
 									</span>
 								</div>
 								<div class="back-group" v-if="mydata[3]!=null">
@@ -186,7 +186,7 @@
 									</span>
 									</span>
 									<span>
-										{{mydata[3].usTpPrice}}
+										- {{mydata[3].usTpPrice}}
 									</span>
 								</div>
 							</div>
@@ -272,7 +272,7 @@
 							支付方式
 						</span>
 						<span class="inform-text" v-if="mydata.usOrder.usOrIsPay!=null">
-							{{mydata.usOrder.usOrIsPay==1?'支付宝':'微信'}}
+							{{mydata.usOrder.usOpStatus==1?'支付宝':'微信'}}
 						</span>
 						</div>
 					</div>
@@ -291,7 +291,8 @@
 					mydata: '',
 					youhui: '',
 					zongjia: 0,
-					channel: ''
+					channel: '',
+					cuidantext:''
 				},
 				methods: {
 					canael:function(id,price){
@@ -327,18 +328,20 @@
 					},
 					cuidan: function() {
 						var that=this
-						$.ajax({
-							type: "post",
-							url: that.myurl01 + "/updateUsOrIsUrgent",
-							dataType: 'json',
-							data: {
-								cuserId : that.mydata.usOrder.usTraderStoresId,
-								usOrderId: that.mydata.usOrder.usOrderId
-							},
-							success: function(res) {
-								plus.nativeUI.toast('已催单')
-							}
-						});
+						if(that.cuidantext>=40){
+							$.ajax({
+								type: "post",
+								url: that.myurl01 + "/updateUsOrIsUrgent",
+								dataType: 'json',
+								data: {
+									cuserId : that.mydata.usOrder.usTraderStoresId,
+									usOrderId: that.mydata.usOrder.usOrderId
+								},
+								success: function(res) {
+									plus.nativeUI.toast('已催单')
+								}
+							});
+						}
 					},
 					gopay: function() {
 						var that = this,
@@ -453,6 +456,9 @@
 							dataType: 'json',
 							data: jsonData,
 							success: function(res) {
+								var d1 = new Date(res.data.usOrderPay.usOpCreateTimeString);
+								var d2 = new Date();
+								that.cuidantext=parseInt(d2 - d1) / 1000 / 60
 								that.mydata = res.data
 								var map = new AMap.Map('container', {
 									zoom: 14,

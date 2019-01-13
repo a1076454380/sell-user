@@ -158,12 +158,6 @@
 						if(plus.webview.getWebviewById('pay')!=null){
 							plus.webview.close('pay')
 						}
-						plus.key.addEventListener("backbutton", function() {
-							mui.openWindow({
-								url: 'index.html',
-								id: 'index'
-							})
-						})
 					}
 					if(window.plus) {
 						plusReady();
