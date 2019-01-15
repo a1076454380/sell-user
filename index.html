@@ -54,16 +54,14 @@
 					<div id="topheight">
 						<div class="mui-slider">
 							<div class="mui-slider-group mui-slider-loop">
-								<div class="mui-slider-item  mui-slider-item-duplicate">
+								<div class="mui-slider-item">
+									<!-- 具体内容 -->
 									<img src="img/ios.png" style="height: 3rem;"/>
 								</div>
 								<!--第一个内容区容器-->
 								<div class="mui-slider-item" @click="opendetail(val.usTraderStoresId,val.usTraderId,'首页轮播图')" v-for="val in bannerdata">
 									<!-- 具体内容 -->
 									<img :src="val.usTsBannerImg | myimg" />
-								</div>
-								<div class="mui-slider-item mui-slider-item-duplicate">
-									<img src="img/ios.png" style="height: 3rem;"/>
 								</div>
 							</div>
 							<div class="mui-slider-indicator">
@@ -606,15 +604,14 @@
 					} else {
 						document.addEventListener("plusready", plusReady, false);
 					}
+					that.myajax()
 					mui(".mui-slider").slider({
 						interval: 3000,
-						bounce: true
 					});
 				},
 				updated() {
 					mui(".mui-slider").slider({
-						interval: 3000,
-						bounce: true
+						interval: 3000
 					});
 				},
 				filters: {

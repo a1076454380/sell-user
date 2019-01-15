@@ -76,6 +76,10 @@
 			height: .4rem;
 			width: .4rem;
 		}
+		.img-box02{    width: 100px;
+    height: 100px;
+    margin: 10px;display: flex;align-items: center;justify-content: center;background: rgba(0,0,0,.2);}
+    .img-box02 img{max-height: 100%;max-width: 100%;margin: 0;}
 	</style>
 
 	<body>
@@ -159,7 +163,7 @@
 						配送时间10.00-21.00
 					</p>
 					<p>
-						包装费:¥{{mydata.listMaDistributionUsPackingFee.usPfPrice}},配送费 ¥{{mydata.listMaDistributionUsPackingFee.maDiPrice}}
+						配送费 ¥{{mydata.listMaDistributionUsPackingFee.maDiPrice}}
 					</p>
 					<h4>
 						其他优惠
@@ -207,10 +211,10 @@
 										新人减{{mydata.listNewActivities[mydata.listNewActivities.length-1].usTnaPrice}}
 									</span>
 								</div>
-								<div class="a-group" v-if="mydata.listSubtract.length!=0">
+								<div class="a-group" v-if="mydata.listSubtract.length!=0" v-for="(val,index) in mydata.listSubtract">
 									<img src="img/reduction.png" />
 									<span>
-										满{{mydata.listSubtract[mydata.listSubtract.length-1].usTsFullPrice}}减{{mydata.listSubtract[mydata.listSubtract.length-1].usTsSubtractPrice}}
+										满{{val.usTsFullPrice}}减{{val.usTsSubtractPrice}}
 									</span>
 								</div>
 								<img src="img/rightwhite.png" style="height: .21rem;" v-if="mydata.listDiscount.length!=0&&mydata.listNewActivities.length!=0&&mydata.listSubtract.length!=0" />
@@ -243,8 +247,9 @@
 											</div>
 											<div class="right-main">
 												<div class="rmain-group" v-for="(val,index) in shopdetil" @click="pay02('goodsdetail',val.usTraderShoppingId)" v-if="index%2==0&&val.usTsStatus==1">
-													<img :src="val.usTsImgUrl | myimg" class="img" />
-													<!--<img src="img/index.jpg" class="img" />-->
+													<div class="img-box02">
+														<img :src="val.usTsImgUrl | myimg" class="img" />
+													</div>
 													<div class="shoptext">
 														<h4>
 															{{val.usTsName}}
