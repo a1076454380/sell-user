@@ -9,16 +9,14 @@
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
-		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<style type="text/css">
 		body,
 		.mui-content {
 			background: white;
 		}
-		.user .avatar{margin: .2rem auto .1rem;}
 	</style>
 
 	<body>
@@ -39,8 +37,8 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back">
-					
+				<span class="header-back" @click="opennew('index')">
+					<img src="img/back.png"/>
 				</span>
 				<span class="header-main">用户中心</span>
 				<span class="header-settings" @click="opennew('news')">
@@ -54,46 +52,23 @@
 						<img src="img/avatar.png" class="avatar" @click="opennew('userinfo')" v-if="avatar=='null'" />
 						<h2 class="user-name" @click="opennew('userinfo')">{{usNickname}}</h2>
 					</div>
-					<div class="user-title">
-						我的工具
-					</div>
 					<div class="user-group02">
-						<div class="user-tab" @click="opennew('mycollect')">
-							<img src="img/collect.png" />
-							<span>
-								收藏
-							</span>
-						</div>
-						<div class="user-tab" @click="opennew('money')">
-							<img src="img/hbao.png" />
-							<span>
-								我的红包
-							</span>
-						</div>
-						<div class="user-tab" @click="opennew('myfoot')">
-							<img src="img/user-foot.png" />
-							<span>
-								足迹
-							</span>
-						</div>
-						<!--<div class="user-tab" @click="opennew('count')">
-							<img src="img/card.png" />
-							<span>
-								折扣券
-							</span>
-						</div>-->
 						<div class="user-tab">
 							<img src="img/user-order.png" @click="opennew('orderlist')" />
 							<span>
 								我的订单
 							</span>
 						</div>
-						<div class="user-tab">
-							<a href="tel:0572-5129628">
-								<img src="img/service.png" />
-							</a>
+						<div class="user-tab" @click="opennew('mycollect')">
+							<img src="img/collect.png" />
 							<span>
-								联系客服
+								收藏
+							</span>
+						</div>
+						<div class="user-tab" @click="opennew('myfoot')">
+							<img src="img/user-foot.png" />
+							<span>
+								最近浏览
 							</span>
 						</div>
 						<div class="user-tab">
@@ -102,21 +77,35 @@
 								收货地址
 							</span>
 						</div>
-						<div class="user-tab">
-							<img src="img/exit.png" @click="exit" />
+
+					</div>
+					<div class="userbottom">
+						<div @click="opennew('money')">
+							<span>
+								我的红包
+							</span>
+							<img src="img/arrright.png"/>
+						</div>
+						<a href="tel:0572-5129628">
+							<span>
+								联系客服
+							</span>
+							<img src="img/arrright.png"/>
+						</a>
+						<div @click="exit">
 							<span>
 								退出登陆
 							</span>
+							<img src="img/arrright.png"/>
 						</div>
 					</div>
-					<div class="user-title">
+					<!--<div class="user-title">
 						今日推荐
 					</div>
 					<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId)" v-for="val in tuidata02">
 						<div class="group-inner">
 							<div class="img-box">
 								<img :src="val.usTsFacadeImg | myimg" />
-								<!--<img src="img/index.jpg"/>-->
 							</div>
 							<div class="index-detail">
 								<div class="index-h">
@@ -146,36 +135,11 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div>-->
 				</div>
 			</div>
-			<footer class="footer">
-				<div class="footer-group">
-					<img src="img/index.png" @click="opennew('index')" />
-					<span>
-						首页
-					</span>
-				</div>
-				<div class="footer-group" @click="opennew('preferential')">
-					<img src="img/found.png" />
-					<span>
-						同城惠
-					</span>
-				</div>
-				<div class="footer-group">
-					<img src="img/dvip.png" @click="opennew('vipcart')" />
-					<span>
-						会员中心
-					</span>
-				</div>
-				<div class="footer-group">
-					<img src="img/user-active.png" />
-					<span>
-						我的
-					</span>
-				</div>
-			</footer>
 		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -203,29 +167,29 @@
 						this.layui = !this.layui
 					},
 					opennew: function(adr) {
-						if(adr=='orderlist'){
+						if(adr == 'orderlist') {
 							mui.openWindow({
 								url: '' + adr + '.html',
 								id: '' + adr + '',
 								createNew: true
 							})
-						}else{
+						} else {
 							mui.openWindow({
 								url: '' + adr + '.html',
 								id: '' + adr + ''
 							})
 						}
 					},
-					opendetail: function(id,usTraderId) {
-						var that=this
+					opendetail: function(id, usTraderId) {
+						var that = this
 						localStorage.setItem('usTraderStoresId', id)
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/changeAdPrice",
 							dataType: 'json',
-							data:{
-								storesId:id,
-								title:'今日推荐'
+							data: {
+								storesId: id,
+								title: '今日推荐'
 							},
 							success: function(res) {
 								mui.openWindow({
@@ -234,7 +198,7 @@
 									createNew: true
 								})
 							},
-							error:function(err){
+							error: function(err) {
 								console.log(JSON.stringify(err))
 							}
 						});
@@ -270,6 +234,7 @@
 						window.history.forward(1);
 					});
 					var that = this
+
 					function plusReady() {
 						plus.key.addEventListener("backbutton", function() {
 							that.opennew('index')
@@ -288,11 +253,11 @@
 				filters: {
 					myimg: function(value) {
 						if(value != null) {
-							return localStorage.getItem('myimg') +'/' +value.substring(value.indexOf('D:') + 2)
+							return localStorage.getItem('myimg') + '/' + value.substring(value.indexOf('D:') + 2)
 						}
 					}
 				},
-				updated:function(){
+				updated: function() {
 					function plusReady() {
 						plus.key.addEventListener("backbutton", function() {
 							that.opennew('index')

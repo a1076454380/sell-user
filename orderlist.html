@@ -15,8 +15,17 @@
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<style type="text/css">
-		body,html,.wrapper,.main{height: 100%;}
+		body,
+		html,
+		.wrapper,
+		.main {
+			height: 100%;
+		}
+		.btn-group{display: flex;align-items: center;justify-content: flex-end;}
+		.setting-btn{width: 1.2rem;height: .5rem;display: flex;align-items: center;justify-content: center;border: 1px solid #979797;margin-right: .2rem;}
+		.setting-btn:last-of-type{border: 1px solid #FF8190;color: #FF8190;}
 	</style>
+
 	<body>
 		<div id="app" class="wrapper orderlist">
 			<div class="layui" v-show="layui">
@@ -65,7 +74,7 @@
 								暂无订单
 							</p>
 							<div class="order-group" @click="opennew('orderdetail',val.usOrderId,val.usTraderStoresId,val.maMerchantsStyleId,val.usTraderId)" v-for="val in orderdata" v-if='(tabnum==10?true:val.usOrIsCancel==tabnum)&&val.usTsFacadeImg!=null'>
-								<img :src="val.usTsFacadeImg | myimg"/>
+								<img :src="val.usTsFacadeImg | myimg" />
 								<div class="order-main">
 									<div class="order-text">
 										<span class="order-name">
@@ -85,7 +94,21 @@
 										<span class="oder-price">
 											总价： ¥ {{val.usOrPrice}}
 										</span>
-										
+
+									</div>
+									<div class="btn-group">
+										<div class="setting-btn">
+											删除订单
+										</div>
+										<div class="setting-btn" @click.stop="openshop(val.usTraderStoresId)">
+											再来一单
+										</div>
+										<div class="setting-btn" @click.stop="openrating(val.usOrderId)" v-if='val.usOrOrderEvaluateStatus==0&&val.usOrIsCancel==3'>
+											发表评价
+										</div>
+										<div class="setting-btn" @click.stop="gopay(val.usOrderId,val.usOrPrice)" v-if='val.usOrIsPay==0'>
+											我要支付
+										</div>
 									</div>
 								</div>
 							</div>
@@ -102,40 +125,104 @@
 					layui: false,
 					layuitext: '错误',
 					searchtype: localStorage.getItem('searchdpeata'),
-					mySwiper:'',
-					tabnum:10,
-					orderdata:'',
-					myurl:localStorage.getItem('myurl')
+					mySwiper: '',
+					tabnum: 10,
+					orderdata: '',
+					myurl: localStorage.getItem('myurl'),
+					channel:''
 				},
 				methods: {
-					tab:function(index){
-						this.tabnum=index
+					gopay: function(id,price) {
+						var that = this,
+							ajaxjons,
+							index
+						plus.nativeUI.confirm("请选择您的支付方式！", function(e) {
+							if(e.index == 0) {
+								$.ajax({
+									type: "post",
+									url: that.myurl + "/continueAliPay",
+									dataType: 'json',
+									data: {
+										price:price,
+										orderId: id,
+										statusPay: 1
+									},
+									success: function(res) {
+										plus.payment.request(that.channel[0], res.data[0], function(result) {
+											that.myajax()
+										}, function(error) {
+											alert('支付失败')
+										});
+
+									},
+									error: function(err) {
+										alert(JSON.stringify(err))
+									}
+								});
+							} else {
+								$.ajax({
+									type: "post",
+									url: that.myurl + "/continueAliPay",
+									dataType: 'json',
+									data: {
+										price: price,
+										orderId: id,
+										statusPay: 2
+									},
+									success: function(res) {
+										plus.payment.request(that.channel[1], res, function(result) {
+											that.myajax()
+										}, function(error) {
+											alert('支付失败')
+										});
+									},
+									error: function(err) {
+										alert(JSON.stringify(err))
+									}
+								});
+							}
+						}, {
+							"title": "支付方式",
+							"buttons": ["支付宝", "微信"]
+						});
+
+					},
+					openshop: function(id) {
+						localStorage.setItem('usTraderStoresId', id)
+						mui.openWindow({
+							url: 'shop.html',
+							id: 'shop',
+							createNew: true
+						})
+					},
+					tab: function(index) {
+						this.tabnum = index
 					},
 					layuiboo: function() {
 						this.layui = !this.layui
 					},
-					opennew: function(target,usOrderId,usTraderStoresId,maMerchantsStyleId,usTraderId) {
-						localStorage.setItem('usOrderId',usOrderId)
-						localStorage.setItem('usTraderStoresId',usTraderStoresId)
-						localStorage.setItem('maMerchantsStyleId',maMerchantsStyleId)
-						localStorage.setItem('usTraderId',usTraderId)
+					opennew: function(target, usOrderId, usTraderStoresId, maMerchantsStyleId, usTraderId) {
+						localStorage.setItem('usOrderId', usOrderId)
+						localStorage.setItem('usTraderStoresId', usTraderStoresId)
+						localStorage.setItem('maMerchantsStyleId', maMerchantsStyleId)
+						localStorage.setItem('usTraderId', usTraderId)
 						mui.openWindow({
-							url: ''+target+'.html',
+							url: '' + target + '.html',
 							id: target,
 							createNew: true
 						})
 					},
-					myajax:function(){
-						var that=this
+					myajax: function() {
+						var that = this
 						$.ajax({
-							type:"get",
-							url:that.myurl+"/queryByUsOrderPojoAndUsUserId",
-							dataType:'json',
-							data:{
-								usUserId:localStorage.getItem('userid')
+							type: "get",
+							url: that.myurl + "/queryByUsOrderPojoAndUsUserId",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('userid')
 							},
-							success:function(res){
-								that.orderdata=res.data
+							success: function(res) {
+								that.orderdata = res.data
 							}
 						});
 					}
@@ -151,13 +238,20 @@
 						window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
 						window.history.forward(1);
 					});
-					var that=this
-					localStorage.setItem('addsta',0)
+					var that = this
+					localStorage.setItem('addsta', 0)
 					this.myajax()
+
 					function plusReady() {
-						if(plus.webview.getWebviewById('pay')!=null){
+						if(plus.webview.getWebviewById('pay') != null) {
 							plus.webview.close('pay')
 						}
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+							that.myajax()
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
 					}
 					if(window.plus) {
 						plusReady();
@@ -168,37 +262,37 @@
 				update: function() {
 					mui.init()
 				},
-				filters:{
-					myimg:function(value){
-						if(value!=null){
-							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+				filters: {
+					myimg: function(value) {
+						if(value != null) {
+							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
 						}
 					},
-					mytype:function(value){
-						switch (value){
+					mytype: function(value) {
+						switch(value) {
 							case 0:
-							return '等待接单'
+								return '等待接单'
 								break;
 							case 1:
-							return '等待配送'
-								break;	
+								return '等待配送'
+								break;
 							case 2:
-							return '配送中'
+								return '配送中'
 								break;
 							case 3:
-							return '已完成'
-								break;	
+								return '已完成'
+								break;
 							case 4:
-							return '取消订单'
+								return '取消订单'
 								break;
 							case 5:
-							return '等待退款'
+								return '等待退款'
 								break;
 							case 6:
-							return '退款成功'
+								return '退款成功'
 								break;
 							default:
-							return '异常订单'
+								return '异常订单'
 								break;
 						}
 					}

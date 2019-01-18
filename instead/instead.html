@@ -34,10 +34,12 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back mui-action-back">
-						<img src="../img/back.png"/>
-					</span>
-				<span class="header-main">跑腿代购</span>
+				<span class="header-back">
+						<img src="../img/my.png" @click="opennew('../user')"/>
+				</span>
+				<span class="header-main">邦•
+					{{area}}
+				</span>
 				<span class="header-settings" @click="opennew('order')">
 						<img src="../img/order.png"/>
 					</span>
@@ -105,15 +107,6 @@
 							<div type="text" @click="opennew('adresslist')" class="input">{{sdist}}-{{sdetail}}</div>
 							<img src="../img/arrright.png" />
 						</div>
-						<div class="input-group instead-yes">
-							<label for="" @click="yseno">
-								<img src="../img/yes.png" v-show="insteadyes"/>
-								<img src="../img/no.png" v-show="!insteadyes"/>
-							</label>
-							<div class="input">
-								同意并接受　<span>购买服务协议</span>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -126,6 +119,32 @@
 					提交订单
 				</div>
 			</div>
+			<footer class="footer">
+				<div class="footer-group">
+					<img src="../img/index.png" @click="opennew('../index')" />
+					<span>
+						首页
+					</span>
+				</div>
+				<div class="footer-group" @click="opennew('../preferential')">
+					<img src="../img/found.png" />
+					<span>
+						同城惠
+					</span>
+				</div>
+				<div class="footer-group factive">
+					<img src="../img/zixingche-active.png"/>
+					<span>
+						跑腿代购
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="../img/dvip.png" @click="opennew('../vipcart')" />
+					<span>
+						会员中心
+					</span>
+				</div>
+			</footer>
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
@@ -150,7 +169,8 @@
 					qsbeizhu: '',
 					qstime: '',
 					usRtdWeight: localStorage.getItem('usRtdWeight') || '',
-					channel: ''
+					channel: '',
+					area:localStorage.getItem('city01')
 				},
 				methods: {
 					layuiboo: function(text) {

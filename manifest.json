@@ -1,9 +1,9 @@
 {
     "@platforms": ["android", "iPhone", "iPad"],
-    "id": "H5929B52D",/*应用的标识，创建应用时自动生成，勿手动修改*/
-    "name": "联华外卖",/*应用名称，程序桌面图标名称*/
+    "id": "H57BC45BF",/*应用的标识，创建应用时自动生成，勿手动修改*/
+    "name": "易点外卖",/*应用名称，程序桌面图标名称*/
     "version": {
-        "name": "3.7.0",/*应用版本名称*/
+        "name": "3.7.4",/*应用版本名称*/
         "code": ""
     },
     "description": "",/*应用描述信息*/
@@ -43,7 +43,7 @@
         "popGesture": "hide",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
         "runmode": "normal",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
         "signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
-        "distribute": {"plugins":{"oauth":{"qq":{"appid":"1107053640"}},"payment":{"alipay":{"description":"阿里支付","scheme":""},"appleiap":{"description":"Apple应用内支付"},"weixin":{"description":"微信支付","appid":"wxf20871cf9f9d2cf1"}},"maps":{"amap":{"appkey_ios":"517fe75d5a9e7a3073aa65f933f39ff5","appkey_android":"470d82c78453795008a2fe229f1f913c","description":""}}},
+        "distribute": {"plugins":{"oauth":{"qq":{"appid":"1107053640"}},"payment":{"alipay":{"description":"阿里支付","scheme":""},"appleiap":{"description":"Apple应用内支付"},"weixin":{"description":"微信支付","appid":"wxceb5a4a93471168f"}},"maps":{"amap":{"appkey_ios":"517fe75d5a9e7a3073aa65f933f39ff5","appkey_android":"470d82c78453795008a2fe229f1f913c","description":""}}},
             "apple": {
                 "appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
                 "mobileprovision": "",/*iOS应用打包配置文件*/
@@ -126,8 +126,8 @@
                     "mdpi": "", /*普通屏启动图片，分辨率：240x282*/
                     "ldpi": "","hdpi":"logo/480#762.png","xhdpi":"logo/720#1242.png","xxhdpi":"logo/1080#1882.png"/*1080P高分屏启动图片，分辨率：1080x1882*/
                 }
-            },"debug":true
-        },"ads":{"rp":false,"splash":false,"push":false},"adid":"128592240505"
+            },"debug":false
+        },"ads":{"rp":false,"splash":false,"push":false}
     },
 	"dependencies": {
 		"pages": {
@@ -189,7 +189,9 @@
 					"instead/fadresslist.html",
 					"instead/map02.html",
 					"instead/adresslist.html",
-					"instead/order.html"
+					"instead/order.html",
+					"index.html",
+					"vipcart.html"
 				],
 				"priority": 0
 			},

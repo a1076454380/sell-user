@@ -76,10 +76,22 @@
 			height: .4rem;
 			width: .4rem;
 		}
-		.img-box02{    width: 100px;
-    height: 100px;
-    margin: 10px;display: flex;align-items: center;justify-content: center;background: rgba(0,0,0,.2);}
-    .img-box02 img{max-height: 100%;max-width: 100%;margin: 0;}
+		
+		.img-box02 {
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: rgba(0, 0, 0, .2);
+		}
+		
+		.img-box02 img {
+			max-height: 100%;
+			max-width: 100%;
+			margin: 0;
+		}
 	</style>
 
 	<body>
@@ -88,7 +100,7 @@
 				<div class="bottom-wrapper" v-show="!cartboo" @click="bottomtab">
 					<div class="bottom-main">
 						<div class="bottom-tab" style="align-items: center;justify-content: flex-end;padding-right: .2rem">
-							<img src="img/delete.png" @click.stop="clear()"/>
+							<img src="img/delete.png" @click.stop="clear()" />
 						</div>
 						<div class="bottom-tab" v-for='(val,index) in cartdata.usShoppingCartPojos'>
 							<div class="bottom-name">
@@ -103,25 +115,16 @@
 								<img src="img/add.png" @click.stop="addcart(val.usTraderShoppingId,val.usScdPrice/val.usScdNum)" />
 							</div>
 						</div>
-						<div class="bottom-tab">
-							<div style="flex: 1;padding-left: .1rem;">
-								总计:
-								<strong>{{cartdata.usScPrice}}</strong>
-							</div>
-							<div class="bottom-setting" style="background: #FF6666;color: white;width: 2rem;justify-content: center;flex: inherit;padding: 0;" @click.stop="pay('pay','')">
-								结算
-							</div>
-						</div>
 					</div>
 				</div>
 			</transition>
-			<div class="mycart" @click="bottomtab">
+			<!--<div class="mycart" @click="bottomtab">
 				<img src="img/mycart.png" v-show="mycartnum==0" />
 				<img src="img/mycart-active.png" v-show="mycartnum!=0" />
 				<div class="mycartindex" v-show="mycartnum!=0">
 					{{mycartnum}}
 				</div>
-			</div>
+			</div>-->
 			<div class="layui" v-show="layui">
 				<div class="layui-inner">
 					<div class="layui-top">
@@ -273,7 +276,7 @@
 															<span class="change006" v-if="val.gnum!=0">
 																<img src="img/reduce.png" class="changeimg" @click.stop="reduce(val.usTraderShoppingId,val.usTsPrice)" />
 																<span>{{val.gnum}}</span>
-																<img src="img/add.png" class="changeimg" @click.stop="addcart(val.usTraderShoppingId,val.usTsPrice)" />
+															<img src="img/add.png" class="changeimg" @click.stop="addcart(val.usTraderShoppingId,val.usTsPrice)" />
 															</span>
 														</div>
 													</div>
@@ -285,8 +288,8 @@
 								<div class="shop-content swiper-slide" style="flex-direction: column;display: block;" v-if="tabnum==1">
 									<div class="rating-group" v-for="val in mydata.listUsShoppingComment">
 										<div class="img-box">
-											<img :src="val.usHeadImg | myimg" v-if="val.usHeadImg!=null"/>
-											<img src="img/dvip-active.png" v-if="val.usHeadImg==null"/>
+											<img :src="val.usHeadImg | myimg" v-if="val.usHeadImg!=null" />
+											<img src="img/dvip-active.png" v-if="val.usHeadImg==null" />
 										</div>
 										<div class="rating-main">
 											<div class="rating-name">
@@ -306,6 +309,23 @@
 									</div>
 								</div>
 							</div>
+						</div>
+					</div>
+					<div class="shop-bottom">
+						<div class="b-group" :class="mycartnum>0?'bactive':''"  @click="bottomtab">
+							<img src="img/cartwhite.png" />
+						</div>
+						<div class="pei">
+							另需配送费¥{{mydata.listMaDistributionUsPackingFee.maDiPrice}}
+						</div>
+						<div class="song" v-if='cartdata.length==0'>
+							还差¥15起送
+						</div>
+						<div class="song" v-if='mydata.listUsTraderStoresInfo[0].usTsActionPrice - cartdata.usScPrice>0&&cartdata.length!=0'>
+							还差¥{{mydata.listUsTraderStoresInfo[0].usTsActionPrice - cartdata.usScPrice}}起送
+						</div>
+						<div class="song bactive" style="color: #FFFFFF;" v-if='mydata.listUsTraderStoresInfo[0].usTsActionPrice - cartdata.usScPrice<=0' @click="pay('pay','')">
+							结算
 						</div>
 					</div>
 				</div>
@@ -333,7 +353,7 @@
 					allprice: 0
 				},
 				methods: {
-					clear:function(){
+					clear: function() {
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting();
@@ -365,7 +385,7 @@
 								that.bottomtab()
 							}
 						});
-					}, 
+					},
 					addcollect: function(id) {
 						var that = this
 						$.ajax({
@@ -453,22 +473,17 @@
 						})
 					},
 					pay: function(target, usTraderShoppingId) {
-						this.bottomtab()
+						//						this.bottomtab()
 						//						判断是否营业
 						if(this.mydata.listUsTraderOperate[0].usToIsOpen != 1) {
 							plus.nativeUI.toast('该店铺正在休息呢,换一家逛逛吧~~')
 						} else {
-							//						判断起送价
-							if(this.cartdata.usScPrice >= this.mydata.listUsTraderStoresInfo[0].usTsActionPrice) {
-								localStorage.setItem('cartdata', JSON.stringify(this.cartdata))
-								mui.openWindow({
-									url: '' + target + '.html',
-									id: target,
-									createNew: true
-								})
-							} else {
-								plus.nativeUI.toast('该店铺起送价为' + this.mydata.listUsTraderStoresInfo[0].usTsActionPrice + '元')
-							}
+							localStorage.setItem('cartdata', JSON.stringify(this.cartdata))
+							mui.openWindow({
+								url: '' + target + '.html',
+								id: target,
+								createNew: true
+							})
 						}
 					},
 					myajax: function() {
@@ -550,12 +565,12 @@
 							data: ajaxjson,
 							success: function(res) {
 								plus.nativeUI.closeWaiting()
-								if(res.status==200){
+								if(res.status == 200) {
 									that.myajax()
-								}else{
+								} else {
 									plus.nativeUI.toast('删除失败！')
 								}
-								
+
 							}
 						});
 					},
@@ -624,22 +639,23 @@
 					},
 					changegnum: function() {
 						var that = this
-							for(var i = 0; i < that.shopdetil.length; i += 2) {
-								that.shopdetil[i].gnum = 0
-							}
-							for(var i = 0; i < that.shopdetil.length; i += 2) {
-								for(var j = 0; j < that.cartdata.usShoppingCartPojos.length; j++) {
-									if(that.cartdata.usShoppingCartPojos[j].usTraderShoppingId == that.shopdetil[i].usTraderShoppingId) {
-										that.shopdetil[i].gnum = that.cartdata.usShoppingCartPojos[j].usScdNum
-									}
+						for(var i = 0; i < that.shopdetil.length; i += 2) {
+							that.shopdetil[i].gnum = 0
+						}
+						for(var i = 0; i < that.shopdetil.length; i += 2) {
+							for(var j = 0; j < that.cartdata.usShoppingCartPojos.length; j++) {
+								if(that.cartdata.usShoppingCartPojos[j].usTraderShoppingId == that.shopdetil[i].usTraderShoppingId) {
+									that.shopdetil[i].gnum = that.cartdata.usShoppingCartPojos[j].usScdNum
 								}
 							}
+						}
 					}
 				},
 				mounted: function() {
 					var that = this
 					var height = 0;
 					this.myajax()
+
 					function plusReady() {
 						plus.key.addEventListener("backbutton", function() {
 							that.opennew('index')

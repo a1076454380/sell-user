@@ -54,7 +54,9 @@
       "instead/fadresslist.html",
       "instead/map02.html",
       "instead/adresslist.html",
-      "instead/order.html"
+      "instead/order.html",
+      "index.html",
+      "vipcart.html"
     ],
     "resources": []
   },

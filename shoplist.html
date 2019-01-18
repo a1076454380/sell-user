@@ -54,11 +54,11 @@
 								</div>
 								<div class="index-x" style="align-items: flex-start;">
 									<div class="x-group" v-for="item in val.starPercentage">
-											<img src="img/xactive.png" />
-										</div>
-										<div class="x-group"v-for="item in (5 - val.starPercentage)">
-											<img src="img/xhalf.png"/>
-										</div>
+										<img src="img/xactive.png" />
+									</div>
+									<div class="x-group" v-for="item in (5 - val.starPercentage)">
+										<img src="img/xhalf.png" />
+									</div>
 								</div>
 								<div class="index-x">
 									<span class="shop-type">
@@ -77,7 +77,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
@@ -125,48 +125,44 @@
 						})
 					},
 					opendetail: function(id) {
-						localStorage.setItem('usTraderStoresId',id)
+						localStorage.setItem('usTraderStoresId', id)
 						this.opennew('shop')
 					},
 					myajax: function() {
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
-						}
-						if(window.plus) {
-							plusReady();
-						} else {
-							document.addEventListener("plusready", plusReady, false);
-						}
-						var that = this
-						this.ajaxmore = true
-						that.pageNum++
-						$.ajax({
-							type: "post",
-							url: that.myurl + "/queryUsTraderStoresRecommendPojoByMaMerchantsStyleId",
-							dataType: 'json',
-							data: {
-								lng: 30.6337960000,
-								lat: 119.6852030000,
-								maMerchantsStyleId: localStorage.getItem('maMerchantsStyleId'),
-								pageNum: that.pageNum,
-								pageSize:10
-							},
-							success: function(res) {
-								that.size = res.data.pages
-								that.ajaxmore = false
-								for(var i = 0; i < res.data.list.length; i++) {
-									that.tuidata.push(res.data.list[i])
-								}
-							},
-							error: function(err) {
-								console.log(err)
-							}
-						});
 
-						function plusReady() {
-							// 弹出系统等待对话框
-							plus.nativeUI.closeWaiting()
+							var that = this
+							this.ajaxmore = true
+							that.pageNum++
+								plus.geolocation.getCurrentPosition(function(p) {
+									$.ajax({
+										type: "post",
+										url: that.myurl + "/queryUsTraderStoresRecommendPojoByMaMerchantsStyleId",
+										dataType: 'json',
+										data: {
+											lng: p.coords.longitude,
+											lat: p.coords.latitude,
+											maMerchantsStyleId: localStorage.getItem('maMerchantsStyleId'),
+											pageNum: that.pageNum,
+											pageSize: 10
+										},
+										success: function(res) {
+											that.size = res.data.pages
+											that.ajaxmore = false
+											for(var i = 0; i < res.data.list.length; i++) {
+												that.tuidata.push(res.data.list[i])
+											}
+										},
+										error: function(err) {
+											console.log(err)
+										}
+									});
+									plus.nativeUI.closeWaiting()
+								}, function(e) {
+									that.city = '获取失败'
+								});
 						}
 						if(window.plus) {
 							plusReady();
@@ -181,9 +177,9 @@
 				updated() {
 
 				},
-				filters:{
-					myimg:function(value){
-						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+				filters: {
+					myimg: function(value) {
+						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
 					}
 				}
 			})

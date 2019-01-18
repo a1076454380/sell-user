@@ -42,14 +42,6 @@
 			</header>
 			<div class="main mui-scroll-wrapper">
 				<div class="mui-scroll">
-					<div class="vip-top"></div>
-					<div class="avatar-box">
-						<img :src="usHeadImg | myimg" v-if="usHeadImg!='null'" />
-						<img src="img/avatar.png" v-if="usHeadImg=='null'" />
-					</div>
-					<div class="vip-title">
-						我的Power
-					</div>
 					<div class="vip-group">
 						<div class="vip-inner" v-for="val in mydata">
 							<div class="group">
@@ -85,16 +77,16 @@
 						同城惠
 					</span>
 				</div>
-				<div class="footer-group factive">
-					<img src="img/dvip-active.png" />
+				<div class="footer-group" @click="opennew('instead/instead')">
+					<img src="img/zixingche.png"/>
 					<span>
-						会员中心
+						跑腿代购
 					</span>
 				</div>
-				<div class="footer-group" @click="opennew('user')">
-					<img src="img/user.png" />
+				<div class="footer-group factive">
+					<img src="img/dvip-active.png"/>
 					<span>
-						我的
+						会员中心
 					</span>
 				</div>
 			</footer>

@@ -30,9 +30,11 @@
 
 	<body>
 		<div class="wrapper login" id="app">
-			<img src="img/backimg.png" class="backimg" />
+			<div class="head">
+				<div>登陆</div>
+			</div>
 			<div class="main">
-				<img src="logo/logo.png" class="logo" />
+				<img src="logo/logo.png" class="logo" style="visibility: hidden;"/>
 				<div class="form">
 					<div class="input-group" v-show="!code">
 						<img src="img/login_07.png" />
@@ -99,7 +101,8 @@
 					opennew: function(target) {
 						mui.openWindow({
 							url: '' + target + '.html',
-							id: '' + target + ''
+							id: '' + target + '',
+									createNew: true
 						})
 					},
 					gosubmit: function() {
