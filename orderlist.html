@@ -97,9 +97,9 @@
 
 									</div>
 									<div class="btn-group">
-										<div class="setting-btn">
+										<!--<div class="setting-btn">
 											删除订单
-										</div>
+										</div>-->
 										<div class="setting-btn" @click.stop="openshop(val.usTraderStoresId)">
 											再来一单
 										</div>
@@ -208,8 +208,7 @@
 						localStorage.setItem('usTraderId', usTraderId)
 						mui.openWindow({
 							url: '' + target + '.html',
-							id: target,
-							createNew: true
+							id: target
 						})
 					},
 					myajax: function() {

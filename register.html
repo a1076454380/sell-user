@@ -22,7 +22,7 @@
 					</span>
 				<span class="header-main">注册</span>
 				<span class="header-settings">
-						<img src="img/collect.png"/>
+						<!--<img src="img/collect.png"/>-->
 					</span>
 			</header>
 			<div class="main">
@@ -45,7 +45,7 @@
 					</div>
 					<div id="datePlugin"></div>
 					<input type="hidden" name="usBirthday" id="usBirthday" placeholder="1998-01-25" data-title='生日不能为空！' value="1998-01-25"/>
-					<input type="button" value="快速注册" @click="submit" />
+					<input type="button" value="快速注册" @click="submit" style="height: .8rem;border-radius: .4rem;"/>
 				</form>
 				<div class="layui" v-show="layui">
 					<div class="layui-inner">
@@ -120,6 +120,16 @@
 									})
 								} else {
 									that.layuiboo(res.msg)
+								}
+							},error:function(){
+								function plusReady() {
+									// 弹出系统等待对话框
+									plus.nativeUI.closeWaiting()
+								}
+								if(window.plus) {
+									plusReady();
+								} else {
+									document.addEventListener("plusready", plusReady, false);
 								}
 							}
 						})

@@ -36,7 +36,7 @@
 					{{city}}
 					<img src="img/arrbottom.png"/>
 				</span>
-				<span class="header-main"  @click="opennew('gosearch')">
+				<span class="header-main" @click="opennew('gosearch')">
 					搜索
 				</span>
 				<span class="header-settings">
@@ -57,13 +57,11 @@
 							<div class="mui-slider-group mui-slider-loop">
 								<!--第一个内容区容器-->
 								<div class="mui-slider-item" @click="opendetail(val.usTraderStoresId,val.usTraderId,'首页轮播图')" v-for="val in bannerdata">
-									<!-- 具体内容 -->
 									<img :src="val.usTsBannerImg | myimg" />
 								</div>
-								<div class="mui-slider-item">
-									<!-- 具体内容 -->
+								<!--<div class="mui-slider-item">
 									<img src="img/ios.png" style="height: 3rem;"/>
-								</div>
+								</div>-->
 							</div>
 							<div class="mui-slider-indicator">
 								<div class="mui-indicator"></div>
@@ -102,12 +100,24 @@
 										<div class="index-h">
 											{{val.usTsCompanyName}}
 										</div>
-										<div class="index-x" style="align-items: flex-start;">
-											<div class="x-group" v-for="item in val.starPercentage">
-												<img src="img/xactive.png" />
+										<div class="index-x">
+											<div class="star-box">
+												<div class="x-group" v-for="item in val.starPercentage">
+													<img src="img/xactive.png" />
+												</div>
+												<div class="x-group" v-for="item in (5 - val.starPercentage)">
+													<img src="img/xhalf.png" />
+												</div>
+												&nbsp;{{val.starPercentage}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												
+												<span>
+													月销量:
+													<strong>{{val.monthCount}}</strong>
+												</span>
+												
 											</div>
-											<div class="x-group" v-for="item in (5 - val.starPercentage)">
-												<img src="img/xhalf.png" />
+											<div class="time-box">
+												38分钟 |3.0Km
 											</div>
 										</div>
 										<div class="index-x">
@@ -119,10 +129,7 @@
 											<span>
 												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}} | 人均:¥10
 											</span>
-											<span>
-												月销量:
-												<strong>{{val.monthCount}}</strong>
-											</span>
+											
 										</div>
 									</div>
 								</div>
@@ -166,12 +173,22 @@
 									<div class="index-h">
 										{{val.usTsCompanyName}}
 									</div>
-									<div class="index-x" style="align-items: flex-start;">
-										<div class="x-group" v-for="item in val.starPercentage">
-											<img src="img/xactive.png" />
+									<div class="index-x">
+										<div class="star-box">
+											<div class="x-group" v-for="item in val.starPercentage">
+												<img src="img/xactive.png" />
+											</div>
+											<div class="x-group" v-for="item in (5 - val.starPercentage)">
+												<img src="img/xhalf.png" />
+											</div>
+											&nbsp;{{val.starPercentage}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<span>
+												月销量:
+												<strong>{{val.monthCount}}</strong>
+											</span>
 										</div>
-										<div class="x-group" v-for="item in (5 - val.starPercentage)">
-											<img src="img/xhalf.png" />
+										<div class="time-box">
+											38分钟 |3.0Km
 										</div>
 									</div>
 									<div class="index-x">
@@ -181,12 +198,9 @@
 									</div>
 									<div class="index-money">
 										<span>
-									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}} | 人均:¥10 | 人均:¥10
+									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}} | 人均:¥10
 								</span>
-										<span>
-									月销量:
-									<strong>{{val.monthCount}}</strong>
-								</span>
+								
 									</div>
 								</div>
 							</div>
@@ -243,7 +257,7 @@
 					</span>
 				</div>
 				<div class="footer-group" @click="opennew('instead/instead')">
-					<img src="img/zixingche.png"/>
+					<img src="img/zixingche.png" />
 					<span>
 						跑腿代购
 					</span>
@@ -390,6 +404,13 @@
 									id: 'shop',
 									createNew: true
 								})
+							},
+							error: function(err) {
+								mui.openWindow({
+									url: 'shop.html',
+									id: 'shop',
+									createNew: true
+								})
 							}
 						});
 
@@ -429,6 +450,7 @@
 							url: localStorage.getItem('myurl') + "/queryByMaPublicAll",
 							dataType: 'json',
 							success: function(res) {
+
 								that.newdata = res.data
 							},
 							error: function(err) {
@@ -506,6 +528,7 @@
 					var that = this
 
 					function plusReady() {
+						
 						plus.navigator.setStatusBarBackground('#FF8190');
 						plus.runtime.getProperty(plus.runtime.appid, function(inf) {
 							$.ajax({
@@ -558,23 +581,30 @@
 													} else {
 														//获取地址失败
 														that.city = '获取失败'
-														alert(JSON.stringify(result))
 													}
 												});
 											})
 											that.myajax()
 										}, function(e) {
 											that.city = '获取失败'
+											that.myajax()
 										});
 									} else {
 										that.myajax()
 									}
 								},
 								error: function(err) {
-									alert(JSON.stringify(err))
+									that.myajax()
 								}
 							});
 						});
+						if(localStorage.getItem('userid') == null) {
+							plus.nativeUI.toast('请先进行登陆')
+							mui.openWindow({
+								url: 'login.html',
+								id: 'login'
+							})
+						}
 					}
 					if(window.plus) {
 						plusReady();

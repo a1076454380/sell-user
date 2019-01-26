@@ -86,10 +86,10 @@
 							</div>
 							<div class="index-detail">
 								<div class="index-h">
-									{{val.usTsName}}
+									{{val.usTsCompanyName}}
 								</div>
 								<div class="index-x" style="align-items: flex-start;">
-									{{val.usTsCompanyName}}
+									
 								</div>
 								<div class="index-x">
 									<span class="shop-type">
@@ -212,14 +212,16 @@
 							},
 							dataType: 'json',
 							success: function(res) {
-								
 								that.size = res.data.pages
 								that.ajaxmore = false
 								for(var i = 0; i < res.data.list.length; i++) {
 									that.collectdata.push(res.data.list[i])
 								}
-								console.log(that.collectdata)
-								function plusReady() {
+								
+							}
+							
+						});
+						function plusReady() {
 									// 弹出系统等待对话框
 									plus.nativeUI.closeWaiting()
 								}
@@ -228,8 +230,6 @@
 								} else {
 									document.addEventListener("plusready", plusReady, false);
 								}
-							}
-						});
 					}
 				},
 				mounted: function() {
@@ -240,7 +240,9 @@
 				},
 				filters:{
 					myimg:function(value){
-						return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+						if(value!=null){
+							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:')+1)
+						}
 					}
 				}
 			})

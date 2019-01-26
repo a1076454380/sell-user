@@ -19,7 +19,8 @@
 		html {
 			overflow: hidden;
 		}
-		
+		.p-group{background: #FFFFFF;height: .8rem;display: flex;align-items: center;border-bottom: 1px solid ghostwhite;}
+		.p-group img{height: .3rem;margin: 0 .2rem 0 .3rem;}
 		.change006 {
 			display: flex;
 			align-items: center;
@@ -96,6 +97,36 @@
 
 	<body>
 		<div id="app" class="wrapper shop">
+			<!--微信朋友圈弹出层-->
+			<transition name='donghua'>
+				<div class="bottom-wrapper asd" v-show="friendboo" @click.stop="friendshow" style="height: 100%;z-index: 9999;">
+					<div class="pengyou">
+						<img src="img/weixin01.png" @click="sharew(0)"/>
+						<img src="img/weixin02.png" @click="sharew(1)"/>
+					</div>
+				</div>
+			</transition>
+			<!--分享弹出层-->
+			<transition name='donghua'>
+				<div class="bottom-wrapper share-wrapper" v-show="shareboo" @click="shareshow">
+					<img src="img/topwhiyte.png" class="sanjiao"/>
+					<div class="share-box">
+						<div class="share-tab" @click="friendshow">
+							<img src="img/share02.png"/>
+							<span>分享商家</span>
+						</div>
+						<a class="share-tab" :href="'tel:'+mydata.listUsTraderStoresInfo[0].usTsPhone">
+							<img src="img/detail_03.png"/>
+							<span>联系商家</span>
+						</a>
+						<div class="share-tab" @click="jubao">
+							<img src="img/jubao.png"/>
+							<span>举报商家</span>
+						</div>
+					</div>
+				</div>
+			</transition>
+			<!--购物车弹出层-->
 			<transition name='donghua'>
 				<div class="bottom-wrapper" v-show="!cartboo" @click="bottomtab">
 					<div class="bottom-main">
@@ -145,7 +176,11 @@
 						<img src="img/backwhite.png"/>
 					</span>
 				<span class="header-main"></span>
-				<span class="header-settings"></span>
+				<span class="header-settings shop-setting">
+					<img src="img/shop01.png" @click="pay02('shopsearch','')"/>
+					<img src="img/shop0.png" @click="addcollect()"/>
+					<img src="img/shop03.png" @click="shareshow()"/>
+				</span>
 			</header>
 			<transition name='fada'>
 				<div class="main shopdetail" v-show="headerboo" @click="headershow">
@@ -203,24 +238,17 @@
 							</p>
 							<div class="activity">
 								<div class="a-group" v-if="mydata.listDiscount.length!=0">
-									<img src="img/discount.png" />
-									<span>
-										{{mydata.listDiscount[mydata.listDiscount.length-1].usTdDicsont/10}}折
-									</span>
+									{{mydata.listDiscount[mydata.listDiscount.length-1].usTdDicsont/10}}折
 								</div>
 								<div class="a-group" v-if="mydata.listNewActivities.length!=0">
-									<img src="img/freight.png" />
-									<span>
-										新人减{{mydata.listNewActivities[mydata.listNewActivities.length-1].usTnaPrice}}
-									</span>
+									新人减{{mydata.listNewActivities[mydata.listNewActivities.length-1].usTnaPrice}}
 								</div>
 								<div class="a-group" v-if="mydata.listSubtract.length!=0" v-for="(val,index) in mydata.listSubtract">
-									<img src="img/reduction.png" />
-									<span>
-										满{{val.usTsFullPrice}}减{{val.usTsSubtractPrice}}
-									</span>
+									满{{val.usTsFullPrice}}减{{val.usTsSubtractPrice}}
 								</div>
-								<img src="img/rightwhite.png" style="height: .21rem;" v-if="mydata.listDiscount.length!=0&&mydata.listNewActivities.length!=0&&mydata.listSubtract.length!=0" />
+							</div>
+							<div class="activity" style="margin-top: .1rem;">
+								起送:¥{{mydata.listUsTraderStoresInfo[0].usTsActionPrice}} | 配送费:¥{{mydata.listMaDistributionUsPackingFee.maDiPrice}}
 							</div>
 						</div>
 					</div>
@@ -231,6 +259,9 @@
 							</div>
 							<div class="navtab" @click="topnav(1)">
 								<span :class="tabnum==1?'active':''">评价</span>
+							</div>
+							<div class="navtab" @click="topnav(2)">
+								<span :class="tabnum==2?'active':''">商家</span>
 							</div>
 						</div>
 						<div class="swiper-container">
@@ -267,9 +298,6 @@
 															<span class="money" style="flex: 1;">
 																¥{{val.usTsPrice}}
 															</span>
-															<span class="addcart addcollect" @click.stop="addcollect(val.usTraderShoppingId)" style="margin-right: .1rem;">
-																<img src="img/collect.png"/>
-															</span>
 															<span class="addcart" @click.stop="addcart(val.usTraderShoppingId,val.usTsPrice)" v-if="val.gnum==0">
 																<img src="img/cart.png"/>
 															</span>
@@ -285,7 +313,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="shop-content swiper-slide" style="flex-direction: column;display: block;" v-if="tabnum==1">
+								<div class="shop-content swiper-slide" style="flex-direction: column;display: block;height: 100%;" v-if="tabnum==1">
 									<div class="rating-group" v-for="val in mydata.listUsShoppingComment">
 										<div class="img-box">
 											<img :src="val.usHeadImg | myimg" v-if="val.usHeadImg!=null" />
@@ -308,12 +336,64 @@
 										</div>
 									</div>
 								</div>
+								<div class="shop-content swiper-slide" style="flex-direction: column;display: block;height: 100%;" v-if="tabnum==2">
+									<div class="rating-group">
+										<div class="img-box">
+											<img src="img/Group 150.png"/>
+										</div>
+										<div class="rating-main">
+											<div class="rating-name">
+												<span>{{mydata.listUsTraderStoresInfo[0].usTsProvince}}</span>
+												<a :href="'tel:'+mydata.listUsTraderStoresInfo[0].usTsPhone"><img src="img/detail_03.png" style="height: .32rem;"/></a>
+											</div>
+										</div>
+									</div>
+									<div class="rating-group">
+										<div class="img-box">
+											<img src="img/Group 152.png"/>
+										</div>
+										<div class="rating-main">
+											<div class="rating-name">
+												<span>配送时间:09:40-23:59</span>
+											</div>
+										</div>
+									</div>
+									<div class="rating-group">
+										<div class="img-box">
+											<img src="img/Group 151.png"/>
+										</div>
+										<div class="rating-main">
+											<div class="rating-name">
+												<span>查看店铺营业执照</span>
+											</div>
+										</div>
+									</div>
+									<div class="rating-group anquan">
+										<img :src="mydata.listUsTraderStoresInfo[0].usTsLicenseImgUrl | myimg02"/>
+										<img :src="mydata.listUsTraderStoresInfo[0].usTsFacadeImg | myimg02"/>
+									</div>
+									<p v-for="val in mydata.listDiscount" class="p-group">
+										<img src="img/discount.png" /> 折扣商品{{val.usTdDicsont/10}}折起
+									</p>
+									<p v-for="val in mydata.listNewActivities" class="p-group">
+										<img src="img/freight.png" /> 新人减{{val.usTnaPrice}}
+									</p>
+									<p v-for="val in mydata.listPackage" class="p-group">
+										<img src="img/reduction.png" /> 线上专享{{val.usTpPrice}}元红包
+									</p>
+									<p v-for="val in mydata.listSubtract" class="p-group">
+										<img src="img/man.png"/>线上专享{{val.usTsSubtractPrice}}元红包，满{{val.usTsFullPrice}}可用！
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="shop-bottom">
+					<div class="shop-bottom" v-if="tabnum==0">
 						<div class="b-group" :class="mycartnum>0?'bactive':''"  @click="bottomtab">
 							<img src="img/cartwhite.png" />
+							<div class="num" v-if="cartdata.length!=0">
+								{{cartdata.usShoppingCartPojos.length}}
+							</div>
 						</div>
 						<div class="pei">
 							另需配送费¥{{mydata.listMaDistributionUsPackingFee.maDiPrice}}
@@ -350,9 +430,21 @@
 					myurl01: localStorage.getItem('myurl01'),
 					shopdetil: '',
 					cartdata: [],
-					allprice: 0
+					allprice: 0,
+					shareboo:false,
+					friendboo:false,
+					sharewx:''
 				},
 				methods: {
+					friendshow:function(){
+						this.friendboo=!this.friendboo
+					},
+					jubao:function(){
+						this.layuiboo('举报成功！')
+					},
+					shareshow:function(){
+						this.shareboo=!this.shareboo
+					},
 					clear: function() {
 						function plusReady() {
 							// 弹出系统等待对话框
@@ -393,14 +485,16 @@
 							url: that.myurl + "/insertUsCollection",
 							dataType: 'json',
 							data: {
-								usTraderShoppingId: id,
+								usTraderShoppingId: that.mydata.listUsTraderStoresInfo[0].usTraderStoresId,
 								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
 								if(res.status == 200) {
 									that.layuiboo('收藏成功')
-								} else {
-									that.layuiboo('收藏失败')
+								} else if(res.status == 400){
+									that.layuiboo('您已经收藏过该店铺啦！')
+								}else{
+									that.layuiboo('收藏失败！')
 								}
 							}
 						});
@@ -649,17 +743,66 @@
 								}
 							}
 						}
+					},
+					sharew:function (type) {
+						if(type==0){
+							this.sharewx.send({
+								title: '最好用的外卖系统',
+								content: '最好用的外卖系统',
+								href: 'https://www.pgyer.com/0pJa',
+								extra: {
+									scene: "WXSceneSession"
+								}
+							}, function() {
+								alert("分享成功！");
+							}, function(e) {
+								alert("分享失败,请检查网络或者是否安装微信!");
+							});
+						}else{
+							this.sharewx.send({
+								title: '最好用的外卖系统',
+								content: '最好用的外卖系统',
+								href: 'https://www.pgyer.com/0pJa',
+								extra: {
+									scene: "WXSceneTimeline"
+								}
+							}, function() {
+								alert("分享成功！");
+							}, function(e) {
+								alert("分享失败请检查网络或者是否安装微信!");
+							});
+						}
+						
 					}
 				},
 				mounted: function() {
 					var that = this
 					var height = 0;
 					this.myajax()
-
+					document.addEventListener('reset', function() {
+						that.myajax()
+					});
 					function plusReady() {
+						document.addEventListener("haveshop", function() {
+							that.myajax()
+						})
 						plus.key.addEventListener("backbutton", function() {
 							that.opennew('index')
 						})
+						plus.share.getServices(function(s) {
+							shares = s;
+							for(var i in s) {
+								if('weixin' == s[i].id) {
+									that.sharewx = s[i];
+								}
+								if('qq' == s[i].id) {
+									that.shareqq = s[i];
+								}
+							}
+						}, function(e) {
+							alert("获取分享服务列表失败：" + e.message);
+						});
+						
 					}
 					if(window.plus) {
 						plusReady();
@@ -675,6 +818,9 @@
 						if(value != null) {
 							return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
 						}
+					},
+					myimg02:function(value){
+						return localStorage.getItem('myimg') + value
 					}
 				}
 			})

@@ -39,7 +39,7 @@
 				<span class="header-main">支付</span>
 				<span class="header-settings"></span>
 			</header>
-			<div class="main pay" style="overflow-y: scroll;">
+			<div class="main pay" style="overflow-y: scroll;height: calc(100% - .8rem);">
 				<div class="pay-inner" @click="opennew('adresslist')" v-if="adressdata.length!=0">
 					<div class="payh">
 						{{adressdata.usAdsProvince}}{{adressdata.usAdsCity}}{{adressdata.usAdsArea}}
@@ -307,6 +307,7 @@
 								});
 							},
 							error: function(err) {
+								plus.nativeUI.closeWaiting()
 								plus.nativeUI.toast('支付失败！')
 								that.opennew('orderlist')
 							}
@@ -353,7 +354,7 @@
 							note: that.note,
 							price:that.allprice,
 //							price:0.01,
-							statusPay: 1,
+							 statusPay: 1,
 							redPackageStyle: that.hdata.length != 0 ? (that.hdata[that.hindex].usTpBelong == 1 ? '1' : '71') : '',
 							discontStyle: that.discountdata.listDiscount.length == 0 ? '' : (that.discountdata.listDiscount[that.zindex].usTdBelong == 1 ? '2' : '72'),
 							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTsBelong == 1 ? '3' : '73') : '',
@@ -370,12 +371,14 @@
 									plus.nativeUI.closeWaiting()
 									that.opennew('orderlist')
 								}, function(error) {
+									console.log(JSON.stringify(error))
 									plus.nativeUI.closeWaiting()
 									plus.nativeUI.toast('支付失败！')
 									that.opennew('orderlist')
 								});
 							},
 							error: function(err) {
+								plus.nativeUI.closeWaiting()
 								plus.nativeUI.toast('支付失败！')
 								that.opennew('orderlist')
 							}

@@ -38,7 +38,12 @@
       "img/found.png",
       "img/redb.png",
       "css/reset.css",
-      "css/index.css"
+      "css/index.css",
+      "img/arrbottom.png",
+      "img/my.png",
+      "img/gouwuche.png",
+      "img/order (2).png",
+      "img/hongbao.png"
     ]
   },
   "login.html": {
@@ -56,7 +61,8 @@
       "instead/adresslist.html",
       "instead/order.html",
       "index.html",
-      "vipcart.html"
+      "vipcart.html",
+      "preferential.html"
     ],
     "resources": []
   },
@@ -146,7 +152,8 @@
       "pay.html",
       "goodsdetail.html",
       "index.html",
-      "newindex.html"
+      "newindex.html",
+      "shopsearch.html"
     ],
     "resources": [
       "img/backwhite.png",

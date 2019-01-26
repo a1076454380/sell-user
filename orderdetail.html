@@ -223,12 +223,12 @@
 						</div>
 						<div class="shop-back">
 							<div class="back-inner">
-								<div class="back-group" style="justify-content: center;border-right: 1px solid #999999;">
+								<div class="back-group" style="justify-content: center;">
 									<a :href="['tel:'+mydata.listUsTriderPojo[0].usTsPhone+'']">
 										联系商家
 									</a>
 								</div>
-								<div class="back-group" style="justify-content: center;">
+								<div class="back-group" style="justify-content: center;border-left: 1px solid #999999;" v-if='mydata.usRiPhone!=undefined'>
 									<a :href="['tel:'+mydata.usRiPhone+'']">
 										联系骑手
 									</a>
@@ -399,12 +399,12 @@
 												mui.back()
 											});
 										}, function(error) {
-											alert('支付失败')
+											plus.nativeUI.toast('支付失败')
 										});
 
 									},
 									error: function(err) {
-										alert(JSON.stringify(err))
+										plus.nativeUI.toast('支付失败')
 									}
 								});
 							} else {
@@ -424,11 +424,11 @@
 												mui.back()
 											});
 										}, function(error) {
-											alert('支付失败')
+											plus.nativeUI.toast('支付失败')
 										});
 									},
 									error: function(err) {
-										alert(JSON.stringify(err))
+										plus.nativeUI.toast('支付失败')
 									}
 								});
 							}

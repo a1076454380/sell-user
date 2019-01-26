@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/taoyibao.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		body,
+		html {
+			overflow: hidden;
+		}
+		
+		.head {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			display: flex;
+			z-index: 999;
+			padding: 0 .2rem;
+		}
+		
+		.head span {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			white-space: nowrap;
+		}
+		
+		.head div {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		input::-webkit-input-placeholder {
+			color: #333333!important;
+			font-size: .2rem;
+		}
+		.change006 {
+			display: flex;
+			align-items: center;
+		}
+		
+		.change006 span {
+			margin: 0 .2rem;
+		}
+		input {
+			color: #333333!important;
+			font-size: .2rem;
+		}
+		
+		.changeimg {
+			height: .4rem;
+			width: .4rem;
+		}
+		
+		p {
+			margin: 0;
+		}
+		
+		.img-box02 {
+			width: 100px;
+			height: 100px;
+			margin: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: rgba(0, 0, 0, .2);
+		}
+		
+		.img-box02 img {
+			max-height: 100%;
+			max-width: 100%;
+			margin: 0;
+		}
+		
+		.shop .shop-right {
+			width: 100%;
+		}
+	</style>
+
+	<body>
+		<div class="wrapper index search" style="overflow: hidden;" id="app">
+			<!--顶部搜索框-->
+			<header class="head">
+				<span class="header-back mui-action-back">
+					<img src="img/backblack.png"/>
+				</span>
+				</span>
+				<form action="">
+					<img src="img/shop02.png" />
+					<input type="text" placeholder="搜一下，发现精彩" v-model="searchtext" />
+				</form>
+				<span id="goserach" @click="gosearch('ttt')">
+					搜索
+				</span>
+			</header>
+			<div class="main shop" style="overflow-y: scroll;">
+				<div class="search-top" v-show="!history">
+					搜索历史
+				</div>
+				<div class="seearch-main" v-show="!history">
+					<span v-show="!history&&historydata.length==0" style="width: 100%;text-align: center;display: block;margin: 0;">
+						您还没有搜索过呢！
+					</span>
+					<span v-for="val in historydata" @click="historysearch(val)">
+						{{val}}
+					</span>
+				</div>
+				<div class="search-clear" v-show="!history&&historydata.length!=0" @click="clear">
+					<img src="img/search_03.png" />
+					<span>
+						清空搜索历史
+					</span>
+				</div>
+				<p v-if="history&&tuidata==''" style="text-align: center;line-height: 1rem;">
+					未查询到数据
+				</p>
+				<div class="main-inner">
+					<!--购物车弹出层-->
+					<transition name='donghua'>
+						<div class="bottom-wrapper" v-show="!cartboo" @click="bottomtab">
+							<div class="bottom-main">
+								<div class="bottom-tab" style="align-items: center;justify-content: flex-end;padding-right: .2rem">
+									<img src="img/delete.png" @click.stop="clear()" />
+								</div>
+								<div class="bottom-tab" v-for='(val,index) in cartdata.usShoppingCartPojos'>
+									<div class="bottom-name">
+										{{val.usTsName}}
+									</div>
+									<div class="bottom-price">
+										¥{{val.usScdPrice}}
+									</div>
+									<div class="bottom-setting">
+										<img src="img/reduce.png" @click.stop="reduce(val.usTraderShoppingId,val.usScdPrice/val.usScdNum)" />
+										<input type="number" :value="val.usScdNum" id='a1' />
+										<img src="img/add.png" @click.stop="addcart(val.usTraderShoppingId,val.usScdPrice/val.usScdNum)" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</transition>
+					<div class="shop-bottom" style="position: fixed;width: 100%;bottom: 0;">
+						<div class="b-group" :class="mycartnum>0?'bactive':''" @click="bottomtab">
+							<img src="img/cartwhite.png" />
+							<div class="num" v-if="cartdata.length!=0">
+								{{cartdata.usShoppingCartPojos.length}}
+							</div>
+						</div>
+						<div class="pei">
+							另需配送费¥{{mydata.listMaDistributionUsPackingFee.maDiPrice}}
+						</div>
+						<div class="song" v-if='cartdata.length==0'>
+							还差¥{{mydata.listUsTraderStoresInfo[0].usTsActionPrice}}起送
+						</div>
+						<div class="song" v-if='mydata.listUsTraderStoresInfo[0].usTsActionPrice - cartdata.usScPrice>0&&cartdata.length!=0'>
+							还差¥{{mydata.listUsTraderStoresInfo[0].usTsActionPrice - cartdata.usScPrice}}起送
+						</div>
+						<div class="song bactive" style="color: #FFFFFF;" v-if='mydata.listUsTraderStoresInfo[0].usTsActionPrice - cartdata.usScPrice<=0' @click="pay('pay','')">
+							结算
+						</div>
+					</div>
+					<div class="index-group">
+						<div class="shop-right">
+							<div class="right-group">
+								<div class="right-main">
+									<div class="rmain-group" v-for="(val,index) in tuidata">
+										<div class="img-box02">
+											<img :src="val.usTsImgUrl | myimg" class="img" />
+										</div>
+										<div class="shoptext">
+											<h4>
+															{{val.usTsName}}
+														</h4>
+											<p>
+												{{val.usTsDetails}}
+											</p>
+											<p>
+												月售:{{val.usTsStock}}
+											</p>
+											<div class="right-setting">
+												<span class="money" style="flex: 1;">
+																¥{{val.usTsPrice}}
+															</span>
+												<span class="addcart" @click.stop="addcart(val.usTraderShoppingId,val.usTsPrice)" v-if="val.gnum==0">
+																<img src="img/cart.png"/>
+															</span>
+												<span class="change006" v-if="val.gnum!=0">
+																<img src="img/reduce.png" class="changeimg" @click.stop="reduce(val.usTraderShoppingId,val.usTsPrice)" />
+																<span>{{val.gnum}}</span>
+												<img src="img/add.png" class="changeimg" @click.stop="addcart(val.usTraderShoppingId,val.usTsPrice)" />
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui" v-show="layui">
+				<div class="layui-inner">
+					<div class="layui-top">
+						友情提示
+					</div>
+					<div class="layui-main">
+						{{layuitext}}
+					</div>
+					<div class="layui-settings">
+						<div class="layui-setting" @click="layuiboo">
+							确定
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var myvue = new Vue({
+			el: '#app',
+			data: {
+				history: false,
+				searchtext: '',
+				layui: false,
+				layuitext: '未知错误',
+				historydata: JSON.parse(localStorage.getItem('historydata')),
+				myurl: localStorage.getItem('myurl01'),
+				myurl01: localStorage.getItem('myurl'),
+				tuidata: [],
+				ajaxmore: false,
+				mycartnum: 0,
+				cartdata: [],
+				cartboo: true,
+				mydata: ''
+			},
+			methods: {
+				reduce: function(id, price) {
+					var that = this
+					var ajaxjson = {
+						usTraderShoppingId: id,
+						usUserId: localStorage.getItem('userid'),
+						usScdNum: 1,
+						usScdPrice: price,
+						usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+						usScdCreateName: localStorage.getItem('usNickname')
+					}
+					//						减少购物车
+					$.ajax({
+						type: "post",
+						url: that.myurl01 + "/deleteUsShoppingCart",
+						dataType: 'json',
+						data: ajaxjson,
+						success: function(res) {
+							var shop=plus.webview.getWebviewById('shop')
+							mui.fire(shop,'haveshop',{})
+							if(res.status == 200) {
+								that.myajax()
+							} else {
+								plus.nativeUI.toast('删除失败！')
+							}
+						}
+					});
+				},
+				bottomtab: function() {
+					this.cartboo = !this.cartboo
+				},
+				myajax: function() {
+					var that = this
+					//						获取店铺信息
+					$.ajax({
+						type: "get",
+						url: that.myurl01 + "/selectUsTraderStoresIdInfo",
+						dataType: 'json',
+						data: {
+							usTraderStoresId: localStorage.getItem('usTraderStoresId')
+						},
+						success: function(res) {
+							that.mydata = res.data
+							that.havecart()
+						}
+					});
+				},
+				havecart: function() {
+					var that = this
+					//						获取购物车
+					$.ajax({
+						type: "post",
+						url: that.myurl01 + "/queryByUsShoppingCartPojo",
+						dataType: 'json',
+						data: {
+							usUserId: localStorage.getItem('userid'),
+							usTraderStoresId: localStorage.getItem('usTraderStoresId')
+						},
+						success: function(res) {
+							if(res.data != null) {
+								that.mycartnum = res.data.usShoppingCartPojos.length
+								that.cartdata = res.data
+								that.changegnum()
+							} else {
+								that.mycartnum = 0
+								that.cartdata = []
+								that.changegnum()
+							}
+						},
+						error: function(err) {
+							console.log(err)
+						}
+					});
+				},
+				changegnum: function() {
+					var that = this
+					for(var i = 0; i < that.tuidata.length; i += 2) {
+						that.tuidata[i].gnum = 0
+					}
+					for(var i = 0; i < that.tuidata.length; i += 2) {
+						for(var j = 0; j < that.cartdata.usShoppingCartPojos.length; j++) {
+							if(that.cartdata.usShoppingCartPojos[j].usTraderShoppingId == that.tuidata[i].usTraderShoppingId) {
+								that.tuidata[i].gnum = that.cartdata.usShoppingCartPojos[j].usScdNum
+							}
+						}
+					}
+				},
+				addcart: function(id, price) {
+					var that = this
+					var ajaxjson = {
+						usTraderShoppingId: id,
+						usUserId: localStorage.getItem('userid'),
+						usScdNum: 1,
+						usScdPrice: price,
+						usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+						usScdCreateName: localStorage.getItem('usNickname')
+					}
+					$.ajax({
+						type: "post",
+						url: that.myurl01 + "/insertUsShoppingCart",
+						dataType: 'json',
+						data: ajaxjson,
+						success: function(res) {
+							var shop=plus.webview.getWebviewById('shop')
+							mui.fire(shop,'haveshop',{})
+							function plusReady() {
+								// 弹出系统等待对话框
+								var w = plus.nativeUI.closeWaiting();
+							}
+							if(window.plus) {
+								plusReady();
+							} else {
+								document.addEventListener("plusready", plusReady, false);
+							}
+							if(res.status == 200) {
+								that.havecart()
+							} else {
+								that.layuiboo('加入购物车失败')
+							}
+						}
+					});
+				},
+				historysearch: function(text) {
+					this.searchtext = text
+					this.gosearch()
+				},
+				gosearch: function(ttt) {
+					if(this.searchtext == '') {
+						this.layuiboo('您还没有输入内容呢~')
+						return false;
+					}
+					this.history = true
+					this.historydata.push(this.searchtext)
+					if(ttt == 'ttt') {
+						localStorage.setItem('historydata', JSON.stringify(this.historydata))
+					}
+					this.ajaxmore = true
+					var that = this
+					$.ajax({
+						type: "post",
+						url: that.myurl + "/selectUsTraderStoresShopping",
+						dataType: 'json',
+						data: {
+							usTraderStoresId: localStorage.getItem('usTraderStoresId'),
+							usTrName: that.searchtext
+						},
+						success: function(res) {
+							that.tuidata = res.data
+							for(var i = 0; i < res.data.length; i++) {
+								that.tuidata[i].gnum = 0
+							}
+							that.changegnum()
+						},
+						error: function(err) {
+							console.log(JSON.stringify(err))
+						}
+					});
+				},
+				layuiboo: function(text) {
+					this.layuitext = text
+					this.layui = !this.layui
+				},
+				clear: function() {
+					this.historydata = []
+					localStorage.setItem('historydata', '[]')
+				}
+			},
+			mounted: function() {
+				this.myajax()
+			},
+			filters: {
+				myimg: function(value) {
+					return localStorage.getItem('myimg') + value.substring(value.indexOf('D:') + 1)
+				}
+			}
+		})
+	</script>
+
+</html>
