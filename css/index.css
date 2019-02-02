@@ -379,13 +379,22 @@ input::-webkit-input-placeholder {
 .index .price block {
 	font-size: 0.3rem
 }
-
+.adver-box{
+	margin-top: .1rem;
+}
+.adver-logo{
+	color: #FF8190;
+	border: 1px solid #FF8190;
+	font-size: .15rem;
+	padding: 1px .05rem;
+}
 .index .index-money {
 	color: #666666;
 	display: flex;
 	justify-content: space-between;
 	line-height: 1;
-	align-items: flex-end
+	align-items: flex-end;
+	margin-top: .2rem;
 }
 
 .index .news-group {
