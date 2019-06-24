@@ -33,18 +33,6 @@
 					</div>-->
 					<input type="text" placeholder="请输入用户名" name="usNickname" data-title='昵称不能为空！' id="usNickname"/>
 					<input type="number" name="usPhone" id="usPhone" placeholder="请输入手机号" data-title='手机号不能为空！' />
-					<div class="radio-box">
-						<span>
-							<input type="radio" name="usSex" id="usSex" value="0" checked="checked"/>
-							<label for="usSex">男</label>
-						</span>
-						<span>
-							<input type="radio" name="usSex" id="usSex01" value="0" />
-							<label for="usSex01">女</label>
-						</span>
-					</div>
-					<div id="datePlugin"></div>
-					<input type="hidden" name="usBirthday" id="usBirthday" placeholder="1998-01-25" data-title='生日不能为空！' value="1998-01-25"/>
 					<input type="button" value="快速注册" @click="submit" style="height: .8rem;border-radius: .4rem;"/>
 				</form>
 				<div class="layui" v-show="layui">

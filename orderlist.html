@@ -52,7 +52,15 @@
 						
 					</span>
 			</header>
-			<div class="main" style="height: calc(100% - .8rem);">
+			<div class="main" style="height: calc(100% - .8rem);background: #FFFFFF;">
+				<div class="order-top">
+					<div class="order-box order-active">
+						外卖订单
+					</div>
+					<div class="order-box" @click="opennew('./instead/order')">
+						跑腿订单
+					</div>
+				</div>
 				<div class="nav">
 					<div class="nav-tab" :class="tabnum==10?'active':''" @click="tab(10)">
 						全部

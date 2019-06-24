@@ -1,7 +1,8 @@
 /*通用*/
-
-.moreimg {
-	display: block;
+.order-top{display: flex;width:3rem ;border-radius: .1rem;border: 1px solid #FF8190;color: #FF8190;margin: .2rem auto;}
+.order-box{flex: 1;text-align: center;height: .45rem;text-align: center;line-height: .45rem;}
+.order-active{background:  #FF8190;color: #FFFFFF;}
+.moreimg {	display: block;
 	margin: 0 auto;
 	height: 50px
 }
@@ -1577,7 +1578,8 @@ input::-webkit-input-placeholder {
 }
 
 .instead .instead-wrapper {
-	width: 100%
+	width: 100%;
+	height: calc(100% - .8rem);
 }
 
 .instead .instead-wrapper .top-img {

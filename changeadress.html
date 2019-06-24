@@ -47,6 +47,8 @@
 					<select class="dist" disabled="disabled" name="usAdsArea"></select>
 				</div>
 				<input type="text" name="usAdsDetailed" id="usAdsDetailed" placeholder="详细地址" v-model="usAdsDetailed" />
+				<input type="text"  placeholder="请输入收货人名称" v-model="usAdsName" />
+				<input type="number"  placeholder="请输入收货人手机号" v-model="usAdsPhone" />
 				<div class="submit" @click="mysubmit">
 					确定修改
 				</div>
@@ -62,7 +64,9 @@
 					usAdsProvince: '',
 					usAdsCity: '',
 					usAdsArea: '',
-					usAdsDetailed: localStorage.getItem('usAdsDetailed')
+					usAdsDetailed: localStorage.getItem('usAdsDetailed'),
+					usAdsName:'',
+					usAdsPhone:''
 				},
 				methods: {
 					layuiboo: function(text, id) {
@@ -94,10 +98,12 @@
 						}
 						var ajaxjson = {
 							usAddressId: localStorage.getItem('usAddressId'),
-							usAdsProvince: $('.prov option:selected').text()+'省',
-							usAdsCity: $('.city option:selected').text()+'市',
-							usAdsArea: $('.dist option:selected').text(),
-							usAdsDetailed: that.usAdsDetailed
+							usAdsProvince: $('.prov option:selected').text()+'省'+$('.city option:selected').text()+'市'+$('.dist option:selected').text(),
+							usAdsCity: '',
+							usAdsArea: '',
+							usAdsDetailed: that.usAdsDetailed,
+								usAdsPhone:that.usAdsPhone,
+								usAdsName:that.usAdsName
 						}
 						$.ajax({
 							type: "post",

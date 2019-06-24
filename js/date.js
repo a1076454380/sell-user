@@ -189,6 +189,7 @@
                         $("#Minutewrapper ul li:eq(" + indexI + ")").html().substr(0, $("#Minutewrapper ul li:eq(" + indexI + ")").html().length - 1);
                     indexS = 0;
                 }
+
                 if (Ycallback === undefined) {
                     if (docType) {
                         that.val(datestr);
@@ -200,7 +201,6 @@
                 }
                 $("#datePage").hide();
                 $("#dateshadow").hide();
-                myvue.ytime=datestr
             });
             $("#datecancle").click(function() {
                 $("#datePage").hide();

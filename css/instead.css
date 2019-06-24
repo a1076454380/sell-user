@@ -1,0 +1,25 @@
+.xia-bottom{position: fixed;width: 100%;bottom: .9rem;z-index: 999;}
+.xia01{background: #FFFFFF;border-radius: .1rem;margin: .1rem;}
+.xia01-top{width: 100%;overflow-y: scroll;border-bottom: 1px solid ghostwhite;}
+.xia01-box{display: inline-block;margin: .1rem .3rem;}
+.xia01-box img{height: .4rem;display: block;margin: .2rem auto .1rem;}
+.xia01-bottom{display: flex;align-items: center;padding: .2rem;}
+.xia01-bottom img{height: .3rem;margin-right: .2rem;}
+.xia01-bottom input::-webkit-input-placeholder{color: gainsboro!important;font-size: .2rem;}
+.chongd-box{height: .6rem;margin-left: .2rem;background: #FFFFFF;border-radius: 50%;width: .6rem;display: flex;align-items: center;justify-content: center;}
+.chongd-box img{height: .4rem;}
+.raio{background: #FF8190;width: .1rem;height: .1rem;border-radius: 50%;box-shadow:0px 0px 1px 1px  #FF8190;margin-right: .2rem;}
+.layui{flex-direction: column;align-items: flex-end;}
+.down{background: #FFFFFF;width: .5rem;height: .5rem;border-radius: 50%;display: flex;align-items: center;justify-content: center;margin-right: .3rem;}
+.down img{height: .4rem;}
+.layui-box{background: #FFFFFF;border-radius: .1rem;margin:.2rem .3rem;width: calc(100% - .6rem);}
+.layui-box p{color: #666666;margin: .2rem;font-weight: 600;}
+.layui-box textarea{height: 4rem;border-bottom: 1px solid ghostwhite;}
+.gotype{display: flex;margin: .1rem .3rem;align-items: center;}
+.go-box{color: #333333;border: 1px solid #333333;border-radius: 50%;width: .4rem;height: .4rem;text-align: center;line-height: .4rem;}
+.g-box{border: 1px solid #333333;padding: .05rem .1rem;font-size: .15rem;margin-left: .2rem;}
+.g-active{border: 1px solid #FF8190;color: #FF8190;}
+.lm-box{display: flex;align-items: center;margin: .2rem .3rem;border-bottom: 1px solid ghostwhite;}
+.lm-box img{height: .25rem;}
+.submit{background: black;color: #FFFFFF;height: .8rem;width: 6rem;text-align: center;line-height: .8rem;margin: .2rem auto;}
+.goxia{background: #FF8190;color: #FFFFFF;height: .8rem;margin:.1rem;border-radius: .1rem;text-align: center;line-height: .8rem;}

@@ -41,7 +41,29 @@
 				<span class="header-main">我的订单</span>
 				<span class="header-settings"></span>
 			</header>
-			<div class="main" style="height: calc(100% - .8rem);">
+			<div class="main orderlist" style="height: calc(100% - .8rem);background: #FFFFFF;">
+				<div class="order-top">
+					<div class="order-box" @click="opennew('../orderlist')">
+						外卖订单
+					</div>
+					<div class="order-box order-active">
+						跑腿订单
+					</div>
+				</div>
+				<div class="nav">
+					<div class="nav-tab" :class="tabnum==10?'active':''" @click="tab(10)">
+						全部
+					</div>
+					<div class="nav-tab" :class="tabnum==0?'active':''" @click="tab(0)">
+						等待接单
+					</div>
+					<div class="nav-tab" :class="tabnum==2?'active':''" @click="tab(2)">
+						配送中
+					</div>
+					<div class="nav-tab" :class="tabnum==3?'active':''" @click="tab(3)">
+						已完成
+					</div>
+				</div>
 				<div class="list-group" @click="opennew('orderdetail',val.usReplaceTakeId)" v-for="val in mydata">
 					<div class="list-top">
 						<div class="list-title">
@@ -81,9 +103,13 @@
 					layui: false,
 					layuitext: '错误',
 					mydata:[],
-					usReplaceTakeId:''
+					usReplaceTakeId:'',
+					tabnum:10
 				},
 				methods: {
+					tab: function(index) {
+						this.tabnum = index
+					},
 					layuitrue:function(){
 						function plusReady() {
 							// 弹出系统等待对话框

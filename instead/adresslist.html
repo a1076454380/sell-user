@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+		<link rel="stylesheet" type="text/css" href="../css/dizhi.css" />
 		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
@@ -16,117 +17,119 @@
 
 	<body>
 		<div id="app" class="wrapper adresslist">
-			<div class="layui" v-show="layui">
-				<div class="layui-inner">
-					<div class="layui-top">
-						友情提示
-					</div>
-					<div class="layui-main">
-						{{layuitext}}
-					</div>
-					<div class="layui-settings">
-						<div class="layui-setting" @click="layuiboo">
-							确定
-						</div>
-						<div class="layui-setting" @click="layuiboo">
-							取消
-						</div>
-					</div>
-				</div>
-			</div>
 			<header class="header">
 				<span class="header-back" @click="back">
-						<img src="../img/back.png"/>
-					</span>
-				<span class="header-main">选择地址</span>
-				<span class="header-settings"></span>
+					<img src="../img/back.png" />
+				</span>
+				<span class="header-main">地址</span>
+				<span class="header-settings" @click="submit()">
+					确定
+				</span>
 			</header>
 			<div class="main">
-				<div class="list-group" v-for="(val,index) in adressdata" @click="change(val.usAddressId,index)" style="background: #FFFFFF;">
-					<div class="group-main">
-						<h2>
-							{{val.usAdsProvince}}{{val.usAdsCity}}{{val.usAdsArea}}
-						</h2>
-						<p>
-							{{val.usAdsDetailed}}
-						</p>
-						<p>
-							<span>
-								{{val.usAdsCreateName}}
-							</span>
-							<span>
-								{{val.usAdsCreateTime}}
-							</span>
-						</p>
+				<input type="text" class="search" v-model="dizhi" placeholder="点击搜索购买地址" id="pickerInput" />
+				<input type="text" class="search" v-model="xiangxi" placeholder="填写楼号、楼层和门牌号，" />
+				<input type="text" class="search" v-model="xingming" placeholder="请输入收货人姓名" />
+				<input type="number" class="search" v-model="shoujihao" placeholder="请输入收货人手机号" />
+				<div class="br"></div>
+				<p>常用地址</p>
+				<div class="dizhi-box" v-for="val in adressdata" @click="changyong(val.usAdsProvince,val.usAdsDetailed,val.usAdsPhone,val.usAdsName,val.usAddressId)">
+					<div class="dizhi-title">
+						{{val.usAdsDetailed}}
 					</div>
-					<img src="../img/change.png" @click.stop="opennew('changeadress',index)" />
+					<div class="dizhi-text">
+						{{val.usAdsProvince}}{{val.usAdsCity}}{{val.usAdsArea}}
+					</div>
 				</div>
-
 			</div>
-			<div class="list-bottom" @click="opennew('addadress','')">
-				<img src="../img/add.png" />增加地址
-			</div>
+			<div id="container"></div>
 		</div>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
+		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
 				data: {
-					layui: false,
-					layuitext: '错误',
 					myurl: localStorage.getItem('myurl'),
 					adressdata: '',
-					usAddressId: ''
+					dizhi: '',
+					xiangxi: '',
+					flng: '',
+					flat: '',
+					xingming: '',
+					shoujihao: ''
 				},
 				methods: {
-					back:function(){
-						plus.webview.getWebviewById('instead/instead').reload();
+					changyong: function(dizhi, xiangxi, shouji, xingming,id) {
+						var that=this
+						AMap.service('AMap.Geocoder', function() { //回调函数
+							//			实例化Geocoder
+							var geocoder = new AMap.Geocoder({
+								city: "" //城市，默认：“全国”
+							});
+							//						根据地址查经纬度
+							geocoder.getLocation(dizhi, function(status, result) {
+								if (status === 'complete' && result.info === 'OK') {
+									localStorage.setItem('fid', id)
+									localStorage.setItem('fdizhi', dizhi)
+									localStorage.setItem('fdizhidetail', xiangxi)
+									localStorage.setItem('fshoujihao', shouji)
+									localStorage.setItem('fxingming', xingming)
+									localStorage.setItem('flng', result.geocodes[0].location.lng)
+									localStorage.setItem('flat', result.geocodes[0].location.lat)
+									that.opennew('instead')
+								} else {
+									//获取经纬度失败
+								}
+							});
+						})
+					},
+					submit: function() {
+						var that = this
+						if (this.dizhi == '' || this.xiangxi == '') {
+							mui.toast('地址填写不完整')
+						} else {
+							$.ajax({
+								type: "post",
+								url: that.myurl + "/addUserUsAddress",
+								dataType: 'json',
+								data: {
+									usUserId: localStorage.getItem('userid'),
+									usAdsProvince: that.dizhi,
+									usAdsCity: '',
+									usAdsArea: '',
+									usAdsDetailed: that.xiangxi,
+									usAdsPhone: that.shoujihao,
+									usAdsName: that.xingming
+								},
+								success: function(res) {
+									if (res.status == 200) {
+										localStorage.setItem('fdizhi', that.dizhi)
+										localStorage.setItem('fdizhidetail', that.xiangxi)
+										localStorage.setItem('fshoujihao', that.shoujihao)
+										localStorage.setItem('fxingming', that.xingming)
+										localStorage.setItem('flng', that.flng)
+										localStorage.setItem('flat', that.flat)
+										that.opennew('instead')
+									}
+								}
+							});
+
+						}
+					},
+					back: function() {
 						mui.back()
 					},
-					change: function(id,index) {
+					opennew: function(id) {
 						var that = this
-						$.ajax({
-							type: "post",
-							url: that.myurl + "/updateByUsAdsStatus",
-							dataType: 'json',
-							data: {
-								usAddressId: id,
-								usUserId: localStorage.getItem('userid')
-							},
-							success: function(res) {
-								if(res.status == 200) {
-									localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
-									localStorage.setItem('sprov', that.adressdata[index].usAdsProvince)
-									localStorage.setItem('scity', that.adressdata[index].usAdsCity)
-									localStorage.setItem('sdist', that.adressdata[index].usAdsArea)
-									localStorage.setItem('sdetail',that.adressdata[index].usAdsDetailed)
-									plus.nativeUI.toast('默认地址修改完成')
-								}
-							}
-						});
-					},
-					layuiboo: function(text, id) {
-						if(id != '') {
-							this.usAddressId = id
-						}
-						this.layuitext = text
-						this.layui = !this.layui
-					},
-					opennew: function(id, index) {
-						var that = this
-						if(index!=''){
-							localStorage.setItem('usAddressId', that.adressdata[index].usAddressId)
-							localStorage.setItem('prov', that.adressdata[index].usAdsProvince)
-							localStorage.setItem('city', that.adressdata[index].usAdsCity)
-							localStorage.setItem('dist', that.adressdata[index].usAdsArea)
-							localStorage.setItem('usAdsDetailed', that.adressdata[index].usAdsDetailed)
-						}
 						mui.openWindow({
-							url: '../' + id + '.html',
+							url: './' + id + '.html',
 							id: id
 						})
 					},
 					myajax: function() {
 						var that = this
+						// 查询我的地址
 						$.ajax({
 							type: "get",
 							url: that.myurl + "/queryUsAddressAll",
@@ -135,14 +138,61 @@
 								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
-								console.log(res)
 								that.adressdata = res.data
 							}
 						});
 					}
 				},
 				mounted: function() {
-					this.myajax()
+					var that = this
+					that.myajax()
+					var map = new AMap.Map('container', {
+						zoom: 15,
+						center: [117.271887, 34.26921]
+					});
+					AMapUI.loadUI(['misc/PoiPicker'], function(PoiPicker) {
+						var poiPicker = new PoiPicker({
+							//city:'北京',
+							input: 'pickerInput'
+						});
+						//初始化poiPicker
+						poiPickerReady(poiPicker);
+					});
+
+					function poiPickerReady(poiPicker) {
+						window.poiPicker = poiPicker;
+						var marker = new AMap.Marker();
+						var infoWindow = new AMap.InfoWindow({
+							offset: new AMap.Pixel(0, 0)
+						});
+						//选取了某个POI
+						poiPicker.on('poiPicked', function(poiResult) {
+							that.flng = poiResult.item.location.lng
+							that.flat = poiResult.item.location.lat
+							var source = poiResult.source,
+								poi = poiResult.item,
+								info = {
+									source: source,
+									id: poi.id,
+									name: poi.name,
+									location: poi.location.toString(),
+									address: poi.address
+								};
+							AMap.service('AMap.Geocoder', function() { //回调函数
+								//实例化Geocoder
+								geocoder = new AMap.Geocoder({
+									city: "" //城市，默认：“全国”
+								});
+								geocoder.getAddress(poiResult.item.location, function(status, result) {
+									if (status === 'complete' && result.info === 'OK') {
+										that.dizhi = result.regeocode.formattedAddress
+									} else {
+										//获取地址失败
+									}
+								});
+							})
+						});
+					}
 				},
 				update: function() {
 

@@ -82,6 +82,7 @@
 			</div>
 		</div>
 		</div>
+		<script src="js/url.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -129,21 +130,23 @@
 						this.opennew('shop')
 					},
 					myajax: function() {
-						function plusReady() {
-							// 弹出系统等待对话框
-							plus.nativeUI.showWaiting("加载中...");
+						// function plusReady() {
+						// 	// 弹出系统等待对话框
+						// 	plus.nativeUI.showWaiting("加载中...");
 
 							var that = this
 							this.ajaxmore = true
 							that.pageNum++
-								plus.geolocation.getCurrentPosition(function(p) {
+								// plus.geolocation.getCurrentPosition(function(p) {
 									$.ajax({
 										type: "post",
 										url: that.myurl + "/queryUsTraderStoresRecommendPojoByMaMerchantsStyleId",
 										dataType: 'json',
 										data: {
-											lng: p.coords.longitude,
-											lat: p.coords.latitude,
+											// lng: p.coords.longitude,
+											// lat: p.coords.latitude,
+											lng: '117.273565',
+											lat: '34.269544',
 											maMerchantsStyleId: localStorage.getItem('maMerchantsStyleId'),
 											pageNum: that.pageNum,
 											pageSize: 10
@@ -160,15 +163,15 @@
 										}
 									});
 									plus.nativeUI.closeWaiting()
-								}, function(e) {
-									that.city = '获取失败'
-								});
-						}
-						if(window.plus) {
-							plusReady();
-						} else {
-							document.addEventListener("plusready", plusReady, false);
-						}
+								// }, function(e) {
+								// 	that.city = '获取失败'
+								// });
+						// }
+						// if(window.plus) {
+						// 	plusReady();
+						// } else {
+						// 	document.addEventListener("plusready", plusReady, false);
+						// }
 					}
 				},
 				mounted: function() {

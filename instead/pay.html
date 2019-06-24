@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/date.css" />
+		<link rel="stylesheet" type="text/css" href="../css/pay.css" />
+		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
+		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="main">
+				<div id="map-container"></div>
+				<div class="header">
+					<div class="header-aside mui-action-back">
+						<img src="../img/left-arrow.png">
+					</div>
+					<!-- <div class="header-text">使用须知</div> -->
+				</div>
+				<img src="../img/shuaxin.png" class="shua">
+				<div class="main-one">
+					<div class="two-one">
+						<div class="two-left">
+							<div class="two-text">物品类型:</div>
+							<input class="two-text two-news" v-model="paytext" placeholder="请输入物品名称" style="text-align: left;">
+						</div>
+						<div class="two-right">
+							<img src="../img/bianji.png">
+						</div>
+					</div>
+				</div>
+				<div class="main-two">
+					<div class="one-box" @click="opennew('adresslist')">
+						<div class="one-left">买</div>
+						<div class="one-right">
+							<div class="right-left">
+								<div class="one-type">
+									<div class="one-bo" :class="dtype==0?'one-active':''" @click="dchange(0)">
+										输入购买地址，购买更快
+									</div>
+									<div class="one-bo" :class="dtype==1?'one-active':''" @click="dchange(1)">
+										三公里内购买
+									</div>
+								</div>
+								<div class="one-text" v-if="dtype==0" @click.stop="opennew('adresslist')">{{fdizhi}}</div>
+								<div class="one-news" v-if="dtype==0" @click.stop="opennew('adresslist')">{{fdizhidetail}}</div>
+							</div>
+						</div>
+						<div class="right-right">
+							<img src="../img/arrright.png">
+						</div>
+					</div>
+					<div class="one-box" @click="opennew('fadresslist')">
+						<div class="one-left one-zi">收</div>
+						<div class="one-right">
+							<div class="right-left">
+								<div class="one-text">{{sdizhi}}</div>
+								<div class="one-news">{{sdizhidetail}}</div>
+							</div>
+							<div class="right-right">
+								<img src="../img/arrright.png">
+							</div>
+						</div>
+					</div>
+					<!-- <img src="../../static/fen.png" class="fufu"> -->
+				</div>
+				<div class="main-two">
+
+					<div class="two-one">
+						<div class="two-left">
+							<div class="two-text">购买时间:</div>
+							<div class="two-text" name="appDateTime" id="appDateTime">立即购买</div>
+							<div id="datePlugin"></div>
+						</div>
+						<div class="two-right">
+							<img src="../img/arrright.png">
+						</div>
+					</div>
+					<div class="two-one" @click="youchange">
+						<div class="two-left">
+							<div class="two-text liang">优惠</div>
+							<div class="two-word two-zi">暂无可用优惠券</div>
+						</div>
+					</div>
+					<div class="two-one">
+						<div class="two-left">
+							<div class="two-text">商品价格:</div>
+							<input class="two-word two-zi" placeholder="请输入商品费用或凭小票支付跑客" />
+							元
+						</div>
+					</div>
+					<div class="two-one">
+						<div class="two-left">
+							<div class="two-text">联系方式:</div>
+							<input class="two-word two-zi" placeholder="请输入联系方式" />
+							元
+						</div>
+					</div>
+					<div class="two-one">
+						<div class="two-left">
+							<div class="two-text">消费:</div>
+							<input class="two-word two-zi" placeholder="给师傅一个鼓励吧" />
+							元
+						</div>
+					</div>
+					<div class="two-one">
+						<div class="two-left">
+							<div class="two-text">订单备注:</div>
+							<input class="two-word two-zi" placeholder="点击这里输入订单备注信息" />
+						</div>
+					</div>
+					<div class="two-two">
+						<div class="two-text liang">服务</div>
+						<div class="t-text">保温箱配送</div>
+						<div class="t-text">保价</div>
+					</div>
+				</div>
+				<div class="main-three">温馨提示:根据相关法律法规要求，跑客在取货时对您所寄物品进行检查，请不要将物品外包装封口。谢谢您的配合。</div>
+			</div>
+			<div class="bottom">
+				<div class="bottom-left">¥0</div>
+				<div class="bottom-content">
+					<div class="bottom-text">费用明细</div>
+					<img src="../img/arrright.png">
+				</div>
+				<div class="bottom-right">下单</div>
+			</div>
+			<div class="you" v-if="youboo"  @click="youchange">
+				<div class="you-title">
+					我的优惠券
+				</div>
+				<div class="you-box">
+					<div class="you-tab">
+						<div class="you-left">
+							<div class="price">
+								￥5
+							</div>
+							<div class="you-text">
+								2019-06-13
+							</div>
+						</div>
+						<div class="you-right">
+							使用
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/date.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '.wrapper',
+			data: {
+				paytext: localStorage.getItem('paytext'),
+				fdizhi: localStorage.getItem('fdizhi'),
+				fdizhidetail: localStorage.getItem('fdizhidetail'),
+				sdizhi: localStorage.getItem('sdizhi'),
+				sdizhidetail: localStorage.getItem('sdizhidetail'),
+				dtype: localStorage.getItem('dtype'),
+				youboo:false
+			},
+			methods: {
+				youchange:function(){
+					this.youboo=!this.youboo
+				},
+				dchange:function(index){
+					this.dtype=index
+				},
+				submit:function(){
+					var that=this
+					$.ajax({
+						type: "post",
+						url: localStorage.getItem('myurl') + "/addReplaceOrder",
+						dataType: 'json',
+						data: {
+							usUserId: localStorage.getItem('userid'),
+							usRtDescribe: that.paytext,
+							usRtIsArrive:$('#appDateTime').html()=='立即购买'?'0':'1',
+							usRtArriveTime:$('#appDateTime').html(),
+							usRtIsAddress:that.dtype
+						},
+						success: function(res) {
+							mui.openWindow({
+								url: 'shop.html',
+								id: 'shop',
+								createNew: true
+							})
+						},
+						error: function(err) {
+							mui.openWindow({
+								url: 'shop.html',
+								id: 'shop',
+								createNew: true
+							})
+						}
+					});
+				},
+				opennew: function(id) {
+					// 打开新页面
+					mui.openWindow({
+						url: './' + id + '.html',
+						id: id
+					})
+				}
+			},
+			mounted: function() {
+				$('#appDateTime').date({
+					theme: "datetime"
+				})
+				// 初始化地图
+				var map = new AMap.Map('map-container', {
+					zoom: 10
+				})
+				//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
+				AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
+
+					if (!PathSimplifier.supportCanvas) {
+						alert('当前环境不支持 Canvas！');
+						return;
+					}
+
+					//启动页面
+					initPage(PathSimplifier);
+				});
+
+				function initPage(PathSimplifier) {
+					//创建组件实例
+					var pathSimplifierIns = new PathSimplifier({
+						zIndex: 100,
+						map: map, //所属的地图实例
+						getPath: function(pathData, pathIndex) {
+							//返回轨迹数据中的节点坐标信息，[AMap.LngLat, AMap.LngLat...] 或者 [[lng|number,lat|number],...]
+							return pathData.path;
+						},
+						getHoverTitle: function(pathData, pathIndex, pointIndex) {
+							//返回鼠标悬停时显示的信息
+							if (pointIndex >= 0) {
+								//鼠标悬停在某个轨迹节点上
+								return pathData.name + '，点:' + pointIndex + '/' + pathData.path.length;
+							}
+							//鼠标悬停在节点之间的连线上
+							return pathData.name + '，点数量' + pathData.path.length;
+						},
+						renderOptions: {
+							//轨迹线的样式
+							pathLineStyle: {
+								strokeStyle: 'red',
+								lineWidth: 4,
+								dirArrowStyle: true
+							}
+						}
+					});
+
+					//这里构建两条简单的轨迹，仅作示例
+					pathSimplifierIns.setData([{
+						name: '轨迹名称',
+						path: [
+							[localStorage.getItem('flng'), localStorage.getItem('flat')],
+							[localStorage.getItem('slng'), localStorage.getItem('slat')]
+						]
+					}]);
+
+					//创建一个巡航器
+					var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
+						{
+							loop: true, //循环播放
+							speed: 1000,
+							pathNavigatorStyle: {
+								width: 24,
+								height: 24,
+								//使用图片
+								strokeStyle: null,
+								fillStyle: null,
+								//经过路径的样式
+								pathLinePassedStyle: {
+									lineWidth: 6,
+									strokeStyle: 'white',
+									dirArrowStyle: {
+										stepSpace: 15,
+										strokeStyle: '#FF8190'
+									}
+								}
+							}
+						});
+
+					navg0.start();
+				}
+			}
+		})
+	</script>
+</html>

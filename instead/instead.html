@@ -9,16 +9,17 @@
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="../css/main.css" />
-		<link rel="stylesheet" type="text/css" href="../css/date.css" />
+		<link rel="stylesheet" type="text/css" href="../css/instead.css" />
 		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/date.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.3&key=3adc59b361b877d943cda0ce50b9b4da"></script>
+		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
 
 	<body>
 		<div id="app" class="wrapper instead">
-			<div class="layui" v-show="layui">
+			<div class="layui" v-show="layuiboo">
 				<div class="layui-inner">
 					<div class="layui-top">
 						友情提示
@@ -27,7 +28,7 @@
 						{{layuitext}}
 					</div>
 					<div class="layui-settings">
-						<div class="layui-setting" @click="layuiboo">
+						<div class="layui-setting" @click="layui">
 							确定
 						</div>
 					</div>
@@ -35,14 +36,14 @@
 			</div>
 			<header class="header">
 				<span class="header-back">
-						<img src="../img/my.png" @click="opennew('../user')"/>
+					<img src="../img/my.png" @click="opennew('../user')" />
 				</span>
 				<span class="header-main">邦•
 					{{area}}
 				</span>
 				<span class="header-settings" @click="opennew('order')">
-						<img src="../img/order.png"/>
-					</span>
+					<img src="../img/order.png" />
+				</span>
 			</header>
 			<div class="main">
 				<div class="top-nav">
@@ -56,67 +57,121 @@
 						急速送件
 					</div>
 				</div>
-				<div class="instead-wrapper">
-					<div class="top-box">
-						<img src="../img/instead.png" class="top-img" />
-						<!--<span class="num">
-							您附近有<stong>20</stong>个骑手
-						</span>-->
+				<div class="instead-wrapper" id='container'>
+
+				</div>
+				<div class="xia-bottom">
+					<div class="chongd-box">
+						<img src="../img/inner.png">
 					</div>
-					<div class="instead-main">
-						<textarea v-model="dtext" placeholder="输入物品描述" style="margin: 0;box-sizing: border-box;"></textarea>
-						<div class="input-group">
-							<input type="number" name="price" id="price" placeholder="预估商品费用(骑手代付,收货时结算!)" v-model="yprice" />
-							<input type="number" name="price" id="price" placeholder="预估商品重量（KG）" v-model="usRtdWeight" />
-						</div>
-						<!--发货地址-->
-						<div class="input-group" style="margin-bottom: 0;">
-							<label for="madress">
-								<span v-show="insteadtype==1">购物</span>
-								<span v-show="insteadtype==2">取货</span>
-								<span v-show="insteadtype==3">取货</span>
-							</label>
-							<div class="input">
-								<div :class="adresstype==true?'inputactive':''">
-									购买地址
-								</div>
+					<!-- 代购 -->
+					<div class="xia01" v-show="insteadtype==1" @click="dchange">
+						<div class="xia01-top">
+							<div class="xia01-box">
+								<img src="../img/dai01-active.png">
+								<span>随意购</span>
+							</div>
+							<div class="xia01-box">
+								<img src="../img/dai02.png">
+								<span>咖啡</span>
+							</div>
+							<div class="xia01-box">
+								<img src="../img/dai03.png">
+								<span>蔬菜</span>
+							</div>
+							<div class="xia01-box">
+								<img src="../img/dai05.png">
+								<span>酒</span>
 							</div>
 						</div>
-						<div class="input-group" v-show="adresstype" style="align-items: center;">
-							<label for="madress">
-								
-							</label>
-							<div type="text" @click="opennew('fadresslist')" class="input">{{fdist}}-{{fdetail}}</div>
-							<img src="../img/arrright.png" />
-						</div>
-						<!--收货地址-->
-						<div class="input-group" style="margin-bottom: 0;">
-							<label for="madress">
-								收货
-							</label>
-							<div class="input">
-								<div :class="adresstype==true?'inputactive':''">
-									收货地址
-								</div>
-							</div>
-						</div>
-						<div class="input-group">
-							<label for="madress">
-								
-							</label>
-							<div type="text" @click="opennew('adresslist')" class="input">{{sdist}}-{{sdetail}}</div>
-							<img src="../img/arrright.png" />
+						<div class="xia01-bottom">
+							<img src="../img/editor.png">
+							<input type="text" placeholder="请填写商品名称和数量" />
 						</div>
 					</div>
-				</div>
-			</div>
-			<div id="datePlugin"></div>
-			<div class="instead-bottom">
-				<div class="instead-price">
-					1小时全城极速达
-				</div>
-				<div class="instead-shop" @click="mysub">
-					提交订单
+					<!-- 取 -->
+					<div class="xia01" v-show="insteadtype==2">
+						<div class="xia01-bottom" @click="opennew('adresslist')">
+							<div class="raio"></div>
+							<input type="text" v-model="fdizhi" placeholder="请填写发货地址" />
+							<img src="../img/arrright.png">
+						</div>
+						<div class="xia01-bottom" @click="opennew('fadresslist')">
+							<div class="raio"></div>
+							<input type="text" placeholder="请填写收货地址" v-model="sdizhi" />
+							<img src="../img/arrright.png">
+						</div>
+					</div>
+					<div class="goxia" v-show="insteadtype==2" @click="opennew('payqu')">
+						立即下单
+					</div>
+					<!-- 送 -->
+					<div class="xia01" v-show="insteadtype==3">
+						<div class="xia01-bottom" @click="opennew('adresslist')">
+							<div class="raio"></div>
+							<input type="text" placeholder="请填写取货地址" v-model="fdizhi" />
+							<img src="../img/arrright.png">
+						</div>
+						<div class="xia01-bottom" @click="opennew('fadresslist')">
+							<div class="raio"></div>
+							<input type="text" v-model="sdizhi" placeholder="请填写送货地址" />
+							<img src="../img/arrright.png">
+						</div>
+					</div>
+					<div class="goxia" v-show="insteadtype==3" @click="opennew('paysong')">
+						立即下单
+					</div>
+					<!-- 代购弹出框 -->
+					<div class="layui" v-if="dboo">
+						<div class="down" @click="dchange">
+							<img src="../img/arrbottom.png">
+						</div>
+						<div class="layui-box">
+							<p>请选择您需要的物品：</p>
+							<div class="xia01-top">
+								<div class="xia01-box" @click="gdai('随意购')">
+									<img src="../img/dai01-active.png" v-if="daikuaijie=='随意购'">
+									<img src="../img/dai01.png" v-if="daikuaijie!='随意购'">
+									<span>随意购</span>
+								</div>
+								<div class="xia01-box" @click="gdai('咖啡')">
+									<img src="../img/dai02-active.png" v-if="daikuaijie=='咖啡'">
+									<img src="../img/dai02.png" v-if="daikuaijie!='咖啡'">
+									<span>咖啡</span>
+								</div>
+								<div class="xia01-box" @click="gdai('蔬菜')">
+									<img src="../img/dai03-active.png" v-if="daikuaijie=='蔬菜'">
+									<img src="../img/dai03.png" v-if="daikuaijie!='蔬菜'">
+									<span>蔬菜</span>
+								</div>
+								<div class="xia01-box" @click="gdai('酒')">
+									<img src="../img/dai04-active.png" v-if="daikuaijie=='酒'">
+									<img src="../img/dai04.png" v-if="daikuaijie!='酒'">
+									<span>酒</span>
+								</div>
+							</div>
+							<p>帮我买：</p>
+							<textarea placeholder="请填写具体要求 " v-model="gneirong">
+
+							</textarea>
+							<div class="gotype">
+								<div class="go-box">买</div>
+								<div class="g-box" :class="mtype==0?'g-active':''" @click="changetype(0)">
+									输入购买地址，购买更快
+								</div>
+								<div class="g-box" :class="mtype==1?'g-active':''" @click="changetype(1)">
+									三公里内购买
+								</div>
+							</div>
+							<div class="lm-box" v-if="mtype==0">
+								<input type="text" placeholder="请选择购买地址" v-model="fdizhi" />
+								<img src="../img/arrright.png">
+							</div>
+							<div class="submit" @click="gopay">
+								下一步
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<footer class="footer">
@@ -133,7 +188,7 @@
 					</span>
 				</div>
 				<div class="footer-group factive">
-					<img src="../img/zixingche-active.png"/>
+					<img src="../img/zixingche-active.png" />
 					<span>
 						跑腿代购
 					</span>
@@ -150,171 +205,95 @@
 			var myvue = new Vue({
 				el: '#app',
 				data: {
-					layui: false,
-					layuitext: '错误',
-					insteadtype: 1,
-					dtext: localStorage.getItem('dtext') || '',
-					adresstype: true,
-					fprov: '',
-					sprov: '',
-					fcity: '',
-					fdetail: '',
-					fdist: '',
-					insteadyes: true,
-					yprice: localStorage.getItem('yprice') || '',
-					sdist: '',
-					sdetail: '',
-					sprov: '',
-					scity: '',
-					qsbeizhu: '',
-					qstime: '',
-					usRtdWeight: localStorage.getItem('usRtdWeight') || '',
-					channel: '',
-					area:localStorage.getItem('city01')
+					insteadtype: 1, //服务种类
+					layuiboo: false,
+					layuitext: '',
+					area: '徐州', //所在地
+					mtype: 0, //0指定地址购买,1三公里内随机购买
+					dboo: false, //购买弹出框
+					gneirong: '',
+					daikuaijie: '随意购',
+					fdizhi: localStorage.getItem('fdizhi'),
+					sdizhi: localStorage.getItem('sdizhi')
 				},
 				methods: {
-					layuiboo: function(text) {
-						this.layuitext = text
-						this.layui = !this.layui
+					gopay: function() {
+						if (this.gneirong == '') {
+							mui.toast('购买内容不能为空!')
+							return false
+						}
+						localStorage.setItem('paytext', this.gneirong) //代购内容
+						localStorage.setItem('paytype', this.insteadtype) //服务种类
+						localStorage.setItem('dtype', this.mtype) //代购范围
+						this.opennew('pay')
 					},
-					opennew: function(id, type) {
-						localStorage.setItem('dtext', this.dtext)
-						localStorage.setItem('yprice', this.yprice)
-						localStorage.setItem('usRtdWeight', this.usRtdWeight)
-						localStorage.setItem('maptype', type)
+					changetype: function(index) {
+						this.mtype = index
+					},
+					gdai: function(index) {
+						// 快捷代购按钮
+						this.daikuaijie = index
+						if (this.daikuaijie != '随意购') {
+							this.gneirong = index
+						} else {
+							this.gneirong = ''
+						}
+					},
+					dchange: function() {
+						// 显示弹出框
+						this.dboo = !this.dboo
+					},
+					tab: function(index) {
+						// 修改服务种类
+						this.insteadtype = index
+					},
+					layui: function() {
+						// 提示框
+						this.layuiboo = !this.layuiboo
+					},
+					opennew: function(id) {
+						// 打开新页面
 						mui.openWindow({
-							url: '' + id + '.html',
+							url: '../instead/' + id + '.html',
 							id: id
 						})
-					},
-					tab: function(boo) {
-						this.insteadtype = boo
-					},
-					adresstab: function() {
-						this.adresstype = !this.adresstype
-					},
-					yseno: function() {
-						this.insteadyes = !this.insteadyes
-					},
-					mysub: function() {
-						var that = this
-						if(that.dtext == '') {
-							that.layuiboo('请输入物品描述')
-							return false;
-						}
-						if(that.yprice == '') {
-							that.layuiboo('请输入物品预估 价格')
-							return false;
-						}
-						if(that.usRtdWeight == '') {
-							that.layuiboo('请输入物品预估 重量')
-							return false;
-						}
-						plus.nativeUI.confirm("请选择您的支付方式！", function(e) {
-							if(e.index == 0) {
-								var ajaxjson = {
-									usUserId: localStorage.getItem('userid'),
-									usRtDescribe: that.dtext,
-									usRtForecastPrice: that.yprice,
-									usRtProvince: that.fprov,
-									usRtCity: that.fcity,
-									usRtArea: that.fdist,
-									usRtDetails: that.fdetail,
-									usAddressId: localStorage.getItem('usAddressId'),
-									usRtIsType: that.insteadtype,
-									usRtWeight: that.usRtdWeight,
-									usRtIsAddress: 1,
-									status: 1
-								}
-								$.ajax({
-									type: "post",
-									url: localStorage.getItem('myurl') + "/addReplaceOrder",
-									dataType: 'json',
-									data: ajaxjson,
-									success: function(res) {
-										plus.payment.request(that.channel[0], res.data[0], function(result) {
-											plus.nativeUI.alert("支付成功！", function() {
-												that.opennew('order')
-											});
-										}, function(error) {
-											console.log(JSON.stringify(error))
-										});
-									}
-								});
-							}else{
-								var ajaxjson = {
-									usUserId: localStorage.getItem('userid'),
-									usRtDescribe: that.dtext,
-									usRtForecastPrice: that.yprice,
-									usRtProvince: that.fprov,
-									usRtCity: that.fcity,
-									usRtArea: that.fdist,
-									usRtDetails: that.fdetail,
-									usAddressId: localStorage.getItem('usAddressId'),
-									usRtIsType: that.insteadtype,
-									usRtWeight: that.usRtdWeight,
-									usRtIsAddress: 1,
-									status: 2
-								}
-								$.ajax({
-									type: "post",
-									url: localStorage.getItem('myurl') + "/addReplaceOrder",
-									dataType: 'json',
-									data: ajaxjson,
-									success: function(res) {
-										plus.payment.request(that.channel[1], res, function(result) {
-											plus.nativeUI.alert("支付成功！", function() {
-												that.opennew('order')
-											});
-										}, function(error) {
-											console.log(JSON.stringify(error))
-										});
-									}
-								});
-							}
-						}, {
-							"title": "支付方式",
-							"buttons": ["支付宝", "微信"]
-						});
-
 					}
 				},
 				mounted: function() {
-					var that = this
-
-					function plusReady() {
-						// 获取支付通道
-						plus.payment.getChannels(function(channels) {
-							that.channel = channels;
-						}, function(e) {
-							alert("获取支付通道失败：" + e.message);
-						});
-					}
-					if(window.plus) {
-						plusReady();
-					} else {
-						document.addEventListener('plusready', plusReady, false);
-					}
-					if(localStorage.getItem('fprov') == null) {
-						this.fprov = '点击选择发货地址'
-					} else {
-						this.fprov = localStorage.getItem('fprov')
-						this.fcity = localStorage.getItem('fcity')
-						this.fdist = localStorage.getItem('fdist')
-						this.fdetail = localStorage.getItem('fdetail')
-					}
-					if(localStorage.getItem('sprov') == null) {
-						this.sprov = '点击选择收货地址'
-					} else {
-						this.sprov = localStorage.getItem('sprov')
-						this.scity = localStorage.getItem('scity')
-						this.sdist = localStorage.getItem('sdist')
-						this.sdetail = localStorage.getItem('sdetail')
-					}
-					$(function() {
-						$('#appDateTime').date({
-							theme: "datetime"
+					var map = new AMap.Map('container', {
+						zoom: 15,
+						center: [117.271887, 34.26921]
+					});
+					var marker = new AMap.Marker({
+						title: '提示'
+					});
+					marker.setMap(map);
+					map.plugin('AMap.Geolocation', function() {
+						var geolocation = new AMap.Geolocation({
+							// 是否使用高精度定位，默认：true
+							enableHighAccuracy: true,
+							// 设置定位超时时间，默认：无穷大
+							timeout: 10000,
+							// 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
+							buttonOffset: new AMap.Pixel(10, 20),
+							//  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+							zoomToAccuracy: true,
+							//  定位按钮的排放位置,  RB表示右下
+							buttonPosition: 'RB'
 						})
+
+						geolocation.getCurrentPosition()
+						AMap.event.addListener(geolocation, 'complete', onComplete)
+						AMap.event.addListener(geolocation, 'error', onError)
+
+						function onComplete(data) {
+							// data是具体的定位信息
+							console.log(data)
+						}
+
+						function onError(data) {
+							// 定位出错
+						}
 					})
 				},
 				update: function() {
