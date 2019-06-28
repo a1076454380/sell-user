@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="../css/date.css" />
 		<link rel="stylesheet" type="text/css" href="../css/pay.css" />
@@ -23,17 +24,6 @@
 					<!-- <div class="header-text">使用须知</div> -->
 				</div>
 				<img src="../img/shuaxin.png" class="shua">
-				<div class="main-one">
-					<div class="two-one">
-						<div class="two-left">
-							<div class="two-text">物品类型:</div>
-							<input class="two-text two-news" v-model="paytext" placeholder="请输入物品名称" style="text-align: left;">
-						</div>
-						<div class="two-right">
-							<img src="../img/bianji.png">
-						</div>
-					</div>
-				</div>
 				<div class="main-two">
 					<div class="one-box" @click="opennew('adresslist')">
 						<div class="one-left">取</div>
@@ -67,10 +57,20 @@
 
 					<div class="two-one">
 						<div class="two-left">
-							<div class="two-text">购买时间:</div>
-							<div class="two-text" name="appDateTime" id="appDateTime">立即购买</div>
+							<div class="two-text">取件时间:</div>
+							<div class="two-text" name="appDateTime" id="appDateTime">立即取件</div>
 							<div id="datePlugin"></div>
 						</div>
+						<div class="two-right">
+							<img src="../img/arrright.png">
+						</div>
+					</div>
+					<div class="two-one">
+						<a class="two-left" href="#jprice">
+							<div class="two-text">物品类型::</div>
+							<div class="two-text wutype" v-if="navdata.length!=0">{{navdata[wuindex].maRtName}}</div>
+							<div id="datePlugin"></div>
+						</a>
 						<div class="two-right">
 							<img src="../img/arrright.png">
 						</div>
@@ -78,57 +78,71 @@
 					<div class="two-one" @click="youchange">
 						<div class="two-left">
 							<div class="two-text liang">优惠</div>
-							<div class="two-word two-zi">暂无可用优惠券</div>
+							<div class="two-word two-zi">{{youdata.length==0?'暂无可用优惠券':youdata[youindex].maRdrDiscount/10+'折优惠券'}}</div>
+						</div>
+						<div class="two-right">
+							<img src="../img/arrright.png">
 						</div>
 					</div>
 					<div class="two-one">
 						<div class="two-left">
 							<div class="two-text">加价:</div>
-							<input class="two-word two-zi" placeholder="给师傅一个鼓励吧" v-model="xiaofei"/>
+							<input class="two-word two-zi" placeholder="给师傅一个鼓励吧" v-model="xiaofei" @input="myajax"/>
 							元
 						</div>
 					</div>
 					<div class="two-one">
 						<div class="two-left">
 							<div class="two-text">订单备注:</div>
-							<input class="two-word two-zi" placeholder="点击这里输入订单备注信息" v-model="beizhu"/>
+							<input class="two-word two-zi" placeholder="点击这里输入订单备注信息" v-model="beizhu" @input="myajax"/>
 						</div>
 					</div>
 					<div class="two-one">
 						<div class="two-left">
 							<div class="two-text">代收金额:</div>
-							<input class="two-word two-zi" placeholder="请输入代收金额" v-model="gujia"/>
+							<input class="two-word two-zi" placeholder="请输入代收金额" v-model="gujia" @input="myajax"/>
 							元
 						</div>
 					</div>
 					<div class="two-two">
 						<div class="two-text liang">服务</div>
-						<div class="t-text">保温箱配送</div>
-						<div class="t-text">保价</div>
+						<div class="t-text" v-for="(val,index) in serdata" :class="val.boo==true?'t-active':''" @click="changeser(index)">{{val.maMsrDay}} - ￥{{val.maMsrPrice}}</div>
 					</div>
 				</div>
 				<div class="main-three">温馨提示:根据相关法律法规要求，跑客在取货时对您所寄物品进行检查，请不要将物品外包装封口。谢谢您的配合。</div>
 			</div>
 			<div class="bottom">
-				<div class="bottom-left">¥0</div>
-				<div class="bottom-content">
+				<div class="bottom-left">¥{{searchdata.usRtPrice}}</div>
+				<div class="bottom-content" @click="openming()">
 					<div class="bottom-text">费用明细</div>
 					<img src="../img/arrright.png">
 				</div>
-				<div class="bottom-right" @click="pay('/userWalletTakeSubstitutionDelivery')">下单</div>
+				<div class="bottom-right" @click="xiadan()">下单</div>
+			</div>
+			<div id="jprice" class="mui-popover mui-popover-action">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell myindex" v-for="(val,index) in navdata" @click="changenav(index)">
+						<a href="#" data-id='0'>{{val.maRtName}}</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#zprice" data-id='-1'><b>取消</b></a>
+					</li>
+				</ul>
 			</div>
 			<div class="you" v-if="youboo"  @click="youchange">
 				<div class="you-title">
 					我的优惠券
 				</div>
 				<div class="you-box">
-					<div class="you-tab">
+					<div class="you-tab" v-for="(val,index) in youdata" @click="changeyou(index)">
 						<div class="you-left">
 							<div class="price">
-								￥5
+								{{val.maRdrDiscount/10}}折
 							</div>
 							<div class="you-text">
-								2019-06-13
+								{{val.maRdrCreateTimeString}}
 							</div>
 						</div>
 						<div class="you-right">
@@ -155,11 +169,134 @@
 				sdizhidetail: localStorage.getItem('sdizhidetail'),//收货地址详情
 				sshoujihao:localStorage.getItem('sshoujihao'),
 				youboo:false,//优惠boo
+				youdata:[],//优惠券data
+				youindex:0,
 				xiaofei:'',//小费
 				beizhu:'',//备注
 				gujia:'',//代收金额
+				searchdata:'',//价格data
+				serdata:[],//所有服务data
+				wuindex:0, //分类索引
+				navdata:[],//分类数组
+				channel:[]
 			},
 			methods: {
+				changeyou:function(index){
+					// 选择优惠
+					this.youindex=index
+					this.myajax()
+				},
+				changenav:function(index){
+					// 选择分类
+					this.wuindex=index
+					$('.mui-popover').hide()
+					$('.mui-backdrop').hide()
+					this.myajax()
+				},
+				changeser:function(index){
+					// 选择服务
+					this.serdata[index].boo=!this.serdata[index].boo
+					this.myajax()
+				},
+				// 费用明细
+				openming:function(){
+					localStorage.setItem('mingxi',this.searchdata.maRtPriceRecord)
+					this.opennew('mingxi')
+				},
+				searchser:function(){
+					var that=this
+					
+					// 查询分类
+					$.ajax({
+						type: "post",
+						url: localStorage.getItem('myurl') + '/selectMaRunTypeUser',
+						dataType: 'json',
+						success: function(res) {
+							that.navdata=res.data
+							// 查询服务
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + '/selectMaServiceRuleAll',
+								dataType: 'json',
+								success: function(res) {
+									for(i in res.data){
+										res.data[i].boo=false
+									}
+									that.serdata=res.data
+									// 查询优惠券
+									$.ajax({
+										type: "post",
+										url: localStorage.getItem('myimg') + '/maAllocationRecord/getMaAllocationRecordList',
+										dataType: 'json',
+										data:{
+											usUserId: localStorage.getItem('userid'),
+										},
+										success: function(res) {
+											that.youdata=res.data
+											that.myajax()
+										},
+										error: function(err) {
+											
+										}
+									});
+								},
+								error: function(err) {
+									
+								}
+							});
+						},
+						error: function(err) {
+							
+						}
+					});
+					
+				},
+				myajax:function(){
+					var that=this,
+					maServiceRuleId=[]
+					// 查询价格
+					for(i in that.serdata){
+						if(that.serdata[i].boo==true){
+							maServiceRuleId.push(that.serdata[i].maServiceRuleId)
+						}
+					}
+					$.ajax({
+						type: "post",
+						url: localStorage.getItem('myurl') + '/userWalletTakeSubstitutionDeliverySelect',
+						dataType: 'json',
+						data: {
+							usRtIsType:2,
+							usUserId: localStorage.getItem('userid'),
+							usRtCreateName: localStorage.getItem('userid'),
+							usRtDescribe: that.paytext, //物品描述
+							usRtIsArrive:$('#appDateTime').html()=='立即购买'?'0':'1',
+							time:$('#appDateTime').html()=='立即购买'?new Date().Format("yyyy-MM-dd HH:mm:ss"):$('#appDateTime').html()+':00',
+							usRtProvince : localStorage.getItem('fdizhi'),
+							usRtCity:'',
+							usRtArea:'',
+							usRtDetails :localStorage.getItem('fdizhidetail'), //发货地址详情
+							usAddressContactId:localStorage.getItem('fid'), //发货地址id
+							usAddressId:localStorage.getItem('sid'), //收货地址id
+							usRtForecastPrice:that.gujia==''?0.00:that.gujia, //代收款
+							usRtRemarks :that.beizhu, //备注
+							maServiceRuleId :JSON.stringify(maServiceRuleId), //服务id
+							UsRtIsAddress:1, //是否指定地址 0 不 1是
+							usUpPrice:that.xiaofei==''?0.00:that.xiaofei,  //加价
+							usRunType:that.navdata[that.wuindex].maRunTypeId, //分类id
+							maRunDiscountRuleId:that.youdata.length==0?'':that.youdata[that.youindex].maRunDiscountRuleId //优惠券id
+						},
+						success: function(res) {
+							delete res.data.usRtCreateTime
+							delete res.data.usRtUpdateTime
+							delete res.data.usRtCreateTimeString
+							delete res.data.usRtArriveTime
+							that.searchdata=res.data
+						},
+						error: function(err) {
+							
+						}
+					});
+				},
 				xiadan:function(){
 					var btnArray = [{
 						title: "余额"
@@ -176,13 +313,13 @@
 						var index = e.index;
 						switch (index) {
 							case 1:
-								that.pay('/userWalletTakeSubstitutionDelivery')
+								that.pay('/userWalletTakeSubstitutionDelivery',0,)
 								break;
 							case 2:
-								that.pay('/merchant/payMerchantAdvertisement')
+								that.pay('/createUsReplaceTakeAliWx',1)
 								break;
 							case 3:
-								that.pay('/merchant/payMerchantAdvertisement')
+								that.pay('/createUsReplaceTakeAliWx',2)
 								break;
 						}
 					});
@@ -193,32 +330,32 @@
 				dchange:function(index){
 					this.dtype=index
 				},
-				pay:function(url){
+				pay:function(url,type){
 					var that=this
-					
 					$.ajax({
 						type: "post",
 						url: localStorage.getItem('myurl') + url,
 						dataType: 'json',
-						data: {
-							usRtIsType:2,
-							usUserId: localStorage.getItem('userid'),
-							usRtCreateName: localStorage.getItem('userid'),
-							usRtDescribe: that.paytext,
-							usRtIsArrive:$('#appDateTime').html()=='立即购买'?'0':'1',
-							usRtArriveTime:$('#appDateTime').html()=='立即购买'?new Date().Format("yyyy-MM-dd HH:mm:ss"):$('#appDateTime').html()+':00',
-							usRtProvince : localStorage.getItem('fdizhi'),
-							usRtCity:'',
-							usRtArea:'',
-							usRtDetails :localStorage.getItem('fdizhidetail'),
-							usAddressContactId:localStorage.getItem('fid'),
-							usAddressId:localStorage.getItem('sid'),
-							usRtPrice :'15',
-							usRtForecastPrice:that.gujia  ,
-							usRtRemarks :that.beizhu 
-						},
+						data:that.searchdata,
 						success: function(res) {
-							
+							if(res.data==1&&type==0){
+								mui.toast('下单成功')
+								that.opennew('order')
+							}else if(type==1){
+								plus.payment.request(that.channel[0], res.data[0], function(result) {
+									mui.toast('下单成功')
+									that.opennew('order')
+								}, function(error) {
+									mui.toast('支付失败')
+								});
+							}else{
+								plus.payment.request(that.channel[1], res, function(result) {
+									mui.toast('下单成功')
+									that.opennew('order')
+								}, function(error) {
+									mui.toast('支付失败')
+								});
+							}
 						},
 						error: function(err) {
 							
@@ -234,6 +371,21 @@
 				}
 			},
 			mounted: function() {
+				var that=this
+				// 1. 获取支付通道
+				function plusReady() {
+					// 获取支付通道
+					plus.payment.getChannels(function(channels) {
+						that.channel = channels;
+					}, function(e) {
+						alert("获取支付通道失败：" + e.message);
+					});
+				}
+				if(window.plus) {
+					plusReady();
+				} else {
+					document.addEventListener('plusready', plusReady, false);
+				}
 				Date.prototype.Format = function (fmt) {
 				    var o = {
 				        "M+": this.getMonth() + 1, //月份 
@@ -267,7 +419,7 @@
 					//启动页面
 					initPage(PathSimplifier);
 				});
-
+				
 				function initPage(PathSimplifier) {
 					//创建组件实例
 					var pathSimplifierIns = new PathSimplifier({
@@ -330,6 +482,8 @@
 
 					navg0.start();
 				}
+				this.searchser()
+				
 			}
 		})
 	</script>

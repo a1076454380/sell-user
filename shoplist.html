@@ -43,7 +43,7 @@
 			<div class="main main-big mui-content mui-scroll-wrapper" id="pullrefresh" @scroll="myscroll" style="overflow-y: scroll;">
 				<img src="img/blank.png" class="blank" v-if="tuidata.length==0" />
 				<div class="main-inner">
-					<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in tuidata" v-if="tuidata!=''&&val.usTsCompanyName=='联华餐吧'">
+					<div class="index-group" @click="opendetail(val.usTraderStoresId)" v-for="val in tuidata" v-if="tuidata!=''">
 						<div class="group-inner">
 							<div class="img-box">
 								<img :src="val.usTsFacadeImg | myimg" />
@@ -53,16 +53,16 @@
 									{{val.usTsCompanyName}}
 								</div>
 								<div class="index-x" style="align-items: flex-start;">
-									<div class="x-group" v-for="item in val.starPercentage">
+									<div class="x-group" v-for="item in val.star_percentage">
 										<img src="img/xactive.png" />
 									</div>
-									<div class="x-group" v-for="item in (5 - val.starPercentage)">
+									<div class="x-group" v-for="item in (5 - val.star_percentage)">
 										<img src="img/xhalf.png" />
 									</div>
 								</div>
 								<div class="index-x">
 									<span class="shop-type">
-									<img src="img/shopavatar.png"/>{{val.maMsName}}
+									<img src="img/shopavatar.png"/>{{val.usTssResult}}
 								</span>
 								</div>
 								<div class="index-money">
@@ -144,7 +144,7 @@
 										dataType: 'json',
 										data: {
 											// lng: p.coords.longitude,
-											// lat: p.coords.latitude,
+											// lat: p.coords.latitude,+9685/\=09gtz
 											lng: '117.273565',
 											lat: '34.269544',
 											maMerchantsStyleId: localStorage.getItem('maMerchantsStyleId'),

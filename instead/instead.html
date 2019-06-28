@@ -67,21 +67,9 @@
 					<!-- 代购 -->
 					<div class="xia01" v-show="insteadtype==1" @click="dchange">
 						<div class="xia01-top">
-							<div class="xia01-box">
-								<img src="../img/dai01-active.png">
-								<span>随意购</span>
-							</div>
-							<div class="xia01-box">
-								<img src="../img/dai02.png">
-								<span>咖啡</span>
-							</div>
-							<div class="xia01-box">
-								<img src="../img/dai03.png">
-								<span>蔬菜</span>
-							</div>
-							<div class="xia01-box">
-								<img src="../img/dai05.png">
-								<span>酒</span>
+							<div class="xia01-box" v-for="val in navdata">
+								<img :src="val.maRtImg">
+								<span>{{val.maRtName}}</span>
 							</div>
 						</div>
 						<div class="xia01-bottom">
@@ -129,25 +117,9 @@
 						<div class="layui-box">
 							<p>请选择您需要的物品：</p>
 							<div class="xia01-top">
-								<div class="xia01-box" @click="gdai('随意购')">
-									<img src="../img/dai01-active.png" v-if="daikuaijie=='随意购'">
-									<img src="../img/dai01.png" v-if="daikuaijie!='随意购'">
-									<span>随意购</span>
-								</div>
-								<div class="xia01-box" @click="gdai('咖啡')">
-									<img src="../img/dai02-active.png" v-if="daikuaijie=='咖啡'">
-									<img src="../img/dai02.png" v-if="daikuaijie!='咖啡'">
-									<span>咖啡</span>
-								</div>
-								<div class="xia01-box" @click="gdai('蔬菜')">
-									<img src="../img/dai03-active.png" v-if="daikuaijie=='蔬菜'">
-									<img src="../img/dai03.png" v-if="daikuaijie!='蔬菜'">
-									<span>蔬菜</span>
-								</div>
-								<div class="xia01-box" @click="gdai('酒')">
-									<img src="../img/dai04-active.png" v-if="daikuaijie=='酒'">
-									<img src="../img/dai04.png" v-if="daikuaijie!='酒'">
-									<span>酒</span>
+								<div class="xia01-box" @click="gdai(val.maRtName)" v-for="val in navdata">
+									<img :src="val.maRtImg">
+									<span>{{val.maRtName}}</span>
 								</div>
 							</div>
 							<p>帮我买：</p>
@@ -201,6 +173,7 @@
 				</div>
 			</footer>
 		</div>
+		<script src="../js/dingwei.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -208,13 +181,14 @@
 					insteadtype: 1, //服务种类
 					layuiboo: false,
 					layuitext: '',
-					area: '徐州', //所在地
+					area: shi, //所在地
 					mtype: 0, //0指定地址购买,1三公里内随机购买
 					dboo: false, //购买弹出框
 					gneirong: '',
 					daikuaijie: '随意购',
 					fdizhi: localStorage.getItem('fdizhi'),
-					sdizhi: localStorage.getItem('sdizhi')
+					sdizhi: localStorage.getItem('sdizhi'),
+					navdata:[]
 				},
 				methods: {
 					gopay: function() {
@@ -257,44 +231,33 @@
 							url: '../instead/' + id + '.html',
 							id: id
 						})
+					},
+					myajax:function(){
+						var that=this
+						// 查询分类
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + '/selectMaRunTypeUser',
+							dataType: 'json',
+							success: function(res) {
+								that.navdata=res.data
+							},
+							error: function(err) {
+								
+							}
+						});
 					}
 				},
 				mounted: function() {
 					var map = new AMap.Map('container', {
 						zoom: 15,
-						center: [117.271887, 34.26921]
+						center: [jing, wei]
 					});
 					var marker = new AMap.Marker({
 						title: '提示'
 					});
 					marker.setMap(map);
-					map.plugin('AMap.Geolocation', function() {
-						var geolocation = new AMap.Geolocation({
-							// 是否使用高精度定位，默认：true
-							enableHighAccuracy: true,
-							// 设置定位超时时间，默认：无穷大
-							timeout: 10000,
-							// 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
-							buttonOffset: new AMap.Pixel(10, 20),
-							//  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-							zoomToAccuracy: true,
-							//  定位按钮的排放位置,  RB表示右下
-							buttonPosition: 'RB'
-						})
-
-						geolocation.getCurrentPosition()
-						AMap.event.addListener(geolocation, 'complete', onComplete)
-						AMap.event.addListener(geolocation, 'error', onError)
-
-						function onComplete(data) {
-							// data是具体的定位信息
-							console.log(data)
-						}
-
-						function onError(data) {
-							// 定位出错
-						}
-					})
+					this.myajax()
 				},
 				update: function() {
 

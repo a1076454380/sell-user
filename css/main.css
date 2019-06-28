@@ -1,5 +1,5 @@
 /*通用*/
-.order-top{display: flex;width:3rem ;border-radius: .1rem;border: 1px solid #FF8190;color: #FF8190;margin: .2rem auto;}
+.order-top{display: flex;width:3rem ;border-radius: .1rem;border: 1px solid #FF8190;color: #FF8190;margin: .2rem auto;background: #FFFFFF;}
 .order-box{flex: 1;text-align: center;height: .45rem;text-align: center;line-height: .45rem;}
 .order-active{background:  #FF8190;color: #FFFFFF;}
 .moreimg {	display: block;
@@ -1047,6 +1047,7 @@ input::-webkit-input-placeholder {
 	justify-content: center;
 	padding: .05rem .1rem;
 	margin-right: .25rem;
+	height: .3rem;
 }
 
 .shop .activity img {
@@ -1838,7 +1839,8 @@ input::-webkit-input-placeholder {
 
 .myorder .list-group {
 	margin: 0.1rem;
-	background: #FFFFFF
+	background: #FFFFFF;
+	border-bottom: 5px solid ghostwhite;
 }
 
 .myorder .list-top {
@@ -2420,7 +2422,6 @@ input::-webkit-input-placeholder {
 
 .orderdetail .back-inner {
 	margin: 0 0.2rem;
-	display: flex;
 	height: 100%;
 	border-bottom: 0.01rem dashed gainsboro
 }

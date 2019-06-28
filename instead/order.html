@@ -51,23 +51,29 @@
 					</div>
 				</div>
 				<div class="nav">
-					<div class="nav-tab" :class="tabnum==10?'active':''" @click="tab(10)">
+					<div class="nav-tab" :class="tabnum==6?'active':''" @click="tab(6)">
 						全部
 					</div>
 					<div class="nav-tab" :class="tabnum==0?'active':''" @click="tab(0)">
-						等待接单
+						待支付
+					</div>
+					<div class="nav-tab" :class="tabnum==1?'active':''" @click="tab(1)">
+						已完成
 					</div>
 					<div class="nav-tab" :class="tabnum==2?'active':''" @click="tab(2)">
-						配送中
+						待接单
 					</div>
 					<div class="nav-tab" :class="tabnum==3?'active':''" @click="tab(3)">
-						已完成
+						已接单
+					</div>
+					<div class="nav-tab" :class="tabnum==4?'active':''" @click="tab(4)">
+						已取货
 					</div>
 				</div>
 				<div class="list-group" @click="opennew('orderdetail',val.usReplaceTakeId)" v-for="val in mydata">
 					<div class="list-top">
 						<div class="list-title">
-							{{val.usRtDescribe}}
+							{{val.usRtIsType | usRtIsType}}
 						</div>
 						<div class="list-state">
 							{{val.usRtStatus | state}}
@@ -76,7 +82,7 @@
 					<div class="adress-group" style="height: .7rem;">
 						<span class="fhuo"></span>
 						<div class="adress-text">
-							{{val.usRtProvince}}{{val.usRtCity}}{{val.usRtArea}}{{val.usRtDetails}}
+							{{val.usRtIsAddress==0?'收货地点附近3km范围内购买':val.usRtProvince +val.usRtDetails}}
 						</div>
 					</div>
 					<div class="adress-group" style="height: .7rem;">
@@ -104,11 +110,12 @@
 					layuitext: '错误',
 					mydata:[],
 					usReplaceTakeId:'',
-					tabnum:10
+					tabnum:6
 				},
 				methods: {
 					tab: function(index) {
 						this.tabnum = index
+						this.myajax()
 					},
 					layuitrue:function(){
 						function plusReady() {
@@ -171,7 +178,8 @@
 							url: localStorage.getItem('myurl') + "/queryUsReplaceTakePojo",
 							dataType: 'json',
 							data: {
-								usUserId: localStorage.getItem('userid')
+								usUserId: localStorage.getItem('userid'),
+								status :that.tabnum
 							},
 							success: function(res) {
 								console.log(res)
@@ -193,6 +201,15 @@
 					this.myajax()
 				},
 				filters:{
+					usRtIsType:function(value){
+						if (value==1) {
+							return '代购订单'
+						} else if(value==2){
+							return '帮我取'
+						}else if(value==3){
+							return '帮我送'
+						}
+					},
 					state:function(value){
 						if (value==1) {
 							return '订单已完成'
