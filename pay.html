@@ -9,11 +9,13 @@
 		<link rel="stylesheet" type="text/css" href="css/date.css"/>
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/wpay.css"/>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+		<script src="js/date.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -41,25 +43,36 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main pay" style="overflow-y: scroll;height: calc(100% - .8rem);">
-				<div class="pay-inner" @click="opennew('adresslist')" v-if="adressdata.length!=0">
-					<div class="payh">
-						{{adressdata.usAdsProvince}}{{adressdata.usAdsCity}}{{adressdata.usAdsArea}}
+				<div class="dizhi-box">
+					<img src="img/dicon.png" >
+					<div class="pay-inner" @click="opennew('adresslist')" v-if="adressdata.length!=0">
+						<div class="payh">
+							{{adressdata.usAdsProvince}}{{adressdata.usAdsCity}}{{adressdata.usAdsArea}}
+						</div>
+						<div class="paup">
+							{{adressdata.usAdsDetailed}}
+						</div>
+						<div class="paup">
+							{{adressdata.usAdsCreateName}}
+						</div>
 					</div>
-					<div class="paup">
-						{{adressdata.usAdsDetailed}}
-					</div>
-					<div class="paup">
-						{{adressdata.usAdsCreateName}}
+					<img src="img/arrright.png" >
+				</div>
+				<div class="dizhi-box" style="margin-top: -.2rem;">
+					<img src="img/time.png" >
+					<div class="pay-inner">
+						<input type="text" id="appDateTime" name="appDateTime" placeholder="请选择配送时间" readonly="readonly" v-model="usOrReserveTime"/>
 					</div>
 				</div>
+				<div id="datePlugin"></div>
 				<div class="pay-inner" @click="opennew('adresslist')" v-if="adressdata.length==0">
 					<div class="payh">
 						点击选择收货地址
 					</div>
 				</div>
+				
 				<div class="detail-group content">
 					<div class="shop-name" @click="opennew('shop',cartdata.usTraderStoresId)">
-						<img :src="cartdata.usTsFacadeImg | myimg" class="avatar" />
 						<span style="flex: 1;">
 								{{cartdata.usTsCompanyName}}
 							</span>
@@ -224,7 +237,8 @@
 					hdata: [],
 					aboo: false,
 					atype: '',
-					allfee:0
+					allfee:0,
+					usOrReserveTime:'立即配送'
 				},
 				methods: {
 					achange: function(type) {
@@ -276,21 +290,24 @@
 						}
 						//						创建订单
 						var ajaxjson = {
-							userId: localStorage.getItem('userid'),
+							usUserId: localStorage.getItem('userid'),
 							shoppingCartId: that.cartdata.usShoppingCartId,
 							redPackageId: that.hdata.length != 0 ? that.hdata[that.hindex].usTraderPackageId : '',
 							discontId: that.discountdata.listDiscount.length != 0 ? that.discountdata.listDiscount[that.zindex].usTraderDiscountId : '',
 							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract[that.mindex].usTraderSubtractId : '',
 							newPeopleId: that.discountdata.listNewActivities.length!=0 ? that.discountdata.listNewActivities[that.xindex].usTraderNewActivitiesId : '',
-							note: that.note,
-							// price: that.allprice,
-							price:0.01,
+							usOrNote: that.note,
+							// usOrPrice: that.allprice,
+							usOrPrice:0.01,
 							statusPay: 2,
 							redPackageStyle: that.hdata.length != 0 ? (that.hdata[that.hindex].usTpBelong == 1 ? '1' : '71') : '',
 							discontStyle: that.discountdata.listDiscount.length == 0 ? '' : (that.discountdata.listDiscount[that.zindex].usTdBelong == 1 ? '2' : '72'),
 							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTsBelong == 1 ? '3' : '73') : '',
 							newPeopleStyle: that.discountdata.listNewActivities .length != 0 ? (that.discountdata.listNewActivities[that.xindex].usTdBelong == 1 ? '4' : '74') : '',
-							usOrPackingFee:that.allfee
+							usOrPackingFee:that.allfee,
+							usOrDeliveryPrice:that.discountdata.listMaDistributionUsPackingFee.maDiPrice,
+							usOrIsReserve:$('#appDateTime').val()=='立即配送'?0:1,
+							time:$('#appDateTime').val()=='立即配送'?new Date().Format("yyyy-MM-dd HH:mm:ss"):+$('#appDateTime').val()+':00'
 						}
 						$.ajax({
 							type: "post",
@@ -346,21 +363,24 @@
 						}
 						//						创建订单
 						var ajaxjson = {
-							userId: localStorage.getItem('userid'),
+							usUserId: localStorage.getItem('userid'),
 							shoppingCartId: that.cartdata.usShoppingCartId,
 							redPackageId: that.hdata.length != 0 ? that.hdata[that.hindex].usTraderPackageId : '',
 							discontId: that.discountdata.listDiscount.length != 0 ? that.discountdata.listDiscount[that.zindex].usTraderDiscountId : '',
 							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract[that.mindex].usTraderSubtractId : '',
 							newPeopleId: that.discountdata.listNewActivities.length!=0? that.discountdata.listNewActivities[that.xindex].usTraderNewActivitiesId : '',
-							note: that.note,
-							// price:that.allprice,
-							price:0.01,
+							usOrNote: that.note,
+							// usOrPrice:that.allprice,
+							usOrPrice:0.01,
 							 statusPay: 1,
 							redPackageStyle: that.hdata.length != 0 ? (that.hdata[that.hindex].usTpBelong == 1 ? '1' : '71') : '',
 							discontStyle: that.discountdata.listDiscount.length == 0 ? '' : (that.discountdata.listDiscount[that.zindex].usTdBelong == 1 ? '2' : '72'),
 							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTsBelong == 1 ? '3' : '73') : '',
 							newPeopleStyle: that.discountdata.listNewActivities .length != 0 ? (that.discountdata.listNewActivities[that.xindex].usTdBelong == 1 ? '4' : '74') : '',
-							usOrPackingFee:that.allfee
+							usOrPackingFee:that.allfee,
+							usOrDeliveryPrice:that.discountdata.listMaDistributionUsPackingFee.maDiPrice,
+							usOrIsReserve:$('#appDateTime').val()=='立即配送'?0:1,
+							time:$('#appDateTime').val()=='立即配送'?new Date().Format("yyyy-MM-dd HH:mm:ss"):$('#appDateTime').val()+":00"
 						}
 						$.ajax({
 							type: "post",
@@ -542,6 +562,23 @@
 					document.addEventListener("haveOrder", function() {
 						that.haveadress()
 					})
+					try{ $('#appDateTime').date({theme:"datetime"});}catch(e){}
+					Date.prototype.Format = function(fmt) { // author: meizz
+						var o = {
+							"M+": this.getMonth() + 1, // 月份
+							"d+": this.getDate(), // 日
+							"H+": this.getHours(), // 小时
+							"m+": this.getMinutes(), // 分
+							"s+": this.getSeconds(), // 秒
+							"q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+							"S": this.getMilliseconds() // 毫秒
+						};
+						if(/(y+)/.test(fmt))
+							fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+						for(var k in o)
+							if(new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+						return fmt;
+					}
 				},
 				update: function() {
 

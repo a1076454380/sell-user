@@ -1529,10 +1529,7 @@ input::-webkit-input-placeholder {
 }
 
 .pay .pay-inner {
-	margin: 0.2rem;
-	background: white;
-	padding: 0.2rem;
-	box-shadow: 0 0 10px 0.01rem gainsboro
+	margin: 0 .2rem;
 }
 
 .pay p {
@@ -1542,7 +1539,7 @@ input::-webkit-input-placeholder {
 .pay .payh {
 	line-height: 0.5rem;
 	font-weight: bold;
-	font-size: 0.3rem;
+	font-size: 0.24rem;
 	color: #333333;
 	display: flex;
 	align-items: center
@@ -1550,7 +1547,8 @@ input::-webkit-input-placeholder {
 
 .pay .paup {
 	line-height: 0.35rem;
-	color: #666666
+	color: #666666;
+	display: inline-block;
 }
 
 .instead .mui-slider img {
@@ -2237,7 +2235,6 @@ input::-webkit-input-placeholder {
 	background: white;
 	width: calc(100% - .4rem);
 	margin: 0.1rem 0.2rem;
-	box-shadow: 0 0 10px 0.01rem gainsboro
 }
 
 .orderdetail .top {

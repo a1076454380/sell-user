@@ -111,6 +111,7 @@
 										localStorage.setItem('flng', that.flng)
 										localStorage.setItem('flat', that.flat)
 										localStorage.setItem('fid',res.data.usAddressId)
+										plus.webview.getWebviewById('instead/instead').reload()
 										that.opennew('instead')
 									}
 								}

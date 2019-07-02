@@ -36,7 +36,7 @@
 			</div>
 			<header class="header">
 				<span class="header-back">
-					<img src="../img/my.png" @click="opennew('../user')" />
+					<img src="../img/my.png" @click="opennew02('../user')" />
 				</span>
 				<span class="header-main">邦•
 					{{area}}
@@ -148,12 +148,12 @@
 			</div>
 			<footer class="footer">
 				<div class="footer-group">
-					<img src="../img/index.png" @click="opennew('../index')" />
+					<img src="../img/index.png" @click="opennew02('../index')" />
 					<span>
 						首页
 					</span>
 				</div>
-				<div class="footer-group" @click="opennew('../preferential')">
+				<div class="footer-group" @click="opennew02('../preferential')">
 					<img src="../img/found.png" />
 					<span>
 						同城惠
@@ -166,7 +166,7 @@
 					</span>
 				</div>
 				<div class="footer-group">
-					<img src="../img/dvip.png" @click="opennew('../vipcart')" />
+					<img src="../img/dvip.png" @click="opennew02('../vipcart')" />
 					<span>
 						会员中心
 					</span>
@@ -229,6 +229,13 @@
 						// 打开新页面
 						mui.openWindow({
 							url: '../instead/' + id + '.html',
+							id: id
+						})
+					},
+					opennew02: function(id) {
+						// 打开新页面
+						mui.openWindow({
+							url: './' + id + '.html',
 							id: id
 						})
 					},
