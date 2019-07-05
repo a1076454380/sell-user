@@ -53,7 +53,7 @@
 							{{adressdata.usAdsDetailed}}
 						</div>
 						<div class="paup">
-							{{adressdata.usAdsCreateName}}
+							{{adressdata.usAdsName}}
 						</div>
 					</div>
 					<img src="img/arrright.png" >
@@ -307,7 +307,25 @@
 							usOrPackingFee:that.allfee,
 							usOrDeliveryPrice:that.discountdata.listMaDistributionUsPackingFee.maDiPrice,
 							usOrIsReserve:$('#appDateTime').val()=='立即配送'?0:1,
-							time:$('#appDateTime').val()=='立即配送'?new Date().Format("yyyy-MM-dd HH:mm:ss"):+$('#appDateTime').val()+':00'
+							time:$('#appDateTime').val()=='立即配送'?new Date().Format("yyyy-MM-dd HH:mm:ss"):+$('#appDateTime').val()+':00',
+							usOrPackage:JSON.stringify([
+								{
+									name:'新人优惠:',
+									price:that.discountdata.listNewActivities .length != 0 ?that.discountdata.listNewActivities[that.xindex].usTnaPrice:0
+								},
+								{
+									name:'折扣优惠:',
+									price:that.discountdata.listDiscount.length == 0 ? '' :that.discountdata.listDiscount[that.zindex].usTdDicsont/10 
+								},
+								{
+									name:'满减优惠:',
+									price:that.listSubtract.length != 0 ?that.listSubtract[that.mindex].usTsSubtractPrice:''
+								},
+								{
+									name:'红包优惠:',
+									price:that.hdata.length != 0 ?that.hdata[that.hindex].usTpPrice:''
+								}
+							])
 						}
 						$.ajax({
 							type: "post",
@@ -380,7 +398,25 @@
 							usOrPackingFee:that.allfee,
 							usOrDeliveryPrice:that.discountdata.listMaDistributionUsPackingFee.maDiPrice,
 							usOrIsReserve:$('#appDateTime').val()=='立即配送'?0:1,
-							time:$('#appDateTime').val()=='立即配送'?new Date().Format("yyyy-MM-dd HH:mm:ss"):$('#appDateTime').val()+":00"
+							time:$('#appDateTime').val()=='立即配送'?new Date().Format("yyyy-MM-dd HH:mm:ss"):$('#appDateTime').val()+":00",
+							usOrPackage:JSON.stringify([
+								{
+									name:'新人优惠:',
+									price:that.discountdata.listNewActivities .length != 0 ?that.discountdata.listNewActivities[that.xindex].usTnaPrice:0
+								},
+								{
+									name:'折扣优惠:',
+									price:that.discountdata.listDiscount.length == 0 ? '' :that.discountdata.listDiscount[that.zindex].usTdDicsont/10 
+								},
+								{
+									name:'满减优惠:',
+									price:that.listSubtract.length != 0 ?that.listSubtract[that.mindex].usTsSubtractPrice:''
+								},
+								{
+									name:'红包优惠:',
+									price:that.hdata.length != 0 ?that.hdata[that.hindex].usTpPrice:''
+								}
+							])
 						}
 						$.ajax({
 							type: "post",
@@ -445,10 +481,13 @@
 											that.adressdata = res.data[i]
 										}
 									}
+									
 								} else {
 									that.adressdata = []
 								}
-
+								if(that.adressdata.length==0){
+									that.opennew('adresslist')
+								}
 							}
 						});
 					},

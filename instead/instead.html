@@ -61,7 +61,7 @@
 
 				</div>
 				<div class="xia-bottom">
-					<div class="chongd-box">
+					<div class="chongd-box" @click="setcenter">
 						<img src="../img/inner.png">
 					</div>
 					<!-- 代购 -->
@@ -74,19 +74,19 @@
 						</div>
 						<div class="xia01-bottom">
 							<img src="../img/editor.png">
-							<input type="text" placeholder="请填写商品名称和数量" />
+							<input type="text" placeholder="请填写商品名称和数量" readonly=""/>
 						</div>
 					</div>
 					<!-- 取 -->
 					<div class="xia01" v-show="insteadtype==2">
 						<div class="xia01-bottom" @click="opennew('adresslist')">
 							<div class="raio"></div>
-							<input type="text" v-model="fdizhi" placeholder="请填写发货地址" />
+							<input type="text" v-model="fdizhi" placeholder="请填写发货地址" readonly=""/>
 							<img src="../img/arrright.png">
 						</div>
 						<div class="xia01-bottom" @click="opennew('fadresslist')">
 							<div class="raio"></div>
-							<input type="text" placeholder="请填写收货地址" v-model="sdizhi" />
+							<input type="text" placeholder="请填写收货地址" v-model="sdizhi" readonly=""/>
 							<img src="../img/arrright.png">
 						</div>
 					</div>
@@ -97,12 +97,12 @@
 					<div class="xia01" v-show="insteadtype==3">
 						<div class="xia01-bottom" @click="opennew('adresslist')">
 							<div class="raio"></div>
-							<input type="text" placeholder="请填写取货地址" v-model="fdizhi" />
+							<input type="text" placeholder="请填写取货地址" v-model="fdizhi" readonly=""/>
 							<img src="../img/arrright.png">
 						</div>
 						<div class="xia01-bottom" @click="opennew('fadresslist')">
 							<div class="raio"></div>
-							<input type="text" v-model="sdizhi" placeholder="请填写送货地址" />
+							<input type="text" v-model="sdizhi" placeholder="请填写送货地址" readonly=""/>
 							<img src="../img/arrright.png">
 						</div>
 					</div>
@@ -136,7 +136,7 @@
 								</div>
 							</div>
 							<div class="lm-box" v-if="mtype==0">
-								<input type="text" placeholder="请选择购买地址" v-model="fdizhi" />
+								<input type="text" placeholder="请选择购买地址" v-model="fdizhi" readonly=""/>
 								<img src="../img/arrright.png">
 							</div>
 							<div class="submit" @click="gopay">
@@ -188,7 +188,8 @@
 					daikuaijie: '随意购',
 					fdizhi: localStorage.getItem('fdizhi'),
 					sdizhi: localStorage.getItem('sdizhi'),
-					navdata:[]
+					navdata:[],
+					map:''
 				},
 				methods: {
 					gopay: function() {
@@ -253,17 +254,20 @@
 								
 							}
 						});
+					},
+					setcenter:function(){
+						this.map.setCenter([jing, wei])
 					}
 				},
 				mounted: function() {
-					var map = new AMap.Map('container', {
+					this.map = new AMap.Map('container', {
 						zoom: 15,
 						center: [jing, wei]
 					});
 					var marker = new AMap.Marker({
 						title: '提示'
 					});
-					marker.setMap(map);
+					marker.setMap(this.map);
 					this.myajax()
 				},
 				update: function() {

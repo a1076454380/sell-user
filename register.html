@@ -31,6 +31,8 @@
 						<input type="file" name="picPath" id="file1" value="" data-title='请选择用户头像！' @change="change('img01','file1')" />
 						<img src="img/2.png" id="img01" />
 					</div>-->
+					<input type="hidden" placeholder="请输入用户名" name="usAdsProvince" id="usAdsProvince" v-model="sheng"/>
+					<input type="hidden" placeholder="请输入用户名" name="usAdsCity" id="usAdsCity" v-model="shi"/>
 					<input type="text" placeholder="请输入用户名" name="usNickname" data-title='昵称不能为空！' id="usNickname"/>
 					<input type="number" name="usPhone" id="usPhone" placeholder="请输入手机号" data-title='手机号不能为空！' />
 					<input type="button" value="快速注册" @click="submit" style="height: .8rem;border-radius: .4rem;"/>
@@ -55,13 +57,16 @@
 		</div>
 		<script src="js/date.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/dingwei.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
 				data: {
 					layui: false,
 					layuitext: '未知错误',
-					myurl: localStorage.getItem('myurl')
+					myurl: localStorage.getItem('myurl'),
+					sheng:sheng,
+					shi:shi
 				},
 				methods: {
 					textblur:function(){
@@ -154,6 +159,7 @@
 				},
 				mounted() {
 					var that = this
+					
 					$('input').on('keypress',function () {
 					　　if(event.keyCode == 32)event.returnValue = false;
 					})

@@ -55,7 +55,7 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main">
-				<div class="list-group" v-for="(val,index) in adressdata" @click="change(val.usAddressId)" :class="val.usAdsStatus==1?'active':''">
+				<div class="list-group" v-for="(val,index) in adressdata" @click="change(val.usAddressId)" :class="val.usAdsStatus==1?'active':''" v-if="val.usAdsDetailed!=null">
 					<div class="group-main">
 						<h2>
 							{{val.usAdsProvince}}{{val.usAdsCity}}{{val.usAdsArea}}

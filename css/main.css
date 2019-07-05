@@ -1530,6 +1530,7 @@ input::-webkit-input-placeholder {
 
 .pay .pay-inner {
 	margin: 0 .2rem;
+	flex: 1;
 }
 
 .pay p {
