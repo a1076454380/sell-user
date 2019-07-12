@@ -127,12 +127,12 @@
 												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}} | 人均:¥10
 											</span>
 										</div>
-										<div class="index-x">
+										<!-- <div class="index-x">
 											<div class="adver-box">
 												<span class="adver-logo">满减</span>
 												<span>在线支付满100减6</span>
 											</div>
-										</div>
+										</div> -->
 									</div>
 								</div>
 							</div>
@@ -198,12 +198,12 @@
 											起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}} | 人均:¥10
 										</span>
 									</div>
-									<div class="index-x">
+									<!-- <div class="index-x">
 										<div class="adver-box">
 											<span class="adver-logo">满减</span>
 											<span>在线支付满100减6</span>
 										</div>
-									</div>
+									</div> -->
 								</div>
 							</div>
 							<div class="prefer">
@@ -583,12 +583,14 @@
 													} else {
 														//获取地址失败
 														that.city = '获取失败'
+														alert('获取地址失败，请检查网络和GPS')
 													}
 												});
 											})
 											that.myajax()
 										}, function(e) {
 											that.city = '获取失败'
+											alert('获取地址失败，请检查网络和GPS')
 											that.myajax()
 										});
 									} else {

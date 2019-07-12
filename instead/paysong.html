@@ -19,7 +19,7 @@
 				<div id="map-container"></div>
 				<div class="header">
 					<div class="header-aside mui-action-back">
-						<img src="../img/left-arrow.png">
+						<img src="../img/Group 26.png">
 					</div>
 					<!-- <div class="header-text">使用须知</div> -->
 				</div>
@@ -67,7 +67,7 @@
 					</div>
 					<div class="two-one">
 						<a class="two-left" href="#jprice">
-							<div class="two-text">物品类型::</div>
+							<div class="two-text">物品类型:</div>
 							<div class="two-text wutype" v-if="navdata.length!=0">{{navdata[wuindex].maRtName}}</div>
 							<div id="datePlugin"></div>
 						</a>
@@ -299,9 +299,11 @@
 				},
 				xiadan:function(){
 					var that=this
-					var btnArray = [{
-						title: "余额"
-					}, {
+					var btnArray = [
+					// 	{
+					// 	title: "余额"
+					// },
+					{
 						title: "支付宝"
 					}, {
 						title: "微信"
@@ -313,13 +315,13 @@
 					}, function(e) {
 						var index = e.index;
 						switch (index) {
+							// case 1:
+							// 	that.pay('/userWalletTakeSubstitutionDelivery',0,)
+							// 	break;
 							case 1:
-								that.pay('/userWalletTakeSubstitutionDelivery',0,)
-								break;
-							case 2:
 								that.pay('/createUsReplaceTakeAliWx',1)
 								break;
-							case 3:
+							case 2:
 								that.pay('/createUsReplaceTakeAliWx',2)
 								break;
 						}
@@ -333,6 +335,10 @@
 				},
 				pay:function(url,type){
 					var that=this
+					if(type==1||type==2){
+						that.searchdata.status=type
+					}
+					that.searchdata.usRtPrice=0.01
 					$.ajax({
 						type: "post",
 						url: localStorage.getItem('myurl') + url,
@@ -382,6 +388,15 @@
 						alert("获取支付通道失败：" + e.message);
 					});
 				}
+				window.addEventListener("pay", function() {
+					that.fdizhi=localStorage.getItem('fdizhi') //发货地址
+					that.fdizhidetail=localStorage.getItem('fdizhidetail') //发货地址详情
+					that.fshoujihao=localStorage.getItem('fshoujihao')
+					that.sdizhi=localStorage.getItem('sdizhi')//收货地址
+					that.sdizhidetail=localStorage.getItem('sdizhidetail')//收货地址详情
+					that.sshoujihao=localStorage.getItem('sshoujihao')
+					that.myajax()
+				})
 				if(window.plus) {
 					plusReady();
 				} else {

@@ -24,10 +24,9 @@
 	}
 	
 	.header-aside img{
-		height: .4rem;
+		height: .5rem;
 		border-radius: 50%;
-		box-shadow: 0 1px 2px 1px #D4D4D4;
-		width: .3rem;
+		width: .5rem;
 	}
 	html,body,.wrapper{height: 100%;}
 	.header-text{
@@ -266,7 +265,7 @@
 		display: flex;
 		justify-content: flex-end;
 		align-items: flex-end;
-		height: .7rem;
+		padding-top: .2rem;
 	}
 	.one{padding: .05rem .2rem;border: 1px solid gainsboro;margin-right: .2rem;}
 	.one-active{color: #FF8190;border: 1px solid #FF8190;}

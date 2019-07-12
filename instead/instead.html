@@ -260,6 +260,7 @@
 					}
 				},
 				mounted: function() {
+					var that=this
 					this.map = new AMap.Map('container', {
 						zoom: 15,
 						center: [jing, wei]
@@ -269,6 +270,10 @@
 					});
 					marker.setMap(this.map);
 					this.myajax()
+					window.addEventListener("instead/instead", function() {
+						that.fdizhi=localStorage.getItem('fdizhi')
+						that.sdizhi=localStorage.getItem('sdizhi')
+					})
 				},
 				update: function() {
 

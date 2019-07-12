@@ -61,7 +61,7 @@
 				<div class="dizhi-box" style="margin-top: -.2rem;">
 					<img src="img/time.png" >
 					<div class="pay-inner">
-						<input type="text" id="appDateTime" name="appDateTime" placeholder="请选择配送时间" readonly="readonly" v-model="usOrReserveTime"/>
+						<input type="text" id="appDateTime" name="appDateTime" placeholder="请选择配送时间" readonly="readonly" value="立即配送"/>
 					</div>
 				</div>
 				<div id="datePlugin"></div>
@@ -418,6 +418,7 @@
 								}
 							])
 						}
+						console.log(JSON.stringify(ajaxjson))
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/createAliPay",
@@ -475,17 +476,17 @@
 								usUserId: localStorage.getItem('userid')
 							},
 							success: function(res) {
+								
 								if(res.data != null) {
 									for(var i = 0; i < res.data.length; i++) {
 										if(res.data[i].usAdsStatus == 1) {
 											that.adressdata = res.data[i]
 										}
 									}
-									
 								} else {
 									that.adressdata = []
 								}
-								if(that.adressdata.length==0){
+								if(that.adressdata.length==0||that.adressdata==''){
 									that.opennew('adresslist')
 								}
 							}
@@ -582,10 +583,10 @@
 					}
 				},
 				mounted: function() {
-					this.myajax()
 					var that = this
 					// 1. 获取支付通道
 					function plusReady() {
+						
 						// 获取支付通道
 						plus.payment.getChannels(function(channels) {
 							that.channel = channels;
@@ -598,6 +599,7 @@
 					} else {
 						document.addEventListener('plusready', plusReady, false);
 					}
+					that.myajax()
 					document.addEventListener("haveOrder", function() {
 						that.haveadress()
 					})

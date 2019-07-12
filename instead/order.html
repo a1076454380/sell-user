@@ -75,8 +75,11 @@
 						<div class="list-title">
 							{{val.usRtIsType | usRtIsType}}
 						</div>
-						<div class="list-state">
+						<div class="list-state" v-if="val.usRtIsPay==1">
 							{{val.usRtStatus | state}}
+						</div>
+						<div class="list-state" v-if="val.usRtIsPay==0">
+							待支付
 						</div>
 					</div>
 					<div class="adress-group" style="height: .7rem;">

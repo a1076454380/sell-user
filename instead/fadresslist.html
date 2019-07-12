@@ -77,7 +77,23 @@
 									localStorage.setItem('sxingming', xingming)
 									localStorage.setItem('slng', result.geocodes[0].location.lng)
 									localStorage.setItem('slat', result.geocodes[0].location.lat)
-									that.opennew('instead')
+									if(plus.webview.getWebviewById('pay')!=undefined){
+										var pay=plus.webview.getWebviewById('pay')
+										mui.fire(pay,'pay',{});
+									}
+									if(plus.webview.getWebviewById('payqu')!=undefined){
+										var pay=plus.webview.getWebviewById('payqu')
+										mui.fire(pay,'payqu',{});
+									}
+									if(plus.webview.getWebviewById('paysong')!=undefined){
+										var pay=plus.webview.getWebviewById('paysong')
+										mui.fire(pay,'paysong',{});
+									}
+									if(plus.webview.getWebviewById('instead/instead')!=undefined){
+										var pay=plus.webview.getWebviewById('instead/instead')
+										mui.fire(pay,'instead/instead',{});
+									}
+									mui.back()
 								} else {
 									//获取经纬度失败
 								}
@@ -111,8 +127,23 @@
 										localStorage.setItem('slng', that.flng)
 										localStorage.setItem('slat', that.flat)
 										localStorage.setItem('sid',res.data.usAddressId)
-										plus.webview.getWebviewById('instead/instead').reload()
-										that.opennew('instead')
+										if(plus.webview.getWebviewById('pay')!=undefined){
+											var pay=plus.webview.getWebviewById('pay')
+											mui.fire(pay,'pay',{});
+										}
+										if(plus.webview.getWebviewById('payqu')!=undefined){
+											var pay=plus.webview.getWebviewById('payqu')
+											mui.fire(pay,'payqu',{});
+										}
+										if(plus.webview.getWebviewById('paysong')!=undefined){
+											var pay=plus.webview.getWebviewById('paysong')
+											mui.fire(pay,'paysong',{});
+										}
+										if(plus.webview.getWebviewById('instead/instead')!=undefined){
+											var pay=plus.webview.getWebviewById('instead/instead')
+											mui.fire(pay,'instead/instead',{});
+										}
+										mui.back()
 									}
 								}
 							});

@@ -65,7 +65,7 @@
 					<div class="nav-tab" :class="tabnum==10?'active':''" @click="tab(10)">
 						全部
 					</div>
-					<div class="nav-tab" :class="tabnum==0?'active':''" @click="tab(0)">
+					<div class="nav-tab" :class="tabnum==1?'active':''" @click="tab(1)">
 						等待接单
 					</div>
 					<div class="nav-tab" :class="tabnum==2?'active':''" @click="tab(2)">
@@ -92,7 +92,8 @@
 											待付款
 										</span>
 										<span class="order-state" v-if='val.usOrIsPay==1'>
-											{{val.usOrIsCancel | mytype}}
+											<block v-if='val.usOrTrStartus==1||val.usOrIsCancel==6'>{{val.usOrIsCancel | mytype}}</block>
+											<block v-if='val.usOrTrStartus==2&&val.usOrIsCancel!=6'>等待接单</block>
 										</span>
 									</div>
 									<div class="order-time">
@@ -248,7 +249,9 @@
 					var that = this
 					localStorage.setItem('addsta', 0)
 					this.myajax()
-
+					window.addEventListener("xiadanyemian", function() {
+							that.myajax()			
+					})
 					function plusReady() {
 						if(plus.webview.getWebviewById('pay') != null) {
 							plus.webview.close('pay')
@@ -277,9 +280,6 @@
 					},
 					mytype: function(value) {
 						switch(value) {
-							case 0:
-								return '等待接单'
-								break;
 							case 1:
 								return '等待配送'
 								break;

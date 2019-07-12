@@ -19,14 +19,14 @@
 				<div id="map-container"></div>
 				<div class="header">
 					<div class="header-aside mui-action-back">
-						<img src="../img/left-arrow.png">
+						<img src="../img/Group 26.png">
 					</div>
 					<!-- <div class="header-text">使用须知</div> -->
 				</div>
 				<img src="../img/shuaxin.png" class="shua">
 				<div class="main-two">
 					<div class="onx-he">
-						<div class="one-left" style="margin-right: .6rem;">购</div>
+						<div class="one-left" style="margin-right: .3rem;">购</div>
 						<div class="one" :class="dtype==0?'one-active':''" @click="changetype(0)">
 							输入购买地址，购买更快
 						</div>
@@ -35,7 +35,7 @@
 						</div>
 					</div>
 					<div class="one-box" @click="opennew('adresslist')" v-if="dtype==0">
-						<div class="one-right" style="margin-left: 1rem;">
+						<div class="one-right" style="margin-left: .7rem;">
 							<div class="right-left">
 								<div class="one-text">{{fdizhi}}</div>
 								<div class="one-news">{{fdizhidetail}}</div>
@@ -74,7 +74,7 @@
 					</div>
 					<div class="two-one">
 						<a class="two-left" href="#jprice">
-							<div class="two-text">物品类型::</div>
+							<div class="two-text">物品类型:</div>
 							<div class="two-text wutype" v-if="navdata.length!=0">{{navdata[wuindex].maRtName}}</div>
 							<div id="datePlugin"></div>
 						</a>
@@ -297,11 +297,16 @@
 							maRunDiscountRuleId:that.youdata.length==0?'':that.youdata[that.youindex].maRunDiscountRuleId //优惠券id
 						},
 						success: function(res) {
-							delete res.data.usRtCreateTime
-							delete res.data.usRtUpdateTime
-							delete res.data.usRtCreateTimeString
-							delete res.data.usRtArriveTime
-							that.searchdata=res.data
+							if(res.status==200){
+								delete res.data.usRtCreateTime
+								delete res.data.usRtUpdateTime
+								delete res.data.usRtCreateTimeString
+								delete res.data.usRtArriveTime
+								that.searchdata=res.data
+							}else{
+								that.searchdata.usRtPrice=0
+							}
+							
 						},
 						error: function(err) {
 							
@@ -310,9 +315,11 @@
 				},
 				xiadan:function(){
 					var that=this
-					var btnArray = [{
-						title: "余额"
-					}, {
+					var btnArray = [
+					// 	{
+					// 	title: "余额"
+					// }, 
+					{
 						title: "支付宝"
 					}, {
 						title: "微信"
@@ -324,13 +331,13 @@
 					}, function(e) {
 						var index = e.index;
 						switch (index) {
+							// case 1:
+							// 	that.pay('/userWalletTakeSubstitutionDelivery',0,)
+							// 	break;
 							case 1:
-								that.pay('/userWalletTakeSubstitutionDelivery',0,)
-								break;
-							case 2:
 								that.pay('/createUsReplaceTakeAliWx',1)
 								break;
-							case 3:
+							case 2:
 								that.pay('/createUsReplaceTakeAliWx',2)
 								break;
 						}
@@ -344,13 +351,18 @@
 				},
 				pay:function(url,type){
 					var that=this
+					if(type==1||type==2){
+						that.searchdata.status=type
+					}
+					that.searchdata.usRtPrice=0.01
 					$.ajax({
 						type: "post",
 						url: localStorage.getItem('myurl') + url,
 						dataType: 'json',
 						data:that.searchdata,
 						success: function(res) {
-							if(res.data==1&&type==0){
+							console.log("res: " + JSON.stringify(res));
+							if(res.status==200&&type==0){
 								mui.toast('下单成功')
 								that.opennew('order')
 							}else if(type==1){
@@ -360,17 +372,19 @@
 								}, function(error) {
 									mui.toast('支付失败')
 								});
-							}else{
+							}else if(type==2){
 								plus.payment.request(that.channel[1], res, function(result) {
 									mui.toast('下单成功')
 									that.opennew('order')
 								}, function(error) {
 									mui.toast('支付失败')
 								});
+							}else{
+								mui.toast(res.msg)
 							}
 						},
 						error: function(err) {
-							
+							console.log("err: " + JSON.stringify(err));
 						}
 					});
 				},
@@ -398,6 +412,15 @@
 				} else {
 					document.addEventListener('plusready', plusReady, false);
 				}
+				window.addEventListener("pay", function() {
+					that.fdizhi=localStorage.getItem('fdizhi') //发货地址
+					that.fdizhidetail=localStorage.getItem('fdizhidetail') //发货地址详情
+					that.fshoujihao=localStorage.getItem('fshoujihao')
+					that.sdizhi=localStorage.getItem('sdizhi')//收货地址
+					that.sdizhidetail=localStorage.getItem('sdizhidetail')//收货地址详情
+					that.sshoujihao=localStorage.getItem('sshoujihao')
+					that.myajax()
+				})
 				Date.prototype.Format = function (fmt) {
 				    var o = {
 				        "M+": this.getMonth() + 1, //月份 

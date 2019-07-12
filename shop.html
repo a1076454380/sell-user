@@ -24,6 +24,7 @@
 		.change006 {
 			display: flex;
 			align-items: center;
+			margin-right: .1rem;
 		}
 		
 		.change006 span {
@@ -74,8 +75,8 @@
 		}
 		
 		.changeimg {
-			height: .4rem;
-			width: .4rem;
+			height: .47rem;
+			width: .47rem;
 		}
 		
 		.img-box02 {
@@ -736,10 +737,12 @@
 						for(var i = 0; i < that.shopdetil.length; i += 2) {
 							that.shopdetil[i].gnum = 0
 						}
-						for(var i = 0; i < that.shopdetil.length; i += 2) {
-							for(var j = 0; j < that.cartdata.usShoppingCartPojos.length; j++) {
-								if(that.cartdata.usShoppingCartPojos[j].usTraderShoppingId == that.shopdetil[i].usTraderShoppingId) {
-									that.shopdetil[i].gnum = that.cartdata.usShoppingCartPojos[j].usScdNum
+						if(that.cartdata.length!=0){
+							for(var i = 0; i < that.shopdetil.length; i += 2) {
+								for(var j = 0; j < that.cartdata.usShoppingCartPojos.length; j++) {
+									if(that.cartdata.usShoppingCartPojos[j].usTraderShoppingId == that.shopdetil[i].usTraderShoppingId) {
+										that.shopdetil[i].gnum = that.cartdata.usShoppingCartPojos[j].usScdNum
+									}
 								}
 							}
 						}

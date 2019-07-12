@@ -111,6 +111,7 @@
 							url: that.myurl + '/updateHeadImg',
 							data: ajaxjson,
 							success: function(res) {
+								console.log("ajaxjson: " + JSON.stringify(ajaxjson));
 								if(res.status == 200) {
 									$.ajax({
 										type: "get",
@@ -120,6 +121,7 @@
 											usPhone: localStorage.getItem('usPhone')
 										},
 										success: function(res) {
+											console.log("res: " + JSON.stringify(res));
 											plus.nativeUI.closeWaiting()
 											if(res.status == 200) {
 												localStorage.setItem('userid', res.data.usUserId)
