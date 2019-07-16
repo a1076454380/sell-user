@@ -58,7 +58,7 @@
 					<div class="two-one">
 						<div class="two-left">
 							<div class="two-text">购买时间:</div>
-							<div class="two-text" name="appDateTime" id="appDateTime">立即购买</div>
+							<input class="two-text" name="appDateTime" id="appDateTime" value="立即购买"/>
 							<div id="datePlugin"></div>
 						</div>
 						<div class="two-right">
@@ -269,11 +269,13 @@
 							usUserId: localStorage.getItem('userid'),
 							usRtCreateName: localStorage.getItem('userid'),
 							usRtDescribe: that.paytext, //物品描述
-							usRtIsArrive:$('#appDateTime').html()=='立即购买'?'0':'1',
-							time:$('#appDateTime').html()=='立即购买'?new Date().Format("yyyy-MM-dd HH:mm:ss"):$('#appDateTime').html()+':00',
+							usRtIsArrive:$('#appDateTime').val()=='立即购买'?'0':'1',
+							usRtArriveTime:new Date($('#appDateTime').val()=='立即购买'?new Date().Format("yyyy-MM-dd HH:mm:ss"):$('#appDateTime').val()+':00'),
+							time:'',
 							usRtProvince : localStorage.getItem('fdizhi'),
 							usRtCity:'',
 							usRtArea:'',
+							usRtPhone:localStorage.getItem('fshoujihao'),
 							usRtDetails :localStorage.getItem('fdizhidetail'), //发货地址详情
 							usAddressContactId:localStorage.getItem('fid'), //发货地址id
 							usAddressId:localStorage.getItem('sid'), //收货地址id
@@ -287,9 +289,11 @@
 						},
 						success: function(res) {
 							delete res.data.usRtCreateTime
+							delete res.data.usRtdCreateTime
+							delete res.data.usRtdItemSendTime
 							delete res.data.usRtUpdateTime
 							delete res.data.usRtCreateTimeString
-							delete res.data.usRtArriveTime
+							res.data.usRtArriveTime=new Date(res.data.usRtArriveTime)
 							that.searchdata=res.data
 						},
 						error: function(err) {
@@ -402,6 +406,9 @@
 				} else {
 					document.addEventListener('plusready', plusReady, false);
 				}
+				$('body').on('click','#dateconfirm',function(){
+					that.myajax()
+				})
 				Date.prototype.Format = function (fmt) {
 				    var o = {
 				        "M+": this.getMonth() + 1, //月份 

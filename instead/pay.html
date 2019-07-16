@@ -65,7 +65,7 @@
 					<div class="two-one">
 						<div class="two-left">
 							<div class="two-text">购买时间:</div>
-							<div class="two-text" name="appDateTime" id="appDateTime">立即购买</div>
+							<input class="two-text" name="appDateTime" id="appDateTime" value="立即购买"/>
 							<div id="datePlugin"></div>
 						</div>
 						<div class="two-right">
@@ -124,7 +124,7 @@
 					<div class="bottom-text">费用明细</div>
 					<img src="../img/arrright.png">
 				</div>
-				<div class="bottom-right" @click="xiadan()">下单</div>
+				<div class="bottom-right" @click="xiadan">下单</div>
 			</div>
 			<div id="jprice" class="mui-popover mui-popover-action">
 				<ul class="mui-table-view">
@@ -280,8 +280,9 @@
 							usUserId: localStorage.getItem('userid'),
 							usRtCreateName: localStorage.getItem('userid'),
 							usRtDescribe: that.paytext, //物品描述
-							usRtIsArrive:$('#appDateTime').html()=='立即购买'?'0':'1',
-							time:$('#appDateTime').html()=='立即购买'?new Date().Format("yyyy-MM-dd HH:mm:ss"):$('#appDateTime').html()+':00',
+							usRtIsArrive:$('#appDateTime').val()=='立即购买'?'0':'1',
+							usRtArriveTime:new Date($('#appDateTime').val()=='立即购买'?new Date().Format("yyyy-MM-dd HH:mm:ss"):$('#appDateTime').val()+':00'),
+							time:'',
 							usRtProvince : localStorage.getItem('fdizhi'),
 							usRtCity:'',
 							usRtArea:'',
@@ -299,9 +300,11 @@
 						success: function(res) {
 							if(res.status==200){
 								delete res.data.usRtCreateTime
+								delete res.data.usRtdCreateTime
+								delete res.data.usRtdItemSendTime
 								delete res.data.usRtUpdateTime
 								delete res.data.usRtCreateTimeString
-								delete res.data.usRtArriveTime
+								res.data.usRtArriveTime=new Date(res.data.usRtArriveTime)
 								that.searchdata=res.data
 							}else{
 								that.searchdata.usRtPrice=0
@@ -316,9 +319,6 @@
 				xiadan:function(){
 					var that=this
 					var btnArray = [
-					// 	{
-					// 	title: "余额"
-					// }, 
 					{
 						title: "支付宝"
 					}, {
@@ -412,6 +412,9 @@
 				} else {
 					document.addEventListener('plusready', plusReady, false);
 				}
+				$('body').on('click','#dateconfirm',function(){
+					that.myajax()
+				})
 				window.addEventListener("pay", function() {
 					that.fdizhi=localStorage.getItem('fdizhi') //发货地址
 					that.fdizhidetail=localStorage.getItem('fdizhidetail') //发货地址详情

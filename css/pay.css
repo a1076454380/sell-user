@@ -159,7 +159,7 @@
 		width: 1.3rem;
 	}
 	
-	#appDateTime{flex: 1;}
+	#appDateTime{flex: 1;text-align: left;color: #999999;}
 	.two-news{
 		color: #FF8190;
 	}
