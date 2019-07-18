@@ -164,6 +164,7 @@
 	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/date.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/load.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
 		new Vue({
 			el: '.wrapper',
@@ -265,6 +266,7 @@
 				myajax:function(){
 					var that=this,
 					maServiceRuleId=[]
+					startload()
 					// 查询价格
 					for(i in that.serdata){
 						if(that.serdata[i].boo==true){
@@ -298,6 +300,7 @@
 							maRunDiscountRuleId:that.youdata.length==0?'':that.youdata[that.youindex].maRunDiscountRuleId //优惠券id
 						},
 						success: function(res) {
+							stopload()
 							if(res.status==200){
 								delete res.data.usRtCreateTime
 								delete res.data.usRtdCreateTime
@@ -312,7 +315,7 @@
 							
 						},
 						error: function(err) {
-							
+							stopload()
 						}
 					});
 				},
@@ -398,9 +401,14 @@
 			},
 			mounted: function() {
 				var that=this
+				
 				// 1. 获取支付通道
 				function plusReady() {
 					// 获取支付通道
+					if(localStorage.getItem('sid')==undefined){
+						mui.toast('请选择收货地址')
+						that.opennew('fadresslist')
+					}
 					plus.payment.getChannels(function(channels) {
 						that.channel = channels;
 					}, function(e) {
@@ -423,6 +431,8 @@
 					that.sdizhidetail=localStorage.getItem('sdizhidetail')//收货地址详情
 					that.sshoujihao=localStorage.getItem('sshoujihao')
 					that.myajax()
+					chushihua()
+					// location.reload()
 				})
 				Date.prototype.Format = function (fmt) {
 				    var o = {
@@ -442,83 +452,85 @@
 				$('#appDateTime').date({
 					theme: "datetime"
 				})
-				// 初始化地图
-				var map = new AMap.Map('map-container', {
-					zoom: 10
-				})
-				//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
-				AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
-
-					if (!PathSimplifier.supportCanvas) {
-						alert('当前环境不支持 Canvas！');
-						return;
-					}
-
-					//启动页面
-					initPage(PathSimplifier);
-				});
-				
-				function initPage(PathSimplifier) {
-					//创建组件实例
-					var pathSimplifierIns = new PathSimplifier({
-						zIndex: 100,
-						map: map, //所属的地图实例
-						getPath: function(pathData, pathIndex) {
-							//返回轨迹数据中的节点坐标信息，[AMap.LngLat, AMap.LngLat...] 或者 [[lng|number,lat|number],...]
-							return pathData.path;
-						},
-						getHoverTitle: function(pathData, pathIndex, pointIndex) {
-							//返回鼠标悬停时显示的信息
-							if (pointIndex >= 0) {
-								//鼠标悬停在某个轨迹节点上
-								return pathData.name + '，点:' + pointIndex + '/' + pathData.path.length;
-							}
-							//鼠标悬停在节点之间的连线上
-							return pathData.name + '，点数量' + pathData.path.length;
-						},
-						renderOptions: {
-							//轨迹线的样式
-							pathLineStyle: {
-								strokeStyle: 'red',
-								lineWidth: 4,
-								dirArrowStyle: true
-							}
+				function chushihua(){
+					// 初始化地图
+					var map = new AMap.Map('map-container', {
+						zoom: 10
+					})
+					//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
+					AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
+					
+						if (!PathSimplifier.supportCanvas) {
+							alert('当前环境不支持 Canvas！');
+							return;
 						}
+					
+						//启动页面
+						initPage(PathSimplifier);
 					});
-
-					//这里构建两条简单的轨迹，仅作示例
-					pathSimplifierIns.setData([{
-						name: '轨迹名称',
-						path: [
-							[localStorage.getItem('flng'), localStorage.getItem('flat')],
-							[localStorage.getItem('slng'), localStorage.getItem('slat')]
-						]
-					}]);
-
-					//创建一个巡航器
-					var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
-						{
-							loop: true, //循环播放
-							speed: 1000,
-							pathNavigatorStyle: {
-								width: 24,
-								height: 24,
-								//使用图片
-								strokeStyle: null,
-								fillStyle: null,
-								//经过路径的样式
-								pathLinePassedStyle: {
-									lineWidth: 6,
-									strokeStyle: 'white',
-									dirArrowStyle: {
-										stepSpace: 15,
-										strokeStyle: '#FF8190'
-									}
+					
+					function initPage(PathSimplifier) {
+						//创建组件实例
+						var pathSimplifierIns = new PathSimplifier({
+							zIndex: 100,
+							map: map, //所属的地图实例
+							getPath: function(pathData, pathIndex) {
+								//返回轨迹数据中的节点坐标信息，[AMap.LngLat, AMap.LngLat...] 或者 [[lng|number,lat|number],...]
+								return pathData.path;
+							},
+							getHoverTitle: function(pathData, pathIndex, pointIndex) {
+								//返回鼠标悬停时显示的信息
+								if (pointIndex >= 0) {
+									//鼠标悬停在某个轨迹节点上
+									return pathData.name + '，点:' + pointIndex + '/' + pathData.path.length;
+								}
+								//鼠标悬停在节点之间的连线上
+								return pathData.name + '，点数量' + pathData.path.length;
+							},
+							renderOptions: {
+								//轨迹线的样式
+								pathLineStyle: {
+									strokeStyle: 'red',
+									lineWidth: 4,
+									dirArrowStyle: true
 								}
 							}
 						});
-
-					navg0.start();
+					
+						//这里构建两条简单的轨迹，仅作示例
+						pathSimplifierIns.setData([{
+							name: '轨迹名称',
+							path: [
+								[localStorage.getItem('flng'), localStorage.getItem('flat')],
+								[localStorage.getItem('slng'), localStorage.getItem('slat')]
+							]
+						}]);
+					
+						//创建一个巡航器
+						var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
+							{
+								loop: true, //循环播放
+								speed: 1000,
+								pathNavigatorStyle: {
+									width: 24,
+									height: 24,
+									//使用图片
+									strokeStyle: null,
+									fillStyle: null,
+									//经过路径的样式
+									pathLinePassedStyle: {
+										lineWidth: 6,
+										strokeStyle: 'white',
+										dirArrowStyle: {
+											stepSpace: 15,
+											strokeStyle: '#FF8190'
+										}
+									}
+								}
+							});
+					
+						navg0.start();
+					}
 				}
 				this.searchser()
 				

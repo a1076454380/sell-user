@@ -135,7 +135,7 @@
 									三公里内购买
 								</div>
 							</div>
-							<div class="lm-box" v-if="mtype==0">
+							<div class="lm-box" v-if="mtype==0" @click="opennew('adresslist')">
 								<input type="text" placeholder="请选择购买地址" v-model="fdizhi" readonly=""/>
 								<img src="../img/arrright.png">
 							</div>
@@ -197,6 +197,11 @@
 							mui.toast('购买内容不能为空!')
 							return false
 						}
+						if (localStorage.getItem('fid') == undefined&&this.mtype==0) {
+							mui.toast('购买地址不能为空!')
+							this.opennew('adresslist')
+							return false
+						}
 						localStorage.setItem('paytext', this.gneirong) //代购内容
 						localStorage.setItem('paytype', this.insteadtype) //服务种类
 						localStorage.setItem('dtype', this.mtype) //代购范围
@@ -228,6 +233,12 @@
 					},
 					opennew: function(id) {
 						// 打开新页面
+						if(id=='payqu'||id=='paysong'){
+							if(localStorage.getItem('fid')==undefined||localStorage.getItem('sid')==undefined){
+								mui.toast('地址不能为空')
+								return false
+							}
+						}
 						mui.openWindow({
 							url: '../instead/' + id + '.html',
 							id: id

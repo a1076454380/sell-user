@@ -33,7 +33,7 @@
 				<input type="number" class="search" v-model="shoujihao" placeholder="请输入收货人手机号" />
 				<div class="br"></div>
 				<p>常用地址</p>
-				<div class="dizhi-box" v-for="val in adressdata" @click="changyong(val.usAdsProvince,val.usAdsDetailed,val.usAdsPhone,val.usAdsName,val.usAddressId)">
+				<div class="dizhi-box" v-if="val.usAdsDetailed!=null" v-for="val in adressdata" @click="changyong(val.usAdsProvince,val.usAdsDetailed,val.usAdsPhone,val.usAdsName,val.usAddressId)">
 					<div class="dizhi-title">
 						{{val.usAdsDetailed}}
 					</div>
@@ -68,7 +68,7 @@
 								city: "" //城市，默认：“全国”
 							});
 							//						根据地址查经纬度
-							geocoder.getLocation(dizhi, function(status, result) {
+							geocoder.getLocation(dizhi+xiangxi, function(status, result) {
 								if (status === 'complete' && result.info === 'OK') {
 									localStorage.setItem('sid', id)
 									localStorage.setItem('sdizhi', dizhi)
@@ -124,8 +124,8 @@
 										localStorage.setItem('sdizhidetail', that.xiangxi)
 										localStorage.setItem('sshoujihao', that.shoujihao)
 										localStorage.setItem('sxingming', that.xingming)
-										localStorage.setItem('slng', that.flng)
-										localStorage.setItem('slat', that.flat)
+										localStorage.setItem('slng', that.slng)
+										localStorage.setItem('slat', that.slat)
 										localStorage.setItem('sid',res.data.usAddressId)
 										if(plus.webview.getWebviewById('pay')!=undefined){
 											var pay=plus.webview.getWebviewById('pay')
@@ -200,6 +200,7 @@
 						});
 						//选取了某个POI
 						poiPicker.on('poiPicked', function(poiResult) {
+							console.log(poiResult)
 							that.slng = poiResult.item.location.lng
 							that.slat = poiResult.item.location.lat
 							var source = poiResult.source,

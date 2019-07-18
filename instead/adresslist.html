@@ -33,7 +33,7 @@
 				<input type="number" class="search" v-model="shoujihao" placeholder="请输入收货人手机号" />
 				<div class="br"></div>
 				<p>常用地址</p>
-				<div class="dizhi-box" v-for="val in adressdata" @click="changyong(val.usAdsProvince,val.usAdsDetailed,val.usAdsPhone,val.usAdsName,val.usAddressId)">
+				<div class="dizhi-box" v-if="val.usAdsDetailed!=null" v-for="val in adressdata" @click="changyong(val.usAdsProvince,val.usAdsDetailed,val.usAdsPhone,val.usAdsName,val.usAddressId)">
 					<div class="dizhi-title">
 						{{val.usAdsDetailed}}
 					</div>
@@ -68,7 +68,7 @@
 								city: "" //城市，默认：“全国”
 							});
 							//						根据地址查经纬度
-							geocoder.getLocation(dizhi, function(status, result) {
+							geocoder.getLocation(dizhi+xiangxi, function(status, result) {
 								if (status === 'complete' && result.info === 'OK') {
 									localStorage.setItem('fid', id)
 									localStorage.setItem('fdizhi', dizhi)
@@ -82,16 +82,16 @@
 										mui.fire(pay,'pay',{});
 									}
 									if(plus.webview.getWebviewById('payqu')!=undefined){
-										var pay=plus.webview.getWebviewById('payqu')
-										mui.fire(pay,'payqu',{});
+										var payqu=plus.webview.getWebviewById('payqu')
+										mui.fire(payqu,'payqu',{});
 									}
 									if(plus.webview.getWebviewById('paysong')!=undefined){
-										var pay=plus.webview.getWebviewById('paysong')
-										mui.fire(pay,'paysong',{});
+										var paysong=plus.webview.getWebviewById('paysong')
+										mui.fire(paysong,'paysong',{});
 									}
 									if(plus.webview.getWebviewById('instead/instead')!=undefined){
-										var pay=plus.webview.getWebviewById('instead/instead')
-										mui.fire(pay,'instead/instead',{});
+										var instead=plus.webview.getWebviewById('instead/instead')
+										mui.fire(instead,'instead/instead',{});
 									}
 									mui.back()
 								} else {
