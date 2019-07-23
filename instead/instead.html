@@ -68,7 +68,7 @@
 					<div class="xia01" v-show="insteadtype==1" @click="dchange">
 						<div class="xia01-top">
 							<div class="xia01-box" v-for="val in navdata">
-								<img :src="val.maRtImg">
+								<img :src="myurl + val.maRtImg">
 								<span>{{val.maRtName}}</span>
 							</div>
 						</div>
@@ -118,7 +118,7 @@
 							<p>请选择您需要的物品：</p>
 							<div class="xia01-top">
 								<div class="xia01-box" @click="gdai(val.maRtName)" v-for="val in navdata">
-									<img :src="val.maRtImg">
+									<img :src="myurl + val.maRtImg">
 									<span>{{val.maRtName}}</span>
 								</div>
 							</div>
@@ -189,7 +189,8 @@
 					fdizhi: localStorage.getItem('fdizhi'),
 					sdizhi: localStorage.getItem('sdizhi'),
 					navdata:[],
-					map:''
+					map:'',
+					myurl:localStorage.getItem('myurl')
 				},
 				methods: {
 					gopay: function() {

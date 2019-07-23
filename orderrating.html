@@ -178,6 +178,7 @@
 							usRiderEvaluate:usSsOk02,
 							orderOrTakeStatus:1
 						}
+						console.log("jsondata: " + JSON.stringify(jsondata));
 						$.ajax({
 							type: "post",
 							url: that.myurl + "/insertPriase",
@@ -187,7 +188,12 @@
 								console.log(JSON.stringify(jsondata))
 								console.log(JSON.stringify(res))
 								if(res.status == 200) {
-									plus.webview.getWebviewById('orderdetail').reload()
+									if(plus.webview.getWebviewById('orderdetail')!=undefined){
+										plus.webview.getWebviewById('orderdetail').reload()
+									}
+									if(plus.webview.getWebviewById('orderlist')!=undefined){
+										plus.webview.getWebviewById('orderlist').reload()
+									}
 									mui.back()
 								}
 							}
@@ -262,6 +268,7 @@
 						});
 					},
 					upload_img: function(p) {
+						var thats=this
 						var img = new Image();
 						img.src = p; // 传过来的图片路径在这里用。
 						img.onload = function() {
@@ -288,14 +295,14 @@
 									imgStr: canvas.toDataURL('image/jpeg', 1 || 0.8)
 								},
 								success: function(res) {
-									if(that.imgid=='im01'){
-										that.usScImg1Url=json.data
-									}else if(that.imgid=='im02'){
-										that.usScImg2Url=json.data
-									}else if(that.imgid=='im03'){
-										that.usScImg3Url=json.data
-									}else if(that.imgid=='im04'){
-										that.usScImg4Url=json.data
+									if(thats.imgid=='im01'){
+										thats.usScImg1Url=res.data
+									}else if(thats.imgid=='im02'){
+										thats.usScImg2Url=res.data
+									}else if(thats.imgid=='im03'){
+										thats.usScImg3Url=res.data
+									}else if(thats.imgid=='im04'){
+										thats.usScImg4Url=res.data
 									}
 								}
 							});

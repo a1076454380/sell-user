@@ -852,6 +852,7 @@ input::-webkit-input-placeholder {
 
 .goodsdetail .img-box img {
 	width: 80%;
+	height: 80%;
 	border-radius: 50%
 }
 
@@ -927,7 +928,8 @@ input::-webkit-input-placeholder {
 }
 
 .ratingall .rating-group .img-box {
-	width: 0.6rem
+	width: 0.6rem;
+	
 }
 
 .goodsdetail .rating-group {
@@ -937,7 +939,8 @@ input::-webkit-input-placeholder {
 }
 
 .goodsdetail .rating-group .img-box {
-	width: 0.7rem
+	width: 0.7rem;
+	height: .7rem;
 }
 
 .shop .header {

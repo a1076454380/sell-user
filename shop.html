@@ -199,7 +199,7 @@
 						配送
 					</h4>
 					<p>
-						配送时间10.00-21.00
+						配送时间{{mydata.listUsTraderOperate[0].usToActionTime}}-{{mydata.listUsTraderOperate[0].usToEndTime}}
 					</p>
 					<p>
 						配送费 ¥{{mydata.listMaDistributionUsPackingFee.maDiPrice}}
@@ -355,7 +355,7 @@
 										</div>
 										<div class="rating-main">
 											<div class="rating-name">
-												<span>配送时间:09:40-23:59</span>
+												<span>配送时间:{{mydata.listUsTraderOperate[0].usToActionTime}}-{{mydata.listUsTraderOperate[0].usToEndTime}}</span>
 											</div>
 										</div>
 									</div>

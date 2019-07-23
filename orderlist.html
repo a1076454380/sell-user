@@ -141,6 +141,12 @@
 					channel:''
 				},
 				methods: {
+					openrating:function(id){
+						localStorage.setItem('usOrderId',id)
+						mui.openWindow({
+							url:'orderrating.html'
+						})
+					},
 					gopay: function(id,price) {
 						var that = this,
 							ajaxjons,
