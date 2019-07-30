@@ -1563,21 +1563,32 @@ input::-webkit-input-placeholder {
 	width: 100%;
 	height: 0.8rem;
 	display: flex;
-	background: white
+	background: white;
+	justify-content: center;
 }
 
 .instead .nav-tab {
-	flex: 1;
 	text-align: center;
 	height: 0.8rem;
-	line-height: 0.8rem;
-	transition: all 0.2s
+	line-height: 0.75rem;
+	transition: all 0.2s;
+	width: 2.2rem;
+	box-sizing: border-box;
+	color: #999999;
 }
-
+.instead .nav-tab .nav-bottom{
+	visibility: hidden;
+	background:#FF8190;
+	height: .05rem;
+	width: .4rem;
+	margin-left: .9rem;
+}
+.instead .active .nav-bottom{
+	visibility: visible;
+}
 .instead .active {
-	border-bottom: 0.01rem solid #FF8190;
-	color: #FF8190;
-	font-weight: bold
+	font-weight: bold;
+	color: #000000;
 }
 
 .instead .instead-wrapper {
@@ -1614,11 +1625,13 @@ input::-webkit-input-placeholder {
 	border: 0;
 	margin: 0;
 	color: #666666;
-	padding: 0.1rem;
+	padding: .2rem;
 	flex: 1;
 	height: 0.5rem
 }
-
+.lm-box input{
+	padding: .4rem .2rem;
+}
 .instead input::-webkit-input-placeholder {
 	color: #666666!important
 }
@@ -1817,8 +1830,8 @@ input::-webkit-input-placeholder {
 }
 
 .adresslist p {
-	height: 0.5rem;
-	line-height: 0.5rem;
+	height: 0.8rem;
+	line-height: 0.8rem;
 	color: #666666;
 	margin: 0 0.1rem
 }
@@ -2241,6 +2254,7 @@ input::-webkit-input-placeholder {
 	background: white;
 	width: calc(100% - .4rem);
 	margin: 0.1rem 0.2rem;
+	border-radius: .15rem;
 }
 
 .orderdetail .top {
@@ -2426,12 +2440,9 @@ input::-webkit-input-placeholder {
 .orderdetail .back-inner {
 	margin: 0 0.2rem;
 	height: 100%;
-	border-bottom: 0.01rem dashed gainsboro
 }
 
 .orderdetail .shop-back {
-	background: url("../img/orderdetail_03.png") no-repeat;
-	background-size: 100% 1.2rem;
 	display: flex;
 	flex-direction: column;
 	height: 1.2rem
@@ -2987,11 +2998,12 @@ input{outline: none;}
 	color: #666666;
 	margin-left: 0.3rem;
 	font-size: .3rem;
-	height: .8rem;
+	height: 1rem;
 }
 
 .register input::-webkit-input-placeholder {
-	color: #999999!important
+	color: #999999!important;
+	font-size: .3rem;
 }
 
 .register input[type='button'] {

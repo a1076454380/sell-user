@@ -77,23 +77,29 @@
 									localStorage.setItem('sxingming', xingming)
 									localStorage.setItem('slng', result.geocodes[0].location.lng)
 									localStorage.setItem('slat', result.geocodes[0].location.lat)
-									if(plus.webview.getWebviewById('pay')!=undefined){
-										var pay=plus.webview.getWebviewById('pay')
-										mui.fire(pay,'pay',{});
+									// if(plus.webview.getWebviewById('pay')!=undefined){
+									// 	var pay=plus.webview.getWebviewById('pay')
+									// 	mui.fire(pay,'pay',{});
+									// }
+									// if(plus.webview.getWebviewById('payqu')!=undefined){
+									// 	var pay=plus.webview.getWebviewById('payqu')
+									// 	mui.fire(pay,'payqu',{});
+									// }
+									// if(plus.webview.getWebviewById('paysong')!=undefined){
+									// 	var pay=plus.webview.getWebviewById('paysong')
+									// 	mui.fire(pay,'paysong',{});
+									// }
+									// if(plus.webview.getWebviewById('instead/instead')!=undefined){
+									// 	var pay=plus.webview.getWebviewById('instead/instead')
+									// 	mui.fire(pay,'instead/instead',{});
+									// }
+									if(localStorage.getItem('ordert')=='s'){
+										that.opennew('paysong')
+									}else if(localStorage.getItem('ordert')=='q'){
+										that.opennew('payqu')
+									}else{
+										mui.back()
 									}
-									if(plus.webview.getWebviewById('payqu')!=undefined){
-										var pay=plus.webview.getWebviewById('payqu')
-										mui.fire(pay,'payqu',{});
-									}
-									if(plus.webview.getWebviewById('paysong')!=undefined){
-										var pay=plus.webview.getWebviewById('paysong')
-										mui.fire(pay,'paysong',{});
-									}
-									if(plus.webview.getWebviewById('instead/instead')!=undefined){
-										var pay=plus.webview.getWebviewById('instead/instead')
-										mui.fire(pay,'instead/instead',{});
-									}
-									mui.back()
 								} else {
 									//获取经纬度失败
 								}
@@ -143,7 +149,13 @@
 											var pay=plus.webview.getWebviewById('instead/instead')
 											mui.fire(pay,'instead/instead',{});
 										}
-										mui.back()
+										if(localStorage.getItem('ordert')=='s'){
+											that.opennew('paysong')
+										}else if(localStorage.getItem('ordert')=='q'){
+											that.opennew('payqu')
+										}else{
+											mui.back()
+										}
 									}
 								}
 							});
@@ -155,6 +167,14 @@
 					},
 					opennew: function(id) {
 						var that = this
+						mui.openWindow({
+							url: './' + id + '.html',
+							id: id
+						})
+					},
+					opennew02: function(id) {
+						// 打开新页面
+						localStorage.setItem('ordert',0)
 						mui.openWindow({
 							url: './' + id + '.html',
 							id: id

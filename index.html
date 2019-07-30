@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -15,9 +14,8 @@
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
-
 	<body>
-		<div id="app" class="wrapper index" @scroll="myscroll">
+		<div id="app" class="wrapper index" @scroll="myscroll"> 
 			<div class="layui" v-show="layui">
 				<div class="layui-inner">
 					<div class="layui-top">
@@ -34,7 +32,8 @@
 				</div>
 			</div>
 			<header class="header" v-show="sarchboo">
-				<span class="header-back" @click="opennew('city')">
+				<!-- @click="opennew('city')" -->
+				<span class="header-back" >
 					{{city}}
 					<img src="img/arrbottom.png"/>
 				</span>
@@ -245,7 +244,7 @@
 					</div>
 				</div>
 			</div>
-			<footer class="footer">
+			<!-- <footer class="footer">
 				<div class="footer-group factive">
 					<img src="img/index-active.png" />
 					<span>
@@ -262,6 +261,32 @@
 					<img src="img/zixingche.png" />
 					<span>
 						跑腿代购
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="img/dvip.png" @click="opennew('vipcart')" />
+					<span>
+						会员中心
+					</span>
+				</div>
+			</footer> -->
+			<footer class="footer">
+				<div class="footer-group" @click="opennew('instead/instead')">
+					<img src="img/zixingche.png" />
+					<span>
+						跑腿代购
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="img/found.png" @click="opennew('preferential')" />
+					<span>
+						同城惠
+					</span>
+				</div>
+				<div class="footer-group factive">
+					<img src="img/index-active.png" />
+					<span>
+						外卖商城
 					</span>
 				</div>
 				<div class="footer-group">
@@ -530,8 +555,8 @@
 					var that = this
 
 					function plusReady() {
-
-						plus.navigator.setStatusBarBackground('#FF8190');
+						plus.navigator.setStatusBarBackground('#FFFFFF');
+						plus.navigator.setStatusBarStyle('dark')
 						plus.runtime.getProperty(plus.runtime.appid, function(inf) {
 							$.ajax({
 								type: "post",

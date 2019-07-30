@@ -48,13 +48,16 @@
 			<div class="main">
 				<div class="top-nav">
 					<div class="nav-tab" :class="insteadtype==1?'active':''" @click="tab(1)">
-						跑腿代购
+						帮我买
+						<div class="nav-bottom"></div>
 					</div>
 					<div class="nav-tab" :class="insteadtype==2?'active':''" @click="tab(2)">
-						急速取件
+						帮我送
+						<div class="nav-bottom"></div>
 					</div>
 					<div class="nav-tab" :class="insteadtype==3?'active':''" @click="tab(3)">
-						急速送件
+						帮我取
+						<div class="nav-bottom"></div>
 					</div>
 				</div>
 				<div class="instead-wrapper" id='container'>
@@ -63,6 +66,15 @@
 				<div class="xia-bottom">
 					<div class="chongd-box" @click="setcenter">
 						<img src="../img/inner.png">
+					</div>
+					<div class="xia01 xia033">
+						<div class="xieleft">
+							<p>邀请好友</p>
+							<p>领取120元红包</p>
+						</div>
+						<div class="xiaright">
+							点击领取>>
+						</div>
 					</div>
 					<!-- 代购 -->
 					<div class="xia01" v-show="insteadtype==1" @click="dchange">
@@ -84,15 +96,15 @@
 							<input type="text" v-model="fdizhi" placeholder="请填写发货地址" readonly=""/>
 							<img src="../img/arrright.png">
 						</div>
-						<div class="xia01-bottom" @click="opennew('fadresslist')">
+						<div class="xia01-bottom" @click="opennew03('fadresslist','s')">
 							<div class="raio"></div>
 							<input type="text" placeholder="请填写收货地址" v-model="sdizhi" readonly=""/>
 							<img src="../img/arrright.png">
 						</div>
 					</div>
-					<div class="goxia" v-show="insteadtype==2" @click="opennew('payqu')">
+<!-- 					<div class="goxia" v-show="insteadtype==2" @click="opennew('payqu')">
 						立即下单
-					</div>
+					</div> -->
 					<!-- 送 -->
 					<div class="xia01" v-show="insteadtype==3">
 						<div class="xia01-bottom" @click="opennew('adresslist')">
@@ -100,15 +112,15 @@
 							<input type="text" placeholder="请填写取货地址" v-model="fdizhi" readonly=""/>
 							<img src="../img/arrright.png">
 						</div>
-						<div class="xia01-bottom" @click="opennew('fadresslist')">
+						<div class="xia01-bottom" @click="opennew03('fadresslist','q')">
 							<div class="raio"></div>
 							<input type="text" v-model="sdizhi" placeholder="请填写送货地址" readonly=""/>
 							<img src="../img/arrright.png">
 						</div>
 					</div>
-					<div class="goxia" v-show="insteadtype==3" @click="opennew('paysong')">
+<!-- 					<div class="goxia" v-show="insteadtype==3" @click="opennew('paysong')">
 						立即下单
-					</div>
+					</div> -->
 					<!-- 代购弹出框 -->
 					<div class="layui" v-if="dboo">
 						<div class="down" @click="dchange">
@@ -146,7 +158,7 @@
 					</div>
 				</div>
 			</div>
-			<footer class="footer">
+			<!-- <footer class="footer">
 				<div class="footer-group">
 					<img src="../img/index.png" @click="opennew02('../index')" />
 					<span>
@@ -171,9 +183,35 @@
 						会员中心
 					</span>
 				</div>
+			</footer> -->
+			<footer class="footer">
+				<div class="footer-group factive">
+					<img src="../img/zixingche-active.png" />
+					<span>
+						跑腿代购
+					</span>
+				</div>
+				<div class="footer-group" @click="opennew02('../preferential')">
+					<img src="../img/found.png" />
+					<span>
+						同城惠
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="../img/index.png" @click="opennew02('../index')" />
+					<span>
+						外卖商城
+					</span>
+				</div>
+				<div class="footer-group">
+					<img src="../img/dvip.png" @click="opennew02('../vipcart')" />
+					<span>
+						会员中心
+					</span>
+				</div>
 			</footer>
 		</div>
-		<script src="../js/dingwei.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/dingwei01.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -190,7 +228,8 @@
 					sdizhi: localStorage.getItem('sdizhi'),
 					navdata:[],
 					map:'',
-					myurl:localStorage.getItem('myurl')
+					myurl:localStorage.getItem('myurl'),
+					qidata:[]
 				},
 				methods: {
 					gopay: function() {
@@ -252,6 +291,14 @@
 							id: id
 						})
 					},
+					opennew03:function(id,type){
+						localStorage.setItem('ordert',type)
+						// 打开新页面
+						mui.openWindow({
+							url: './' + id + '.html',
+							id: id
+						})
+					},
 					myajax:function(){
 						var that=this
 						// 查询分类
@@ -266,22 +313,68 @@
 								
 							}
 						});
+						// 查询附近骑手
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + '/selectThreeRider',
+							dataType: 'json',
+							data:{
+								longitude:jing,
+								latitude:wei
+							},
+							success: function(res) {
+								if(res.data!=null){
+									that.qidata=res.data
+								}
+								var content = [
+									"<div><div>附近超过"+that.qidata.length+"位跑客</div> <div>等待为您服务</div></div>"
+								];
+
+								// 创建 infoWindow 实例	
+								var infoWindow = new AMap.InfoWindow({
+									anchor: 'bottom-center',
+								   content: content.join("<br>")  //传入 dom 对象，或者 html 字符串
+								});
+								wei=parseFloat(wei)+0.0006
+								jing=parseFloat(jing)-0.0003
+								infoWindow.open(that.map,[jing,wei]);
+								plus.nativeUI.closeWaiting()
+							},
+							error: function(err) {
+								
+							}
+						});
 					},
 					setcenter:function(){
-						this.map.setCenter([jing, wei])
+						onPlusReady()
+					},
+					setmap:function(){
+						plus.navigator.setStatusBarBackground('#FFFFFF');
+						plus.navigator.setStatusBarStyle('dark')
+						var that=this
+						that.map = new AMap.Map('container', {
+							zoom: 15,
+							center: [jing, wei]
+						});
+						var marker = new AMap.Marker({
+							position: new AMap.LngLat(jing, wei),
+							title: '提示'
+						});
+						marker.setMap(that.map);
+						that.area=shi
+						this.myajax()
 					}
 				},
 				mounted: function() {
 					var that=this
-					this.map = new AMap.Map('container', {
-						zoom: 15,
-						center: [jing, wei]
-					});
-					var marker = new AMap.Marker({
-						title: '提示'
-					});
-					marker.setMap(this.map);
-					this.myajax()
+					document.addEventListener('plusready', function(){plus.nativeUI.showWaiting('地图加载中')}, false);
+					if(localStorage.getItem('userid') == null||localStorage.getItem('userid') == undefined) {
+						plus.nativeUI.toast('请先进行登陆')
+						mui.openWindow({
+							url: 'login.html',
+							id: 'login'
+						})
+					}
 					window.addEventListener("instead/instead", function() {
 						that.fdizhi=localStorage.getItem('fdizhi')
 						that.sdizhi=localStorage.getItem('sdizhi')

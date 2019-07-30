@@ -15,7 +15,11 @@ function onPlusReady(){
 		shi=p.address.city
 		qu=p.address.district
 		wanzheng=p.address.addresses
+		myvue.setmap()
 	}, function(e){
 		plus.nativeUI.toast('定位失败，请检查网络和GPS');
+		setTimeout(function(){
+			onPlusReady()
+		},1000)
 	} );
 }

@@ -43,65 +43,6 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main" style="padding-top: .2rem;">
-				<div class="detail-group content">
-					<div class="shop-name">
-						<span style="flex: 1;color: rgb(254, 99, 91);text-align: right;">
-							{{myajax.usRtStatus | state}}
-						</span>
-					</div>
-					<div class="shop-back">
-						<div class="back-inner" style="border: 0;">
-							<div class="back-group">
-								<span>
-										起点
-									</span>
-								<span>
-										{{myajax.usAdsProvince}}{{myajax.usAdsCity}}{{myajax.usRtDetails}}
-									</span>
-							</div>
-							<div class="back-group">
-								<span>
-										终点
-									</span>
-								<span>
-										{{myajax.usRtProvince}}{{myajax.usRtCity}}{{myajax.usRtArea}}{{myajax.usAdsDetailed}}
-									</span>
-							</div>
-						</div>
-					</div>
-					<div class="shop-back" style="height: .8rem;">
-						<div class="back-inner">
-							<div class="back-group">
-								<span></span>
-								<span>
-									<span class="moneyred">
-										¥{{myajax.usRtPrice}}
-									</span>
-								</span>
-							</div>
-						</div>
-					</div>
-					<div class="shop-back">
-						<div class="back-inner">
-							<div class="back-group" style="justify-content: center;" v-if="myajax.usRtStatus!=1">
-								<a href=["tel:"+myajax.usRiPhone+""]>
-									<img src="../img/detail_03.png" class="phone" />
-								</a>
-								<a :href=["tel:"+myajax.usRiPhone+""]>
-									联系骑手
-								</a>
-							</div>
-							<div class="back-group" style="justify-content: center;" v-if="myajax.usRtStatus==1&&myajax.usRtIsEvaluate==2" @click="opennew('orderrating02')">
-								<a href="javascript:void(0)">
-									<img src="../img/change.png" class="phone" />
-								</a>
-								<a href="javascript:void(0)">
-									评价订单
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
 				<div class="detail-group inform">
 					<div class="inform-group">
 						<span class="inform-name">

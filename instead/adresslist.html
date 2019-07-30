@@ -46,6 +46,7 @@
 		</div>
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+		<script src="../js/dingwei.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -57,7 +58,8 @@
 					flng: '',
 					flat: '',
 					xingming: '',
-					shoujihao: ''
+					shoujihao: '',
+					result:[]
 				},
 				methods: {
 					changyong: function(dizhi, xiangxi, shouji, xingming,id) {
@@ -191,7 +193,17 @@
 						//初始化poiPicker
 						poiPickerReady(poiPicker);
 					});
-
+					AMap.service(["AMap.PlaceSearch"], function() {
+						//构造地点查询类
+						var placeSearch = new AMap.PlaceSearch({ 
+							map: map, // 展现结果的地图实例
+						});
+						//关键字查询
+						placeSearch.search(wanzheng,function(status, result){
+							that.result=result.poiList.pois
+							console.log(that.result)
+						});
+					});
 					function poiPickerReady(poiPicker) {
 						window.poiPicker = poiPicker;
 						var marker = new AMap.Marker();

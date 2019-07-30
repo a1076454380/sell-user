@@ -37,7 +37,7 @@
 							<img src="../img/arrright.png">
 						</div>
 					</div>
-					<div class="one-box" @click="opennew('fadresslist')">
+					<div class="one-box" @click="opennew02('fadresslist')">
 						<div class="one-left one-zi">收</div>
 						<div class="one-right">
 							<div class="right-left">
@@ -382,6 +382,15 @@
 					mui.openWindow({
 						url: './' + id + '.html',
 						id: id
+					})
+				},
+				opennew02: function(id) {
+					// 打开新页面
+					localStorage.setItem('ordert',0)
+					mui.openWindow({
+						url: './' + id + '.html',
+						id: id,
+						createNew:true
 					})
 				}
 			},

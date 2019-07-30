@@ -21,7 +21,7 @@
 					<div class="header-aside mui-action-back">
 						<img src="../img/Group 26.png">
 					</div>
-					<!-- <div class="header-text">使用须知</div> -->
+					<div class="header-text">使用须知</div>
 				</div>
 				<img src="../img/shuaxin.png" class="shua">
 				<div class="main-two">
@@ -38,7 +38,7 @@
 							<img src="../img/arrright.png">
 						</div>
 					</div>
-					<div class="one-box" @click="opennew('fadresslist')">
+					<div class="one-box" @click="opennew02('fadresslist')">
 						<div class="one-left one-zi">收</div>
 						<div class="one-right">
 							<div class="right-left">
@@ -379,6 +379,15 @@
 						url: './' + id + '.html',
 						id: id
 					})
+				},
+				opennew02: function(id) {
+					// 打开新页面
+					localStorage.setItem('ordert',0)
+					mui.openWindow({
+						url: './' + id + '.html',
+						id: id,
+						createNew:true
+					})
 				}
 			},
 			mounted: function() {
@@ -510,7 +519,7 @@
 					}
 				}
 				this.searchser()
-				
+				chushihua()
 			}
 		})
 	</script>
