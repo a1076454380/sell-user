@@ -75,6 +75,17 @@
 						<div class="list-title">
 							{{val.usRtIsType | usRtIsType}}
 						</div>
+						<div class="list-state">
+							{{val.usRtCreateTime1}}
+						</div>
+					</div>
+					<div class="adress-group">
+						<span class="fhuo">
+							发
+						</span>
+						<div class="adress-text">
+							{{val.usRtIsAddress==0?'收货地点附近3km范围内购买':val.usRtDetails}}
+						</div>
 						<div class="list-state" v-if="val.usRtIsPay==1">
 							{{val.usRtStatus | state}}
 						</div>
@@ -82,24 +93,29 @@
 							待支付
 						</div>
 					</div>
-					<div class="adress-group" style="height: .7rem;">
-						<span class="fhuo"></span>
-						<div class="adress-text">
-							{{val.usRtIsAddress==0?'收货地点附近3km范围内购买':val.usRtProvince +val.usRtDetails}}
-						</div>
-					</div>
-					<div class="adress-group" style="height: .7rem;">
-						<span class="shuo"></span>
+					<div class="adress-group">
+						<span class="fhuo">
+							收
+						</span>
 						<div class="adress-text">
 							{{val.usAdsProvince}}{{val.usAdsCity}}{{val.usAdsArea}}{{val.usAdsDetailed}}
 						</div>
 					</div>
 					<div class="list-top list-bottom">
 						<div class="list-data">
-							{{val.usRtCreateTime1}}
+							
+						</div>
+						<div class="list-setting" @click="delete(val.usReplaceTakeId)">
+							删除订单
+						</div>
+						<div class="list-setting" v-if="val.state==1" @click="opennew('instead')">
+							再来一单
 						</div>
 						<div class="list-setting" @click.stop="layuiboo('确认取消订单吗？',val.usReplaceTakeId)" v-if="val.state==2">
 							取消订单
+						</div>
+						<div class="list-setting" v-if="val.state==1">
+							评价订单
 						</div>
 					</div>
 				</div>
@@ -116,6 +132,22 @@
 					tabnum:6
 				},
 				methods: {
+					delete:function(id){
+						var that=this
+						// 删除跑腿订单
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/updateUsOlderDeleteId ",
+							dataType: 'json',
+							data: {
+								usReplaceTakeId: id
+							},
+							success: function(res) {
+								that.myajax()
+								plus.nativeUI.toast('删除成功')
+							}
+						});
+					},
 					tab: function(index) {
 						this.tabnum = index
 						this.myajax()
@@ -206,7 +238,7 @@
 				filters:{
 					usRtIsType:function(value){
 						if (value==1) {
-							return '代购订单'
+							return '帮我买'
 						} else if(value==2){
 							return '帮我取'
 						}else if(value==3){
@@ -217,11 +249,11 @@
 						if (value==1) {
 							return '订单已完成'
 						} else if(value==2){
-							return '等待接单中'
+							return '等待接单'
 						}else if(value==3){
-							return '骑手已结单'
+							return '等待取件'
 						}else{
-							return '骑手已取件'
+							return '等待配送'
 						}
 					}
 				}

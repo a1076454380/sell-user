@@ -11,6 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<style type="text/css">
 		body,
@@ -37,7 +38,7 @@
 				</div>
 			</div>
 			<header class="header">
-				<span class="header-back" @click="opennew('index')">
+				<span class="header-back" @click="opennew('instead/instead')">
 					<img src="img/back.png"/>
 				</span>
 				<span class="header-main">用户中心</span>
@@ -80,6 +81,12 @@
 
 					</div>
 					<div class="userbottom">
+						<div @click="opennew('wallet')">
+							<span>
+								我的钱包
+							</span>
+							<img src="img/arrright.png"/>
+						</div>
 						<div @click="opennew('money')">
 							<span>
 								我的红包
@@ -139,7 +146,7 @@
 				</div>
 			</div>
 		</div>
-		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',

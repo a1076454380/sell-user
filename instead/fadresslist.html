@@ -22,15 +22,15 @@
 					<img src="../img/back.png" />
 				</span>
 				<span class="header-main">地址</span>
-				<span class="header-settings" @click="submit()">
+				<span class="header-settings" @click="gosubmit()">
 					确定
 				</span>
 			</header>
 			<div class="main">
 				<input type="text" class="search" v-model="dizhi" placeholder="点击搜索购买地址" id="pickerInput" />
 				<input type="text" class="search" v-model="xiangxi" placeholder="填写楼号、楼层和门牌号，" />
-				<input type="text" class="search" v-model="xingming" placeholder="请输入收货人姓名" />
-				<input type="number" class="search" v-model="shoujihao" placeholder="请输入收货人手机号" />
+				<input type="text" class="search" v-model="xingming" placeholder="姓名" />
+				<input type="number" class="search" v-model="shoujihao" placeholder="请输入手机号" />
 				<div class="br"></div>
 				<p>常用地址</p>
 				<div class="dizhi-box" v-if="val.usAdsDetailed!=null" v-for="val in adressdata" @click="changyong(val.usAdsProvince,val.usAdsDetailed,val.usAdsPhone,val.usAdsName,val.usAddressId)">
@@ -61,6 +61,7 @@
 				},
 				methods: {
 					changyong: function(dizhi, xiangxi, shouji, xingming,id) {
+						// plus.nativeUI.showWaiting()
 						var that=this
 						AMap.service('AMap.Geocoder', function() { //回调函数
 							//			实例化Geocoder
@@ -70,6 +71,7 @@
 							//						根据地址查经纬度
 							geocoder.getLocation(dizhi+xiangxi, function(status, result) {
 								if (status === 'complete' && result.info === 'OK') {
+									
 									localStorage.setItem('sid', id)
 									localStorage.setItem('sdizhi', dizhi)
 									localStorage.setItem('sdizhidetail', xiangxi)
@@ -77,28 +79,28 @@
 									localStorage.setItem('sxingming', xingming)
 									localStorage.setItem('slng', result.geocodes[0].location.lng)
 									localStorage.setItem('slat', result.geocodes[0].location.lat)
-									// if(plus.webview.getWebviewById('pay')!=undefined){
-									// 	var pay=plus.webview.getWebviewById('pay')
-									// 	mui.fire(pay,'pay',{});
-									// }
-									// if(plus.webview.getWebviewById('payqu')!=undefined){
-									// 	var pay=plus.webview.getWebviewById('payqu')
-									// 	mui.fire(pay,'payqu',{});
-									// }
-									// if(plus.webview.getWebviewById('paysong')!=undefined){
-									// 	var pay=plus.webview.getWebviewById('paysong')
-									// 	mui.fire(pay,'paysong',{});
-									// }
-									// if(plus.webview.getWebviewById('instead/instead')!=undefined){
-									// 	var pay=plus.webview.getWebviewById('instead/instead')
-									// 	mui.fire(pay,'instead/instead',{});
-									// }
+									if(plus.webview.getWebviewById('pay')!=undefined){
+										var pay=plus.webview.getWebviewById('pay')
+										mui.fire(pay,'pay',{});
+									}
+									if(plus.webview.getWebviewById('payqu')!=undefined){
+										var pay=plus.webview.getWebviewById('payqu')
+										mui.fire(pay,'payqu',{});
+									}
+									if(plus.webview.getWebviewById('paysong')!=undefined){
+										var pay=plus.webview.getWebviewById('paysong')
+										mui.fire(pay,'paysong',{});
+									}
+									plus.nativeUI.closeWaiting()
 									if(localStorage.getItem('ordert')=='s'){
 										that.opennew('paysong')
 									}else if(localStorage.getItem('ordert')=='q'){
 										that.opennew('payqu')
+									}else if(localStorage.getItem('ordert')==0){
+										that.opennew('pay')
 									}else{
-										mui.back()
+										var pay=plus.webview.getLaunchWebview()
+										mui.fire(pay,'instead/instead',{});
 									}
 								} else {
 									//获取经纬度失败
@@ -106,10 +108,12 @@
 							});
 						})
 					},
-					submit: function() {
+					gosubmit: function() {
 						var that = this
-						if (this.dizhi == '' || this.xiangxi == '') {
+						if (this.dizhi == '' || this.xiangxi == ''||this.xingming=='') {
 							mui.toast('地址填写不完整')
+						}else if(!(/^1[3456789]\d{9}$/.test(this.shoujihao))){
+							 mui.toast('手机号格式错误')
 						} else {
 							$.ajax({
 								type: "post",
@@ -133,6 +137,7 @@
 										localStorage.setItem('slng', that.slng)
 										localStorage.setItem('slat', that.slat)
 										localStorage.setItem('sid',res.data.usAddressId)
+										
 										if(plus.webview.getWebviewById('pay')!=undefined){
 											var pay=plus.webview.getWebviewById('pay')
 											mui.fire(pay,'pay',{});
@@ -145,16 +150,16 @@
 											var pay=plus.webview.getWebviewById('paysong')
 											mui.fire(pay,'paysong',{});
 										}
-										if(plus.webview.getWebviewById('instead/instead')!=undefined){
-											var pay=plus.webview.getWebviewById('instead/instead')
-											mui.fire(pay,'instead/instead',{});
-										}
+										
 										if(localStorage.getItem('ordert')=='s'){
 											that.opennew('paysong')
 										}else if(localStorage.getItem('ordert')=='q'){
 											that.opennew('payqu')
+										}else if(localStorage.getItem('ordert')==0){
+											that.opennew('pay')
 										}else{
-											mui.back()
+											var pay=plus.webview.getLaunchWebview()
+												mui.fire(pay,'instead/instead',{});
 										}
 									}
 								}

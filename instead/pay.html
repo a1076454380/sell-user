@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
-		<link rel="stylesheet" type="text/css" href="../css/date.css" />
 		<link rel="stylesheet" type="text/css" href="../css/pay.css" />
 		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
@@ -20,20 +20,25 @@
 					<div class="header-aside mui-action-back">
 						<img src="../img/Group 26.png">
 					</div>
-					<div class="header-text">使用须知</div>
+					<div class="header-text" @click="opennew('notice')">使用须知</div>
 				</div>
-				<img src="../img/shuaxin.png" class="shua">
+				<img src="../img/shuaxin.png" class="shua" >
+				<div class="main-two bian">
+					<div class="text">帮我购买:</div>
+					<input type="tetx" v-model="beizhu" />
+					<img src="../img/bianji.png">
+				</div>
 				<div class="main-two">
 					<div class="onx-he">
 						<div class="one-left" style="margin-right: .3rem;">购</div>
 						<div class="one" :class="dtype==0?'one-active':''" @click="changetype(0)">
-							输入购买地址，购买更快
+							输入购买地址,购买更快
 						</div>
 						<div class="one" :class="dtype==1?'one-active':''" @click="changetype(1)">
-							三公里内购买
+							就近购买
 						</div>
 					</div>
-					<div class="one-box" @click="opennew('adresslist')" v-if="dtype==0">
+					<div class="one-box" @click="opennew02('adresslist')" v-if="dtype==0">
 						<div class="one-right" style="margin-left: .7rem;">
 							<div class="right-left">
 								<div class="one-text">{{fdizhi}}</div>
@@ -62,16 +67,15 @@
 				<div class="main-two">
 
 					<div class="two-one">
-						<div class="two-left">
+						<div class="two-left" @click="datechange">
 							<div class="two-text">购买时间:</div>
-							<input class="two-text" name="appDateTime" id="appDateTime" value="立即购买" />
-							<div id="datePlugin"></div>
+							<input class="two-text" name="appDateTime" id="appDateTime"  value="立即购买" readonly="readonly"/>
 						</div>
 						<div class="two-right">
 							<img src="../img/arrright.png">
 						</div>
 					</div>
-					<div class="two-one">
+					<!-- 					<div class="two-one">
 						<a class="two-left" href="#jprice">
 							<div class="two-text">物品类型:</div>
 							<div class="two-text wutype" v-if="navdata.length!=0">{{navdata[wuindex].maRtName}}</div>
@@ -80,7 +84,7 @@
 						<div class="two-right">
 							<img src="../img/arrright.png">
 						</div>
-					</div>
+					</div> -->
 					<div class="two-one" @click="youchange">
 						<div class="two-left">
 							<div class="two-text liang">优惠</div>
@@ -92,21 +96,15 @@
 					</div>
 					<div class="two-one">
 						<div class="two-left">
-							<div class="two-text">加价:</div>
-							<input class="two-word two-zi" placeholder="给师傅一个鼓励吧" v-model="xiaofei" @input="myajax" />
+							<div class="two-text liang">小费</div>
+							<input type='number' class="two-word two-zi" placeholder="给师傅一个鼓励吧" v-model="xiaofei" @input="myajax" />
 							元
 						</div>
 					</div>
 					<div class="two-one">
 						<div class="two-left">
-							<div class="two-text">订单备注:</div>
-							<input class="two-word two-zi" placeholder="点击这里输入订单备注信息" v-model="beizhu" @input="myajax" />
-						</div>
-					</div>
-					<div class="two-one">
-						<div class="two-left">
-							<div class="two-text">代收金额:</div>
-							<input class="two-word two-zi" placeholder="请输入代收金额" v-model="gujia" @input="myajax" />
+							<div class="two-text">商品价格:</div>
+							<input class="two-word two-zi" placeholder="预付或凭骑手小票线下支付" v-model="gujia" @input="myajax" />
 							元
 						</div>
 					</div>
@@ -116,7 +114,7 @@
 							- ￥{{val.maMsrPrice}}</div>
 					</div>
 				</div>
-				<div class="main-three">温馨提示:根据相关法律法规要求，跑客在取货时对您所寄物品进行检查，请不要将物品外包装封口。谢谢您的配合。</div>
+				<div class="main-three">温馨提示:根据相关法律法规要求，骑手在取货时对您所寄物品进行检查，请不要将物品外包装封口。谢谢您的配合。</div>
 			</div>
 			<div class="bottom">
 				<div class="bottom-left">¥{{searchdata.usRtPrice}}</div>
@@ -163,7 +161,7 @@
 	<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/date.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/load.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
 		new Vue({
@@ -180,7 +178,7 @@
 				youdata: [], //优惠券data
 				youindex: 0,
 				xiaofei: '', //小费
-				beizhu: '', //备注
+				beizhu: localStorage.getItem('paytext'), //备注
 				gujia: '', //代收金额
 				searchdata: '', //价格data
 				serdata: [], //所有服务data
@@ -188,8 +186,101 @@
 				navdata: [], //分类数组
 				channel: [],
 				dtype: localStorage.getItem('dtype'), //代购范围 0 指定 1就近
+				infoWindow:''
 			},
 			methods: {
+				datechange:function () {
+					var date = new Date();
+					var picker = new mui.PopPicker({
+						layer: 3
+					});
+					var datejson = []
+					//						插入后七天日期
+					for(var i = 1; i < 3; i++) {
+						var text=''
+						if(i==1){
+							text=date.getDate() + i+'号(明天)'
+						}else{
+							text=date.getDate() + i+'号(后天)'
+						}
+						datejson.push({
+							value: date.getDate() + i,
+							text: text,
+							children: []
+						})
+						for(var l = 1; l < 25; l++) {
+							datejson[i - 1].children.push({
+								value: l,
+								text: l + "点",
+								children: []
+							})
+							for(var j = 1; j < 60; j++) {
+								datejson[i - 1].children[l - 1].children.push({
+									value: j,
+									text: j + '分'
+								})
+							}
+						}
+					}
+					//					插入当前日期
+					datejson.unshift({
+						value: date.getDate(),
+						text: date.getDate() + '号',
+						children: []
+					})
+					//					插入当前小时
+					for(var l = date.getHours(); l < 25; l++) {
+						datejson[0].children.push({
+							value: l,
+							text: l + "点",
+							children: []
+						})
+					}
+					//					插入当前分钟
+					for(var l = date.getMinutes(); l < 60; l++) {
+						datejson[0].children[0].children.push({
+							value: l,
+							text: l + '分'
+						})
+					}
+					for(var i = 1; i < datejson[0].children.length; i++) {
+						for(var l = 1; l < 60; l++) {
+							datejson[0].children[i].children.push({
+								value: l,
+								text: l + '分'
+							})
+						}
+					}
+					picker.setData(datejson)
+					picker.pickers[0].setSelectedIndex(0);
+					picker.pickers[1].setSelectedIndex(0);
+					picker.show(function(selectItems) {
+						var month = '';
+						mydate = '';
+						hours = '';
+						time = '';
+						if(month < 10) {
+							month = '0' + (date.getMonth() + 1)
+						}
+						if(selectItems[0].value < 10) {
+							mydate = '0' + selectItems[0].value
+						} else {
+							mydate = selectItems[0].value
+						}
+						if(selectItems[1].value < 10) {
+							hours = '0' + selectItems[1].value
+						} else {
+							hours = selectItems[1].value
+						}
+						if(selectItems[2].value < 10) {
+							time = '0' + selectItems[2].value
+						} else {
+							time = selectItems[2].value
+						}
+						var time=date.getFullYear() + '-' + month + '-' + mydate + ' ' + hours + ':' + time
+						$('#appDateTime').val(time)
+					})
+				},
 				changetype: function(type) {
 					this.dtype = type
 				},
@@ -212,45 +303,35 @@
 				},
 				// 费用明细
 				openming: function() {
+					localStorage.setItem('juli',this.searchdata.usRtWarm)
+					localStorage.setItem('shijian',this.searchdata.usRtUpdateName)
 					localStorage.setItem('mingxi', this.searchdata.maRtPriceRecord)
 					this.opennew('mingxi')
 				},
 				searchser: function() {
 					var that = this
-
-					// 查询分类
+					// 查询服务
 					$.ajax({
 						type: "post",
-						url: localStorage.getItem('myurl') + '/selectMaRunTypeUser',
+						url: localStorage.getItem('myurl') + '/selectMaServiceRuleAll',
 						dataType: 'json',
 						success: function(res) {
-							that.navdata = res.data
-							// 查询服务
+							for (i in res.data) {
+								res.data[i].boo = false
+							}
+							that.serdata = res.data
+							// 查询优惠券
 							$.ajax({
 								type: "post",
-								url: localStorage.getItem('myurl') + '/selectMaServiceRuleAll',
+								url: localStorage.getItem('myimg') + '/maAllocationRecord/getMaAllocationRecordList',
 								dataType: 'json',
+								data: {
+									usUserId: localStorage.getItem('userid'),
+								},
 								success: function(res) {
-									for (i in res.data) {
-										res.data[i].boo = false
-									}
-									that.serdata = res.data
-									// 查询优惠券
-									$.ajax({
-										type: "post",
-										url: localStorage.getItem('myimg') + '/maAllocationRecord/getMaAllocationRecordList',
-										dataType: 'json',
-										data: {
-											usUserId: localStorage.getItem('userid'),
-										},
-										success: function(res) {
-											that.youdata = res.data
-											that.myajax()
-										},
-										error: function(err) {
-
-										}
-									});
+									console.log("res: " + JSON.stringify(res));
+									that.youdata = res.data
+									that.myajax()
 								},
 								error: function(err) {
 
@@ -283,8 +364,7 @@
 							usRtCreateName: localStorage.getItem('userid'),
 							usRtDescribe: that.paytext, //物品描述
 							usRtIsArrive: $('#appDateTime').val() == '立即购买' ? '0' : '1',
-							usRtArriveTime: new Date($('#appDateTime').val() == '立即购买' ? new Date().Format("yyyy-MM-dd HH:mm:ss") : $(
-								'#appDateTime').val() + ':00'),
+							usRtArriveTime: new Date($('#appDateTime').val() == '立即购买' ? new Date().Format("yyyy-MM-dd HH:mm:ss") : $('#appDateTime').val() + ':00'),
 							time: '',
 							usRtProvince: localStorage.getItem('fdizhi'),
 							usRtCity: '',
@@ -297,7 +377,7 @@
 							maServiceRuleId: JSON.stringify(maServiceRuleId), //服务id
 							UsRtIsAddress: that.dtype == 0 ? 1 : 0, //是否指定地址 0 不 1是
 							usUpPrice: that.xiaofei == '' ? 0.00 : that.xiaofei, //加价
-							usRunType: that.navdata[that.wuindex].maRunTypeId, //分类id
+							usRunType: localStorage.getItem('maRunTypeId'), //分类id
 							maRunDiscountRuleId: that.youdata.length == 0 ? '' : that.youdata[that.youindex].maRunDiscountRuleId //优惠券id
 						},
 						success: function(res) {
@@ -308,6 +388,12 @@
 								delete res.data.usRtdItemSendTime
 								delete res.data.usRtUpdateTime
 								delete res.data.usRtCreateTimeString
+								delete res.data.usRtTrueTime
+								delete res.data.usRtClaimTime
+								var content = [
+									"<div>订单距离"+res.data.usRtWarm+"KM，预计"+res.data.usRtUpdateName+"前送达</div>"
+								];
+								that.infoWindow.setContent(content.join("<br>"))
 								res.data.usRtArriveTime = new Date(res.data.usRtArriveTime)
 								that.searchdata = res.data
 							} else {
@@ -321,75 +407,14 @@
 					});
 				},
 				xiadan: function() {
-					var that = this
-					var btnArray = [{
-						title: "支付宝"
-					}, {
-						title: "微信"
-					}]; //选择按钮  1 2 3
-					plus.nativeUI.actionSheet({
-						title: "请选择支付方式",
-						cancel: "取消",
-						buttons: btnArray
-					}, function(e) {
-						var index = e.index;
-						switch (index) {
-							// case 1:
-							// 	that.pay('/userWalletTakeSubstitutionDelivery',0,)
-							// 	break;
-							case 1:
-								that.pay('/createUsReplaceTakeAliWx', 1)
-								break;
-							case 2:
-								that.pay('/createUsReplaceTakeAliWx', 2)
-								break;
-						}
-					});
+					localStorage.setItem('searchdata',JSON.stringify(this.searchdata))
+					this.opennew('paynext02')
 				},
 				youchange: function() {
 					this.youboo = !this.youboo
 				},
 				dchange: function(index) {
 					this.dtype = index
-				},
-				pay: function(url, type) {
-					var that = this
-					if (type == 1 || type == 2) {
-						that.searchdata.status = type
-					}
-					that.searchdata.usRtPrice = 0.01
-					$.ajax({
-						type: "post",
-						url: localStorage.getItem('myurl') + url,
-						dataType: 'json',
-						data: that.searchdata,
-						success: function(res) {
-							console.log("res: " + JSON.stringify(res));
-							if (res.status == 200 && type == 0) {
-								mui.toast('下单成功')
-								that.opennew('order')
-							} else if (type == 1) {
-								plus.payment.request(that.channel[0], res.data[0], function(result) {
-									mui.toast('下单成功')
-									that.opennew('order')
-								}, function(error) {
-									mui.toast('支付失败')
-								});
-							} else if (type == 2) {
-								plus.payment.request(that.channel[1], res, function(result) {
-									mui.toast('下单成功')
-									that.opennew('order')
-								}, function(error) {
-									mui.toast('支付失败')
-								});
-							} else {
-								mui.toast(res.msg)
-							}
-						},
-						error: function(err) {
-							console.log("err: " + JSON.stringify(err));
-						}
-					});
 				},
 				opennew: function(id) {
 					// 打开新页面
@@ -400,22 +425,22 @@
 				},
 				opennew02: function(id) {
 					// 打开新页面
-					localStorage.setItem('ordert',0)
+					localStorage.setItem('ordert', 0)
 					mui.openWindow({
 						url: './' + id + '.html',
 						id: id,
-						createNew:true
+						createNew: true
 					})
 				}
 			},
 			mounted: function() {
 				var that = this
-
 				// 1. 获取支付通道
 				function plusReady() {
 					// 获取支付通道
-					if (localStorage.getItem('sid') == undefined) {
+					if (localStorage.getItem('sid') == undefined||localStorage.getItem('sid')==null) {
 						mui.toast('请选择收货地址')
+						localStorage.setItem('ordert',0)
 						that.opennew('fadresslist')
 					}
 					plus.payment.getChannels(function(channels) {
@@ -459,27 +484,32 @@
 							"00" + o[k]).substr(("" + o[k]).length)));
 					return fmt;
 				}
-				$('#appDateTime').date({
-					theme: "datetime"
-				})
-
 				function chushihua() {
 					// 初始化地图
 					var map = new AMap.Map('map-container', {
-						zoom: 10
+						zoom: 10,
 					})
+					var content = [
+						"<div>订单距离正在计算中</div>"
+					];
+					
+					// 创建 infoWindow 实例	
+					that.infoWindow = new AMap.InfoWindow({
+						anchor: 'bottom-center',
+						content: content.join("<br>") //传入 dom 对象，或者 html 字符串
+					});
+					wei = parseFloat(localStorage.getItem('slat')) 
+					jing = parseFloat(localStorage.getItem('slng')) 
+					that.infoWindow.open(map, [jing, wei]);
 					//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
 					AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
-
 						if (!PathSimplifier.supportCanvas) {
 							alert('当前环境不支持 Canvas！');
 							return;
 						}
-
 						//启动页面
 						initPage(PathSimplifier);
 					});
-
 					function initPage(PathSimplifier) {
 						//创建组件实例
 						var pathSimplifierIns = new PathSimplifier({
@@ -507,15 +537,26 @@
 								}
 							}
 						});
-
-						//这里构建两条简单的轨迹，仅作示例
-						pathSimplifierIns.setData([{
-							name: '轨迹名称',
-							path: [
-								[localStorage.getItem('flng'), localStorage.getItem('flat')],
-								[localStorage.getItem('slng'), localStorage.getItem('slat')]
-							]
-						}]);
+						if(localStorage.getItem('dtype')==1){
+							//这里构建两条简单的轨迹，仅作示例
+							pathSimplifierIns.setData([{
+								name: '轨迹名称',
+								path: [
+									[localStorage.getItem('slng'), localStorage.getItem('slat')],
+									[localStorage.getItem('slng'), localStorage.getItem('slat')]
+								]
+							}]);
+						}else{
+							//这里构建两条简单的轨迹，仅作示例
+							pathSimplifierIns.setData([{
+								name: '轨迹名称',
+								path: [
+									[localStorage.getItem('flng'), localStorage.getItem('flat')],
+									[localStorage.getItem('slng'), localStorage.getItem('slat')]
+								]
+							}]);
+						}
+						
 
 						//创建一个巡航器
 						var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
@@ -543,6 +584,7 @@
 						navg0.start();
 					}
 				}
+				chushihua()
 				this.searchser()
 
 			}

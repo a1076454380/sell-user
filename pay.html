@@ -39,7 +39,7 @@
 				<span class="header-back mui-action-back">
 						<img src="img/back.png"/>
 					</span>
-				<span class="header-main">支付</span>
+				<span class="header-main">提交订单</span>
 				<span class="header-settings"></span>
 			</header>
 			<div class="main pay" style="overflow-y: scroll;height: calc(100% - .8rem);">
@@ -179,12 +179,16 @@
 				</div>
 				<div class="pay-inner">
 					<div class="payh">
-						<textarea type="text" placeholder="请输入订单备注" v-model="note" style="font-size: .2rem;"></textarea>
+						<textarea type="text" placeholder="备注/餐具份数" v-model="note" style="font-size: .2rem;"></textarea>
 					</div>
 				</div>
-				<div class="paybtn" style="display: flex;">
-					<span @click="pay" style="flex: 1;text-align: center;">支付宝</span>
-					<span @click="wpay" style="flex: 1;text-align: center;">微信</span>
+				<div class="paybtn" style="display: flex;justify-content: space-between;">
+					已优惠：¥{{cartdata.usScPrice - allprice +allfee + discountdata.listMaDistributionUsPackingFee.maDiPrice | foprice}}
+<!-- 					<span @click="pay" style="flex: 1;text-align: center;">支付宝</span>
+					<span @click="wpay" style="flex: 1;text-align: center;">微信</span> -->
+					<div class="submit" @click="pay">
+						去结算 ¥{{allprice}}
+					</div>
 				</div>
 			</div>
 			<!--新人-->
@@ -258,112 +262,11 @@
 						this.aboo = false
 						this.myprice()
 					},
-					wpay: function() {
-						var that = this
-						if(that.adressdata == '') {
-							that.opennew('adresslist')
-							return false;
-						}
-
-						function plusReady() {
-							// 弹出系统等待对话框
-							plus.nativeUI.showWaiting();
-						}
-						if(window.plus) {
-							plusReady();
-						} else {
-							document.addEventListener("plusready", plusReady, false);
-						}
-						if(localStorage.getItem('usIsFirst') == 1) {
-							//							更改新人状态
-							$.ajax({
-								type: "post",
-								url: localStorage.getItem('myurl') + "/updateUsUserFirst",
-								dataType: 'json',
-								data: {
-									usUserId: localStorage.getItem('userid')
-								},
-								success: function(res) {
-									localStorage.setItem('usIsFirst', 2)
-								}
-							});
-						}
-						//						创建订单
-						var ajaxjson = {
-							usUserId: localStorage.getItem('userid'),
-							shoppingCartId: that.cartdata.usShoppingCartId,
-							redPackageId: that.hdata.length != 0 ? that.hdata[that.hindex].usTraderPackageId : '',
-							discontId: that.discountdata.listDiscount.length != 0 ? that.discountdata.listDiscount[that.zindex].usTraderDiscountId : '',
-							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract[that.mindex].usTraderSubtractId : '',
-							newPeopleId: that.discountdata.listNewActivities.length!=0 ? that.discountdata.listNewActivities[that.xindex].usTraderNewActivitiesId : '',
-							usOrNote: that.note,
-							// usOrPrice: that.allprice,
-							usOrPrice:0.01,
-							statusPay: 2,
-							redPackageStyle: that.hdata.length != 0 ? (that.hdata[that.hindex].usTpBelong == 1 ? '1' : '71') : '',
-							discontStyle: that.discountdata.listDiscount.length == 0 ? '' : (that.discountdata.listDiscount[that.zindex].usTdBelong == 1 ? '2' : '72'),
-							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTsBelong == 1 ? '3' : '73') : '',
-							newPeopleStyle: that.discountdata.listNewActivities .length != 0 ? (that.discountdata.listNewActivities[that.xindex].usTdBelong == 1 ? '4' : '74') : '',
-							usOrPackingFee:that.allfee,
-							usOrDeliveryPrice:that.discountdata.listMaDistributionUsPackingFee.maDiPrice,
-							usOrIsReserve:$('#appDateTime').val()=='立即配送'?0:1,
-							time:$('#appDateTime').val()=='立即配送'?new Date().Format("yyyy-MM-dd HH:mm:ss"):+$('#appDateTime').val()+':00',
-							usOrPackage:JSON.stringify([
-								{
-									name:'新人优惠:',
-									price:that.discountdata.listNewActivities .length != 0 ?that.discountdata.listNewActivities[that.xindex].usTnaPrice:0
-								},
-								{
-									name:'折扣优惠:',
-									price:that.discountdata.listDiscount.length == 0 ? '' :that.discountdata.listDiscount[that.zindex].usTdDicsont/10 
-								},
-								{
-									name:'满减优惠:',
-									price:that.listSubtract.length != 0 ?that.listSubtract[that.mindex].usTsSubtractPrice:''
-								},
-								{
-									name:'红包优惠:',
-									price:that.hdata.length != 0 ?that.hdata[that.hindex].usTpPrice:''
-								}
-							])
-						}
-						$.ajax({
-							type: "post",
-							url: localStorage.getItem('myurl') + "/createAliPay",
-							dataType: 'json',
-							data: ajaxjson,
-							success: function(res) {
-								plus.payment.request(that.channel[1], res, function(result) {
-									plus.nativeUI.closeWaiting()
-									that.opennew('orderlist')
-								}, function(error) {
-									plus.nativeUI.closeWaiting()
-									plus.nativeUI.toast('支付失败！')
-									that.opennew('orderlist')
-								});
-							},
-							error: function(err) {
-								plus.nativeUI.closeWaiting()
-								plus.nativeUI.toast('支付失败！')
-								that.opennew('orderlist')
-							}
-						});
-					},
 					pay: function() {
 						var that = this
 						if(that.adressdata == '') {
 							that.opennew('adresslist')
 							return false;
-						}
-
-						function plusReady() {
-							// 弹出系统等待对话框
-							plus.nativeUI.showWaiting();
-						}
-						if(window.plus) {
-							plusReady();
-						} else {
-							document.addEventListener("plusready", plusReady, false);
 						}
 						if(localStorage.getItem('usIsFirst') == 1) {
 							//							更改新人状态
@@ -388,9 +291,10 @@
 							fullReduceId: that.listSubtract.length != 0 ? that.listSubtract[that.mindex].usTraderSubtractId : '',
 							newPeopleId: that.discountdata.listNewActivities.length!=0? that.discountdata.listNewActivities[that.xindex].usTraderNewActivitiesId : '',
 							usOrNote: that.note,
-							// usOrPrice:that.allprice,
-							usOrPrice:0.01,
-							 statusPay: 1,
+							usOrPrice:that.allprice,
+							// usOrPrice:0.01,
+							statusPay: 3,
+							usOrOldPrice:that.cartdata.usScPrice + that.allfee +that.discountdata.listMaDistributionUsPackingFee.maDiPrice,
 							redPackageStyle: that.hdata.length != 0 ? (that.hdata[that.hindex].usTpBelong == 1 ? '1' : '71') : '',
 							discontStyle: that.discountdata.listDiscount.length == 0 ? '' : (that.discountdata.listDiscount[that.zindex].usTdBelong == 1 ? '2' : '72'),
 							fullReduceStyle: that.listSubtract.length != 0 ? (that.listSubtract[that.mindex].usTsBelong == 1 ? '3' : '73') : '',
@@ -418,29 +322,8 @@
 								}
 							])
 						}
-						console.log(JSON.stringify(ajaxjson))
-						$.ajax({
-							type: "post",
-							url: localStorage.getItem('myurl') + "/createAliPay",
-							dataType: 'json',
-							data: ajaxjson,
-							success: function(res) {
-								plus.payment.request(that.channel[0], res.data[0], function(result) {
-									plus.nativeUI.closeWaiting()
-									that.opennew('orderlist')
-								}, function(error) {
-									console.log(JSON.stringify(error))
-									plus.nativeUI.closeWaiting()
-									plus.nativeUI.toast('支付失败！')
-									that.opennew('orderlist')
-								});
-							},
-							error: function(err) {
-								plus.nativeUI.closeWaiting()
-								plus.nativeUI.toast('支付失败！')
-								that.opennew('orderlist')
-							}
-						});
+						localStorage.setItem('ajaxjson',JSON.stringify(ajaxjson))
+						that.opennew('paynext')
 					},
 					opennew: function(target) {
 						if(target == 'adresslist') {

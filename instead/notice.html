@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+	</head>
+
+	<body>
+		<div id="app" class="wrapper myorder">
+			<header class="header">
+				<span class="header-back mui-action-back">
+						<img src="../img/back.png"/>
+					</span>
+				<span class="header-main">使用须知</span>
+				<span class="header-settings"></span>
+			</header>
+			<div class="main orderlist" style="height: calc(100% - .9rem);background: #FFFFFF;margin-top: .9rem;">
+				内容
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					layui: false,
+					layuitext: '错误',
+					mydata:[],
+					usReplaceTakeId:'',
+					tabnum:6
+				},
+				methods: {
+					opennew: function(id, index) {
+						localStorage.setItem('usReplaceTakeId', index)
+						mui.openWindow({
+							url: '' + id + '.html',
+							id: id
+						})
+					},
+					myajax:function(){
+						
+					}
+				},
+				mounted: function() {
+					this.myajax()
+				}
+			})
+		</script>
+	</body>
+
+</html>

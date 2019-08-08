@@ -1,5 +1,6 @@
 .liang{
-		letter-spacing: .35rem;
+		letter-spacing: .6rem;
+		white-space: nowrap;
 	}
 	.mui-popover{z-index: 999999;}
 	.mui-backdrop{background: rgba(0,0,0,.6);z-index: 999998;}
@@ -21,6 +22,7 @@
 		position: absolute;
 		top: .1rem;
 		box-sizing: border-box;
+		z-index: 99999;
 	}
 	
 	.header-aside img{
@@ -50,13 +52,14 @@
 		box-shadow: 0 1px 2px 1px #D4D4D4;
 		position: fixed;
 		left: .2rem;
-		top: 2.8rem;
+		top: 3.5rem;
 		z-index: 1000;
 		height: .5rem;
 		background: #FFFFFF;
+		padding: .08rem;
 	}
-	input{border: 0;flex: 1;text-align: right;margin-right: .2rem;}
-	input::-webkit-input-placeholder{color: gainsboro;font-size: .2rem;}
+	input{border: 0;flex: 1;text-align: right;margin-right: .2rem;font-size: .26rem;}
+	input::-webkit-input-placeholder{color: #999999;font-size: .26rem;}
 	.main-one{
 		background: #FFFFFF;
 		border-radius: .18rem;
@@ -156,7 +159,8 @@
 		font-size: .28rem;
 		color: #131313 ;
 		margin-right: .3rem;
-		width: 1.3rem;
+		width: 1.5rem;
+		overflow: hidden;
 	}
 	
 	#appDateTime{flex: 1;text-align: left;color: #999999;}
@@ -171,6 +175,13 @@
 	}
 	.two-zi{
 		color: #ACACAC;
+		border: 0!important;
+		margin: 0!important;
+		flex: 1;
+		text-align: left;
+		font-size: .24rem;
+		color: #999999;
+		padding: 0!important;
 	}
 	.two-word{
 		font-size: .28rem;
@@ -183,6 +194,7 @@
 		border-bottom: 1px solid #F1F1F1 ;
 		margin: .1rem 0;
 		flex-wrap: wrap;
+		min-height: .8rem;
 	}
 	.t-text{
 		font-size: .22rem;
@@ -195,23 +207,25 @@
 		margin:.1rem .2rem;
 	}
 	.main-three{
-		height: .5rem;
 		display: flex;
 		align-items: center;
 		padding: 0 .3rem;
 		font-size: .2rem;
 		color: #ACACAC ;
-		line-height: .25rem;
+		line-height: .3rem;
 		word-break: break-all;
 		overflow: hidden;
 		margin: .2rem 0;
 	}
 	.bottom{
-		height: 1rem;
+		height: .9rem;
 		background: #FFFFFF;
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
+		margin: 0 .2rem;
+		border-radius: .1rem;
+		overflow: hidden;
 	}
 	.bottom-left{
 		width: 1rem;
@@ -263,9 +277,17 @@
 	}
 	.onx-he{
 		display: flex;
-		justify-content: flex-end;
+		justify-content: flex-start;
 		align-items: flex-end;
 		padding-top: .2rem;
 	}
 	.one{padding: .05rem .2rem;border: 1px solid gainsboro;margin-right: .2rem;}
 	.one-active{color: #FF8190;border: 1px solid #FF8190;}
+	.bian{display: flex;align-items: center;padding: .3rem .2rem;}
+	.bian img{height: .4rem;}
+	.bian input{flex: 1;text-align: left;text-indent: .2rem;}
+	.amap-info-content{border-radius: 30px!important;}
+	.amap-info-sharp{background: url(../img/down.png) no-repeat;background-size: 15px;background-position: 0 -5px;}
+	.amap-info-close{display: none;}
+	.amap-info-content{padding:5px 10px;font-size: .26rem;}
+	.mui-poppicker{z-index: 99999999;}

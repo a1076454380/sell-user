@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/wallet.css"/>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		body,
+		.mui-content {
+			background: white;
+		}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper user index">
+			<header class="header">
+				<span class="header-back mui-action-back">
+					<img src="img/backwhite.png" >
+				</span>
+				<span class="header-main">我的钱包</span>
+				<span class="header-settings">
+					
+				</span>
+			</header>
+			<div class="main">
+				<div class="header-top">
+					<p>账户余额</p>
+					<h1>{{wallet}}</h1>
+				</div>
+				<div class="tab" @click="opennew('Budget')">
+					<span>收支记录</span>
+					<img src="img/arrright.png" >
+				</div>
+				<div class="tab" @click="opennew('bindapy')">
+					<span>绑定支付宝</span>
+					<img src="img/arrright.png" >
+				</div>
+			</div>
+			<div class="bottom">
+				<div class="bbutton" @click="opennew('chongzhi')">充值</div>
+				<div class="bbutton" @click="opennew('tixian')">提现</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					wallet:0
+				},
+				methods: {
+					opennew: function(adr) {
+						if(adr == 'orderlist') {
+							mui.openWindow({
+								url: '' + adr + '.html',
+								id: '' + adr + '',
+								createNew: true
+							})
+						} else {
+							mui.openWindow({
+								url: '' + adr + '.html',
+								id: '' + adr + ''
+							})
+						}
+					},
+					getmoney:function(){
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/selectUsUserWallet",
+							dataType: 'json',
+							data: {
+								usUserId:localStorage.getItem('userid')
+							},
+							success: function(res) {
+								that.wallet=res.data.usWaPrice
+							},
+							error: function(err) {
+								
+							}
+						});
+					}
+				},
+				mounted: function() {
+					this.getmoney()
+				},
+				filters: {
+					
+				}
+			})
+		</script>
+	</body>
+
+</html>

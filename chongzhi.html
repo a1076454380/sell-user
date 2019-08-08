@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/paynext.css"/>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		body,
+		.mui-content {
+			background: white;
+		}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper paynext">
+			<header class="header">
+				<span class="header-back mui-action-back">
+					<img src="img/back.png" >
+				</span>
+				<span class="header-main">充值</span>
+				<span class="header-settings">
+					
+				</span>
+			</header>
+			<div class="main">
+				<div class="group">
+					<div class="price pay-input">
+						¥
+						<input type="number" placeholder="请输入充值金额" v-model="wallet"/>
+					</div>
+				</div>
+				<div class="group grou02" @click="chaneindex(2)">
+					<img src="img/weixin01.png">
+					<div class="center">
+						<div class="balance">
+							微信支付
+						</div>
+					</div>
+					<div class="type-box">
+						<img src="img/no.png" v-if="paytype!=2">
+						<img src="img/pay_09.png"  v-if="paytype==2">
+					</div>
+				</div>
+				<div class="group grou02" style="margin: 0;border-top: 1px solid gainsboro;" @click="chaneindex(1)">
+					<img src="img/pay_07.png">
+					<div class="center">
+						<div class="balance">
+							支付宝支付
+						</div>
+					</div>
+					<div class="type-box">
+						<img src="img/no.png" v-if="paytype!=1">
+						<img src="img/pay_09.png"  v-if="paytype==1">
+					</div>
+				</div>
+			</div>
+			<div class="bottom" @click="myajax">
+				充值
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					paytype:1,
+					wallet:''
+				},
+				methods: {
+					chaneindex:function(index){
+						this.paytype=index
+					},
+					opennew: function(adr) {
+							mui.openWindow({
+								url: '' + adr + '.html',
+								id: '' + adr + ''
+							})
+					},
+					myajax: function() {
+						var that = this
+						var url=''
+						// plus.nativeUI.showWaiting()
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + '/userRecharge',
+							dataType: 'json',
+							data: {
+								usUfPrice:that.wallet,
+								usUserId:localStorage.getItem('userid'),
+								state:that.paytype
+							},
+							success: function(res) {
+								if(that.paytype==1){
+									// 支付宝支付
+									plus.payment.request(that.channel[0], res.data[0], function(result) {
+										plus.nativeUI.closeWaiting()
+										mui.back()
+									}, function(error) {
+										plus.nativeUI.closeWaiting()
+										plus.nativeUI.toast('支付失败！')
+									});
+								}else if(that.paytype==2){
+									// 微信支付
+									plus.payment.request(that.channel[1], res, function(result) {
+										plus.nativeUI.closeWaiting()
+										mui.back()
+									}, function(error) {
+										plus.nativeUI.closeWaiting()
+										plus.nativeUI.toast('支付失败！')
+									});
+								}
+								
+							},
+							error: function(err) {
+								plus.nativeUI.closeWaiting()
+								plus.nativeUI.toast('支付失败！')
+							}
+						});
+					}
+				},
+				mounted: function() {
+					
+				}
+			})
+		</script>
+	</body>
+
+</html>

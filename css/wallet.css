@@ -1,0 +1,10 @@
+.main{background: #f9f9f9;}
+.header{background: #FF8190;color: #FFFFFF;}
+.header-top{
+	height: 3rem;background: #FF8190;color: #FFFFFF;display: flex;align-items: center;justify-content: center;flex-direction: column;
+}
+.header-top h1{font-size: .8rem;}
+.tab{background: #FFFFFF;height: .8rem;display: flex;align-items: center;justify-content: space-between;margin: .2rem;padding:0 .2rem;border-radius: .1rem;}
+.tab img{height: .4rem;}
+.bottom{display: flex;background: #f9f9f9;}
+.bbutton{flex: 1;height: 100%;text-align: center;height: .8rem;line-height: .8rem;background: #ffffff;color: #333333;margin:0 .05rem .1rem .05rem;border-radius: .1rem;box-shadow: 0 0 2px 2px ghostwhite;}

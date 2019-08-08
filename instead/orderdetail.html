@@ -8,6 +8,7 @@
 		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+		<link rel="stylesheet" type="text/css" href="../css/odetail.css"/>
 		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
@@ -20,21 +21,6 @@
 
 	<body>
 		<div id="app" class="wrapper orderdetail">
-			<div class="layui" v-show="layui">
-				<div class="layui-inner">
-					<div class="layui-top">
-						友情提示
-					</div>
-					<div class="layui-main">
-						{{layuitext}}
-					</div>
-					<div class="layui-settings">
-						<div class="layui-setting" @click="layuiboo">
-							确定
-						</div>
-					</div>
-				</div>
-			</div>
 			<header class="header">
 				<span class="header-back mui-action-back">
 						<img src="../img/back.png"/>
@@ -43,13 +29,62 @@
 				<span class="header-settings"></span>
 			</header>
 			<div class="main" style="padding-top: .2rem;">
+				<div id="container"></div>
 				<div class="detail-group inform">
+					<div class="order-state">
+						{{myajax.UsReplaceTakeDetailsPojo.usRtStatus | state}}
+					</div>
+					<div class="order-text">
+						{{myajax.UsReplaceTakeDetailsPojo.usRtStatus==1?'期待下次光临！':'骑手正在火速赶来，请耐心等候！'}}
+					</div>
+					<div class="bottom-box">
+						<a class="btn" v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus==3" :href="'tel:'+myajax.UsReplaceTakeDetailsPojo.usRtPhone">
+							通知收货人
+						</a>
+						<a class="btn" v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus==4" :href="'tel:'+myajax.UsReplaceTakeDetailsPojo.usRtPhone">
+							通知收货人
+						</a>
+						<div class="btn active" v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus==2">
+							取消订单
+						</div>
+						<div class="btn" v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus==1">
+							再来一单
+						</div>
+					</div>
+				</div>
+				<div class="detail-group inform"v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus!=2">
+					<div class="user-box">
+						<img src="../img/xin.png" class="avatar">
+						<div class="user-inform">
+							<div class="user-name">
+								{{myajax.UsReplaceTakeDetailsPojo.usRiName}}
+							</div>
+							<div class="user-star">
+								服务指数：{{myajax.Standard/10}}
+							</div>
+						</div>
+						<a :href="'tel:'+myajax.UsReplaceTakeDetailsPojo.usRiPhone" class="phonebox"><img src="../img/myphone.png" class="phone"></a>
+					</div>
+					<div class="user-detail" v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus==3||myajax.UsReplaceTakeDetailsPojo.usRtStatus==4">
+						<p v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus==3">距离 <span>{{myajax.distance}}</span>公里，预计<span>5</span>分钟到达取货地址</p>
+						<p>骑手上门预计需要 <span>{{myajax.minute}}</span>分钟，请您耐心等候。</p>
+					</div>
+				</div>
+				<div class="detail-group inform">
+					<div class="inform-group">
+						<span class="inform-name">
+							{{myajax.UsReplaceTakeDetailsPojo.usRtIsType | usRtIsType}} &nbsp;|
+						</span>
+						<span class="inform-text">
+							{{myajax.UsReplaceTakeDetailsPojo.usRtRemarks}}
+						</span>
+					</div>
 					<div class="inform-group">
 						<span class="inform-name">
 							订单号码
 						</span>
 						<span class="inform-text">
-							{{myajax.usReplaceTakeId}}
+							{{myajax.UsReplaceTakeDetailsPojo.usReplaceTakeId}}
 						</span>
 					</div>
 					<div class="inform-group">
@@ -57,12 +92,31 @@
 							订单时间
 						</span>
 						<span class="inform-text">
-							{{myajax.usRtCreateTime}}
+							{{myajax.UsReplaceTakeDetailsPojo.usRtCreateTime}}
+						</span>
+					</div>
+					<div class="inform-group">
+						<span class="inform-name">
+							收货地址
+						</span>
+						<span class="inform-text">
+							{{myajax.UsReplaceTakeDetailsPojo.usAdsDetailed}}
+						</span>
+					</div>
+					<div class="inform-group">
+						<span class="inform-name">
+							收货电话
+						</span>
+						<span class="inform-text">
+							{{myajax.UsReplaceTakeDetailsPojo.usRtPhone}}
 						</span>
 					</div>
 				</div>
 			</div>
 		</div>
+		<script src="../js/dingwei.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
+		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -101,10 +155,93 @@
 							url: localStorage.getItem('myurl') + "/queryUsReplaceTakePojoByUsReplaceTakeId",
 							dataType: 'json',
 							data: {
-								usReplaceTakeId: localStorage.getItem('usReplaceTakeId')
+								usReplaceTakeId: localStorage.getItem('usReplaceTakeId'),
+								lng :jing,
+								lat:wei
 							},
 							success: function(res) {
 								that.myajax=res.data
+								setTimeout(function(){
+									var map = new AMap.Map('container', {
+										zoom: 14
+									});
+									//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
+									AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
+										if (!PathSimplifier.supportCanvas) {
+											alert('当前环境不支持 Canvas！');
+											return;
+										}
+										//启动页面
+										initPage(PathSimplifier);
+									});
+									
+									function initPage(PathSimplifier) {
+										//创建组件实例
+										var pathSimplifierIns = new PathSimplifier({
+											zIndex: 100,
+											map: map, //所属的地图实例
+											getPath: function(pathData, pathIndex) {
+												//返回轨迹数据中的节点坐标信息，[AMap.LngLat, AMap.LngLat...] 或者 [[lng|number,lat|number],...]
+												return pathData.path;
+											},
+											renderOptions: {
+												//轨迹线的样式
+												pathLineStyle: {
+													strokeStyle: '#FF8190',
+													lineWidth: 4,
+													dirArrowStyle: true
+												}
+											}
+										});
+									
+										//这里构建两条简单的轨迹，仅作示例
+										pathSimplifierIns.setData([{
+											name: '轨迹名称',
+											path: [
+												[res.data.lng1, res.data.lat1],
+												[res.data.lng2, res.data.lat2]
+											]
+										}]);
+									
+										//创建一个巡航器
+										var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
+											{
+												loop: true, //循环播放
+												speed: 1000,
+												pathNavigatorStyle: {
+													width: 24,
+													height: 24,
+													//使用图片
+													strokeStyle: null,
+													fillStyle: null,
+													//经过路径的样式
+													pathLinePassedStyle: {
+														lineWidth: 6,
+														strokeStyle: 'white',
+														dirArrowStyle: {
+															stepSpace: 15,
+															strokeStyle: '#FF8190'
+														}
+													}
+												}
+											});
+										navg0.start();
+									}
+									//						骑手
+									if(that.myajax.UsReplaceTakeDetailsPojo.usRiMapPlace != null&&that.myajax.UsReplaceTakeDetailsPojo.usRiMapPlace != 'null') {
+										var lng=that.myajax.UsReplaceTakeDetailsPojo.usRiMapPlace
+										new AMap.Marker({
+											map: map,
+											position: [lng.substr(0,lng.indexOf(',')),lng.substr(lng.indexOf(',')+1,lng.length)],
+											icon: new AMap.Icon({
+												size: new AMap.Size(27, 33),
+												image: "../img/che.png"
+											})
+										});
+									}
+								},500)
+								
+								
 							}
 						});
 				},
@@ -112,13 +249,22 @@
 					mui.init()
 				},
 				filters:{
+					usRtIsType:function(value){
+						if (value==1) {
+							return '代购订单'
+						} else if(value==2){
+							return '帮我取'
+						}else if(value==3){
+							return '帮我送'
+						}
+					},
 					state:function(value){
 						if (value==1) {
 							return '订单已完成'
 						} else if(value==2){
 							return '等待接单中'
 						}else if(value==3){
-							return '骑手已接单'
+							return '等待取货'
 						}else{
 							return '骑手已取件'
 						}

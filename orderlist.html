@@ -106,9 +106,9 @@
 
 									</div>
 									<div class="btn-group">
-										<!--<div class="setting-btn">
+										<div class="setting-btn" @click="deleteorder(val.usOrderId)">
 											删除订单
-										</div>-->
+										</div>
 										<div class="setting-btn" @click.stop="openshop(val.usTraderStoresId)">
 											再来一单
 										</div>
@@ -141,6 +141,28 @@
 					channel:''
 				},
 				methods: {
+					deleteorder:function(id){
+						var that=this
+						$.ajax({
+							type: "post",
+							url: that.myurl + "/updateUsOlderDeleteId ",
+							dataType: 'json',
+							data: {
+								usOrderId:id
+							},
+							success: function(res) {
+								if(res.data==1){
+									plus.nativeUI.toast('删除成功')
+									that.myajax()
+								}else{
+									plus.nativeUI.toast('删除失败')
+								}
+							},
+							error: function(err) {
+								alert(JSON.stringify(err))
+							}
+						});
+					},
 					openrating:function(id){
 						localStorage.setItem('usOrderId',id)
 						mui.openWindow({

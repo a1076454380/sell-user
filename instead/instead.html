@@ -86,39 +86,39 @@
 						</div>
 						<div class="xia01-bottom">
 							<img src="../img/editor.png">
-							<input type="text" placeholder="请填写商品名称和数量" readonly=""/>
+							<input type="text" placeholder="请填写商品名称和数量" readonly="" />
 						</div>
 					</div>
-					<!-- 取 -->
+					<!-- < -送-> -->
 					<div class="xia01" v-show="insteadtype==2">
 						<div class="xia01-bottom" @click="opennew('adresslist')">
 							<div class="raio"></div>
-							<input type="text" v-model="fdizhi" placeholder="请填写发货地址" readonly=""/>
+							<input type="text" v-model="fdizhi" placeholder="请填写发货地址" readonly="" />
 							<img src="../img/arrright.png">
 						</div>
 						<div class="xia01-bottom" @click="opennew03('fadresslist','s')">
 							<div class="raio"></div>
-							<input type="text" placeholder="请填写收货地址" v-model="sdizhi" readonly=""/>
+							<input type="text" placeholder="请填写收货地址" v-model="sdizhi" readonly="" class="qi" />
 							<img src="../img/arrright.png">
 						</div>
 					</div>
-<!-- 					<div class="goxia" v-show="insteadtype==2" @click="opennew('payqu')">
+					<!-- 					<div class="goxia" v-show="insteadtype==2" @click="opennew('payqu')">
 						立即下单
-					</div> -->
-					<!-- 送 -->
+					</div>
+					<!-- 取 -->
 					<div class="xia01" v-show="insteadtype==3">
 						<div class="xia01-bottom" @click="opennew('adresslist')">
 							<div class="raio"></div>
-							<input type="text" placeholder="请填写取货地址" v-model="fdizhi" readonly=""/>
+							<input type="text" placeholder="请填写取货地址" v-model="fdizhi" readonly="" />
 							<img src="../img/arrright.png">
 						</div>
 						<div class="xia01-bottom" @click="opennew03('fadresslist','q')">
 							<div class="raio"></div>
-							<input type="text" v-model="sdizhi" placeholder="请填写送货地址" readonly=""/>
+							<input type="text" v-model="sdizhi" placeholder="请填写送货地址" readonly="" class="song" />
 							<img src="../img/arrright.png">
 						</div>
 					</div>
-<!-- 					<div class="goxia" v-show="insteadtype==3" @click="opennew('paysong')">
+					<!-- 					<div class="goxia" v-show="insteadtype==3" @click="opennew('paysong')">
 						立即下单
 					</div> -->
 					<!-- 代购弹出框 -->
@@ -129,7 +129,7 @@
 						<div class="layui-box">
 							<p>请选择您需要的物品：</p>
 							<div class="xia01-top">
-								<div class="xia01-box" @click="gdai(val.maRtName)" v-for="val in navdata">
+								<div class="xia01-box" @click="gdai(index,val.maRunTypeId)" v-for="(val,index) in navdata" :class="daikuaijie==index?'active':''">
 									<img :src="myurl + val.maRtImg">
 									<span>{{val.maRtName}}</span>
 								</div>
@@ -147,8 +147,8 @@
 									三公里内购买
 								</div>
 							</div>
-							<div class="lm-box" v-if="mtype==0" @click="opennew('adresslist')">
-								<input type="text" placeholder="请选择购买地址" v-model="fdizhi" readonly=""/>
+							<div class="lm-box" v-if="mtype==0" @click="opennew('adresslist')" style="padding: .2rem 0;">
+								<input type="text" placeholder="请选择购买地址" v-model="fdizhi" readonly="" class="qi" />
 								<img src="../img/arrright.png">
 							</div>
 							<div class="submit" @click="gopay">
@@ -212,6 +212,7 @@
 			</footer>
 		</div>
 		<script src="../js/dingwei01.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/url.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -223,13 +224,14 @@
 					mtype: 0, //0指定地址购买,1三公里内随机购买
 					dboo: false, //购买弹出框
 					gneirong: '',
-					daikuaijie: '随意购',
+					daikuaijie: 0,
 					fdizhi: localStorage.getItem('fdizhi'),
 					sdizhi: localStorage.getItem('sdizhi'),
-					navdata:[],
-					map:'',
-					myurl:localStorage.getItem('myurl'),
-					qidata:[]
+					navdata: [],
+					map: '',
+					myurl: localStorage.getItem('myurl'),
+					qidata: [],
+					infoWindow: ''
 				},
 				methods: {
 					gopay: function() {
@@ -237,7 +239,7 @@
 							mui.toast('购买内容不能为空!')
 							return false
 						}
-						if (localStorage.getItem('fid') == undefined&&this.mtype==0) {
+						if (localStorage.getItem('fid') == undefined && this.mtype == 0) {
 							mui.toast('购买地址不能为空!')
 							this.opennew('adresslist')
 							return false
@@ -250,14 +252,10 @@
 					changetype: function(index) {
 						this.mtype = index
 					},
-					gdai: function(index) {
+					gdai: function(index, id) {
 						// 快捷代购按钮
 						this.daikuaijie = index
-						if (this.daikuaijie != '随意购') {
-							this.gneirong = index
-						} else {
-							this.gneirong = ''
-						}
+						localStorage.setItem('maRunTypeId', id)
 					},
 					dchange: function() {
 						// 显示弹出框
@@ -273,12 +271,13 @@
 					},
 					opennew: function(id) {
 						// 打开新页面
-						if(id=='payqu'||id=='paysong'){
-							if(localStorage.getItem('fid')==undefined||localStorage.getItem('sid')==undefined){
+						if (id == 'payqu' || id == 'paysong') {
+							if (localStorage.getItem('fid') == undefined || localStorage.getItem('sid') == undefined) {
 								mui.toast('地址不能为空')
 								return false
 							}
 						}
+						localStorage.setItem('ordert','pay')
 						mui.openWindow({
 							url: '../instead/' + id + '.html',
 							id: id
@@ -291,26 +290,26 @@
 							id: id
 						})
 					},
-					opennew03:function(id,type){
-						localStorage.setItem('ordert',type)
+					opennew03: function(id, type) {
+						localStorage.setItem('ordert', type)
 						// 打开新页面
 						mui.openWindow({
 							url: './' + id + '.html',
 							id: id
 						})
 					},
-					myajax:function(){
-						var that=this
+					myajax: function() {
+						var that = this
 						// 查询分类
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + '/selectMaRunTypeUser',
 							dataType: 'json',
 							success: function(res) {
-								that.navdata=res.data
+								that.navdata = res.data
 							},
 							error: function(err) {
-								
+
 							}
 						});
 						// 查询附近骑手
@@ -318,67 +317,145 @@
 							type: "post",
 							url: localStorage.getItem('myurl') + '/selectThreeRider',
 							dataType: 'json',
-							data:{
-								longitude:jing,
-								latitude:wei
+							data: {
+								longitude: jing,
+								latitude: wei
 							},
 							success: function(res) {
-								if(res.data!=null){
-									that.qidata=res.data
+								if (res.status == 200) {
+									that.qidata = res.data
+									var content = [
+										"<div><div>附近有" + that.qidata.length + "位骑手</div> <div>最快<span class='red'>" + res.data[0].minute +
+										"分钟</span>为您服务</div></div>"
+									];
+									that.infoWindow.setContent(content.join("<br>"))
+									for (var i = 0; i < res.data.length; i++) {
+										that.addmarker(res.data[i].usRiMapPlace)
+									}
+								}else{
+									var content = [
+										"<div>附近暂无骑手</div>"
+									];
+									that.infoWindow.setContent(content.join("<br>"))
 								}
-								var content = [
-									"<div><div>附近超过"+that.qidata.length+"位跑客</div> <div>等待为您服务</div></div>"
-								];
 
-								// 创建 infoWindow 实例	
-								var infoWindow = new AMap.InfoWindow({
-									anchor: 'bottom-center',
-								   content: content.join("<br>")  //传入 dom 对象，或者 html 字符串
-								});
-								wei=parseFloat(wei)+0.0006
-								jing=parseFloat(jing)-0.0003
-								infoWindow.open(that.map,[jing,wei]);
 								plus.nativeUI.closeWaiting()
 							},
 							error: function(err) {
-								
+
 							}
 						});
 					},
-					setcenter:function(){
-						onPlusReady()
+					addmarker: function(id) {
+						var id=JSON.parse(id)
+						var marker = new AMap.Marker({
+							position: new AMap.LngLat(id[0], id[1]),
+							offset: new AMap.Pixel(-10, -10),
+							icon: '../img/che.png', // 添加 Icon 图标 URL
+						});
+						this.map.add(marker);
 					},
-					setmap:function(){
-						plus.navigator.setStatusBarBackground('#FFFFFF');
-						plus.navigator.setStatusBarStyle('dark')
-						var that=this
+					setcenter: function() {
+						plus.nativeUI.showWaiting('地图加载中')
+
+						location.reload()
+					},
+					setmap: function() {
+						// plus.navigator.setStatusBarBackground('#FFFFFF');
+						// plus.navigator.setStatusBarStyle('dark')
+						var that = this
 						that.map = new AMap.Map('container', {
 							zoom: 15,
 							center: [jing, wei]
 						});
 						var marker = new AMap.Marker({
 							position: new AMap.LngLat(jing, wei),
-							title: '提示'
+							title: '提示',
+							icon: '../img/shou.png',
 						});
+						var content = [
+							"<div><div>附近暂无骑手</div></div>"
+						];
+
+						// 创建 infoWindow 实例	
+						that.infoWindow = new AMap.InfoWindow({
+							anchor: 'bottom-center',
+							content: content.join("<br>") //传入 dom 对象，或者 html 字符串
+						});
+						wei = parseFloat(wei) +0.0005
+						jing = parseFloat(jing) - 0.00055
+						that.infoWindow.open(that.map, [jing, wei]);
 						marker.setMap(that.map);
-						that.area=shi
+						that.map.on('mapmove', function() {
+							// 地图移动事件
+							var zoom = that.map.getZoom(); //获取当前地图级别
+							var center = that.map.getCenter(); //获取当前地图级别
+							wei = parseFloat(center.lat) +0.0005
+							jing = parseFloat(center.lng) - 0.00055
+							that.infoWindow.setPosition([jing, wei]);
+							marker.setPosition(center)
+						});
+						that.map.on('dragend', function(e) {
+							that.myajax()
+						});
+						that.area = shi
 						this.myajax()
 					}
 				},
 				mounted: function() {
-					var that=this
-					document.addEventListener('plusready', function(){plus.nativeUI.showWaiting('地图加载中')}, false);
-					if(localStorage.getItem('userid') == null||localStorage.getItem('userid') == undefined) {
-						plus.nativeUI.toast('请先进行登陆')
-						mui.openWindow({
-							url: 'login.html',
-							id: 'login'
-						})
+					var that = this
+					function plusReady() {
+						plus.navigator.setStatusBarBackground('#FFFFFF');
+						plus.navigator.setStatusBarStyle('dark')
+						plus.nativeUI.showWaiting('地图加载中')
+						plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myimg') + "/showVersion",
+								dataType: 'json',
+								success: function(res) {
+									if (res.data != null ? res.data.bpAvUserNum != inf.version : false) {
+										//										版本更新
+										plus.nativeUI.toast("正在为您更新版本~");
+										plus.downloader.createDownload(localStorage.getItem('myimg') + res.data.bpAvUserAppUrl, {
+											filename: "_doc/update/"
+										}, function(d, status) {
+											if (status == 200) {
+												plus.runtime.install(d.filename, {}, function() {
+													plus.nativeUI.alert("应用资源更新完成！点击重启！", function() {
+														plus.runtime.restart();
+													});
+												}, function(e) {
+													plus.nativeUI.alert("安装更新包失败[" + e.code + "]：" + e.message);
+												});
+											} else {
+												plus.nativeUI.alert("下载更新包失败！");
+											}
+										}).start();
+									}
+								},
+								error: function(err) {
+									that.myajax()
+								}
+							});
+						});
+						if (localStorage.getItem('userid') == null) {
+							plus.nativeUI.toast('请先进行登陆')
+							mui.openWindow({
+								url: '../login.html',
+								id: 'login'
+							})
+						}
+					}
+					if (window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener("plusready", plusReady, false);
 					}
 					window.addEventListener("instead/instead", function() {
-						that.fdizhi=localStorage.getItem('fdizhi')
-						that.sdizhi=localStorage.getItem('sdizhi')
+						location.reload()
 					})
+					// that.setmap()
 				},
 				update: function() {
 

@@ -29,8 +29,8 @@
 			<div class="main">
 				<input type="text" class="search" v-model="dizhi" placeholder="点击搜索购买地址" id="pickerInput" />
 				<input type="text" class="search" v-model="xiangxi" placeholder="填写楼号、楼层和门牌号，" />
-				<input type="text" class="search" v-model="xingming" placeholder="请输入收货人姓名" />
-				<input type="number" class="search" v-model="shoujihao" placeholder="请输入收货人手机号" />
+				<input type="text" class="search" v-model="xingming" placeholder="姓名" />
+				<input type="number" class="search" v-model="shoujihao" placeholder="请输入 手机号" />
 				<div class="br"></div>
 				<p>常用地址</p>
 				<div class="dizhi-box" v-if="val.usAdsDetailed!=null" v-for="val in adressdata" @click="changyong(val.usAdsProvince,val.usAdsDetailed,val.usAdsPhone,val.usAdsName,val.usAddressId)">
@@ -59,18 +59,18 @@
 					flat: '',
 					xingming: '',
 					shoujihao: '',
-					result:[]
+					result: []
 				},
 				methods: {
-					changyong: function(dizhi, xiangxi, shouji, xingming,id) {
-						var that=this
+					changyong: function(dizhi, xiangxi, shouji, xingming, id) {
+						var that = this
 						AMap.service('AMap.Geocoder', function() { //回调函数
 							//			实例化Geocoder
 							var geocoder = new AMap.Geocoder({
 								city: "" //城市，默认：“全国”
 							});
 							//						根据地址查经纬度
-							geocoder.getLocation(dizhi+xiangxi, function(status, result) {
+							geocoder.getLocation(dizhi + xiangxi, function(status, result) {
 								if (status === 'complete' && result.info === 'OK') {
 									localStorage.setItem('fid', id)
 									localStorage.setItem('fdizhi', dizhi)
@@ -79,23 +79,34 @@
 									localStorage.setItem('fxingming', xingming)
 									localStorage.setItem('flng', result.geocodes[0].location.lng)
 									localStorage.setItem('flat', result.geocodes[0].location.lat)
-									if(plus.webview.getWebviewById('pay')!=undefined){
-										var pay=plus.webview.getWebviewById('pay')
-										mui.fire(pay,'pay',{});
+									if (plus.webview.getWebviewById('pay') != undefined) {
+										var pay = plus.webview.getWebviewById('pay')
+										mui.fire(pay, 'pay', {});
 									}
-									if(plus.webview.getWebviewById('payqu')!=undefined){
-										var payqu=plus.webview.getWebviewById('payqu')
-										mui.fire(payqu,'payqu',{});
+									if (plus.webview.getWebviewById('payqu') != undefined) {
+										var pay = plus.webview.getWebviewById('payqu')
+										mui.fire(pay, 'payqu', {});
 									}
-									if(plus.webview.getWebviewById('paysong')!=undefined){
-										var paysong=plus.webview.getWebviewById('paysong')
-										mui.fire(paysong,'paysong',{});
+									if (plus.webview.getWebviewById('paysong') != undefined) {
+										var pay = plus.webview.getWebviewById('paysong')
+										mui.fire(pay, 'paysong', {});
 									}
-									if(plus.webview.getWebviewById('instead/instead')!=undefined){
-										var instead=plus.webview.getWebviewById('instead/instead')
-										mui.fire(instead,'instead/instead',{});
+									if (localStorage.getItem('ordert') == 's') {
+										that.opennew('paysong')
+									} else if (localStorage.getItem('ordert') == 'q') {
+										that.opennew('payqu')
+									} else if (localStorage.getItem('ordert') == 0) {
+										that.opennew('pay')
+									} else {
+										plus.nativeUI.showWaiting('地址加载中')
+										var pay = plus.webview.getLaunchWebview().reload()
+										setTimeout(function(){
+											plus.nativeUI.closeWaiting()
+											mui.back()
+										},500)
+										
 									}
-									mui.back()
+
 								} else {
 									//获取经纬度失败
 								}
@@ -104,8 +115,10 @@
 					},
 					submit: function() {
 						var that = this
-						if (this.dizhi == '' || this.xiangxi == '') {
+						if (this.dizhi == '' || this.xiangxi == '' || this.xingming == '') {
 							mui.toast('地址填写不完整')
+						} else if (!(/^1[3456789]\d{9}$/.test(this.shoujihao))) {
+							mui.toast('手机号格式错误')
 						} else {
 							$.ajax({
 								type: "post",
@@ -128,24 +141,36 @@
 										localStorage.setItem('fxingming', that.xingming)
 										localStorage.setItem('flng', that.flng)
 										localStorage.setItem('flat', that.flat)
-										localStorage.setItem('fid',res.data.usAddressId)
-										if(plus.webview.getWebviewById('pay')!=undefined){
-											var pay=plus.webview.getWebviewById('pay')
-											mui.fire(pay,'pay',{});
+										localStorage.setItem('fid', res.data.usAddressId)
+										if (plus.webview.getWebviewById('pay') != undefined) {
+											var pay = plus.webview.getWebviewById('pay')
+											mui.fire(pay, 'pay', {});
 										}
-										if(plus.webview.getWebviewById('payqu')!=undefined){
-											var pay=plus.webview.getWebviewById('payqu')
-											mui.fire(pay,'payqu',{});
+										if (plus.webview.getWebviewById('payqu') != undefined) {
+											var pay = plus.webview.getWebviewById('payqu')
+											mui.fire(pay, 'payqu', {});
 										}
-										if(plus.webview.getWebviewById('paysong')!=undefined){
-											var pay=plus.webview.getWebviewById('paysong')
-											mui.fire(pay,'paysong',{});
+										if (plus.webview.getWebviewById('paysong') != undefined) {
+											var pay = plus.webview.getWebviewById('paysong')
+											mui.fire(pay, 'paysong', {});
 										}
-										if(plus.webview.getWebviewById('instead/instead')!=undefined){
-											var pay=plus.webview.getWebviewById('instead/instead')
-											mui.fire(pay,'instead/instead',{});
+										console.log(localStorage.getItem('ordert'));
+										if (localStorage.getItem('ordert') == 's') {
+											that.opennew('paysong')
+										} else if (localStorage.getItem('ordert') == 'q') {
+											that.opennew('payqu')
+										} else if (localStorage.getItem('ordert') == 0) {
+											that.opennew('pay')
+										} else {
+											plus.nativeUI.showWaiting('地址加载中')
+											var pay = plus.webview.getLaunchWebview()
+											mui.fire(pay, 'instead/instead', {});
+											setTimeout(function(){
+												plus.nativeUI.closeWaiting()
+												mui.back()
+											},500)
 										}
-										mui.back()
+
 									}
 								}
 							});
@@ -195,15 +220,16 @@
 					});
 					AMap.service(["AMap.PlaceSearch"], function() {
 						//构造地点查询类
-						var placeSearch = new AMap.PlaceSearch({ 
+						var placeSearch = new AMap.PlaceSearch({
 							map: map, // 展现结果的地图实例
 						});
 						//关键字查询
-						placeSearch.search(wanzheng,function(status, result){
-							that.result=result.poiList.pois
+						placeSearch.search(wanzheng, function(status, result) {
+							that.result = result.poiList.pois
 							console.log(that.result)
 						});
 					});
+
 					function poiPickerReady(poiPicker) {
 						window.poiPicker = poiPicker;
 						var marker = new AMap.Marker();

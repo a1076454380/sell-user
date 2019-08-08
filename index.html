@@ -15,7 +15,7 @@
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 	</head>
 	<body>
-		<div id="app" class="wrapper index" @scroll="myscroll"> 
+		<div id="app" class="wrapper index" @scroll="myscroll">
 			<div class="layui" v-show="layui">
 				<div class="layui-inner">
 					<div class="layui-top">
@@ -33,16 +33,16 @@
 			</div>
 			<header class="header" v-show="sarchboo">
 				<!-- @click="opennew('city')" -->
-				<span class="header-back" >
+				<span class="header-back">
 					{{city}}
-					<img src="img/arrbottom.png"/>
+					<img src="img/arrbottom.png" />
 				</span>
 				<span class="header-main" @click="opennew('gosearch')">
 					搜索
 				</span>
 				<span class="header-settings">
-					<img src="img/order (2).png" style="margin-right: .45rem;" @click="opennew('orderlist')"/>
-					<img src="img/my.png" @click="opennew('user')"/>
+					<img src="img/order (2).png" style="margin-right: .45rem;" @click="opennew('orderlist')" />
+					<img src="img/my.png" @click="opennew('user')" />
 				</span>
 			</header>
 			<div class="main mui-scroll-wrapper">
@@ -70,7 +70,8 @@
 						</div>
 						<div class="main-swiper">
 							<div class="nav">
-								<div class="nav-group" @click="openlist(val.maMerchantsStyleId,val.maMsName)" v-for='(val,index) in navdata' v-if="index<10">
+								<div class="nav-group" @click="openlist(val.maMerchantsStyleId,val.maMsName)" v-for='(val,index) in navdata'
+								 v-if="index<10">
 									<div class="img-box">
 										<img :src="val.maMsImgUrl | myimg" />
 									</div>
@@ -86,7 +87,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="index-top" v-if="mydata.length!=0">
+						<!-- <div class="index-top" v-if="mydata.length!=0">
 							<span>
 								我的专属
 							</span>
@@ -103,43 +104,56 @@
 										</div>
 										<div class="index-x">
 											<div class="star-box">
-												<div class="x-group" v-for="item in val.starPercentage">
+												<div class="x-group">
 													<img src="img/xactive.png" />
 												</div>
-												<div class="x-group" v-for="item in (5 - val.starPercentage)">
-													<img src="img/xhalf.png" />
-												</div>
-												&nbsp;{{val.starPercentage}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												{{val.starPercentage}}&nbsp;
 
-												<span>
-													月销量:
+												<span style="flex: 1;">
+													月售:
 													<strong>{{val.monthCount}}</strong>
 												</span>
 
 											</div>
 											<div class="time-box">
-												38分钟 |3.0Km
+												38分钟 {{val.discount}}Km
 											</div>
 										</div>
 										<div class="index-money">
 											<span>
-												起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}} | 人均:¥10
+												起送:¥{{val.usTsActionPrice}}  配送:¥{{val.maDiPrice}}  人均:¥{{val.avgUsOrPrice}}
 											</span>
 										</div>
-										<!-- <div class="index-x">
-											<div class="adver-box">
-												<span class="adver-logo">满减</span>
-												<span>在线支付满100减6</span>
-											</div>
-										</div> -->
+									</div>
+								</div>
+								<div class="prefer">
+									<div class="prefer-group" v-if="val.subtract!=0">
+										<span class="perer-name">
+											最高减{{val.subtract}}元
+										</span>
+									</div>
+									<div class="prefer-group" v-if="val.activities!=0">
+										<span class="perer-name">
+											新客减{{val.activities}}元
+										</span>
+									</div>
+									<div class="prefer-group" v-if="val.discount!=0">
+										<span class="perer-name">
+											{{val.discount}}折起
+										</span>
+									</div>
+									<div class="prefer-group" v-if="val.packagePrice!=0">
+										<span class="perer-name">
+											{{val.packagePrice}}元红包
+										</span>
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="index-top">
 							<span>
-						小易推荐
-					</span>
+								我的专属
+							</span>
 						</div>
 					</div>
 					<div class="index-top" style="margin-top: 0;" id="nav">
@@ -165,7 +179,7 @@
 						</div>
 					</div>
 					<div class="index-main">
-						<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId,'小易推荐')" v-for="val in tuidata">
+						<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId,'我的专属')" v-for="val in tuidata">
 							<div class="group-inner">
 								<div class="img-box">
 									<img :src="val.usTsFacadeImg | myimg" />
@@ -176,25 +190,22 @@
 									</div>
 									<div class="index-x">
 										<div class="star-box">
-											<div class="x-group" v-for="item in val.starPercentage">
+											<div class="x-group">
 												<img src="img/xactive.png" />
 											</div>
-											<div class="x-group" v-for="item in (5 - val.starPercentage)">
-												<img src="img/xhalf.png" />
-											</div>
-											&nbsp;{{val.starPercentage}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<span>
-												月销量:
+											{{val.starPercentage}}&nbsp;
+											<span style="flex: 1;">
+												月售:
 												<strong>{{val.monthCount}}</strong>
 											</span>
 										</div>
 										<div class="time-box">
-											38分钟 |3.0Km
+											{{val.minute}}分钟 {{val.nearestDistance}}Km
 										</div>
 									</div>
 									<div class="index-money">
 										<span>
-											起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}} | 人均:¥10
+											起送:¥{{val.usTsActionPrice}} 配送:¥{{val.maDiPrice}} 人均:¥{{val.avgUsOrPrice}}
 										</span>
 									</div>
 									<!-- <div class="index-x">
@@ -208,34 +219,22 @@
 							<div class="prefer">
 								<div class="prefer-group" v-if="val.subtract!=0">
 									<span class="perer-name">
-										满减
-									</span>
-									<span class="prefer-text">
-										线上专享最高可减{{val.subtract}}元.
+										最高减{{val.subtract}}元
 									</span>
 								</div>
 								<div class="prefer-group" v-if="val.activities!=0">
 									<span class="perer-name">
-										新人
-									</span>
-									<span class="prefer-text">
-										新用户立减{{val.activities}}元.
+										新客减{{val.activities}}元
 									</span>
 								</div>
 								<div class="prefer-group" v-if="val.discount!=0">
 									<span class="perer-name">
-										折扣
-									</span>
-									<span class="prefer-text">
-										线上专享最高{{val.discount}}折
+										{{val.discount}}折起
 									</span>
 								</div>
 								<div class="prefer-group" v-if="val.packagePrice!=0">
 									<span class="perer-name">
-										红包
-									</span>
-									<span class="prefer-text">
-										限时优惠，最高领取{{val.packagePrice}}元红包.
+										{{val.packagePrice}}元红包
 									</span>
 								</div>
 							</div>
@@ -299,6 +298,7 @@
 			<div id="container" style="display: none;"></div>
 		</div>
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<script src="js/dingwei.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -324,7 +324,7 @@
 						this.opennew('shoplist')
 					},
 					myscroll: function() {
-						if($(".wrapper").scrollTop() >= $('#topheight').height()) {
+						if ($(".wrapper").scrollTop() >= $('#topheight').height()) {
 							$('#nav').css('position', 'fixed')
 						} else {
 							$('#nav').css('position', '')
@@ -335,7 +335,7 @@
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
 						}
-						if(window.plus) {
+						if (window.plus) {
 							plusReady();
 						} else {
 							document.addEventListener("plusready", plusReady, false);
@@ -347,7 +347,7 @@
 							easing: "swing"
 						});
 						this.screen = type
-						if(jiang == 's') {
+						if (jiang == 's') {
 							this.tuidata.sort(function(a, b) {
 								return parseFloat(a[type]) - parseFloat(b[type]);
 							})
@@ -361,7 +361,7 @@
 							// 弹出系统等待对话框
 							plus.nativeUI.closeWaiting()
 						}
-						if(window.plus) {
+						if (window.plus) {
 							plusReady();
 						} else {
 							document.addEventListener("plusready", plusReady, false);
@@ -375,7 +375,7 @@
 						this.shoptype = !this.shoptype
 					},
 					gosearch: function() {
-						if(this.searchdata == '') {
+						if (this.searchdata == '') {
 							this.layui = !this.layui
 						} else {
 							localStorage.setItem('searchdpeata', this.shoptype)
@@ -387,7 +387,7 @@
 						}
 					},
 					opennew: function(target, id) {
-						if(localStorage.getItem('userid') == null) {
+						if (localStorage.getItem('userid') == null) {
 							plus.nativeUI.toast('请先进行登陆')
 							mui.openWindow({
 								url: 'login.html',
@@ -401,7 +401,7 @@
 						}
 					},
 					opendetail: function(id, usTraderId, title) {
-						if(localStorage.getItem('userid') == null) {
+						if (localStorage.getItem('userid') == null) {
 							plus.nativeUI.toast('请先进行登陆')
 							mui.openWindow({
 								url: 'login.html',
@@ -413,33 +413,16 @@
 						var that = this
 						localStorage.setItem('usTraderStoresId', id)
 						localStorage.setItem('usTraderId', usTraderId)
-						if(title == '') {
+						if (title == '') {
 							that.opennew('shop')
 							return false;
 						}
-						$.ajax({
-							type: "post",
-							url: localStorage.getItem('myurl') + "/changeAdPrice",
-							dataType: 'json',
-							data: {
-								storesId: id,
-								title: title
-							},
-							success: function(res) {
-								mui.openWindow({
-									url: 'shop.html',
-									id: 'shop',
-									createNew: true
-								})
-							},
-							error: function(err) {
-								mui.openWindow({
-									url: 'shop.html',
-									id: 'shop',
-									createNew: true
-								})
-							}
-						});
+
+						mui.openWindow({
+							url: 'shop.html',
+							id: 'shop',
+							createNew: true
+						})
 
 					},
 					myajax: function() {
@@ -447,7 +430,7 @@
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
 						}
-						if(window.plus) {
+						if (window.plus) {
 							plusReady();
 						} else {
 							document.addEventListener("plusready", plusReady, false);
@@ -485,18 +468,18 @@
 							}
 						});
 						//						我的专属
-						$.ajax({
-							type: "post",
-							url: localStorage.getItem('myurl') + "/queryTUsTraderStoresRecommendPojoMySpecialtyY",
-							dataType: 'json',
-							data: {
-								usUserId: localStorage.getItem('userid')
-							},
-							success: function(res) {
-								that.mydata = res.data
-
-							}
-						});
+						// 						$.ajax({
+						// 							type: "post",
+						// 							url: localStorage.getItem('myurl') + "/queryTUsTraderStoresRecommendPojoMySpecialtyY",
+						// 							dataType: 'json',
+						// 							data: {
+						// 								usUserId: localStorage.getItem('userid')
+						// 							},
+						// 							success: function(res) {
+						// 								that.mydata = res.data
+						// 
+						// 							}
+						// 						});
 						//						分类查询
 						$.ajax({
 							type: "get",
@@ -506,16 +489,16 @@
 								that.navdata = res.data
 							}
 						});
-						//						小易推荐
+						//						我的专属
 						$.ajax({
 							type: "post",
 							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojoY",
 							dataType: 'json',
 							data: {
-								lng: localStorage.getItem('lng'),
-								lat: localStorage.getItem('lat'),
-								maApName: '小易推荐',
-								usAddress: localStorage.getItem('city02')
+								lng: wei,
+								lat: jing,
+								maApName: '我的专属',
+								usAddress: shi
 							},
 							success: function(res) {
 								that.tuidata = res.data
@@ -528,7 +511,7 @@
 							// 弹出系统等待对话框
 							plus.nativeUI.closeWaiting()
 						}
-						if(window.plus) {
+						if (window.plus) {
 							plusReady();
 						} else {
 							document.addEventListener("plusready", plusReady, false);
@@ -537,7 +520,7 @@
 				},
 				mounted: function() {
 					$(document).ready(function() {
-						if(window.history && window.history.pushState) {
+						if (window.history && window.history.pushState) {
 							$(window).on('popstate', function() {
 								window.history.pushState('forward', null, '#');
 								window.history.forward(1);
@@ -546,7 +529,7 @@
 						window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
 						window.history.forward(1);
 					});
-					if(localStorage.getItem('historydata') == undefined) {
+					if (localStorage.getItem('historydata') == undefined) {
 						localStorage.setItem('historydata', '[]')
 					}
 					mui('.mui-scroll-wrapper').scroll({
@@ -563,13 +546,13 @@
 								url: localStorage.getItem('myimg') + "/showVersion",
 								dataType: 'json',
 								success: function(res) {
-									if(res.data != null ? res.data.bpAvUserNum != inf.version : false) {
+									if (res.data != null ? res.data.bpAvUserNum != inf.version : false) {
 										//										版本更新
 										plus.nativeUI.toast("正在为您更新版本~");
 										plus.downloader.createDownload(localStorage.getItem('myimg') + res.data.bpAvUserAppUrl, {
 											filename: "_doc/update/"
 										}, function(d, status) {
-											if(status == 200) {
+											if (status == 200) {
 												plus.runtime.install(d.filename, {}, function() {
 													plus.nativeUI.alert("应用资源更新完成！点击重启！", function() {
 														plus.runtime.restart();
@@ -583,7 +566,7 @@
 										}).start();
 										that.myajax()
 									}
-									if(localStorage.getItem('province') == null || localStorage.getItem('province') == undefined) {
+									if (localStorage.getItem('province') == null || localStorage.getItem('province') == undefined) {
 										//										没有版本更新
 										plus.geolocation.getCurrentPosition(function(p) {
 											localStorage.setItem('lng', p.coords.latitude)
@@ -599,12 +582,14 @@
 												//		    根据经纬度查地址
 												var lnglatXY = [p.coords.longitude, p.coords.latitude]; //地图上所标点的坐标
 												geocoder.getAddress(lnglatXY, function(status, result) {
-													if(status === 'complete' && result.info === 'OK') {
+													if (status === 'complete' && result.info === 'OK') {
 														localStorage.setItem('province', result.regeocode.addressComponent.province)
 														localStorage.setItem('city01', result.regeocode.addressComponent.city)
 														localStorage.setItem('area', result.regeocode.addressComponent.district)
-														localStorage.setItem('city', result.regeocode.addressComponent.province + result.regeocode.addressComponent.city)
-														localStorage.setItem('city02', result.regeocode.addressComponent.province + result.regeocode.addressComponent.city + result.regeocode.addressComponent.district)
+														localStorage.setItem('city', result.regeocode.addressComponent.province + result.regeocode.addressComponent
+															.city)
+														localStorage.setItem('city02', result.regeocode.addressComponent.province + result.regeocode
+															.addressComponent.city + result.regeocode.addressComponent.district)
 													} else {
 														//获取地址失败
 														that.city = '获取失败'
@@ -618,8 +603,6 @@
 											alert('获取地址失败，请检查网络和GPS')
 											that.myajax()
 										});
-									} else {
-										that.myajax()
 									}
 								},
 								error: function(err) {
@@ -627,7 +610,7 @@
 								}
 							});
 						});
-						if(localStorage.getItem('userid') == null) {
+						if (localStorage.getItem('userid') == null) {
 							plus.nativeUI.toast('请先进行登陆')
 							mui.openWindow({
 								url: 'login.html',
@@ -635,7 +618,7 @@
 							})
 						}
 					}
-					if(window.plus) {
+					if (window.plus) {
 						plusReady();
 					} else {
 						document.addEventListener("plusready", plusReady, false);

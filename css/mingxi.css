@@ -6,3 +6,7 @@
 h2{margin: .1rem 0 .2rem;}
 h4{margin: 1rem 0 .2rem;text-align: right;}
 p{color: #B7B7B7;font-size: .15rem;text-align: right;}
+.amap-info-content{border-radius: 30px!important;}
+.amap-info-sharp{background: url(../img/down.png) no-repeat;background-size: 15px;background-position: 0 -5px;}
+.amap-info-close{display: none;}
+.amap-info-content{padding:5px 10px;font-size: .26rem;}

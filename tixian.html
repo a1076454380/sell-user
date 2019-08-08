@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/paynext.css"/>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		body,
+		.mui-content {
+			background: white;
+		}
+		input::placeholder{color: #666666!important;}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper paynext">
+			<header class="header">
+				<span class="header-back mui-action-back">
+					<img src="img/back.png" >
+				</span>
+				<span class="header-main">提现</span>
+				<span class="header-settings">
+					
+				</span>
+			</header>
+			<div class="main">
+				<div class="group">
+					<div class="price pay-input">
+						¥
+						<input type="number" placeholder="请输入提现金额" v-model="wallet"/>
+					</div>
+				</div>
+				
+			</div>
+			<div class="bottom" @click="myajax">
+				提现
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					paytype:1,
+					wallet:''
+				},
+				methods: {
+					myajax: function() {
+						var that = this
+						// plus.nativeUI.showWaiting()
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + '/userWithdrawal',
+							dataType: 'json',
+							data: {
+								usUfPrice:that.wallet,
+								usUserId:localStorage.getItem('userid')
+							},
+							success: function(res) {
+								plus.nativeUI.closeWaiting()
+								if(that.status==200){
+									plus.nativeUI.toast('提现成功')
+									mui.back()
+								}else{
+									alert(res.msg)
+								}
+								
+							},
+							error: function(err) {
+								plus.nativeUI.closeWaiting()
+								plus.nativeUI.toast('支付失败！')
+							}
+						});
+					}
+				},
+				mounted: function() {
+					
+				}
+			})
+		</script>
+	</body>
+
+</html>

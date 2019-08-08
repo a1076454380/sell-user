@@ -17,7 +17,9 @@
 						<img src="../img/back.png"/>
 					</span>
 				<span class="header-main"></span>
-				<span class="header-settings"></span>
+				<span class="header-settings" style="padding-right: .2rem;" @click="opennew('standard')">
+					计价标准
+				</span>
 			</header>
 			<div class="main">
 				<h2>费用明细</h2>
@@ -52,6 +54,18 @@
 				var map = new AMap.Map('map-container', {
 					zoom: 10
 				})
+				var content = [
+					"<div>订单距离"+localStorage.getItem('juli')+"KM，预计"+localStorage.getItem('shijian')+"前送达</div>"
+				];
+				
+				// 创建 infoWindow 实例	
+				var infoWindow = new AMap.InfoWindow({
+					anchor: 'bottom-center',
+					content: content.join("<br>") //传入 dom 对象，或者 html 字符串
+				});
+				wei = parseFloat(localStorage.getItem('slat'))
+				jing = parseFloat(localStorage.getItem('slng')) 
+				infoWindow.open(map, [jing, wei]);
 				//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
 				AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
 
@@ -126,7 +140,6 @@
 
 					navg0.start();
 				}
-				this.myajax()
 			}
 		})
 	</script>

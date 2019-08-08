@@ -1,0 +1,24 @@
+.order-state{
+	font-size: .3rem;
+	font-weight: bold;
+	text-align: center;
+	padding: .3rem 0;
+}
+.order-text{
+	text-align: center;
+	padding: .05rem 0;
+	color: #999999;
+}
+.bottom-box{display: flex;align-items: center;padding: .2rem 0 .3rem;justify-content: space-around;}
+.btn{width: 1.5rem;height: .6rem;display: flex;align-items: center;justify-content: center;border: 1px solid gainsboro;box-sizing: border-box;}
+.active{background: #FF8190;color: #FFFFFF;border: 0;}
+.user-box{display: flex;align-items: center;}
+.avatar{height: 1rem!important;width: 1rem!important;margin: .2rem;border-radius: 50%!important;}
+.user-inform{flex: 1;margin-left: .2rem;}
+.user-name{font-size: .3rem;font-weight: bold;}
+.user-star{color: #999999;margin-top: .15rem;}
+.phonebox{margin-right: .2rem;}
+p{text-align: center;color: #333333;}
+p span{color: #FF8190;}
+.main{height: calc(100% - .9rem)!important;}
+.user-detail{padding:.2rem 0;border-top: 1px solid gainsboro;}

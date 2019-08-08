@@ -34,7 +34,7 @@
 			</div>
 			<header class="header">
 				<span class="header-back mui-action-back">
-					<img src="img/backwhite.png"/>
+					<img src="img/backblack.png" >
 				</span>
 				<div class="header-main">
 					购物车
@@ -44,16 +44,15 @@
 				</span>
 			</header>
 			<div class="main mui-scroll-wrapper main-big" @scroll="myscroll" style="overflow-y: scroll;">
-				<div class="cart-top"></div>
 				<div class="main-inner">
 					<p v-if="cartdata.length==0" style="text-align: center;line-height: 1rem;color: #ffffff;">您的购物车是空的~</p>
 					<div class="cart-group" @click="opennew('shop',val.usTraderStoresId)" v-for="(val,index) in cartdata" v-if="cartdata.length!=0">
 						<div class="cart-title">
 							<div class="cart-name">
-								<img :src="val.usTsFacadeImg | myimg" />
 								<div class="title">
 									{{val.usTsCompanyName}}
 								</div>
+								<img src="img/arrright.png" >
 							</div>
 							<img src="img/delete.png" class="cart-delete" @click.stop="clear(val.usShoppingCartId)" />
 						</div>
@@ -82,18 +81,18 @@
 						</div>
 						<div class="cart-bottom">
 							<div class="cart-left">
-								<strong>共计：</strong>
-								<span>{{val.usScPrice}}元</span>
+								<div>合计：</div>
+								<span> <small>¥</small>{{val.usScPrice}}元</span>
 							</div>
 							<div class="cart-right" @click.stop="pay(index)">
-								立即支付
+								去结算
 							</div>
 						</div>
 					</div>
 					<div class="footprint-top">
 						<div class="footer-hr"></div>
 						<div class="footer-title">
-							消费记录
+							相似好店
 						</div>
 						<div class="footer-hr"></div>
 					</div>
@@ -290,7 +289,8 @@
 						}
 					});
 				},
-				opennew: function(target) {
+				opennew: function(target,id) {
+					localStorage.setItem('usTraderStoresId',id)
 					mui.openWindow({
 						url: '' + target + '.html',
 						id: '' + target + ''
@@ -322,7 +322,7 @@
 							} else {
 								that.cartdata = []
 							}
-						}
+						} 
 					});
 					$.ajax({
 						type: "get",

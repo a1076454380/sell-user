@@ -35,8 +35,13 @@
 					<input type="hidden" placeholder="请输入用户名" name="usAdsCity" id="usAdsCity" v-model="shi"/>
 					<input type="text" placeholder="请输入用户名" name="usNickname" data-title='昵称不能为空！' id="usNickname"/>
 					<input type="number" name="usPhone" id="usPhone" placeholder="请输入手机号" data-title='手机号不能为空！' />
+					<div class="xieyi">
+						<input type="checkbox" v-model="check"/>
+						<span @click="xieyi">注册即视为同意<<注册协议>></span>
+					</div>
 					<input type="button" value="快速注册" @click="submit" style="height: .8rem;border-radius: .4rem;"/>
 				</form>
+				
 				<div class="layui" v-show="layui">
 					<div class="layui-inner">
 						<div class="layui-top">
@@ -66,9 +71,16 @@
 					layuitext: '未知错误',
 					myurl: localStorage.getItem('myurl'),
 					sheng:sheng,
-					shi:shi
+					shi:shi,
+					check:true
 				},
 				methods: {
+					xieyi:function(){
+						mui.openWindow({
+							url: 'zhucexieyi.html',
+							id: 'zhucexieyi'
+						})
+					},
 					textblur:function(){
 						$('#usNickname').val($('#usNickname').val().replace(/[^\d\.]/g,''))
 					},

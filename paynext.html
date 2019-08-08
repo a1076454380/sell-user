@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/paynext.css"/>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		body,
+		.mui-content {
+			background: white;
+		}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper paynext">
+			<header class="header">
+				<span class="header-back mui-action-back">
+					<img src="img/back.png" >
+				</span>
+				<span class="header-main">支付订单</span>
+				<span class="header-settings">
+					
+				</span>
+			</header>
+			<div class="main">
+				<div class="group">
+					<div class="price">
+						¥<span>{{ajaxjson.usOrPrice | foprice}}</span>
+					</div>
+					<div class="name">
+						{{cartdata.usTsCompanyName}}
+					</div>
+				</div>
+				<div class="group grou02" @click="chaneindex(3)">
+					<img src="img/wallet.png" class="wallet01">
+					<div class="center">
+						<div class="title">
+							余额支付
+						</div>
+						<div class="balance">
+							可用余额 {{wallet}} 元
+						</div>
+					</div>
+					<div class="type-box">
+						<img src="img/no.png" v-if="paytype!=3">
+						<img src="img/pay_09.png"  v-if="paytype==3">
+					</div>
+				</div>
+				<div class="group grou02" @click="chaneindex(2)">
+					<img src="img/weixin01.png">
+					<div class="center">
+						<div class="balance">
+							微信支付
+						</div>
+					</div>
+					<div class="type-box">
+						<img src="img/no.png" v-if="paytype!=2">
+						<img src="img/pay_09.png"  v-if="paytype==2">
+					</div>
+				</div>
+				<div class="group grou02" style="margin: 0;border-top: 1px solid gainsboro;" @click="chaneindex(1)">
+					<img src="img/pay_07.png">
+					<div class="center">
+						<div class="balance">
+							支付宝支付
+						</div>
+					</div>
+					<div class="type-box">
+						<img src="img/no.png" v-if="paytype!=1">
+						<img src="img/pay_09.png"  v-if="paytype==1">
+					</div>
+				</div>
+			</div>
+			<div class="bottom" @click="myajax">
+				确认支付 ¥ {{ajaxjson.usOrPrice}}
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					cartdata:JSON.parse(localStorage.getItem('cartdata')),
+					ajaxjson:JSON.parse(localStorage.getItem('ajaxjson')),
+					paytype:3,
+					wallet:0
+				},
+				methods: {
+					chaneindex:function(index){
+						this.ajaxjson.statusPay=index
+						this.paytype=index
+					},
+					opennew: function(adr) {
+							mui.openWindow({
+								url: '' + adr + '.html',
+								id: '' + adr + ''
+							})
+					},
+					myajax: function() {
+						var that = this
+						var url=''
+						plus.nativeUI.showWaiting()
+						if(that.paytype==3){
+							url='/createUsOrderUsWallet'
+							delete that.ajaxjson.statusPay
+						}else{
+							url='/createAliPay'
+						}
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + url,
+							dataType: 'json',
+							data: that.ajaxjson,
+							success: function(res) {
+								console.log("res: " + JSON.stringify(res));
+								if(that.paytype==1){
+									// 支付宝支付
+									plus.payment.request(that.channel[0], res.data[0], function(result) {
+										plus.nativeUI.closeWaiting()
+										that.opennew('orderlist')
+									}, function(error) {
+										console.log(JSON.stringify(error))
+										plus.nativeUI.closeWaiting()
+										plus.nativeUI.toast('支付失败！')
+										that.opennew('orderlist')
+									});
+								}else if(that.paytype==2){
+									// 微信支付
+									plus.payment.request(that.channel[1], res, function(result) {
+										plus.nativeUI.closeWaiting()
+										that.opennew('orderlist')
+									}, function(error) {
+										console.log(JSON.stringify(error))
+										plus.nativeUI.closeWaiting()
+										plus.nativeUI.toast('支付失败！')
+										that.opennew('orderlist')
+									});
+								}else{
+									if(res.status==200){
+										plus.nativeUI.closeWaiting()
+										that.opennew('orderlist')
+									}else{
+										plus.nativeUI.closeWaiting()
+										alert(res.msg)
+									}
+									
+								}
+								
+							},
+							error: function(err) {
+								plus.nativeUI.closeWaiting()
+								plus.nativeUI.toast('支付失败！')
+								that.opennew('orderlist')
+							}
+						});
+					},
+					getmoney:function(){
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/selectUsUserWallet",
+							dataType: 'json',
+							data: {
+								usUserId:localStorage.getItem('userid')
+							},
+							success: function(res) {
+								that.wallet=res.data.usWaPrice
+							},
+							error: function(err) {
+								
+							}
+						});
+					}
+				},
+				mounted: function() {
+					this.getmoney()
+				},
+				filters: {
+					foprice: function(value) {
+						if(value != '') {
+							return value.toFixed(2)
+						}
+					
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

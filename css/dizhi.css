@@ -1,8 +1,18 @@
 .main{height: calc(100% - .96rem);background: #FFFFFF;}
-.main input{border: 0;border-bottom: 1px solid ghostwhite;height: .8rem;margin: 0;}
-input::-webkit-input-placeholder{color: #999999;}
+.main input{border: 0;border-bottom: 1px solid #D8D8D8;height: .8rem;margin: 0 .2rem;font-size: .3rem;width: calc(100% - .4rem);}
+input::-webkit-input-placeholder{color: #999999;font-size: .28rem;}
 .br{height: .2rem;background: ghostwhite;}
 p{border-bottom: 1px solid ghostwhite;line-height: 1.5rem;height: 1.5rem;}
 .dizhi-box{margin: .2rem;}
 .dizhi-title{font-size: .26rem;font-weight: 600;}
 .dizhi-text{color: #999999;}
+.search:nth-of-type(3){
+	width: 1.6rem;
+	border-right: 1px solid #D8D8D8;
+	border-bottom: 0;
+	height: .5rem;
+}
+.search:nth-of-type(4){
+	width: 4.7rem;
+	border-bottom: 0;
+}

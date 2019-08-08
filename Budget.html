@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/wallet.css"/>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		body,
+		.mui-content {
+			background: white;
+		}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper user index">
+			<header class="header">
+				<span class="header-back mui-action-back">
+					<img src="img/backwhite.png" >
+				</span>
+				<span class="header-main">收支记录</span>
+				<span class="header-settings">
+					
+				</span>
+			</header>
+			<div class="main" style="height: calc(100% - .8rem);">
+				<div class="tab" v-for="val in wallet">
+					<span>{{val.usUfPriceStatus | usUfPriceStatus}}</span>
+					<span>¥{{val.usUfPrice}}</span>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					wallet:[]
+				},
+				methods: {
+					opennew: function(adr) {
+						if(adr == 'orderlist') {
+							mui.openWindow({
+								url: '' + adr + '.html',
+								id: '' + adr + '',
+								createNew: true
+							})
+						} else {
+							mui.openWindow({
+								url: '' + adr + '.html',
+								id: '' + adr + ''
+							})
+						}
+					},
+					getmoney:function(){
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/selectUsUserFinance",
+							dataType: 'json',
+							data: {
+								usUserId:localStorage.getItem('userid')
+							},
+							success: function(res) {
+								that.wallet=res.data
+							},
+							error: function(err) {
+								
+							}
+						});
+					}
+				},
+				mounted: function() {
+					this.getmoney()
+				},
+				filters: {
+					usUfPriceStatus:function(usUfPriceStatus){
+						if(usUfPriceStatus==1){
+							return '充值'
+						}else if(usUfPriceStatus==2){
+							return '提现'
+						}else if(usUfPriceStatus==3){
+							return '购买'
+						}else{
+							return '退款'
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

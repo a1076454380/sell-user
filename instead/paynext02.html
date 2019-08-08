@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<script src="../js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+		<link rel="stylesheet" type="text/css" href="../css/paynext.css" />
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		body,
+		.mui-content {
+			background: white;
+		}
+	</style>
+
+	<body>
+		<div id="app" class="wrapper paynext">
+			<header class="header">
+				<span class="header-back mui-action-back">
+					<img src="../img/back.png">
+				</span>
+				<span class="header-main">支付订单</span>
+				<span class="header-settings">
+
+				</span>
+			</header>
+			<div class="main">
+				<div class="group">
+					<div class="price">
+						¥<span>{{searchdata.usRtPrice}}</span>
+					</div>
+					<div class="name">
+						{{searchdata.usRtIsType | usRtIsType}}
+					</div>
+				</div>
+				<div class="group grou02" @click="chaneindex(3)">
+					<img src="../img/wallet.png" class="wallet01">
+					<div class="center">
+						<div class="title">
+							余额支付
+						</div>
+						<div class="balance">
+							可用余额 {{wallet}} 元
+						</div>
+					</div>
+					<div class="type-box">
+						<img src="../img/no.png" v-if="paytype!=3">
+						<img src="../img/pay_09.png" v-if="paytype==3">
+					</div>
+				</div>
+				<div class="group grou02" @click="chaneindex(2)">
+					<img src="../img/weixin01.png">
+					<div class="center">
+						<div class="balance">
+							微信支付
+						</div>
+					</div>
+					<div class="type-box">
+						<img src="../img/no.png" v-if="paytype!=2">
+						<img src="../img/pay_09.png" v-if="paytype==2">
+					</div>
+				</div>
+				<div class="group grou02" style="margin: 0;border-top: 1px solid gainsboro;" @click="chaneindex(1)">
+					<img src="../img/pay_07.png">
+					<div class="center">
+						<div class="balance">
+							支付宝支付
+						</div>
+					</div>
+					<div class="type-box">
+						<img src="../img/no.png" v-if="paytype!=1">
+						<img src="../img/pay_09.png" v-if="paytype==1">
+					</div>
+				</div>
+			</div>
+			<div class="bottom" @click="myajax">
+				确认支付 ¥ {{searchdata.usRtPrice}}
+			</div>
+		</div>
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var myvue = new Vue({
+				el: '#app',
+				data: {
+					searchdata: JSON.parse(localStorage.getItem('searchdata')),
+					paytype: 3,
+					wallet: 0
+				},
+				methods: {
+					chaneindex: function(index) {
+						this.searchdata.status = index
+						this.paytype = index
+					},
+					opennew: function(adr) {
+						mui.openWindow({
+							url: '' + adr + '.html',
+							id: '' + adr + ''
+						})
+					},
+					myajax: function() {
+						var that = this
+						var url = ''
+						plus.nativeUI.showWaiting()
+						if (that.paytype == 3) {
+							url = '/createUsReplaceTakeWallet'
+							delete that.searchdata.status
+						} else {
+							url = '/createUsReplaceTakeAliWx'
+						}
+						that.searchdata.usRtArriveTime=new Date(that.searchdata.usRtArriveTime)
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + url,
+							dataType: 'json',
+							data: that.searchdata,
+							success: function(res) {
+								console.log("res: " + JSON.stringify(res));
+								if (that.paytype == 1) {
+									// 支付宝支付
+									plus.payment.request(that.channel[0], res.data[0], function(result) {
+										plus.nativeUI.closeWaiting()
+										that.opennew('order')
+									}, function(error) {
+										console.log(JSON.stringify(error))
+										plus.nativeUI.closeWaiting()
+										plus.nativeUI.toast('支付失败！')
+										that.opennew('order')
+									});
+								} else if (that.paytype == 2) {
+									// 微信支付
+									plus.payment.request(that.channel[1], res, function(result) {
+										plus.nativeUI.closeWaiting()
+										that.opennew('order')
+									}, function(error) {
+										console.log(JSON.stringify(error))
+										plus.nativeUI.closeWaiting()
+										plus.nativeUI.toast('支付失败！')
+										that.opennew('order')
+									});
+								} else {
+									if (res.status == 200) {
+										plus.nativeUI.closeWaiting()
+										that.opennew('order')
+									} else {
+										plus.nativeUI.closeWaiting()
+										alert(res.msg)
+									}
+
+								}
+
+							},
+							error: function(err) {
+								plus.nativeUI.closeWaiting()
+								plus.nativeUI.toast('支付失败！')
+								that.opennew('order')
+							}
+						});
+					},
+					getmoney: function() {
+						var that = this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myurl') + "/selectUsUserWallet",
+							dataType: 'json',
+							data: {
+								usUserId: localStorage.getItem('userid')
+							},
+							success: function(res) {
+								that.wallet = res.data.usWaPrice
+							},
+							error: function(err) {
+
+							}
+						});
+					}
+				},
+				mounted: function() {
+					this.getmoney()
+					var that = this
+					// 1. 获取支付通道
+					function plusReady() {
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if (window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
+				},
+				filters: {
+						usRtIsType:function(trpe){
+							if(trpe==1){
+								return '帮我买'
+							}else if(trpe==2){
+								return '帮我取'
+							}else if(trpe==3){
+								return '帮我送'
+							}
+						}
+				}
+			})
+		</script>
+	</body>
+
+</html>

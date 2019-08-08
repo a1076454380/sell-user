@@ -34,18 +34,18 @@
 			</div>
 			<header class="header">
 				<span class="header-back">
-					</span>
+				</span>
 				<span class="header-main">同城惠</span>
 				<span class="header-settings">
-						
-					</span>
+
+				</span>
 			</header>
 			<div class="main mui-scroll-wrapper">
 				<div class="mui-scroll">
 					<div class="index-top">
 						<span>
-						同城广告
-					</span>
+							同城广告
+						</span>
 					</div>
 					<div class="per-main">
 						<div class="per-tab" v-for="(val,index) in tuidata" @click="opendetail(val.usTraderStoresId,'同城广告')" v-if="index<6">
@@ -57,8 +57,8 @@
 					</div>
 					<div class="index-top">
 						<span>
-						同城必点
-					</span>
+							同城必点
+						</span>
 
 					</div>
 					<div class="per-main">
@@ -72,8 +72,8 @@
 					</div>
 					<div class="index-top">
 						<span>
-						人气商家
-					</span>
+							人气商家
+						</span>
 					</div>
 					<div class="index-main">
 						<div class="index-group" @click="opendetail(val.usTraderStoresId,'人气商家')" v-for="val in tuidata03">
@@ -87,27 +87,47 @@
 										{{val.usTsCompanyName}}
 									</div>
 									<div class="index-x" style="align-items: flex-start;">
-										<div class="x-group" v-for="item in val.starPercentage">
+										<div class="x-group">
 											<img src="img/xactive.png" />
 										</div>
-										<div class="x-group" v-for="item in (5 - val.starPercentage)">
-											<img src="img/xhalf.png" />
-										</div>
+										{{val.starPercentage}}
 									</div>
 									<div class="index-x">
 										<span class="shop-type">
-									<img src="img/shopavatar.png"/>人气商家
-								</span>
+											<img src="img/shopavatar.png" />人气商家
+										</span>
 									</div>
 									<div class="index-money">
 										<span>
-									起送:¥{{val.usTsActionPrice}} | 配送费:¥{{val.maDiPrice}}
-								</span>
+											起送:¥{{val.usTsActionPrice}} 配送费:¥{{val.maDiPrice}}
+										</span>
 										<span>
-									月销量:
-									<strong>{{val.monthCount}}</strong>
-								</span>
+											月售:
+											<strong>{{val.monthCount}}</strong>
+										</span>
 									</div>
+								</div>
+							</div>
+							<div class="prefer">
+								<div class="prefer-group" v-if="val.subtract!=0">
+									<span class="perer-name">
+										最高减{{val.subtract}}元
+									</span>
+								</div>
+								<div class="prefer-group" v-if="val.activities!=0">
+									<span class="perer-name">
+										新客减{{val.activities}}元
+									</span>
+								</div>
+								<div class="prefer-group" v-if="val.discount!=0">
+									<span class="perer-name">
+										{{val.discount}}折起
+									</span>
+								</div>
+								<div class="prefer-group" v-if="val.packagePrice!=0">
+									<span class="perer-name">
+										{{val.packagePrice}}元红包
+									</span>
 								</div>
 							</div>
 						</div>
@@ -142,7 +162,7 @@
 			</footer> -->
 			<footer class="footer">
 				<div class="footer-group" @click="opennew('instead/instead')">
-					<img src="img/zixingche.png"/>
+					<img src="img/zixingche.png" />
 					<span>
 						跑腿代购
 					</span>
@@ -168,6 +188,7 @@
 			</footer>
 			<div id="container" style="display: none;"></div>
 		</div>
+		<script src="js/dingwei.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -185,7 +206,7 @@
 				},
 				methods: {
 					prefershow: function(index) {
-						if($('.prefer').eq(index).attr('class') == 'prefer') {
+						if ($('.prefer').eq(index).attr('class') == 'prefer') {
 							$('.prefer').eq(index).addClass('pauto')
 						} else {
 							$('.prefer').eq(index).removeClass('pauto')
@@ -206,32 +227,20 @@
 					opendetail: function(id, text) {
 						var that = this
 						localStorage.setItem('usTraderStoresId', id)
-						$.ajax({
-							type: "post",
-							url: localStorage.getItem('myurl') + "/changeAdPrice",
-							dataType: 'json',
-							data: {
-								storesId: id,
-								title: text
-							},
-							success: function(res) {
-								mui.openWindow({
-									url: 'shop.html',
-									id: 'shop',
-									createNew: true
-								})
-							},
-							error: function(err) {
-								console.log(JSON.stringify(err))
-							}
-						});
+
+						mui.openWindow({
+							url: 'shop.html',
+							id: 'shop',
+							createNew: true
+						})
+
 					},
 					myajax: function() {
 						function plusReady() {
 							// 弹出系统等待对话框
 							plus.nativeUI.showWaiting("加载中...");
 						}
-						if(window.plus) {
+						if (window.plus) {
 							plusReady();
 						} else {
 							document.addEventListener("plusready", plusReady, false);
@@ -242,12 +251,12 @@
 							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
 							dataType: 'json',
 							data: {
-								userAddress: localStorage.getItem('city02'),
+								userAddress: sheng+shi+qu,
 								maApName: '同城广告'
 							},
 							success: function(res) {
 								console.log(JSON.stringify(res))
-								if(res.data != null) {
+								if (res.data != null) {
 									that.tuidata = res.data
 								}
 							}
@@ -258,11 +267,11 @@
 							url: localStorage.getItem('myurl') + "/selectCityAdvertising",
 							dataType: 'json',
 							data: {
-								userAddress: localStorage.getItem('city02'),
+								userAddress: sheng+shi+qu,
 								maApName: '同城必点'
 							},
 							success: function(res) {
-								if(res.data != null) {
+								if (res.data != null) {
 									that.tuidata02 = res.data
 								}
 							}
@@ -274,10 +283,10 @@
 							url: localStorage.getItem('myurl') + "/queryUsTraderStoresRecommendPojoY",
 							dataType: 'json',
 							data: {
-								lng: localStorage.getItem('lng'),
-								lat: localStorage.getItem('lat'),
+								lng: jing,
+								lat: wei,
 								maApName: '人气商家',
-								usAddress: localStorage.getItem('city02')
+								usAddress: shi
 							},
 							success: function(res) {
 								that.tuidata03 = res.data
@@ -289,7 +298,7 @@
 							// 弹出系统等待对话框
 							plus.nativeUI.closeWaiting()
 						}
-						if(window.plus) {
+						if (window.plus) {
 							plusReady();
 						} else {
 							document.addEventListener("plusready", plusReady, false);
@@ -298,7 +307,7 @@
 				},
 				mounted: function() {
 					$(document).ready(function() {
-						if(window.history && window.history.pushState) {
+						if (window.history && window.history.pushState) {
 							$(window).on('popstate', function() {
 								window.history.pushState('forward', null, '#');
 								window.history.forward(1);
