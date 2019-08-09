@@ -163,6 +163,7 @@
 	<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/load.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/dingwei.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
 		new Vue({
 			el: '.wrapper',
@@ -366,7 +367,7 @@
 							usRtIsArrive: $('#appDateTime').val() == '立即购买' ? '0' : '1',
 							usRtArriveTime: new Date($('#appDateTime').val() == '立即购买' ? new Date().Format("yyyy-MM-dd HH:mm:ss") : $('#appDateTime').val() + ':00'),
 							time: '',
-							usRtProvince: localStorage.getItem('fdizhi'),
+							usRtProvince:that.dtype == 1 ? sheng+shi :  localStorage.getItem('fdizhi'),
 							usRtCity: '',
 							usRtArea: '',
 							usRtDetails: localStorage.getItem('fdizhidetail'), //发货地址详情
@@ -420,7 +421,8 @@
 					// 打开新页面
 					mui.openWindow({
 						url: './' + id + '.html',
-						id: id
+						id: id,
+						createNew: true
 					})
 				},
 				opennew02: function(id) {
