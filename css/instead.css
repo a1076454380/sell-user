@@ -28,9 +28,10 @@
 .xieleft{flex: 1;}
 .xieleft p{color: #FF8190!important;}
 .amap-info-content{border-radius: 30px!important;}
-.amap-info-sharp{background: url(../img/down.png) no-repeat;background-size: 15px;background-position: center -5px;}
+.amap-info-sharp{background: url(../img/down.png) no-repeat;background-size: 15px;background-position: 12px -5px;}
 .amap-info-close{display: none;}
-.amap-info-content{padding:5px 10px;font-size: .26rem;}
+.amap-info-content{padding:5px 10px;font-size: .26rem;position: relative;left: 9px;}
 .xia01-top .active{color: #FF8190;}
 .red{color: #FF8190;font-size: .22rem;}
 .amap-info-content div{text-align: center;}
+.cbutton{background: #333333;color: #FFFFFF;padding: .08rem .25rem;font-size: .22rem;}

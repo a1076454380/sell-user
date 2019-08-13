@@ -99,7 +99,8 @@
 										that.opennew('pay')
 									} else {
 										plus.nativeUI.showWaiting('地址加载中')
-										var pay = plus.webview.getLaunchWebview().reload()
+										var pay = plus.webview.getLaunchWebview()
+										mui.fire(pay, 'instead/instead', {});
 										setTimeout(function(){
 											plus.nativeUI.closeWaiting()
 											mui.back()

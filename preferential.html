@@ -255,7 +255,10 @@
 								maApName: '同城广告'
 							},
 							success: function(res) {
-								console.log(JSON.stringify(res))
+								console.log(JSON.stringify({
+								userAddress: sheng+shi+qu,
+								maApName: '同城广告'
+							}))
 								if (res.data != null) {
 									that.tuidata = res.data
 								}
@@ -306,6 +309,7 @@
 					}
 				},
 				mounted: function() {
+					var that=this
 					$(document).ready(function() {
 						if (window.history && window.history.pushState) {
 							$(window).on('popstate', function() {
@@ -316,7 +320,11 @@
 						window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
 						window.history.forward(1);
 					});
-					this.myajax()
+					document.addEventListener('plusready', onPlusReady, false);
+					// 扩展API加载完毕，现在可以正常调用扩展API
+					function onPlusReady(){
+						that.myajax()
+					}
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});

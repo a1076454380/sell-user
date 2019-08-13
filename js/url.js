@@ -1,8 +1,9 @@
-					localStorage.setItem('myurl01', 'http://47.104.101.165/trader')
-					localStorage.setItem('myurl', 'http://47.104.101.165/user')
-					localStorage.setItem('myimg','http://47.104.101.165')
-					// 192.168.2.168	47.104.101.165 192.168.2.168
+					localStorage.setItem('myurl01', 'http://114.55.39.122/trader')
+					localStorage.setItem('myurl', 'http://114.55.39.122/user')
+					localStorage.setItem('myimg','http://114.55.39.122')
+					// 114.55.39.122	114.55.39.122 192.168.2.168
 //					47.104.101.165  联华
 //					yidianwm.com
-//					47.104.101.165
+//					39.107.70.18
 // 					47.110.8.48	领先
+					// 114.55.39.122  邦

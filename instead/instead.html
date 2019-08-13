@@ -38,8 +38,9 @@
 				<span class="header-back">
 					<img src="../img/my.png" @click="opennew02('../user')" />
 				</span>
-				<span class="header-main">邦•
+				<span class="header-main" @click="opennew02('../city')" >
 					{{area}}
+					<img src="../img/arrbottom.png" style="height: .3rem;"/>
 				</span>
 				<span class="header-settings" @click="opennew('order')">
 					<img src="../img/order.png" />
@@ -94,12 +95,18 @@
 						<div class="xia01-bottom" @click="opennew('adresslist')">
 							<div class="raio"></div>
 							<input type="text" v-model="fdizhi" placeholder="请填写发货地址" readonly="" />
-							<img src="../img/arrright.png">
+							<!-- <img src="../img/arrright.png"> -->
+							<div class="cbutton">
+								常用
+							</div>
 						</div>
 						<div class="xia01-bottom" @click="opennew03('fadresslist','s')">
 							<div class="raio"></div>
 							<input type="text" placeholder="请填写收货地址" v-model="sdizhi" readonly="" class="qi" />
-							<img src="../img/arrright.png">
+							<!-- <img src="../img/arrright.png"> -->
+							<div class="cbutton">
+								常用
+							</div>
 						</div>
 					</div>
 					<!-- 					<div class="goxia" v-show="insteadtype==2" @click="opennew('payqu')">
@@ -110,12 +117,18 @@
 						<div class="xia01-bottom" @click="opennew('adresslist')">
 							<div class="raio"></div>
 							<input type="text" placeholder="请填写取货地址" v-model="fdizhi" readonly="" />
-							<img src="../img/arrright.png">
+							<!-- <img src="../img/arrright.png"> -->
+							<div class="cbutton">
+								常用
+							</div>
 						</div>
 						<div class="xia01-bottom" @click="opennew03('fadresslist','q')">
 							<div class="raio"></div>
 							<input type="text" v-model="sdizhi" placeholder="请填写送货地址" readonly="" class="song" />
-							<img src="../img/arrright.png">
+							<!-- <img src="../img/arrright.png"> -->
+							<div class="cbutton">
+								常用
+							</div>
 						</div>
 					</div>
 					<!-- 					<div class="goxia" v-show="insteadtype==3" @click="opennew('paysong')">
@@ -361,17 +374,17 @@
 						location.reload()
 					},
 					setmap: function() {
-						// plus.navigator.setStatusBarBackground('#FFFFFF');
-						// plus.navigator.setStatusBarStyle('dark')
 						var that = this
 						that.map = new AMap.Map('container', {
 							zoom: 15,
-							center: [jing, wei]
+							center: [jing, wei],
+							zoomEnable:false,
+							rotateEnable:false
 						});
 						var marker = new AMap.Marker({
 							position: new AMap.LngLat(jing, wei),
 							title: '提示',
-							icon: '../img/shou.png',
+							icon: '../img/dingwei01.png',
 						});
 						var content = [
 							"<div><div>附近暂无骑手</div></div>"
@@ -392,11 +405,15 @@
 							var center = that.map.getCenter(); //获取当前地图级别
 							wei = parseFloat(center.lat) +0.0005
 							jing = parseFloat(center.lng) - 0.00055
+							$('.amap-info').hide()
+							$('.amap-icon').css('bottom','10px')
 							that.infoWindow.setPosition([jing, wei]);
 							marker.setPosition(center)
 						});
 						that.map.on('dragend', function(e) {
 							that.myajax()
+							$('.amap-info').show()
+							$('.amap-icon').css('bottom','0')
 						});
 						that.area = shi
 						this.myajax()
@@ -405,7 +422,7 @@
 				mounted: function() {
 					var that = this
 					function plusReady() {
-						plus.navigator.setStatusBarBackground('#FFFFFF');
+						plus.navigator.setStatusBarBackground('#e9e9e9');
 						plus.navigator.setStatusBarStyle('dark')
 						plus.nativeUI.showWaiting('地图加载中')
 						plus.runtime.getProperty(plus.runtime.appid, function(inf) {
@@ -453,7 +470,7 @@
 						document.addEventListener("plusready", plusReady, false);
 					}
 					window.addEventListener("instead/instead", function() {
-						location.reload()
+						plus.webview.getLaunchWebview().reload(true)
 					})
 					// that.setmap()
 				},

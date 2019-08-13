@@ -16,93 +16,119 @@
 	</head>
 	<style type="text/css">
 		select {
-			border: 1px solid #DDD8CE!important;
+			border: 1px solid #DDD8CE !important;
 		}
-		.city-group{margin: .2rem;background: #FFFFFF;border-radius: .2rem;align-items: center;display: flex;}
-		.city-group img{margin: 0 .2rem 0 .1rem;height: .4rem;}
-		button{background: #FF8190;color: #FFFFFF;padding: .15rem .25rem;border: 0;}
+
+		.city-group {
+			margin: .2rem;
+			background: #FFFFFF;
+			border-radius: .2rem;
+			align-items: center;
+			display: flex;
+		}
+
+		.city-group img {
+			margin: 0 .2rem 0 .1rem;
+			height: .4rem;
+		}
+
+		button {
+			background: #FF8190;
+			color: #FFFFFF;
+			padding: .15rem .25rem;
+			border: 0;
+		}
 	</style>
 
 	<body>
 		<div id="app" class="wrapper city">
-			<div class="layui" v-show="layui">
-				<div class="layui-inner">
-					<div class="layui-top">
-						友情提示
-					</div>
-					<div class="layui-main">
-						{{layuitext}}
-					</div>
-					<div class="layui-settings">
-						<div class="layui-setting" @click="layuiboo">
-							确定
-						</div>
-					</div>
-				</div>
-			</div>
 			<header class="header">
 				<span class="header-back mui-action-back">
-					<img src="img/back.png"/>
+					<img src="img/back.png" />
 				</span>
 				<span class="header-main">地址选择</span>
-				<span class="header-settings" @click="opennew()">确定</span>
+				<span class="header-settings"></span>
 			</header>
 			<div class="main" style="height: calc(100% - .8rem);">
 				<div class="city-group">
-					<img src="img/Shape.png"/>
+					<img src="img/Shape.png" />
 					<span>当前城市：{{city}}</span>
 				</div>
 				<div class="city-group" id="city" style="flex-direction: column;align-items: flex-end;">
-					<select class="prov" name="usAdsProvince" v-model="sheng"></select>
-					<select class="city" name="usAdsCity" v-model="shi"></select>
-					<select class="dist" name="usAdsArea" v-model="qu"></select>
+					<input type='text' id='city-picker' placeholder="请选择所在地址" />
 					<button @click="gosubmit">确定</button>
 				</div>
 			</div>
+			<div id="container" style="display: none;"></div>
 		</div>
+		<style type="text/css">
+			input::-webkit-input-placeholder {
+				color: #666666 !important;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="css/jquery.weui.css" />
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/jquery.cityselect.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/city-picker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.weui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/dingwei.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
+		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
 				data: {
 					layui: false,
 					layuitext: '',
-					city: localStorage.getItem('city01'),
-					sheng:'浙江',
-					shi:'湖州',
-					qu:'安吉县'
+					city: shi,
+					sheng: '',
+					shi: '',
+					qu: '',
+					jing:'',
+					wei:''
 				},
 				methods: {
-					opennew: function() {
+					gosubmit: function() {
+						localStorage.setItem('sheng',this.sheng)
+						localStorage.setItem('shi',this.shi)
+						localStorage.setItem('qu',this.qu)
+						localStorage.setItem('jing',this.jing)
+						localStorage.setItem('wei',this.wei)
 						mui.openWindow({
-							url: './index.html',
-							id: 'index',
+							url: './instead/instead.html',
+							id: 'instead',
 							createNew: true
-						})
-					},
-					layuiboo: function() {
-						this.layui = !this.layui
-					},
-					gosubmit:function(){
-						localStorage.setItem('province', this.sheng)
-						localStorage.setItem('city01', this.shi)
-						localStorage.setItem('area', this.qu)
-						localStorage.setItem('city',this.sheng+this.shi)
-						localStorage.setItem('city02', this.sheng+this.shi+this.qu)
-						mui.openWindow({
-							url:'./index.html',
-							id:'index',
-									createNew: true
 						})
 					}
 				},
 				mounted: function() {
-					$("#city").citySelect({
-						prov: "浙江",
-						city: "湖州",
-						dist: "安吉县",
-						nodata: "none"
+					var that = this
+					var map = new AMap.Map('container', {
+						zoom: 15,
+						center: [117.271887, 34.26921]
+					});
+					$("#city-picker").cityPicker({
+						title: "选择省市区/县",
+						onChange: function(picker, values, displayValues) {
+							that.sheng = displayValues[0]
+							that.shi = displayValues[1]
+							that.qu = displayValues[2]
+							AMap.service('AMap.Geocoder', function() { //回调函数
+								//			实例化Geocoder
+								var geocoder = new AMap.Geocoder({
+									city: "" //城市，默认：“全国”
+								});
+								//						根据地址查经纬度
+								geocoder.getLocation(that.shi, function(status, result) {
+									if (status === 'complete' && result.info === 'OK') {
+										console.log(result.geocodes[0].location)
+										that.jing=result.geocodes[0].location.lng
+										that.wei=result.geocodes[0].location.lat
+									} else {
+										//获取经纬度失败
+									}
+								});
+							})
+						}
 					});
 				},
 				update: function() {
