@@ -81,7 +81,7 @@
 					<div class="xia01" v-show="insteadtype==1" @click="dchange">
 						<div class="xia01-top">
 							<div class="xia01-box" v-for="val in navdata">
-								<img :src="myurl + val.maRtImg">
+								<img :src="myimg + val.maRtImg">
 								<span>{{val.maRtName}}</span>
 							</div>
 						</div>
@@ -143,7 +143,7 @@
 							<p>请选择您需要的物品：</p>
 							<div class="xia01-top">
 								<div class="xia01-box" @click="gdai(index,val.maRunTypeId)" v-for="(val,index) in navdata" :class="daikuaijie==index?'active':''">
-									<img :src="myurl + val.maRtImg">
+									<img :src="myimg + val.maRtImg">
 									<span>{{val.maRtName}}</span>
 								</div>
 							</div>
@@ -243,6 +243,7 @@
 					navdata: [],
 					map: '',
 					myurl: localStorage.getItem('myurl'),
+					myimg: localStorage.getItem('myimg'),
 					qidata: [],
 					infoWindow: ''
 				},

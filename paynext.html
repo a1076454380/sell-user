@@ -91,7 +91,8 @@
 					cartdata:JSON.parse(localStorage.getItem('cartdata')),
 					ajaxjson:JSON.parse(localStorage.getItem('ajaxjson')),
 					paytype:3,
-					wallet:0
+					wallet:0,
+					channel:[]
 				},
 				methods: {
 					chaneindex:function(index){
@@ -182,6 +183,22 @@
 				},
 				mounted: function() {
 					this.getmoney()
+					var that=this
+					// 1. 获取支付通道
+					function plusReady() {
+						
+						// 获取支付通道
+						plus.payment.getChannels(function(channels) {
+							that.channel = channels;
+						}, function(e) {
+							alert("获取支付通道失败：" + e.message);
+						});
+					}
+					if(window.plus) {
+						plusReady();
+					} else {
+						document.addEventListener('plusready', plusReady, false);
+					}
 				},
 				filters: {
 					foprice: function(value) {
