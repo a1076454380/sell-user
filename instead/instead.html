@@ -102,7 +102,7 @@
 						</div>
 						<div class="xia01-bottom" @click="opennew03('fadresslist','s')">
 							<div class="raio"></div>
-							<input type="text" placeholder="请填写收货地址" v-model="sdizhi" readonly="" class="qi" />
+							<input type="text" placeholder="请填写收货地址"  readonly="" class="qi" />
 							<!-- <img src="../img/arrright.png"> -->
 							<div class="cbutton">
 								常用
@@ -114,9 +114,9 @@
 					</div>
 					<!-- 取 -->
 					<div class="xia01" v-show="insteadtype==3">
-						<div class="xia01-bottom" @click="opennew('adresslist')">
+						<div class="xia01-bottom" @click="opennew03('adresslist','q')">
 							<div class="raio"></div>
-							<input type="text" placeholder="请填写取货地址" v-model="fdizhi" readonly="" />
+							<input type="text" placeholder="请填写取货地址"  readonly="" />
 							<!-- <img src="../img/arrright.png"> -->
 							<div class="cbutton">
 								常用
@@ -171,32 +171,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- <footer class="footer">
-				<div class="footer-group">
-					<img src="../img/index.png" @click="opennew02('../index')" />
-					<span>
-						首页
-					</span>
-				</div>
-				<div class="footer-group" @click="opennew02('../preferential')">
-					<img src="../img/found.png" />
-					<span>
-						同城惠
-					</span>
-				</div>
-				<div class="footer-group factive">
-					<img src="../img/zixingche-active.png" />
-					<span>
-						跑腿代购
-					</span>
-				</div>
-				<div class="footer-group">
-					<img src="../img/dvip.png" @click="opennew02('../vipcart')" />
-					<span>
-						会员中心
-					</span>
-				</div>
-			</footer> -->
 			<footer class="footer">
 				<div class="footer-group factive">
 					<img src="../img/zixingche-active.png" />
@@ -336,6 +310,11 @@
 								latitude: wei
 							},
 							success: function(res) {
+								console.log("data: " + JSON.stringify({
+								longitude: jing,
+								latitude: wei
+							}));
+								console.log("res: " + JSON.stringify(res));
 								if (res.status == 200) {
 									that.qidata = res.data
 									var content = [
@@ -356,7 +335,7 @@
 								plus.nativeUI.closeWaiting()
 							},
 							error: function(err) {
-
+								plus.nativeUI.closeWaiting()
 							}
 						});
 					},
@@ -370,12 +349,24 @@
 						this.map.add(marker);
 					},
 					setcenter: function() {
-						plus.nativeUI.showWaiting('地图加载中')
-
-						location.reload()
+						var that=this
+						plus.nativeUI.showWaiting()
+						localStorage.setItem('sheng','c')
+						plus.geolocation.getCurrentPosition(function(p){
+							jing=p.coords.longitude
+							wei=p.coords.latitude
+							sheng=p.address.province
+							shi=p.address.city
+							qu=p.address.district
+							wanzheng=p.address.addresses
+							that.setmap()
+						}, function(e){
+							plus.nativeUI.toast('定位失败，请检查网络和GPS');
+						} );
 					},
 					setmap: function() {
 						var that = this
+						plus.nativeUI.showWaiting()
 						that.map = new AMap.Map('container', {
 							zoom: 15,
 							center: [jing, wei],
@@ -453,7 +444,7 @@
 									}
 								},
 								error: function(err) {
-									that.myajax()
+									
 								}
 							});
 						});

@@ -188,7 +188,7 @@
 			</footer>
 			<div id="container" style="display: none;"></div>
 		</div>
-		<script src="js/dingwei.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/perdingwei.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -255,10 +255,6 @@
 								maApName: '同城广告'
 							},
 							success: function(res) {
-								console.log(JSON.stringify({
-								userAddress: sheng+shi+qu,
-								maApName: '同城广告'
-							}))
 								if (res.data != null) {
 									that.tuidata = res.data
 								}
@@ -320,14 +316,10 @@
 						window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
 						window.history.forward(1);
 					});
-					document.addEventListener('plusready', onPlusReady, false);
-					// 扩展API加载完毕，现在可以正常调用扩展API
-					function onPlusReady(){
-						that.myajax()
-					}
 					mui('.mui-scroll-wrapper').scroll({
 						deceleration: 0.0006 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
 					});
+					this.myajax()
 				},
 				update: function() {
 

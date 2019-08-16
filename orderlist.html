@@ -106,7 +106,7 @@
 
 									</div>
 									<div class="btn-group">
-										<div class="setting-btn" @click="deleteorder(val.usOrderId)">
+										<div class="setting-btn" @click.stop="deleteorder(val.usOrderId)">
 											删除订单
 										</div>
 										<div class="setting-btn" @click.stop="openshop(val.usTraderStoresId)">
@@ -153,10 +153,11 @@
 							success: function(res) {
 								if(res.data==1){
 									plus.nativeUI.toast('删除成功')
-									that.myajax()
+									
 								}else{
 									plus.nativeUI.toast('删除失败')
 								}
+								that.myajax()
 							},
 							error: function(err) {
 								alert(JSON.stringify(err))

@@ -348,7 +348,7 @@
 				myajax: function() {
 					var that = this,
 						maServiceRuleId = []
-					startload()
+					// startload()
 					// 查询价格
 					for (i in that.serdata) {
 						if (that.serdata[i].boo == true) {
@@ -382,7 +382,7 @@
 							maRunDiscountRuleId: that.youdata.length == 0 ? '' : that.youdata[that.youindex].maRunDiscountRuleId //优惠券id
 						},
 						success: function(res) {
-							stopload()
+							// stopload()
 							if (res.status == 200) {
 								delete res.data.usRtCreateTime
 								delete res.data.usRtdCreateTime
@@ -403,7 +403,7 @@
 
 						},
 						error: function(err) {
-							stopload()
+							// stopload()
 						}
 					});
 				},

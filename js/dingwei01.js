@@ -6,10 +6,10 @@ var jing='117.272324',
 	wanzheng='江苏省徐州市鼓楼区奥特莱斯'
 document.addEventListener('plusready', onPlusReady, false);
 // 扩展API加载完毕，现在可以正常调用扩展API
-function onPlusReady(){
-	if(localStorage.getItem('sheng')==undefined||localStorage.getItem('sheng')==null){
+function onPlusReady(){ 
+	if(localStorage.getItem('sheng')==undefined||localStorage.getItem('sheng')==null||localStorage.getItem('sheng')=='c'){
 		plus.geolocation.getCurrentPosition(function(p){
-			console.log(JSON.stringify(p))
+			console.log("p: " + JSON.stringify(p));
 			jing=p.coords.longitude
 			wei=p.coords.latitude
 			sheng=p.address.province

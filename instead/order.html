@@ -105,7 +105,7 @@
 						<div class="list-data">
 							
 						</div>
-						<div class="list-setting" @click="delete(val.usReplaceTakeId)">
+						<div class="list-setting" @click.stop="godelete(val.usReplaceTakeId)">
 							删除订单
 						</div>
 						<div class="list-setting" v-if="val.state==1" @click="opennew('instead')">
@@ -132,17 +132,21 @@
 					tabnum:6
 				},
 				methods: {
-					delete:function(id){
+					godelete:function(id){
 						var that=this
 						// 删除跑腿订单
 						$.ajax({
 							type: "post",
-							url: localStorage.getItem('myurl') + "/updateUsOlderDeleteId ",
+							url: localStorage.getItem('myurl') + "/updateReplaceDeeletId",
 							dataType: 'json',
 							data: {
 								usReplaceTakeId: id
 							},
 							success: function(res) {
+								console.log(": " + JSON.stringify({
+								usReplaceTakeId: id
+							}));
+								console.log("res: " + JSON.stringify(res));
 								that.myajax()
 								plus.nativeUI.toast('删除成功')
 							}

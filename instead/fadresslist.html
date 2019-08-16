@@ -95,7 +95,8 @@
 									if(localStorage.getItem('ordert')=='s'){
 										that.opennew('paysong')
 									}else if(localStorage.getItem('ordert')=='q'){
-										that.opennew('payqu')
+										var pay=plus.webview.getLaunchWebview()
+										mui.fire(pay,'instead/instead',{});
 									}else if(localStorage.getItem('ordert')==0){
 										that.opennew('pay')
 									}else{
@@ -154,7 +155,8 @@
 										if(localStorage.getItem('ordert')=='s'){
 											that.opennew('paysong')
 										}else if(localStorage.getItem('ordert')=='q'){
-											that.opennew('payqu')
+											var pay=plus.webview.getLaunchWebview()
+											mui.fire(pay,'instead/instead',{});
 										}else if(localStorage.getItem('ordert')==0){
 											that.opennew('pay')
 										}else{

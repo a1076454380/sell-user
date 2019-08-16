@@ -44,7 +44,7 @@
 						<a class="btn" v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus==4" :href="'tel:'+myajax.UsReplaceTakeDetailsPojo.usRtPhone">
 							通知收货人
 						</a>
-						<div class="btn active" v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus==2">
+						<div class="btn active" v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus==2" @click="gocancel">
 							取消订单
 						</div>
 						<div class="btn" v-if="myajax.UsReplaceTakeDetailsPojo.usRtStatus==1">
@@ -146,104 +146,128 @@
 							$('#orderinform').css('top', '-2rem')
 							this.mapboo = false
 						}
-					}
-				},
-				mounted: function() {
-					var that = this
+					},
+					gocancel:function(){
+						// 取消订单
+						var that=this
 						$.ajax({
-							type: "post",
-							url: localStorage.getItem('myurl') + "/queryUsReplaceTakePojoByUsReplaceTakeId",
-							dataType: 'json',
-							data: {
-								usReplaceTakeId: localStorage.getItem('usReplaceTakeId'),
-								lng :jing,
-								lat:wei
+							type:"post",
+							url:localStorage.getItem('myurl') + "/updateUsReplaceTakeOrder",
+							async:true,
+							dataType:'json',
+							data:{
+								usReplaceTakeId:localStorage.getItem('usReplaceTakeId')
 							},
-							success: function(res) {
-								that.myajax=res.data
-								setTimeout(function(){
-									var map = new AMap.Map('container', {
-										zoom: 14
-									});
-									//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
-									AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
-										if (!PathSimplifier.supportCanvas) {
-											alert('当前环境不支持 Canvas！');
-											return;
-										}
-										//启动页面
-										initPage(PathSimplifier);
-									});
-									
-									function initPage(PathSimplifier) {
-										//创建组件实例
-										var pathSimplifierIns = new PathSimplifier({
-											zIndex: 100,
-											map: map, //所属的地图实例
-											getPath: function(pathData, pathIndex) {
-												//返回轨迹数据中的节点坐标信息，[AMap.LngLat, AMap.LngLat...] 或者 [[lng|number,lat|number],...]
-												return pathData.path;
-											},
-											renderOptions: {
-												//轨迹线的样式
-												pathLineStyle: {
-													strokeStyle: '#FF8190',
-													lineWidth: 4,
-													dirArrowStyle: true
-												}
-											}
+							success:function(res){
+								console.log("res: " + JSON.stringify(res));
+								plus.nativeUI.toast('取消成功')
+								that.myajax02()
+							},
+							error:function(err){
+								console.log("err: " + JSON.stringify(err));
+							}
+						});
+					},
+					myajax02:function(){
+						var that = this
+							$.ajax({
+								type: "post",
+								url: localStorage.getItem('myurl') + "/queryUsReplaceTakePojoByUsReplaceTakeId",
+								dataType: 'json',
+								data: {
+									usReplaceTakeId: localStorage.getItem('usReplaceTakeId'),
+									lng :jing,
+									lat:wei
+								},
+								success: function(res) {
+									that.myajax=res.data
+									setTimeout(function(){
+										var map = new AMap.Map('container', {
+											zoom: 14
 										});
-									
-										//这里构建两条简单的轨迹，仅作示例
-										pathSimplifierIns.setData([{
-											name: '轨迹名称',
-											path: [
-												[res.data.lng1, res.data.lat1],
-												[res.data.lng2, res.data.lat2]
-											]
-										}]);
-									
-										//创建一个巡航器
-										var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
-											{
-												loop: true, //循环播放
-												speed: 1000,
-												pathNavigatorStyle: {
-													width: 24,
-													height: 24,
-													//使用图片
-													strokeStyle: null,
-													fillStyle: null,
-													//经过路径的样式
-													pathLinePassedStyle: {
-														lineWidth: 6,
-														strokeStyle: 'white',
-														dirArrowStyle: {
-															stepSpace: 15,
-															strokeStyle: '#FF8190'
-														}
+										//加载PathSimplifier，loadUI的路径参数为模块名中 'ui/' 之后的部分 
+										AMapUI.load(['ui/misc/PathSimplifier'], function(PathSimplifier) {
+											if (!PathSimplifier.supportCanvas) {
+												alert('当前环境不支持 Canvas！');
+												return;
+											}
+											//启动页面
+											initPage(PathSimplifier);
+										});
+										
+										function initPage(PathSimplifier) {
+											//创建组件实例
+											var pathSimplifierIns = new PathSimplifier({
+												zIndex: 100,
+												map: map, //所属的地图实例
+												getPath: function(pathData, pathIndex) {
+													//返回轨迹数据中的节点坐标信息，[AMap.LngLat, AMap.LngLat...] 或者 [[lng|number,lat|number],...]
+													return pathData.path;
+												},
+												renderOptions: {
+													//轨迹线的样式
+													pathLineStyle: {
+														strokeStyle: '#FF8190',
+														lineWidth: 4,
+														dirArrowStyle: true
 													}
 												}
 											});
-										navg0.start();
-									}
-									//						骑手
-									if(that.myajax.UsReplaceTakeDetailsPojo.usRiMapPlace != null&&that.myajax.UsReplaceTakeDetailsPojo.usRiMapPlace != 'null') {
-										var lng=that.myajax.UsReplaceTakeDetailsPojo.usRiMapPlace
-										new AMap.Marker({
-											map: map,
-											position: [lng.substr(0,lng.indexOf(',')),lng.substr(lng.indexOf(',')+1,lng.length)],
-											icon: new AMap.Icon({
-												size: new AMap.Size(27, 33),
-												image: "../img/che.png"
-											})
-										});
-									}
-								},500)
-								
-								
-							}
-						});
+										
+											//这里构建两条简单的轨迹，仅作示例
+											pathSimplifierIns.setData([{
+												name: '轨迹名称',
+												path: [
+													[res.data.lng1, res.data.lat1],
+													[res.data.lng2, res.data.lat2]
+												]
+											}]);
+										
+											//创建一个巡航器
+											var navg0 = pathSimplifierIns.createPathNavigator(0, //关联第1条轨迹
+												{
+													loop: true, //循环播放
+													speed: 1000,
+													pathNavigatorStyle: {
+														width: 24,
+														height: 24,
+														//使用图片
+														strokeStyle: null,
+														fillStyle: null,
+														//经过路径的样式
+														pathLinePassedStyle: {
+															lineWidth: 6,
+															strokeStyle: 'white',
+															dirArrowStyle: {
+																stepSpace: 15,
+																strokeStyle: '#FF8190'
+															}
+														}
+													}
+												});
+											navg0.start();
+										}
+										//						骑手
+										if(that.myajax.UsReplaceTakeDetailsPojo.usRiMapPlace != null&&that.myajax.UsReplaceTakeDetailsPojo.usRiMapPlace != 'null') {
+											var lng=that.myajax.UsReplaceTakeDetailsPojo.usRiMapPlace
+											new AMap.Marker({
+												map: map,
+												position: [lng.substr(0,lng.indexOf(',')),lng.substr(lng.indexOf(',')+1,lng.length)],
+												icon: new AMap.Icon({
+													size: new AMap.Size(27, 33),
+													image: "../img/che.png"
+												})
+											});
+										}
+									},500)
+									
+									
+								}
+							});
+					}
+				},
+				created: function() {
+					this.myajax02()
 				},
 				update: function() {
 					mui.init()

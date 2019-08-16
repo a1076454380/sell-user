@@ -9,10 +9,12 @@
 		<link rel="stylesheet" type="text/css" href="css/date.css"/>
 		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css"/>
 		<link rel="stylesheet" type="text/css" href="css/wpay.css"/>
 		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
-		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.4&key=3adc59b361b877d943cda0ce50b9b4da"></script>
 		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
 		<script src="js/date.js" type="text/javascript" charset="utf-8"></script>
@@ -61,7 +63,7 @@
 				<div class="dizhi-box" style="margin-top: -.2rem;">
 					<img src="img/time.png" >
 					<div class="pay-inner">
-						<input type="text" id="appDateTime" name="appDateTime" placeholder="请选择配送时间" readonly="readonly" value="立即配送"/>
+						<input type="text" id="appDateTime" name="appDateTime" placeholder="请选择配送时间" readonly="readonly" value="立即配送" @click="datechange"/>
 					</div>
 				</div>
 				<div id="datePlugin"></div>
@@ -220,6 +222,12 @@
 				</div>
 			</div>
 		</div>
+		<style type="text/css">
+			.mui-btn-blue{
+				background: #333333;
+				border: 0;
+			}
+		</style>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
@@ -245,6 +253,92 @@
 					usOrReserveTime:'立即配送'
 				},
 				methods: {
+					datechange:function(){
+							var date = new Date();
+							var picker = new mui.PopPicker({
+								layer: 3
+							});
+							var datejson = []
+							//						插入后七天日期
+							for(var i = 1; i < 6; i++) {
+								datejson.push({
+									value: date.getDate() + i,
+									text: date.getDate() + i + '号',
+									children: []
+								})
+								for(var l = 1; l < 25; l++) {
+									datejson[i - 1].children.push({
+										value: l,
+										text: l + "点",
+										children: []
+									})
+									for(var j = 1; j < 60; j++) {
+										datejson[i - 1].children[l - 1].children.push({
+											value: j,
+											text: j + '分'
+										})
+									}
+								}
+							}
+							//					插入当前日期
+							datejson.unshift({
+								value: date.getDate(),
+								text: date.getDate() + '号',
+								children: []
+							})
+							//					插入当前小时
+							for(var l = date.getHours(); l < 25; l++) {
+								datejson[0].children.push({
+									value: l,
+									text: l + "点",
+									children: []
+								})
+							}
+							//					插入当前分钟
+							for(var l = date.getMinutes(); l < 60; l++) {
+								datejson[0].children[0].children.push({
+									value: l,
+									text: l + '分'
+								})
+							}
+							for(var i = 1; i < datejson[0].children.length; i++) {
+								for(var l = 1; l < 60; l++) {
+									datejson[0].children[i].children.push({
+										value: l,
+										text: l + '分'
+									})
+								}
+							}
+							picker.setData(datejson)
+							picker.pickers[0].setSelectedIndex(0);
+							picker.pickers[1].setSelectedIndex(0);
+							picker.show(function(selectItems) {
+								var month = '';
+								mydate = '';
+								hours = '';
+								time = '';
+								if(month < 10) {
+									month = '0' + (date.getMonth() + 1)
+								}
+								if(selectItems[0].value < 10) {
+									mydate = '0' + selectItems[0].value
+								} else {
+									mydate = selectItems[0].value
+								}
+								if(selectItems[1].value < 10) {
+									hours = '0' + selectItems[1].value
+								} else {
+									hours = selectItems[1].value
+								}
+								if(selectItems[2].value < 10) {
+									time = '0' + selectItems[2].value
+								} else {
+									time = selectItems[2].value
+								}
+								var time=date.getFullYear() + '-' + month + '-' + mydate + ' ' + hours + ':' + time
+								$('#appDateTime').val(time)
+							})
+					},
 					achange: function(type) {
 						this.atype = type
 						this.aboo = !this.aboo

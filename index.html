@@ -87,69 +87,6 @@
 								</div>
 							</div>
 						</div>
-						<!-- <div class="index-top" v-if="mydata.length!=0">
-							<span>
-								我的专属
-							</span>
-						</div>
-						<div class="index-main">
-							<div class="index-group" @click="opendetail(val.usTraderStoresId,val.usTraderId,'')" v-for="(val,index) in mydata" v-if="mydata.length!=0">
-								<div class="group-inner">
-									<div class="img-box">
-										<img :src="val.usTsFacadeImg | myimg" />
-									</div>
-									<div class="index-detail">
-										<div class="index-h">
-											{{val.usTsCompanyName}}
-										</div>
-										<div class="index-x">
-											<div class="star-box">
-												<div class="x-group">
-													<img src="img/xactive.png" />
-												</div>
-												{{val.starPercentage}}&nbsp;
-
-												<span style="flex: 1;">
-													月售:
-													<strong>{{val.monthCount}}</strong>
-												</span>
-
-											</div>
-											<div class="time-box">
-												38分钟 {{val.discount}}Km
-											</div>
-										</div>
-										<div class="index-money">
-											<span>
-												起送:¥{{val.usTsActionPrice}}  配送:¥{{val.maDiPrice}}  人均:¥{{val.avgUsOrPrice}}
-											</span>
-										</div>
-									</div>
-								</div>
-								<div class="prefer">
-									<div class="prefer-group" v-if="val.subtract!=0">
-										<span class="perer-name">
-											最高减{{val.subtract}}元
-										</span>
-									</div>
-									<div class="prefer-group" v-if="val.activities!=0">
-										<span class="perer-name">
-											新客减{{val.activities}}元
-										</span>
-									</div>
-									<div class="prefer-group" v-if="val.discount!=0">
-										<span class="perer-name">
-											{{val.discount}}折起
-										</span>
-									</div>
-									<div class="prefer-group" v-if="val.packagePrice!=0">
-										<span class="perer-name">
-											{{val.packagePrice}}元红包
-										</span>
-									</div>
-								</div>
-							</div>
-						</div> -->
 						<div class="index-top">
 							<span>
 								我的专属
@@ -243,32 +180,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- <footer class="footer">
-				<div class="footer-group factive">
-					<img src="img/index-active.png" />
-					<span>
-						首页
-					</span>
-				</div>
-				<div class="footer-group">
-					<img src="img/found.png" @click="opennew('preferential')" />
-					<span>
-						同城惠
-					</span>
-				</div>
-				<div class="footer-group" @click="opennew('instead/instead')">
-					<img src="img/zixingche.png" />
-					<span>
-						跑腿代购
-					</span>
-				</div>
-				<div class="footer-group">
-					<img src="img/dvip.png" @click="opennew('vipcart')" />
-					<span>
-						会员中心
-					</span>
-				</div>
-			</footer> -->
+			
 			<footer class="footer">
 				<div class="footer-group" @click="opennew('instead/instead')">
 					<img src="img/zixingche.png" />
@@ -562,6 +474,7 @@
 							})
 						}
 					}
+					// that.myajax()
 					if (window.plus) {
 						plusReady();
 					} else {

@@ -23,19 +23,15 @@
 				<span class="header-main">使用须知</span>
 				<span class="header-settings"></span>
 			</header>
-			<div class="main orderlist" style="height: calc(100% - .9rem);background: #FFFFFF;margin-top: .9rem;">
-				内容
+			<div class="main orderlist" style="height: calc(100% - .9rem);background: #FFFFFF;margin-top: .9rem;" v-html="youdata[0].maPcContent">
+				
 			</div>
 		</div>
 		<script type="text/javascript">
 			var myvue = new Vue({
 				el: '#app',
 				data: {
-					layui: false,
-					layuitext: '错误',
-					mydata:[],
-					usReplaceTakeId:'',
-					tabnum:6
+					youdata:''
 				},
 				methods: {
 					opennew: function(id, index) {
@@ -46,7 +42,22 @@
 						})
 					},
 					myajax:function(){
+						// 使用须知
+						var that=this
+						$.ajax({
+							type: "post",
+							url: localStorage.getItem('myimg') + '/user/selectMaProtocolsName',
+							dataType: 'json',
+							data: {
+								title: '使用须知'
+							},
+							success: function(res) {
+								that.youdata = res.data
+							},
+							error: function(err) {
 						
+							}
+						});
 					}
 				},
 				mounted: function() {

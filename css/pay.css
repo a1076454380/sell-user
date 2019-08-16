@@ -2,6 +2,8 @@
 		letter-spacing: .6rem;
 		white-space: nowrap;
 	}
+	.mui-table-view{color: #333333!important;}
+	.mui-btn-blue{background: #333333!important;border: 0;}
 	.mui-popover{z-index: 999999;}
 	.mui-backdrop{background: rgba(0,0,0,.6);z-index: 999998;}
 	.wrapper{
@@ -273,7 +275,7 @@
 		background: #FF8190;color: #FFFFFF;box-sizing: border-box;
 	}
 	.wutype{
-		color: #FF8190;font-size: .2rem;
+		font-size: .24rem;
 	}
 	.onx-he{
 		display: flex;

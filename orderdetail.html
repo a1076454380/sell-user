@@ -81,9 +81,6 @@
 							<div class="setting-btn" @click="gopay(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay==0'>
 								我要支付
 							</div>
-							<div class="setting-btn" @click="cancel02(mydata.usOrder.usOrderId)" v-if='mydata.usOrder.usOrIsPay==0'>
-								取消订单
-							</div>
 							<div class="setting-btn" style="background: #FF8190;color: #FFFFFF;border: 0;" v-if='mydata.usOrder.usOrTrStartus==2&&mydata.usOrder.usOrIsPay!=0&&mydata.usOrder.usOrIsCancel!=6' @click="canael(mydata.usOrder.usOrderId,mydata.usOrder.usOrPrice)">
 								取消订单
 							</div>
@@ -311,37 +308,13 @@
 					cuidantext: ''
 				},
 				methods: {
-					cancel02: function(id) {
-						plus.nativeUI.showWaiting()
-						var that = this
-						$.ajax({
-							type: "post",
-							url: that.myurl01 + "/deleteOrders",
-							dataType: 'json',
-							data: {
-								orderId: id,
-							},
-							success: function(res) {
-								plus.nativeUI.closeWaiting()
-								if(res.status == 200) {
-									plus.nativeUI.toast('已取消！')
-									var xiadanyemian=plus.webview.getWebviewById("orderlist");
-									mui.fire(xiadanyemian,'xiadanyemian',{});
-									mui.back()
-								} else {
-									plus.nativeUI.toast('取消失败！')
-								}
-
-							}
-						});
-					},
 					canael: function(id, price) {
 						plus.nativeUI.showWaiting()
 						var that = this
 						$.ajax({
 							type: "post",
 							url: that.myurl01 + "/userRefund",
-							dataType: 'json',
+							dataType: 'json', 
 							data: {
 								traderNo: id,
 								refundAmount: price
@@ -362,7 +335,13 @@
 										plus.nativeUI.toast('取消失败！')
 									}
 								}
-
+							},
+							error:function(err){
+								console.log(": " + JSON.stringify( {
+								traderNo: id,
+								refundAmount: price
+							}));
+								console.log("err: " + JSON.stringify(err));
 							}
 						});
 					},
